@@ -9,6 +9,9 @@
   "dependencies": {
     "font-awesome": "4",
     "popper.js": "^1.14.7"
+  },
+  "scripts": {
+    "heroku-prebuild": "yarn run encore production"
   }
 }
 
