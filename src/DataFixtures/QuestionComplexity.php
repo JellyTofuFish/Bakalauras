@@ -12,11 +12,13 @@ class QuestionComplexity extends Fixture
         $question = new \App\Entity\QuestionComplexity();
         $question->setName('simple');
         $manager->persist($question);
+        $manager->flush();
         $question->setName('complex');
         $manager->persist($question);
+        $manager->flush();
         $question->setName('intermediate');
         $manager->persist($question);
-
         $manager->flush();
+
     }
 }

@@ -12,11 +12,12 @@ class TestState extends Fixture
         $state = new \App\Entity\TestState();
         $state->setName('active');
         $manager->persist($state);
+        $manager->flush();
         $state->setName('idle');
         $manager->persist($state);
+        $manager->flush();
         $state->setName('building');
         $manager->persist($state);
-
         $manager->flush();
     }
 }
