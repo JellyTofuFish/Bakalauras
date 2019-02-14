@@ -9,16 +9,16 @@ class QuestionComplexity extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $question = new \App\Entity\QuestionComplexity();
-        $question->setName('simple');
-        $manager->persist($question);
-        $manager->flush();
-        $question->setName('complex');
-        $manager->persist($question);
-        $manager->flush();
-        $question->setName('intermediate');
-        $manager->persist($question);
-        $manager->flush();
+        $question1 = new \App\Entity\QuestionComplexity();
+        $question2 = new \App\Entity\QuestionComplexity();
+        $question3 = new \App\Entity\QuestionComplexity();
+        $question1->setName('simple');
+        $question2->setName('complex');
+        $question3->setName('intermediate');
+        $manager->persist($question1);
+        $manager->persist($question2);
+        $manager->persist($question3);
 
+        $manager->flush();
     }
 }

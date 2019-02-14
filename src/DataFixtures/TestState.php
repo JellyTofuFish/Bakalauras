@@ -9,15 +9,15 @@ class TestState extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $state = new \App\Entity\TestState();
-        $state->setName('active');
-        $manager->persist($state);
-        $manager->flush();
-        $state->setName('idle');
-        $manager->persist($state);
-        $manager->flush();
-        $state->setName('building');
-        $manager->persist($state);
+        $state1 = new \App\Entity\TestState();
+        $state2 = new \App\Entity\TestState();
+        $state3 = new \App\Entity\TestState();
+        $state1->setName('active');
+        $state2->setName('idle');
+        $state3->setName('building');
+        $manager->persist($state1);
+        $manager->persist($state2);
+        $manager->persist($state3);
         $manager->flush();
     }
 }
