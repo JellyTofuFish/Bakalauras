@@ -41,6 +41,7 @@ class Question
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $test;
 
