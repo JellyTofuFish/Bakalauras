@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\TestState;
+use App\Entity\TestParticipation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method TestState|null find($id, $lockMode = null, $lockVersion = null)
- * @method TestState|null findOneBy(array $criteria, array $orderBy = null)
- * @method TestState[]    findAll()
- * @method TestState[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method TestParticipation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method TestParticipation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method TestParticipation[]    findAll()
+ * @method TestParticipation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TestStateRepository extends ServiceEntityRepository
+class TestParticipationRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, TestState::class);
+        parent::__construct($registry, TestParticipation::class);
     }
 
     // /**
-    //  * @return TestState[] Returns an array of TestState objects
+    //  * @return TestParticipation[] Returns an array of TestParticipation objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TestStateRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TestState
+    public function findOneBySomeField($value): ?TestParticipation
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

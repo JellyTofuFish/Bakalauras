@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\QuestionComplexity;
+use App\Entity\QuestionAttribute;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method QuestionComplexity|null find($id, $lockMode = null, $lockVersion = null)
- * @method QuestionComplexity|null findOneBy(array $criteria, array $orderBy = null)
- * @method QuestionComplexity[]    findAll()
- * @method QuestionComplexity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method QuestionAttribute|null find($id, $lockMode = null, $lockVersion = null)
+ * @method QuestionAttribute|null findOneBy(array $criteria, array $orderBy = null)
+ * @method QuestionAttribute[]    findAll()
+ * @method QuestionAttribute[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuestionComplexityRepository extends ServiceEntityRepository
+class QuestionAttributeRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, QuestionComplexity::class);
+        parent::__construct($registry, QuestionAttribute::class);
     }
 
     // /**
-    //  * @return QuestionComplexity[] Returns an array of QuestionComplexity objects
+    //  * @return QuestionAttribute[] Returns an array of QuestionAttribute objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class QuestionComplexityRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?QuestionComplexity
+    public function findOneBySomeField($value): ?QuestionAttribute
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.exampleField = :val')
