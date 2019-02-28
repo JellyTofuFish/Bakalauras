@@ -45,7 +45,7 @@ class TestParticipation
     private $fk_test;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\participantanswer", mappedBy="fk_testParticipation")
+     * @ORM\OneToMany(targetEntity="App\Entity\ParticipAntanswer", mappedBy="fk_testParticipation")
      */
     private $participantAnswers;
 

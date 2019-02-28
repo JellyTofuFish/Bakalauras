@@ -39,7 +39,7 @@ class Question
     private $files;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\group", inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GroupList", inversedBy="questions")
      * @ORM\JoinColumn(nullable=true)
      */
     private $fk_group;
@@ -144,12 +144,12 @@ class Question
         return $this;
     }
 
-    public function getFkGroup(): ?group
+    public function getFkGroup(): ?groupList
     {
         return $this->fk_group;
     }
 
-    public function setFkGroup(?group $fk_group): self
+    public function setFkGroup(?groupList $fk_group): self
     {
         $this->fk_group = $fk_group;
 

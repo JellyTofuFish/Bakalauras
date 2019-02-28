@@ -59,12 +59,12 @@ class Test
     private $testAttributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Testparticipation", mappedBy="fk_test", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\TestParticipation", mappedBy="fk_test", orphanRemoval=true)
      */
     private $testParticipations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\question", mappedBy="fk_test")
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_test")
      */
     private $questions;
 
