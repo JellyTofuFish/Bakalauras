@@ -23,6 +23,12 @@
                 <th>Type</th>
                 <td>{{ question.type }}</td>
             </tr>
+            {% for group in question.fkGroup %}
+            <tr>
+                <th>Groups</th>
+                <td>{{ group.name }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

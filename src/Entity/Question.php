@@ -42,7 +42,7 @@ class Question
      * @ORM\ManyToOne(targetEntity="App\Entity\GroupList", inversedBy="questions")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $fk_group;
+    private $fk_group = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnswerOption", mappedBy="fk_question", orphanRemoval=true)
@@ -64,12 +64,23 @@ class Question
      */
     private $fk_test;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="presentationQuestions")
+     */
+    private $fk_presentation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_presentation")
+     */
+    private $presentationQuestions;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
         $this->answeroptions = new ArrayCollection();
         $this->participantAnswers = new ArrayCollection();
         $this->questionAttributes = new ArrayCollection();
+        $this->presentationQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +268,49 @@ class Question
     public function setFkTest(?Test $fk_test): self
     {
         $this->fk_test = $fk_test;
+
+        return $this;
+    }
+
+    public function getPresentationQuestions(): ?self
+    {
+        return $this->fk_presentation;
+    }
+
+    public function setPresentationQuestions(?self $presentationQuestions): self
+    {
+        $this->fk_presentation = $presentationQuestions;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getPresentationQuestione(): Collection
+    {
+        return $this->presentationQuestions;
+    }
+
+    public function addPresentationQuestion(self $presentationQuestion): self
+    {
+        if (!$this->presentationQuestions->contains($presentationQuestion)) {
+            $this->presentationQuestions[] = $presentationQuestion;
+            $presentationQuestion->setPresentationQuestions($this);
+        }
+
+        return $this;
+    }
+
+    public function removePresentationQuestion(self $presentationQuestions): self
+    {
+        if ($this->presentationQuestions->contains($presentationQuestions)) {
+            $this->presentationQuestions->removeElement($presentationQuestions);
+            // set the owning side to null (unless already changed)
+            if ($presentationQuestions->getPresentationQuestions() === $this) {
+                $presentationQuestions->setPresentationQuestions(null);
+            }
+        }
 
         return $this;
     }

@@ -30,7 +30,7 @@ class TestAttribute
     private $fk_attribute;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\participantAnswerAttribute", mappedBy="fk_testAttribute")
+     * @ORM\OneToMany(targetEntity="App\Entity\ParticipantAnswerAttribute", mappedBy="fk_testAttribute")
      */
     private $participantAnswerAttributes;
 

@@ -27,7 +27,7 @@ class File
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="file")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="files")
      */
     private $fk_question;
 

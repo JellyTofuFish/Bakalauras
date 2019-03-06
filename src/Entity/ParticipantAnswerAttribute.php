@@ -21,12 +21,12 @@ class ParticipantAnswerAttribute
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $value;
+    private $value = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\QuestionAttribute", inversedBy="participantAnswerAttributes")
      */
-    private $fk_questionAttribute;
+    private $fk_questionAttribute = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ParticipantAnswer", inversedBy="participantAnswerAttributes")
@@ -37,7 +37,7 @@ class ParticipantAnswerAttribute
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TestAttribute", inversedBy="participantAnswerAttributes")
      */
-    private $fk_testAttribute;
+    private $fk_testAttribute = null;
 
 
     public function __construct()
@@ -73,12 +73,12 @@ class ParticipantAnswerAttribute
         return $this;
     }
 
-    public function getFkParticipantAnswer(): ?self
+    public function getFkParticipantAnswer(): ?ParticipantAnswer
     {
         return $this->fk_participantAnswer;
     }
 
-    public function setFkParticipantAnswer(?self $fk_participantAnswer): self
+    public function setFkParticipantAnswer(?ParticipantAnswer $fk_participantAnswer): self
     {
         $this->fk_participantAnswer = $fk_participantAnswer;
 

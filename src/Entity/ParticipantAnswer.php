@@ -21,7 +21,7 @@ class ParticipantAnswer
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $answer;
+    private $answer = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="participantAnswers")

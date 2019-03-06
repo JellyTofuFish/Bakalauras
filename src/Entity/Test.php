@@ -68,6 +68,11 @@ class Test
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_active = false;
+
     public function __construct()
     {
         $this->testAttributes = new ArrayCollection();
@@ -121,7 +126,7 @@ class Test
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(): self
     {
         $this->created_at = new \DateTime('now');
 
@@ -253,6 +258,18 @@ class Test
                 $question->setFkTest(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->is_active;
+    }
+
+    public function setIsActive(bool $is_active): self
+    {
+        $this->is_active = $is_active;
 
         return $this;
     }
