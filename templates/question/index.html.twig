@@ -3,16 +3,17 @@
 {% block title %}Question index{% endblock %}
 
 {% block body %}
+
     <h1>Question index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Question</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>actions</th>
+                <th>{{ 'question.id'|trans({}, 'question') }}</th>
+                <th>{{ 'question.question.label'|trans({}, 'question') }}</th>
+                <th>{{ 'question.description.label'|trans({}, 'question') }}</th>
+                <th>{{ 'question.type.label'|trans({}, 'question') }}</th>
+                <th>{{ 'question.active'|trans({}, 'question') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -23,8 +24,8 @@
                 <td>{{ question.description }}</td>
                 <td>{{ question.type }}</td>
                 <td>
-                    <a href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                    <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+                    <a href="{{ path('question_show', {'id': question.id}) }}">{{ 'button.show'|trans({}, 'question') }}</a>
+                    <a href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.edit'|trans({}, 'question') }}</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +36,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('question_new') }}">Create new</a>
+    <a href="{{ path('question_new') }}"> {{ 'button.new'|trans({}, 'question') }}</a>
 {% endblock %}
