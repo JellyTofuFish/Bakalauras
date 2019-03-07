@@ -16,4 +16,17 @@
             <li>Your template at <code><a href="{{ 'P:/web/SitesPHP/bakalauras/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
         </ul>
     </div>
+    <nav class="collapse bd-links">
+        <div class="bd-toc-item">
+            <a class="bd-toc-link" href="{{ path('question_index') }}">{{ 'button.question.show.nav'|trans }}</a>
+            <ul class="nav flex-column bd-sidenav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('question_index') }}">{{ 'button.question.show.sidenav'|trans }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('question_new') }}">{{ 'button.question.new'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 {% endblock %}
