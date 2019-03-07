@@ -1,4 +1,140 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+                    {#{% for error in form.vars.errors.form.getErrors(true) %}#}
+                    {#<div class="alert alert-danger">{{ error.message }}</div>#}
+                    {#{% endfor %}#}
+
+                    {{ form_label(form.question) }}
+                    {{ form_widget(form.question, { 'attr': {'class':'form-control mb-3'} }) }}
+
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, { 'attr': {'class':'form-control mb-3'} }) }}
+
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, { 'attr': {'class':'form-control mb-3'}}) }}
+
+                    {{ form_label(form.fk_group) }}
+                    {{ form_widget(form.fk_group, { 'attr': {'class':'form-control mb-3'}}) }}
+
+                    {{ form_label(form.fk_test) }}
+                    {{ form_widget(form.fk_test, { 'attr': {'class':'form-control mb-3'}}) }}
+<button class="btn btn-block btn-outline-primary" type="submit">{{ button_label|default('Save') }}</button>
+
 {{ form_end(form) }}
+
+<div class="accordion" id="accordionExample">
+    <div class="tab-content" id="nav-tabContent">
+
+        <div class="card">
+            <div class="card-header" id="list-general">
+                <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                        Bendra
+                    </button>
+                </h2>
+            </div>
+            <div id="home" class="tab-pane collapse show" aria-labelledby="list-general list-general-list" data-parent="#accordionExample">
+                <div class="card-body">
+                    {{ form_start(form) }}
+
+                    {#{% for error in form.vars.errors.form.getErrors(true) %}#}
+                    {#<div class="alert alert-danger">{{ error.message }}</div>#}
+                    {#{% endfor %}#}
+
+                    {{ form_label(form.question) }}
+                    {{ form_widget(form.question, { 'attr': {'class':'form-control mb-3'} }) }}
+
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, { 'attr': {'class':'form-control mb-3'} }) }}
+
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, { 'attr': {'class':'form-control mb-3'}}) }}
+
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, { 'attr': {'class':'form-control mb-3'}}) }}
+
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, { 'attr': {'class':'form-control mb-3'}}) }}
+                    <button class="btn btn-block btn-outline-primary" type="submit">{{ button_label|default('Save') }}</button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="list-questions">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#questions" aria-expanded="false" aria-controls="questions">
+                        Klausimai
+                    </button>
+                </h2>
+            </div>
+            <div id="questions" class="collapse" aria-labelledby="list-questions list-questions-list" data-parent="#accordionExample">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="list-buttons">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#buttons" aria-expanded="false" aria-controls="buttons">
+                        Mygtukai
+                    </button>
+                </h2>
+            </div>
+            <div id="buttons" class="collapse" aria-labelledby="list-buttons list-buttons-list" data-parent="#accordionExample">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="list-groups">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
+                        Grupes
+                    </button>
+                </h2>
+            </div>
+            <div id="groups" class="collapse" aria-labelledby="list-groups list-groups-list" data-parent="#accordionExample">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="list-settings">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                        Parinktys
+                    </button>
+                </h2>
+            </div>
+            <div id="settings" class="collapse" aria-labelledby="list-settings list-settings-list" data-parent="#accordionExample">
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header" id="list-editors">
+                <h2 class="mb-0">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#editors" aria-expanded="false" aria-controls="editors">
+                        Redaguotojai
+                    </button>
+                </h2>
+            </div>
+            <div id="editors" class="collapse" aria-labelledby="list-editors list-editors-list" data-parent="#accordionExample">
+                <div class="card-body">
+                    123
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

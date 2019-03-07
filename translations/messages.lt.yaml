@@ -24,7 +24,10 @@ one: Vieno pasirinkimo
 multi: Kelių pasirinkimų
 presentation: Pateikties
 
-button.new: Sukurti naują testą
-button.back: Atgal į sąrašą
+button.question.new: Sukurti klausimą
+button.question.back: Atgal į sąrašą
 button.edit: Redaguoti
 button.show: Peržiūrėti
+button.question.show.nav: Klausimai
+button.question.show.sidenav: Klausimų sąrašas
+button.delete: Ištrinti

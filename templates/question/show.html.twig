@@ -1,8 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
-{% block title %}Question{% endblock %}
+{% block title %}question.show{% endblock %}
 
-{% block body %}
+{% block admin_right_nav %}
+
+    <p>Redaguoti klausimą: </p>
+    <a class="btn btn-sm btn btn-block btn-outline-primary" href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.edit'|trans }}</a>
+    <div class="my-2"></div>
+    <p>Ištrinti klausimą:</p>
+    <a> {{ include('question/_delete_form.html.twig') }}</a>
+
+{% endblock %}
+
+{% block admin_main %}
     <h1>Question</h1>
 
     <table class="table">
@@ -32,9 +42,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('question_index') }}">{{ 'button.back'|trans }}</a>
-
-    <a href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.edit'|trans }}</a>
-
-    {{ include('question/_delete_form.html.twig') }}
 {% endblock %}
