@@ -1,4 +1,30 @@
-button.new: Sukurti naują
+question:
+  id: Numeracija
+  question:
+    label: Klausimas
+  description:
+    label: Aprašas
+  type:
+    label: Tipas
+    placeholder: Pasirinkite tipą
+    open: Atviras
+    one: Vieno pasirinkimo
+    multi: Kelių pasirinkimų
+    presentation: Pateikties
+  fk_test:
+    label: Testas
+    placeholder: Pasirinkite testą
+  fk_group:
+    label: Grupė
+    placeholder: Pasirinkite grupę
+  active: Veiksmai
+
+open: Atviras
+one: Vieno pasirinkimo
+multi: Kelių pasirinkimų
+presentation: Pateikties
+
+button.new: Sukurti naują testą
 button.back: Atgal į sąrašą
 button.edit: Redaguoti
 button.show: Peržiūrėti
