@@ -1,17 +1,21 @@
 {
-  "devDependencies": {
-  },
-  "dependencies": {
-    "font-awesome": "4",
-    "popper.js": "^1.14.7",
-    "@symfony/webpack-encore": "^0.23.0",
-    "bootstrap": "4",
-    "jquery": "^3.3.1",
-    "node-sass": "^4.11.0",
-    "sass-loader": "^7.0.1"
-  },
-  "scripts": {
-    "heroku-postbuild": "encore production"
-  }
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.22.0",
+        "webpack-notifier": "^1.6.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress",
+        "heroku-postbuild": "yarn encore production"
+    },
+    "dependencies": {
+        "bootstrap": "^4.3.1",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.3.1",
+        "popper.js": "^1.14.7"
+    }
 }
-
