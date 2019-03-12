@@ -1,8 +1,4 @@
 {
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.22.0",
-        "webpack-notifier": "^1.6.0"
-    },
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
@@ -13,6 +9,7 @@
         "heroku-postbuild": "yarn encore production"
     },
     "dependencies": {
+        "@symfony/webpack-encore": "^0.22.0",
         "bootstrap": "^4.3.1",
         "font-awesome": "^4.7.0",
         "jquery": "^3.3.1",
