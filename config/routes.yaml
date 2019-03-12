@@ -1,3 +1,15 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+question_index:
+      path: /question
+      controller: App\Controller\QuestionController::index
+question_new:
+      path: /question/new
+      controller: App\Controller\QuestionController::new
+question_show:
+      path: /question/{slug}
+      controller: App\Controller\QuestionController::show
+question_edit:
+      path: /question/{slug}/edit
+      controller: App\Controller\QuestionController::edit
