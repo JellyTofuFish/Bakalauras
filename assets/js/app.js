@@ -9,6 +9,7 @@
 var $ = require('jquery');
 global.$ = $;
 require('bootstrap');
+import 'font-awesome/css/font-awesome.css';
 require('bootstrap/dist/css/bootstrap.css');
 require('../css/app.css');
 
