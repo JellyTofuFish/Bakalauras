@@ -8,8 +8,11 @@ question_new:
       path: /question/new
       controller: App\Controller\QuestionController::new
 question_show:
-      path: /question/{slug}
+      path: /question/{id}
       controller: App\Controller\QuestionController::show
 question_edit:
-      path: /question/{slug}/edit
+      path: /question/{id}/edit
       controller: App\Controller\QuestionController::edit
+test_temp:
+      path: /temp
+      controller: App\Controller\MainController::temp

@@ -12,10 +12,23 @@
 
         This friendly message is coming from:
         <ul>
-            <li>Your controller at <code><a href="{{ 'P:/web/SitesPHP/bakalauras/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-            <li>Your template at <code><a href="{{ 'P:/web/SitesPHP/bakalauras/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
+            <li>Your controller at <code><a href="#">src/Controller/MainController.php</a></code></li>
+            <li>Your template at <code><a href="#">templates/main/index.html.twig</a></code></li>
         </ul>
     </div>
+    <div>
+        <a href="{{ url }}">link1</a>
+        <p>{{ url }}</p>
+    </div>
+    <div>
+        <a href="{{ url2 }}">link2</a>
+        <p> {{ url2 }}</p>
+    </div>
+    <div>
+        <a href="{{ app }}">link3</a>
+        <p> {{ app }}</p>
+    </div>
+
     <nav class="collapse bd-links">
         <div class="bd-toc-item">
             <a class="bd-toc-link" href="{{ path('question_index') }}">{{ 'button.question.show.nav'|trans }}</a>
