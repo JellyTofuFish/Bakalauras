@@ -21,12 +21,11 @@ class srcApp_KernelProdDebugContainerUrlGenerator extends Symfony\Component\Rout
         if (null === self::$declaredRoutes) {
             self::$declaredRoutes = [
         'test' => [[], ['_controller' => 'App\\Controller\\MainController::index'], [], [['text', '/']], [], []],
-        'question_delete' => [['id'], ['_controller' => 'App\\Controller\\QuestionController::delete'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/question']], [], []],
         'question_index' => [[], ['_controller' => 'App\\Controller\\QuestionController::index'], [], [['text', '/question']], [], []],
         'question_new' => [[], ['_controller' => 'App\\Controller\\QuestionController::new'], [], [['text', '/question/new']], [], []],
         'question_show' => [['id'], ['_controller' => 'App\\Controller\\QuestionController::show'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/question']], [], []],
         'question_edit' => [['id'], ['_controller' => 'App\\Controller\\QuestionController::edit'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/question']], [], []],
-        'test_temp' => [[], ['_controller' => 'App\\Controller\\MainController::temp'], [], [['text', '/temp']], [], []],
+        'question_delete' => [['id'], ['_controller' => 'App\\Controller\\QuestionController::delete'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/question']], [], []],
     ];
         }
     }
