@@ -4,39 +4,44 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\RouterInterface;
 
-class MainController extends Controller
+class MainController extends AbstractController
 {
 
-    private $router;
+    private $routes = [];
 
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(RouterInterface $router)
     {
-        $this->router = $router;
+        foreach ($router->getRouteCollection()->all() as $route_name => $route) {
+            $this->routes[$route_name] = $route->getPath();
+        }
     }
     /**
      * @Route("/", name="test")
      */
     public function index()
     {
-//        $url2 = $this->router->generate(
-//            'question_show',[
-//        'slug' => 901]);
-        $url2 = $this->generateUrl('test_temp', [], UrlGeneratorInterface::ABSOLUTE_URL);
-
-        $url = $this->generateUrl(
-            'test_temp'
-        );
-        $webPath = $this->get('kernel')->getProjectDir() . '/public';
+        $router = $this->get('router');
+        $routes = $router->getRouteCollection();
+//        foreach ($routes as $route) {
+//            $this->convertController($route);
+//        }
 
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
-            'url' => $url,
-            'url2' => $url2,
-            "app" => $webPath
+            "routes" => $routes
         ]);
+    }
+    private function convertController(\Symfony\Component\Routing\Route $route)
+    {
+        $nameParser = $this->get('App\Controller\QuestionController');
+        if ($route->hasDefault('_controller')) {
+            try {
+                $route->setDefault('_controller', $nameParser->build($route->getDefault('_controller')));
+            } catch (\InvalidArgumentException $e) {
+            }
+        }
     }
 
     public function temp()

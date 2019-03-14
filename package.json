@@ -5,7 +5,8 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "heroku-postbuild": "encore production --progress"
+        "heroku-postbuild": "php bin/console cache:clear --env=prod --no-debug",
+        "comment": "encore production --progress"
     },
     "dependencies": {
         "@symfony/webpack-encore": "^0.22.0",
