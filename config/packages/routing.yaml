@@ -2,5 +2,4 @@ framework:
     router:
         strict_requirements: ~
         utf8: true
-#        resource: "%kernel.root_dir%/config/routes.yaml"
 

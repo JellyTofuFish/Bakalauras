@@ -6,6 +6,7 @@
 ### /var/prod ###
 /var/cache/dev
 /var/log
+/var/
 /vendor/
 ###< symfony/framework-bundle ###
 
