@@ -1,0 +1,175 @@
+<?php return [PHP_INT_MAX, static function () {
+
+    return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+        $o = [
+            clone (($p = &\Symfony\Component\VarExporter\Internal\Registry::$prototypes)['Doctrine\\ORM\\Mapping\\ClassMetadata'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Mapping\\ClassMetadata')),
+            clone ($p['Doctrine\\ORM\\Id\\IdentityGenerator'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Doctrine\\ORM\\Id\\IdentityGenerator')),
+        ],
+        null,
+        [
+            'stdClass' => [
+                'name' => [
+                    'App\\Entity\\TestParticipation',
+                ],
+                'namespace' => [
+                    'App\\Entity',
+                ],
+                'rootEntityName' => [
+                    'App\\Entity\\TestParticipation',
+                ],
+                'customRepositoryClassName' => [
+                    'App\\Repository\\TestParticipationRepository',
+                ],
+                'identifier' => [
+                    [
+                        'id',
+                    ],
+                ],
+                'generatorType' => [
+                    4,
+                ],
+                'fieldMappings' => [
+                    [
+                        'id' => [
+                            'fieldName' => 'id',
+                            'type' => 'integer',
+                            'scale' => 0,
+                            'length' => null,
+                            'unique' => false,
+                            'nullable' => false,
+                            'precision' => 0,
+                            'id' => true,
+                            'columnName' => 'id',
+                        ],
+                        'private_code' => [
+                            'fieldName' => 'private_code',
+                            'type' => 'string',
+                            'scale' => 0,
+                            'length' => 255,
+                            'unique' => false,
+                            'nullable' => true,
+                            'precision' => 0,
+                            'columnName' => 'private_code',
+                        ],
+                        'is_test_over' => [
+                            'fieldName' => 'is_test_over',
+                            'type' => 'boolean',
+                            'scale' => 0,
+                            'length' => null,
+                            'unique' => false,
+                            'nullable' => true,
+                            'precision' => 0,
+                            'columnName' => 'is_test_over',
+                        ],
+                        'test_started_at' => [
+                            'fieldName' => 'test_started_at',
+                            'type' => 'datetime',
+                            'scale' => 0,
+                            'length' => null,
+                            'unique' => false,
+                            'nullable' => true,
+                            'precision' => 0,
+                            'columnName' => 'test_started_at',
+                        ],
+                        'test_ended_at' => [
+                            'fieldName' => 'test_ended_at',
+                            'type' => 'datetime',
+                            'scale' => 0,
+                            'length' => null,
+                            'unique' => false,
+                            'nullable' => true,
+                            'precision' => 0,
+                            'columnName' => 'test_ended_at',
+                        ],
+                    ],
+                ],
+                'fieldNames' => [
+                    [
+                        'id' => 'id',
+                        'private_code' => 'private_code',
+                        'is_test_over' => 'is_test_over',
+                        'test_started_at' => 'test_started_at',
+                        'test_ended_at' => 'test_ended_at',
+                    ],
+                ],
+                'columnNames' => [
+                    [
+                        'id' => 'id',
+                        'private_code' => 'private_code',
+                        'is_test_over' => 'is_test_over',
+                        'test_started_at' => 'test_started_at',
+                        'test_ended_at' => 'test_ended_at',
+                    ],
+                ],
+                'table' => [
+                    [
+                        'name' => 'test_participation',
+                    ],
+                ],
+                'associationMappings' => [
+                    [
+                        'fk_test' => [
+                            'fieldName' => 'fk_test',
+                            'joinColumns' => [
+                                [
+                                    'name' => 'fk_test_id',
+                                    'unique' => false,
+                                    'nullable' => false,
+                                    'onDelete' => null,
+                                    'columnDefinition' => null,
+                                    'referencedColumnName' => 'id',
+                                ],
+                            ],
+                            'cascade' => [],
+                            'inversedBy' => 'testParticipations',
+                            'targetEntity' => 'App\\Entity\\Test',
+                            'fetch' => 2,
+                            'type' => 2,
+                            'mappedBy' => null,
+                            'isOwningSide' => true,
+                            'sourceEntity' => 'App\\Entity\\TestParticipation',
+                            'isCascadeRemove' => false,
+                            'isCascadePersist' => false,
+                            'isCascadeRefresh' => false,
+                            'isCascadeMerge' => false,
+                            'isCascadeDetach' => false,
+                            'sourceToTargetKeyColumns' => [
+                                'fk_test_id' => 'id',
+                            ],
+                            'joinColumnFieldNames' => [
+                                'fk_test_id' => 'fk_test_id',
+                            ],
+                            'targetToSourceKeyColumns' => [
+                                'id' => 'fk_test_id',
+                            ],
+                            'orphanRemoval' => false,
+                        ],
+                        'participantAnswers' => [
+                            'fieldName' => 'participantAnswers',
+                            'mappedBy' => 'fk_testParticipation',
+                            'targetEntity' => 'App\\Entity\\ParticipAntanswer',
+                            'cascade' => [],
+                            'orphanRemoval' => false,
+                            'fetch' => 2,
+                            'type' => 4,
+                            'inversedBy' => null,
+                            'isOwningSide' => false,
+                            'sourceEntity' => 'App\\Entity\\TestParticipation',
+                            'isCascadeRemove' => false,
+                            'isCascadePersist' => false,
+                            'isCascadeRefresh' => false,
+                            'isCascadeMerge' => false,
+                            'isCascadeDetach' => false,
+                        ],
+                    ],
+                ],
+                'idGenerator' => [
+                    $o[1],
+                ],
+            ],
+        ],
+        $o[0],
+        []
+    );
+
+}];
