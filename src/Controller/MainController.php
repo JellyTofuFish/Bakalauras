@@ -18,7 +18,7 @@ class MainController extends AbstractController
         }
     }
     /**
-     * @Route("/t", name="test")
+     * @Route("/", name="test")
      */
     public function index()
     {
