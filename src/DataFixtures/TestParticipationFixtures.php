@@ -23,16 +23,16 @@ class TestParticipationFixtures extends Fixture implements OrderedFixtureInterfa
         $participation->setFkTest($this->getReference('test1'));
         $participation->setIsTestOver(1);
         $participation->setTestStartedAt(new \DateTime('now'));
-        $participation->setTestEndedAt((new \DateTime('now')));
+        $participation->setTestEndedAt((new \DateTime('2019-04-01')));
         $this->addReference('participation2',$participation );
         $manager->persist($participation);
         $manager->flush();
 
         $participation = new \App\Entity\TestParticipation();
-        $participation->setFkTest($this->getReference('test1'));
+        $participation->setFkTest($this->getReference('test2'));
         $participation->setIsTestOver(1);
         $participation->setTestStartedAt(new \DateTime('now'));
-        $participation->setTestEndedAt((new \DateTime('2019-04-01')));
+        $participation->setTestEndedAt(new \DateTime('now'));
         $this->addReference('participation3',$participation );
         $manager->persist($participation);
         $manager->flush();

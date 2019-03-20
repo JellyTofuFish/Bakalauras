@@ -14,28 +14,41 @@ class ParticipantAnswerAttributeFixtures extends Fixture implements OrderedFixtu
         $paa = new ParticipantAnswerAttribute();
         $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer1'));
         $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute3'));
+        $paa->setFkTestAttribute($this->getReference('TestAttribute1'));
         $manager->persist($paa);
         $manager->flush();
+
         $paa = new ParticipantAnswerAttribute();
-        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer1'));
-        $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute4'));
-        $manager->persist($paa);
-        $manager->flush();
-        $paa = new ParticipantAnswerAttribute();
-        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer2'));
-        $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute3'));
-        $paa->setFkTestAttribute(null);
-        $manager->persist($paa);
-        $manager->flush();
-        $paa = new ParticipantAnswerAttribute();
-        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer2'));
+        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer4'));
         $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute4'));
         $paa->setFkTestAttribute(null);
         $manager->persist($paa);
         $manager->flush();
+
+        $paa = new ParticipantAnswerAttribute();
+        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer2'));
+        $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute2'));
+        $paa->setFkTestAttribute(null);
+        $manager->persist($paa);
+        $manager->flush();
+
         $paa = new ParticipantAnswerAttribute();
         $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer3'));
+        $paa->setFkQuestionAttribute(null);
+        $paa->setFkTestAttribute($this->getReference('TestAttribute1'));
+        $manager->persist($paa);
+        $manager->flush();
+
+        $paa = new ParticipantAnswerAttribute();
+        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer5'));
         $paa->setFkQuestionAttribute($this->getReference('QuestionAttribute5'));
+        $paa->setFkTestAttribute(null);
+        $manager->persist($paa);
+        $manager->flush();
+
+        $paa = new ParticipantAnswerAttribute();
+        $paa->setFkParticipantAnswer($this->getReference('ParticipantAnswer5'));
+        $paa->setFkQuestionAttribute(null);
         $paa->setFkTestAttribute($this->getReference('TestAttribute2'));
         $manager->persist($paa);
         $manager->flush();

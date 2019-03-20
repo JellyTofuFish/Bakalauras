@@ -40,10 +40,17 @@ class QuestionAttributeFixtures extends Fixture implements OrderedFixtureInterfa
          $manager->persist($qa);
          $manager->flush();
         $qa = new QuestionAttribute();
-        $qa->setFkAttribute($this->getReference('attribute4'));
-        $qa->setFkQuestion($this->getReference('question6'));
+        $qa->setFkAttribute($this->getReference('attribute3'));
+        $qa->setFkQuestion($this->getReference('question5'));
         $qa->setValue('blue');
         $this->addReference('QuestionAttribute5',$qa );
+        $manager->persist($qa);
+        $manager->flush();
+        $qa = new QuestionAttribute();
+        $qa->setFkAttribute($this->getReference('attribute4'));
+        $qa->setFkQuestion($this->getReference('question5'));
+        $qa->setValue('blue');
+        $this->addReference('QuestionAttribute6',$qa );
         $manager->persist($qa);
         $manager->flush();
     }

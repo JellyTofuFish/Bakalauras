@@ -64,20 +64,20 @@ class Test
     private $testParticipations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_test")
-     */
-    private $questions;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $is_active = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_test")
+     */
+    private $testQuestions;
 
     public function __construct()
     {
         $this->testAttributes = new ArrayCollection();
         $this->testParticipations = new ArrayCollection();
-        $this->questions = new ArrayCollection();
+        $this->testQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,37 +231,6 @@ class Test
         return $this;
     }
 
-    /**
-     * @return Collection|question[]
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(question $question): self
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setFkTest($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            // set the owning side to null (unless already changed)
-            if ($question->getFkTest() === $this) {
-                $question->setFkTest(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getIsActive(): ?bool
     {
         return $this->is_active;
@@ -270,6 +239,37 @@ class Test
     public function setIsActive(bool $is_active): self
     {
         $this->is_active = $is_active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TestQuestion[]
+     */
+    public function getTestQuestions(): Collection
+    {
+        return $this->testQuestions;
+    }
+
+    public function addTestQuestion(TestQuestion $testQuestion): self
+    {
+        if (!$this->testQuestions->contains($testQuestion)) {
+            $this->testQuestions[] = $testQuestion;
+            $testQuestion->setFkTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTestQuestion(TestQuestion $testQuestion): self
+    {
+        if ($this->testQuestions->contains($testQuestion)) {
+            $this->testQuestions->removeElement($testQuestion);
+            // set the owning side to null (unless already changed)
+            if ($testQuestion->getFkTest() === $this) {
+                $testQuestion->setFkTest(null);
+            }
+        }
 
         return $this;
     }
