@@ -35,6 +35,7 @@ class Question
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="fk_question")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $files;
 
@@ -42,35 +43,29 @@ class Question
      * @ORM\ManyToOne(targetEntity="App\Entity\GroupList", inversedBy="questions")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $fk_group = null;
+    private $fk_group;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\AnswerOption", mappedBy="fk_question", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $answeroptions;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ParticipantAnswer", mappedBy="fk_question")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $participantAnswers;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\QuestionAttribute", mappedBy="fk_question", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $questionAttributes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="presentationQuestions")
-     */
-    private $fk_presentation;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_presentation")
-     */
-    private $presentationQuestions;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_question")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $testQuestions;
 
@@ -80,7 +75,6 @@ class Question
         $this->answeroptions = new ArrayCollection();
         $this->participantAnswers = new ArrayCollection();
         $this->questionAttributes = new ArrayCollection();
-        $this->presentationQuestions = new ArrayCollection();
         $this->testQuestions = new ArrayCollection();
     }
 
@@ -261,49 +255,6 @@ class Question
         return $this;
     }
 
-
-    public function getPresentationQuestions(): ?self
-    {
-        return $this->fk_presentation;
-    }
-
-    public function setPresentationQuestions(?self $presentationQuestions): self
-    {
-        $this->fk_presentation = $presentationQuestions;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|self[]
-     */
-    public function getPresentationQuestione(): Collection
-    {
-        return $this->presentationQuestions;
-    }
-
-    public function addPresentationQuestion(self $presentationQuestion): self
-    {
-        if (!$this->presentationQuestions->contains($presentationQuestion)) {
-            $this->presentationQuestions[] = $presentationQuestion;
-            $presentationQuestion->setPresentationQuestions($this);
-        }
-
-        return $this;
-    }
-
-    public function removePresentationQuestion(self $presentationQuestions): self
-    {
-        if ($this->presentationQuestions->contains($presentationQuestions)) {
-            $this->presentationQuestions->removeElement($presentationQuestions);
-            // set the owning side to null (unless already changed)
-            if ($presentationQuestions->getPresentationQuestions() === $this) {
-                $presentationQuestions->setPresentationQuestions(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|TestQuestion[]

@@ -1,22 +1,19 @@
 question:
-  id: Numeracija
-  question:
-    label: Klausimas
-  description:
-    label: Aprašas
+  form:
+    id: Numeris
+    question_label: Klausimas
+    question_input_placeholder: Įveskite klausimo pavadinimą
+    description_label: Aprašas
+    description_input_placeholder: Įvesktie trumpą aprašą apie klausimą
+    type_label: Tipas
+    type_input_placeholder: Pasirinkite tipą
+    fk_group_label: Grupė
+    fk_group_input_placeholder: Grupių sąrašas
   type:
-    label: Tipas
-    placeholder: Pasirinkite tipą
     open: Atviras
     one: Vieno pasirinkimo
     multi: Kelių pasirinkimų
     presentation: Pateikties
-  fk_test:
-    label: Testas
-    placeholder: Pasirinkite testą
-  fk_group:
-    label: Grupė
-    placeholder: Pasirinkite grupę
   active: Veiksmai
 
 open: Atviras
@@ -31,3 +28,4 @@ button.show: Peržiūrėti
 button.question.show.nav: Klausimai
 button.question.show.sidenav: Klausimų sąrašas
 button.delete: Ištrinti
+button.log.in: Prisijungti

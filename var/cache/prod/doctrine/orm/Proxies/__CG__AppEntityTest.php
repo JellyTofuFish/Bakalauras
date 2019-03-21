@@ -64,10 +64,10 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'questions', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'questions', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions'];
     }
 
     /**
@@ -411,39 +411,6 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getQuestions(): \Doctrine\Common\Collections\Collection
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getQuestions', []);
-
-        return parent::getQuestions();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addQuestion(\App\Entity\question $question): \App\Entity\Test
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addQuestion', [$question]);
-
-        return parent::addQuestion($question);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeQuestion(\App\Entity\question $question): \App\Entity\Test
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeQuestion', [$question]);
-
-        return parent::removeQuestion($question);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getIsActive(): ?bool
     {
 
@@ -461,6 +428,39 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsActive', [$is_active]);
 
         return parent::setIsActive($is_active);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTestQuestions(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTestQuestions', []);
+
+        return parent::getTestQuestions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addTestQuestion(\App\Entity\TestQuestion $testQuestion): \App\Entity\Test
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTestQuestion', [$testQuestion]);
+
+        return parent::addTestQuestion($testQuestion);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeTestQuestion(\App\Entity\TestQuestion $testQuestion): \App\Entity\Test
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTestQuestion', [$testQuestion]);
+
+        return parent::removeTestQuestion($testQuestion);
     }
 
 }

@@ -3,28 +3,14 @@
 {% block title %}Hello TestController!{% endblock %}
 
 {% block body %}
-    <table>
-        {% for route in routes %}
-            <tr>
-                {#<td>{{ route }}</td>#}
-                <td>{{ route.path }}</td>
-                <td>{{ route.methods|length > 0 ? route.methods|join(', ') : 'ANY' }}</td>
-                <td>{{ route.defaults._controller }}</td>
-            </tr>
-        {% endfor %}
-    </table>
 
-    <nav class="collapse bd-links">
-        <div class="bd-toc-item">
-            <a class="bd-toc-link" href="{{ path('question_index') }}">{{ 'button.question.show.nav'|trans }}</a>
-            <ul class="nav flex-column bd-sidenav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('question_index') }}">{{ 'button.question.show.sidenav'|trans }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('question_new') }}">{{ 'button.question.new'|trans }}</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <div class="example-wrapper">
+        <h1>Hello ✅</h1>
+
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at <code><a href="#">src/Controller/TestController.php</a></code></li>
+            <li>Your template at <code><a href="#">templates/main/template.html.twig</a></code></li>
+        </ul>
+    </div>
 {% endblock %}

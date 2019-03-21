@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\AnswerOption;
+use App\Entity\GroupList;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
@@ -30,7 +32,9 @@ class QuestionController extends AbstractController
     public function new(Request $request): Response
     {
         $question = new Question();
+//        $answers = new AnswerOption();
         $form = $this->createForm(QuestionType::class, $question);
+//        $formAnswer = $this->createForm(AnswerOption::class, $answers);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,6 +56,7 @@ class QuestionController extends AbstractController
      */
     public function show(Question $question): Response
     {
+        dump($question);
         return $this->render('question/show.html.twig', [
             'question' => $question,
         ]);

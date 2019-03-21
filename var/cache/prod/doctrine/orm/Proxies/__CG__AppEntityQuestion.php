@@ -64,10 +64,10 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'question', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'type', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'files', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_group', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'answeroptions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'participantAnswers', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'questionAttributes', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_test', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_presentation', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'presentationQuestions'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'question', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'type', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'files', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_group', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'answeroptions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'participantAnswers', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'questionAttributes', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_presentation', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'presentationQuestions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'testQuestions'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'question', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'type', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'files', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_group', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'answeroptions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'participantAnswers', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'questionAttributes', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_test', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_presentation', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'presentationQuestions'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'question', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'type', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'files', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_group', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'answeroptions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'participantAnswers', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'questionAttributes', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'fk_presentation', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'presentationQuestions', '' . "\0" . 'App\\Entity\\Question' . "\0" . 'testQuestions'];
     }
 
     /**
@@ -411,28 +411,6 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getFkTest(): ?\App\Entity\Test
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFkTest', []);
-
-        return parent::getFkTest();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setFkTest(?\App\Entity\Test $fk_test): \App\Entity\Question
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFkTest', [$fk_test]);
-
-        return parent::setFkTest($fk_test);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getPresentationQuestions(): ?\App\Entity\Question
     {
 
@@ -483,6 +461,39 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removePresentationQuestion', [$presentationQuestions]);
 
         return parent::removePresentationQuestion($presentationQuestions);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTestQuestions(): \Doctrine\Common\Collections\Collection
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTestQuestions', []);
+
+        return parent::getTestQuestions();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addTestQuestion(\App\Entity\TestQuestion $testQuestion): \App\Entity\Question
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTestQuestion', [$testQuestion]);
+
+        return parent::addTestQuestion($testQuestion);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeTestQuestion(\App\Entity\TestQuestion $testQuestion): \App\Entity\Question
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTestQuestion', [$testQuestion]);
+
+        return parent::removeTestQuestion($testQuestion);
     }
 
 }

@@ -334,6 +334,7 @@
     <service id="App\DataFixtures\TestAttributeFixtures" class="App\DataFixtures\TestAttributeFixtures" autowire="true" autoconfigure="true"/>
     <service id="App\DataFixtures\TestFixtures" class="App\DataFixtures\TestFixtures" autowire="true" autoconfigure="true"/>
     <service id="App\DataFixtures\TestParticipationFixtures" class="App\DataFixtures\TestParticipationFixtures" autowire="true" autoconfigure="true"/>
+    <service id="App\DataFixtures\TestQuestionFixtures" class="App\DataFixtures\TestQuestionFixtures" autowire="true" autoconfigure="true"/>
     <service id="App\Form\QuestionType" class="App\Form\QuestionType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
@@ -374,6 +375,10 @@
       <argument type="service" id="doctrine"/>
     </service>
     <service id="App\Repository\TestParticipationRepository" class="App\Repository\TestParticipationRepository" autowire="true" autoconfigure="true">
+      <tag name="doctrine.repository_service"/>
+      <argument type="service" id="doctrine"/>
+    </service>
+    <service id="App\Repository\TestQuestionRepository" class="App\Repository\TestQuestionRepository" autowire="true" autoconfigure="true">
       <tag name="doctrine.repository_service"/>
       <argument type="service" id="doctrine"/>
     </service>
@@ -2505,7 +2510,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id=".service_locator.EXI1aB3"/>
+      <argument type="service" id=".service_locator.mkhtMe5"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -3891,6 +3896,8 @@
     <service id=".abstract.instanceof.App\Repository\TestAttributeRepository" class="App\Repository\TestAttributeRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestParticipationRepository" class="App\Repository\TestParticipationRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\TestParticipationRepository" class="App\Repository\TestParticipationRepository" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestQuestionRepository" class="App\Repository\TestQuestionRepository" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Repository\TestQuestionRepository" class="App\Repository\TestQuestionRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Repository\TestRepository" class="App\Repository\TestRepository" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Repository\TestRepository" class="App\Repository\TestRepository" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".service_locator.2nLzZDj" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -3990,7 +3997,7 @@
         <argument key="doctrine.orm.default_listeners.attach_entity_listeners" type="service" id="doctrine.orm.default_listeners.attach_entity_listeners"/>
       </argument>
     </service>
-    <service id=".service_locator.EXI1aB3" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.mkhtMe5" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Repository\AnswerOptionRepository" type="service" id="App\Repository\AnswerOptionRepository"/>
@@ -4003,6 +4010,7 @@
         <argument key="App\Repository\QuestionRepository" type="service" id="App\Repository\QuestionRepository"/>
         <argument key="App\Repository\TestAttributeRepository" type="service" id="App\Repository\TestAttributeRepository"/>
         <argument key="App\Repository\TestParticipationRepository" type="service" id="App\Repository\TestParticipationRepository"/>
+        <argument key="App\Repository\TestQuestionRepository" type="service" id="App\Repository\TestQuestionRepository"/>
         <argument key="App\Repository\TestRepository" type="service" id="App\Repository\TestRepository"/>
       </argument>
     </service>

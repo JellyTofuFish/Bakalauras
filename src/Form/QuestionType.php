@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\GroupList;
 use App\Entity\Question;
 use App\Entity\Test;
+use App\Entity\TestQuestion;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,16 +20,18 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('question', TextType::class, [
-                'label'=> 'question.question.label',
+                'label'=> 'question.form.question_label',
+                'attr' => ['placeholder' => 'question.form.question_input_placeholder'],
                 'required' => true,
             ])
             ->add('description',TextareaType::class, [
-                'label'=> 'question.description.label',
+                'label'=> 'question.form.description_label',
+                'attr' => ['placeholder' => 'question.form.description_input_placeholder'],
                 'required' => false,
             ])
             ->add('type', ChoiceType::class, [
-                'label'=> 'question.type.label',
-                'placeholder' => 'question.type.placeholder',
+                'label'=> 'question.form.type_label',
+                'placeholder' => 'question.form.type_input_placeholder',
                 'required' => true,
                 'choices' => [
                     'question.type.open' => 'open',
@@ -38,23 +41,23 @@ class QuestionType extends AbstractType
                 ],
             ])
             ->add('fk_group', EntityType::class, [
-                'label'=> 'question.fk_group.label',
+                'label'=> 'question.form.fk_group_label',
                 'class' => GroupList::class,
-                'placeholder' => 'question.fk_group.placeholder',
+                'placeholder' => 'question.form.fk_group_input_placeholder',
                 'required' => false,
                 'choice_label' => 'name',
                  'multiple' => false,
                  'expanded' => false,
             ] )
-            ->add('fk_test', EntityType::class, [
-                'label'=> 'question.fk_test.label',
-                'class' => Test::class,
-                'placeholder' => 'question.fk_test.placeholder',
-                'required' => false,
-                'choice_label' => 'name',
-                'multiple' => false,
-                'expanded' => false,
-            ])
+//            ->add('testQuestions', EntityType::class, [
+//                'label'=> 'question.fk_test.label',
+//                'class' => TestQuestion::class,
+//                'placeholder' => 'question.fk_test.placeholder',
+//                'required' => false,
+//                'choice_label' => 'serial_number',
+//                'multiple' => false,
+//                'expanded' => false,
+//            ])
         ;
     }
 
