@@ -133,7 +133,7 @@ class QuestionController extends AbstractController
         $formGroup = $this->createForm(GroupSimpleType::class, $group);
         $form->handleRequest($request);
 
-        dump($data = $form->get('answeroptions')->getData());
+        $data = $form->get('answeroptions')->getData();
 
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($data as $answeroption) {
