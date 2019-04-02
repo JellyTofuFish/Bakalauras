@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\groupList;
+use App\Entity\GroupList;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
