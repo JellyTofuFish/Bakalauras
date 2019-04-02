@@ -24,13 +24,8 @@ class AnswerOption
     private $answer;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $is_correct;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answeroptions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_question;
 
@@ -57,18 +52,6 @@ class AnswerOption
     public function setAnswer(string $answer): self
     {
         $this->answer = $answer;
-
-        return $this;
-    }
-
-    public function getIsCorrect(): ?bool
-    {
-        return $this->is_correct;
-    }
-
-    public function setIsCorrect(bool $is_correct): self
-    {
-        $this->is_correct = $is_correct;
 
         return $this;
     }

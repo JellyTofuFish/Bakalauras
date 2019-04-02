@@ -7,6 +7,8 @@ parameters:
     locale: 'lt'
 
 services:
+    group_controller:
+        class: App\Controller\GroupController
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

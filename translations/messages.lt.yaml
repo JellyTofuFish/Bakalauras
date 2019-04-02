@@ -1,31 +1,93 @@
 question:
   form:
-    id: Numeris
-    question_label: Klausimas
+    question_name_label: Pavadinimas
     question_input_placeholder: Įveskite klausimo pavadinimą
+    question_wording_label: Formuluotė
+    question_wording_input_placeholder: Įveskite klausimo formuluotę
     description_label: Aprašas
-    description_input_placeholder: Įvesktie trumpą aprašą apie klausimą
+    description_input_placeholder: Įveskite trumpą aprašą apie klausimą
     type_label: Tipas
-    type_input_placeholder: Pasirinkite tipą
+    type_input_placeholder: Pasirinkite klausimo tipą...
     fk_group_label: Grupė
-    fk_group_input_placeholder: Grupių sąrašas
+    fk_group_input_placeholder: Pasirinkite grupę...
+    answeroptions_label: Atsakymas
+    answeroptions_input_placeholder: Įveskite atsakymo variantą
   type:
     open: Atviras
     one: Vieno pasirinkimo
     multi: Kelių pasirinkimų
     presentation: Pateikties
-  active: Veiksmai
+  title:
+    index: Klausimų sąrašas
+    show: Klausimo peržiūra
+    edit: Klausimo redagavimas
+    new: Klausimo kūrimas
+    delete: Klausimo trynimas
+  flash_message:
+    question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite jį iš sąrašo ir paspauskite šalia esančią piktogramą, kuri atitinkanka jūsų pasirinktą veiksmą.
+  validation:
+    question_name: Privaloma užpildyti klausimo pavadinimo laukelį
+    question_wording: Privaloma užpildyti klausimo formuluotės laukelį
+    type: Privaloma pasirinkti vieną iš klausimo tipų
+  delete_message: Ar tikrai norite ištrinti šį klausimą?
+
+group:
+  form:
+    name_label: Pavadinimas
+    name_input_placeholder: Įveskite grupės pavadinimą
+    description_label: Aprašas
+    description_input_placeholder: Įveskite trumpą aprašą apie grupę
+  validation:
+    name: Grupės pavadinimas gali būti 2-50 simbolių ilgio
+  title:
+    show: Grupės peržiūra
+    edit: Grupės redagavimas
+    new: Grupės kūrimas
+    index: Grupių sąrašas
+  side_nav:
+    filter_remove: Pašalinti filtrą
+  delete_message: Ar tikrai norite ištrinti šią grupę?
+  new_message: Grupė sukurta
 
 open: Atviras
 one: Vieno pasirinkimo
 multi: Kelių pasirinkimų
 presentation: Pateikties
 
-button.question.new: Sukurti klausimą
-button.question.back: Atgal į sąrašą
-button.edit: Redaguoti
-button.show: Peržiūrėti
-button.question.show.nav: Klausimai
-button.question.show.sidenav: Klausimų sąrašas
-button.delete: Ištrinti
-button.log.in: Prisijungti
+settings: Parinktys
+groups: Grupė
+answers: Atsakymai
+general: Bendra informacija
+blank: Laukelis tuščias
+
+side_nav:
+  navigation: Navigacija
+  question_delete: Ištrinti klausimą
+
+button:
+  question:
+    new: Klausimo kūrimas
+    index: Klausimų sąrašas
+    show: Klausimo peržiūra
+    edit: Klausimo redagavimas
+    title: Klausimai
+  login: Prisijungti
+  edit: Redaguoti
+  show: Peržiūrėti
+  delete: Ištrinti
+  save: Išsaugoti
+  new: Sukurti
+  remove: Pašalinti
+  cancel: Atšaukti
+
+poppers:
+  show: Peržiūrėti
+  edit: Redaguoti
+  group:
+    add: Sukurti naują grupę
+  sort:
+    question_name: Rūšiuoti pagal pavadinimą
+    type: Rūšiuoti pagal tipą
+    group: Rūšiuoti pagal grupę
+  filter:
+    group: Filtruoti pagal grupę

@@ -21,7 +21,7 @@ class Question
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $question;
+    private $question_name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -46,7 +46,7 @@ class Question
     private $fk_group;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\AnswerOption", mappedBy="fk_question", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\AnswerOption", mappedBy="fk_question", orphanRemoval=true, cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $answeroptions;
@@ -69,6 +69,11 @@ class Question
      */
     private $testQuestions;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $question_wording;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -83,14 +88,14 @@ class Question
         return $this->id;
     }
 
-    public function getQuestion(): ?string
+    public function getQuestionName(): ?string
     {
-        return $this->question;
+        return $this->question_name;
     }
 
-    public function setQuestion(string $question): self
+    public function setQuestionName(string $question_name): self
     {
-        $this->question = $question;
+        $this->question_name = $question_name;
 
         return $this;
     }
@@ -170,13 +175,13 @@ class Question
         return $this->answeroptions;
     }
 
-    public function addAnsweroption(AnswerOption $answeroption): self
+
+    public function addAnsweroption(AnswerOption $answeroption) : self
     {
         if (!$this->answeroptions->contains($answeroption)) {
-            $this->answeroptions[] = $answeroption;
             $answeroption->setFkQuestion($this);
+            $this->answeroptions->add($answeroption);
         }
-
         return $this;
     }
 
@@ -283,6 +288,18 @@ class Question
                 $testQuestion->setFkQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuestionWording(): ?string
+    {
+        return $this->question_wording;
+    }
+
+    public function setQuestionWording(string $question_wording): self
+    {
+        $this->question_wording = $question_wording;
 
         return $this;
     }

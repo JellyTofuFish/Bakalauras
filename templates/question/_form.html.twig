@@ -1,76 +1,155 @@
-{{ form_start(form) }}
 
-{% for error in form.vars.errors.form.getErrors(true) %}
-    <div class="alert alert-danger">{{ error.message }}</div>
-{% endfor %}
 
-<div class="accordion" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="list-general">
+{#{% for error in form.vars.errors.form.getErrors(true) %}#}
+    {#<div class="alert alert-danger">{{ error.message }}</div>#}
+{#{% endfor %}#}
+
+{{ form_start(formGroup, { 'attr': {'id':'group_new_simple', 'class':'needs-validation', 'novalidate':'', 'action': path('group_new_simple') }}) }}
+{{ form_label(formGroup.name, null, { 'label_attr': { 'class':'display-hidden'} }) }}
+{{ form_widget(formGroup.name, { 'attr': { 'class':'display-hidden'} }) }}
+{{ form_end(formGroup) }}
+
+{{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'' }}) }}
+
+<div class="accordion" >
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-general">
             <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
-                    Bendra
+                <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                    <i id="questionCaret1" class="fa fa-caret-down transition"></i>
+                    <span class="pl-2">{{ 'general'|trans }}</span>
                 </button>
             </h2>
         </div>
-        <div id="home" class="tab-pane collapse show" aria-labelledby="list-general list-general-list" data-parent="#accordionExample">
+        <div id="home" class="tab-pane show" aria-labelledby="list-general list-general-list">
             <div class="card-body">
                 <div class="form-group row">
-                    {{ form_label(form.question, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10">
-                        {{ form_widget(form.question, { 'attr': {'class':'form-control mb-3'} }) }}
+                    {{ form_label(form.question_name, null, { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
+                    <div class="col-sm-10 mb-3">
+                        {{ form_widget(form.question_name, { 'attr': { 'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'question.validation.question_name'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ form_label(form.question_wording, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                    <div class="col-sm-10 mb-3">
+                        {{ form_widget(form.question_wording, { 'attr': {'class':'form-control'} }) }}
+                        <div class="invalid-feedback">
+                            {{ 'question.validation.question_wording'|trans }}
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10">
-                        {{ form_widget(form.description, { 'attr': {'class':'form-control mb-3'} }) }}
+                    <div class="col-sm-10 mb-3">
+                        {{ form_widget(form.description, { 'attr': {'class':'form-control '} }) }}
                     </div>
                 </div>
                 <div class="form-group row">
                     {{ form_label(form.type, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
                     <div class="col-sm-10">
-                        {{ form_widget(form.type, { 'attr': {'class':'form-control '} }) }}
+                        {{ form_widget(form.type, { 'attr': {'class':'custom-select'} }) }}
+                        <div class="invalid-feedback">
+                            {{ 'question.validation.type'|trans }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header" id="list-groups">
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-groups">
             <h2 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
-                    Grupes
+                <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
+                    <i id="questionCaret2" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'groups'|trans }}</span>
                 </button>
             </h2>
         </div>
-        <div id="groups" class="tab-pane collapse" aria-labelledby="list-groups list-groups-list" data-parent="#accordionExample">
+        <div id="groups" class="tab-pane collapse" aria-labelledby="list-groups list-groups-list" >
             <div class="card-body">
                 <div class="form-group row">
                     {{ form_label(form.fk_group, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10">
+                    <div class="col-sm-10 mb-3">
                         {{ form_widget(form.fk_group, { 'attr': {'class':'custom-select'} }) }}
+                    </div>
+                </div>
+                <div class="form-group row mb-0">
+                    <label for="group_simple_name" class="col-sm-2 col-form-label" >{{ 'group.title.new'|trans }}</label>
+                    <a href="" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.group.add'|trans }}">
+                        <i data-target="#group_simple_name2" class="p-form text-dark pointer fa fa-plus-square groupAdd"></i>
+                    </a>
+                    <div class="display-hidden">
+                        <div class="d-flex">
+                            <p class="p-form text-success pr-2 pointer-default">{{ 'group.new_message'|trans }}</p>
+                            <i class="px-0 text-success p-form fa fa-check-circle"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 display-hidden">
+                        <div class="d-flex">
+                            <input id="group_simple_name2" type="text" name="group_simple[name]" form="group_new_simple" class="form-control btn-no-right-radius" pattern=".{2,50}" required="required" placeholder="Įveskite grupės pavadinimą">
+                            <button class="btn btn-primary btn-no-left-radius" form="group_new_simple" type="submit">{{ 'button.new'|trans }}</button>
+                        </div>
+                        <small class="form-text text-muted">
+                            {{ 'group.validation.name'|trans }}
+                        </small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-        <div class="card">
-            <div class="card-header" id="list-settings">
-                <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
-                        Parinktys
-                    </button>
-                </h2>
-            </div>
-            <div id="settings" class="collapse" aria-labelledby="list-settings list-settings-list" data-parent="#accordionExample">
-                <div class="card-body">
-
-                </div>
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-answers">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
+                    <i id="questionCaret3" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'answers'|trans }}</span>
+                </button>
+            </h2>
+        </div>
+        <div id="answers" class="tab-pane collapse" aria-labelledby="list-answers list-answers-list" >
+            <div class="card-body answeroptions" data-prototype="{{ form_widget(form.answeroptions.vars.prototype)|e('html_attr') }}">
+                {% for answer in form.answeroptions %}
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">{{ 'question.form.answeroptions_label'|trans }}</label>
+                        <div class="col-sm-10 mb-3">
+                            <div class="d-flex">
+                                {{ form_widget(answer.answer) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
-        <button class="btn btn-block btn-outline-primary" type="submit">{{ button_label|default('Save') }}</button>
     </div>
+
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-settings">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                    <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'settings'|trans }}</span>
+                </button>
+            </h2>
+        </div>
+        <div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >
+            <div class="card-body">
+
+            </div>
+        </div>
+    </div>
+    <div class="card border-light">
+        <div class="card-header bg-transparent p-0" id="list-save">
+            <h2 class="mb-0">
+                <button class="btn btn-block btn-outline-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
+            </h2>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}
+
+

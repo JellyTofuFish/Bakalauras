@@ -1,50 +1,82 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}question.show{% endblock %}
+{% block title %} {{ 'question.title.show'|trans }} | ETS{% endblock %}
 
 {% block admin_right_nav %}
 
-    <p>Navigacija:</p>
-    <div class="list-group" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action" id="list-general-list" data-toggle="collapse" href="#list-general" data-target="#home" role="tab" aria-controls="home">Bendra</a>
-        <a class="list-group-item list-group-item-action" id="list-buttons-list" data-toggle="collapse" href="#list-buttons" data-target="#buttons" role="tab" aria-controls="buttons">Mygtukai</a>
-        <a class="list-group-item list-group-item-action" id="list-groups-list" data-toggle="collapse" href="#list-groups" data-target="#groups" role="tab" aria-controls="groups">Grupes</a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="collapse" href="#list-settings" data-target="#settings" role="tab" aria-controls="settings">Parinktys</a>
-    </div>
-    <div class="my-2"></div>
-    <p>Redaguoti klausimą: </p>
-    <a class="btn btn-sm btn btn-block btn-outline-primary" href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.edit'|trans }}</a>
-    <div class="my-2"></div>
-    <p>Ištrinti klausimą:</p>
-    <a> {{ include('question/_delete_form.html.twig') }}</a>
+    <ul class="section-nav">
+        <li class="toc-entry">
+            <p>{{ 'side_nav.navigation'|trans }}:</p>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-general" data-target="#home" data-target-animation="#questionCaret1" aria-controls="home">{{ 'general'|trans }}</a>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-groups" data-target="#groups" data-target-animation="#questionCaret2" aria-controls="groups">{{ 'groups'|trans }}</a>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-answers" data-target="#answers" data-target-animation="#questionCaret3" aria-controls="answers">{{ 'answers'|trans }}</a>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-settings" data-target="#settings" data-target-animation="#questionCaret4" aria-controls="settings">{{ 'settings'|trans }}</a>
+        </li>
+        <div class="my-3"></div>
+        <li class="toc-entry">
+            <p>{{ 'side_nav.question_delete'|trans }}:</p>
+        </li>
+        <li class="toc-entry">
+            <a href="" data-toggle="modal" data-target="#questionModal{{ question.id }}DeleteS" class="modal-append-show badge badge-danger text-white">{{ 'button.delete'|trans }}</a>
+
+            <div class="modal fade" id="questionModal{{ question.id }}DeleteS" tabindex="-1" role="dialog" aria-labelledby="questionModalLabelS" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="questionModalLabelS">{{ 'question.delete_message'|trans }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-between">
+                                {{ include('question/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
 
 {% endblock %}
 
 {% block admin_main %}
 
-    <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="list-general">
-                <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
-                        Bendra
-                    </button>
-                </h2>
-            </div>
-            <div id="home" class="tab-pane collapse show" aria-labelledby="list-general list-general-list" data-parent="#accordionExample">
+    <h1>{{ 'question.title.show'|trans }}</h1>
+    <div class="accordion">
+            <div class="card bg-light">
+                <div class="card-header bg-transparent p-0" id="list-general">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                            <i id="questionCaret1" class="fa fa-caret-down transition" ></i>
+                            <span class="pl-2">{{ 'general'|trans }}</span>
+                        </button>
+                    </h2>
+                </div>
+            <div id="home" class="tab-pane collapse show" aria-labelledby="list-general list-general-list">
                 <div class="card-body">
 
                     <fieldset disabled>
                         <div class="form-group row">
-                            <label for="inputid" class="col-sm-2 col-form-label">{{ 'question.form.id'|trans }}</label>
+                            <label for="inputquestion" class="col-sm-2 col-form-label">{{ 'question.form.question_name_label'|trans }}</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputid" value="{{ question.id }}">
+                                <input type="text" class="form-control" id="inputquestion" value="{{ question.questionname }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputquestion" class="col-sm-2 col-form-label">{{ 'question.form.question_label'|trans }}</label>
+                            <label for="inputquestion" class="col-sm-2 col-form-label">{{ 'question.form.question_wording_label'|trans }}</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputquestion" value="{{ question.question }}">
+                                <textarea class="form-control" id="inputquestion">{{ question.questionwording }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -66,15 +98,16 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header" id="list-groups">
+        <div class="card bg-light">
+            <div class="card-header bg-transparent p-0" id="list-groups">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
-                        Grupes
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
+                        <i id="questionCaret2" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'groups'|trans }}</span>
                     </button>
                 </h2>
             </div>
-            <div id="groups" class="tab-pane collapse" aria-labelledby="list-groups list-groups-list" data-parent="#accordionExample">
+            <div id="groups" class="tab-pane collapse" aria-labelledby="list-groups list-groups-list" >
                 <div class="card-body">
                     <fieldset disabled>
 
@@ -82,8 +115,8 @@
                         <label for="fk_group_label" class="col-sm-2 col-form-label">{{ 'question.form.fk_group_label'|trans }}</label>
                         <div class="col-sm-10">
                             <select id="fk_group_label" class="form-control">
-                                {% if question.fkGroup.name is null %}
-                                <option>None selected</option>
+                                {% if question.fkGroup is null %}
+                                <option>{{ 'blank'|trans }}</option>
                                 {% else %}
                                 <option>{{ question.fkGroup.name }}</option>
                                 {% endif %}
@@ -95,22 +128,48 @@
                 </div>
             </div>
         </div>
-
-        <div class="card">
-            <div class="card-header" id="list-settings">
+        <div class="card bg-light">
+            <div class="card-header bg-transparent p-0" id="list-answers">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
-                        Parinktys
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
+                        <i id="questionCaret3" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'answers'|trans }}</span>
                     </button>
                 </h2>
             </div>
-            <div id="settings" class="collapse" aria-labelledby="list-settings list-settings-list" data-parent="#accordionExample">
+            <div id="answers" class="tab-pane collapse" aria-labelledby="list-answers list-answers-list" >
+                <div class="card-body">
+                    <fieldset disabled>
+                        {% set anwerNumeber = 0 %}
+                        {% for answer in answers %}
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">{{ 'question.form.answeroptions_label'|trans }} {{ anwerNumeber +1 }}</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="question_answeroptions_answer_{{ anwerNumeber }}" value="{{ answer.answer }}">
+                            </div>
+                        </div>
+                            {% set anwerNumeber = anwerNumeber +1 %}
+                        {% endfor %}
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-light">
+            <div class="card-header bg-transparent p-0" id="list-settings">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark p-collapse" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                        <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'settings'|trans }}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="settings" class="collapse" aria-labelledby="list-settings list-settings-list">
                 <div class="card-body">
 
                 </div>
             </div>
         </div>
-        <button class="btn btn-block btn-outline-primary" type="submit">{{ button_label|default('Save') }}</button>
     </div>
 
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -22,29 +23,130 @@ class QuestionRepository extends ServiceEntityRepository
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllAndFilterByGroup($group)
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('q.fk_group = :val')
+            ->setParameter('val', $group)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+    public function GroupCountByQuestion($group)
+    {
+            return $this->createQueryBuilder('q')
+                ->select('count(q.id)')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->getQuery()
+                ->getSingleScalarResult();
+    }
 
-    /*
-    public function findOneBySomeField($value): ?Question
+    public function findAllAndSortNameAsc($group)
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.question_name', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.question_name', 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
     }
-    */
+    public function findAllAndSortTypeAsc($group)
+    {
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.type', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.type', 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+    }
+    public function findAllAndSortGroupAsc($group)
+    {
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.fk_group', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.fk_group', 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+    }
+    public function findAllAndSortNameDesc($group)
+    {
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.question_name', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.question_name', 'DESC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+    }
+    public function findAllAndSortTypeDesc($group)
+    {
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.type', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.type', 'DESC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+    }
+    public function findAllAndSortGroupDesc($group)
+    {
+        if ( $group == 'full' ) {
+            return $this->createQueryBuilder('q')
+                ->addOrderBy('q.fk_group', 'DESC')
+                ->getQuery()
+                ->getResult();
+        }
+        else {
+            return $this->createQueryBuilder('q')
+                ->andWhere('q.fk_group = :val')
+                ->setParameter('val', $group)
+                ->addOrderBy('q.fk_group', 'DESC')
+                ->getQuery()
+                ->getResult()
+                ;
+        }
+    }
 }

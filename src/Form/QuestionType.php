@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\AnswerOption;
 use App\Entity\GroupList;
 use App\Entity\Question;
-use App\Entity\Test;
-use App\Entity\TestQuestion;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,9 +19,14 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('question', TextType::class, [
-                'label'=> 'question.form.question_label',
+            ->add('question_name', TextType::class, [
+                'label'=> 'question.form.question_name_label',
                 'attr' => ['placeholder' => 'question.form.question_input_placeholder'],
+                'required' => true,
+            ])
+            ->add('question_wording',TextareaType::class, [
+                'label'=> 'question.form.question_wording_label',
+                'attr' => ['placeholder' => 'question.form.question_wording_input_placeholder'],
                 'required' => true,
             ])
             ->add('description',TextareaType::class, [
@@ -49,15 +54,14 @@ class QuestionType extends AbstractType
                  'multiple' => false,
                  'expanded' => false,
             ] )
-//            ->add('testQuestions', EntityType::class, [
-//                'label'=> 'question.fk_test.label',
-//                'class' => TestQuestion::class,
-//                'placeholder' => 'question.fk_test.placeholder',
-//                'required' => false,
-//                'choice_label' => 'serial_number',
-//                'multiple' => false,
-//                'expanded' => false,
-//            ])
+             ->add('answeroptions', CollectionType::class, [
+                'entry_type' => AnswerOptionType::class,
+                'label' => false,
+                'allow_add' => true,
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
+                 'allow_delete' => true,
+            ]);
         ;
     }
 

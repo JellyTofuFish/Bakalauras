@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% set route = app.request.get('_route') %}
+
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm bd-navbar">
         <a class="navbar-brand" href="{{ path('question_index') }}">ktu-logo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,25 +11,37 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item px-2 m-auto">
-                    <a class="btn btn-light" href="#">{{ 'button.log.in'|trans }}</a>
+                    <a class="btn btn-light" href="#">{{ 'button.login'|trans }}</a>
                 </li>
-
             </ul>
         </div>
     </nav>
     <div class="container-fluid">
         <div class="row flex-xl-nowrap">
-            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-
+            <div class="col-12 col-md-2 col-xl-2 bd-sidebar">
                 <nav class="bd-links">
                     <div class="bd-toc-item">
-                        <a class="bd-toc-link" href="{{ path('question_index') }}">{{ 'button.question.show.nav'|trans }}</a>
-                        <ul class="nav flex-column bd-sidenav">
-                            <li class="nav-item">
-                                <a class="nav-link " href="{{ path('question_index') }}">{{ 'button.question.show.sidenav'|trans }}</a>
+                        <a class="bd-toc-link {{ 'question' in route ? 'active' }}" href="{{ path('question_index') }}">{{ 'button.question.title'|trans }}</a>
+                        <ul class="nav flex-column">
+                            <li>
+                                <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('question_index') }}">{{ 'button.question.index'|trans }}</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('question_new') }}">{{ 'button.question.new'|trans }}</a>
+                            <li>
+                                {% if 'edit' in route %}
+                                <a class="nav-link {{ 'show' in route ? 'active' }}" href="{{ path('question_show', {'id': question.id}) }}">{{ 'button.question.show'|trans }}</a>
+                                {% else %}
+                                <a class="nav-link {{ 'show' in route ? 'active' }}" href="{{ path('question_index', {'route': 'route_show'}) }}">{{ 'button.question.show'|trans }}</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% if 'show' in route %}
+                                <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.question.edit'|trans }}</a>
+                                {% else %}
+                                <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('question_index', {'route': 'route_edit'})}}">{{ 'button.question.edit'|trans }}</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('question_new') }}">{{ 'button.question.new'|trans }}</a>
                             </li>
                         </ul>
                     </div>
@@ -38,7 +52,7 @@
                 {% block admin_right_nav %}
                 {% endblock %}
             </div>
-            <div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content">
+            <div class="col-12 col-md-8 col-xl-8 py-md-3 pl-md-5 bd-content">
                 {% block admin_main %}
                 {% endblock %}
             </div>

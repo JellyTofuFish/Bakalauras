@@ -1,0 +1,38 @@
+{# inside question/index.html.twig #}
+
+<li class="toc-entry">
+    <p>{{ 'group.title.index'|trans }}:</p>
+</li>
+
+{% for group in groups %}
+
+<li class="toc-entry d-flex justify-content-start align-items-center">
+    <a class="pr-2" href="{{ path('question_index', { 'group':group.id }) }}">
+        <i id="questionIndexCaret{{ group.id }}" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.filter.group'|trans }}" class="pr-0 pointer fa fa-filter"></i>
+    </a>
+    <a href="" class="btn btn-block btn-link text-left modal-append-show p-0" type="button" data-toggle="modal" data-target="#groupModal{{ group.id }}">
+        {{ group.name }}
+    </a>
+</li>
+
+<div class="modal fade" id="groupModal{{ group.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        {{ include('group/show.html.twig') }}
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+<div class="my-3"></div>
+
+{% set group = app.session.get('groupsort') %}
+{% if group != "full" and group != null %}
+<li class="toc-entry">
+    <p>{{ 'group.side_nav.filter_remove'|trans }}:</p>
+</li>
+<li class="toc-entry">
+    <a href="{{ path('question_index', { 'group':'full' }) }}"><button class="btn btn-sm btn-block btn-outline-danger">{{ 'button.remove'|trans }}</button></a>
+</li>
+{% endif %}
