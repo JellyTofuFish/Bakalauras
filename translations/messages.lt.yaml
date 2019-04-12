@@ -1,3 +1,47 @@
+login:
+  email: Elektroninis paštas
+  password: Slaptažodis
+  remember_me: Prisiminti mane
+  forgot_pass: Pamiršote slaptažodį?
+  validation:
+    email: Neteisingai įvestas elektroninis paštas
+    password: Neteisingai įvestas slaptažodis
+
+test:
+  form:
+    test_name_label: Pavadinimas
+    test_input_placeholder: Įveskite testo pavadinimą
+    description_label: Aprašas
+    description_input_placeholder: Įveskite trumpą aprašą apie testą
+    code: Kodas
+    created_at_label: Sukūrimo data
+    last_activated_label: Paskutinio akyvavimo data
+    is_active_label: Testo aktyvumas
+    is_active_description: Įjunkite šį jungiklį, jeigu norite aktyvuoti testą
+    test_start_label: Testo pradžia
+    test_end_label: Testo pabaiga
+    date_placeholder: 'yyyy-mm-dd hh:mm:ss'
+    user_label: Naudotojas
+    user_input_placeholder: Pasirinkite naudotojus...
+    test_question_label: Klausimas
+    test_count: Klausimų skaičius
+    test_question_input_placeholder: Pasirinkite klausimą...
+  active: Testas aktyvus
+  inactive: Testas neaktyvus
+  validation:
+    name: Privaloma užpildyti testo pavadinimo laukelį
+    date: Privaloma pasirinkti testo pradžios datą
+  title:
+    index: Testų sąrašas
+    show: Testo peržiūra
+    edit: Testo redagavimas
+    new: Testo kūrimas
+    delete: Testo trynimas
+  flash_message:
+    test: Norėdami peržiūrėti ar redaguoti testą, pasirinkite testą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
+  delete_message: Ar tikrai norite ištrinti šį testą?
+
+
 question:
   form:
     question_name_label: Pavadinimas
@@ -23,13 +67,17 @@ question:
     edit: Klausimo redagavimas
     new: Klausimo kūrimas
     delete: Klausimo trynimas
+    example: Klausimo pavyzdys
   flash_message:
-    question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite jį iš sąrašo ir paspauskite šalia esančią piktogramą, kuri atitinkanka jūsų pasirinktą veiksmą.
+    question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite klausimą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
   validation:
     question_name: Privaloma užpildyti klausimo pavadinimo laukelį
     question_wording: Privaloma užpildyti klausimo formuluotės laukelį
-    type: Privaloma pasirinkti vieną iš klausimo tipų
+    type: Privaloma pasirinkti ir išsaugoti klausimo tipą
   delete_message: Ar tikrai norite ištrinti šį klausimą?
+  button:
+    new: Sukurti klausimą
+    delete: Ištrinti klausimą
 
 group:
   form:
@@ -44,11 +92,19 @@ group:
     edit: Grupės redagavimas
     new: Grupės kūrimas
     index: Grupių sąrašas
-  side_nav:
+  button:
     filter_remove: Pašalinti filtrą
+    new: Sukurti grupę
   delete_message: Ar tikrai norite ištrinti šią grupę?
   new_message: Grupė sukurta
 
+answer:
+  placeholder: Atsakymą įveskite į šį laukelį...
+  next_question: Sekantis klausimas
+  prev_question: Ankstesnis klausimas
+
+
+actions: Operacijos
 open: Atviras
 one: Vieno pasirinkimo
 multi: Kelių pasirinkimų
@@ -58,11 +114,14 @@ settings: Parinktys
 groups: Grupė
 answers: Atsakymai
 general: Bendra informacija
+activation: Aktyvacija
+questions: Klausimai
 blank: Laukelis tuščias
+empty: Įrašų nerasta
+requied: Laukelis privalomas
 
 side_nav:
   navigation: Navigacija
-  question_delete: Ištrinti klausimą
 
 button:
   question:
@@ -71,7 +130,14 @@ button:
     show: Klausimo peržiūra
     edit: Klausimo redagavimas
     title: Klausimai
+  test:
+    new: Testo kūrimas
+    index: Testų sąrašas
+    show: Testo peržiūra
+    edit: Testo redagavimas
+    title: Testai
   login: Prisijungti
+  logout: Atsijungti
   edit: Redaguoti
   show: Peržiūrėti
   delete: Ištrinti
@@ -83,11 +149,21 @@ button:
 poppers:
   show: Peržiūrėti
   edit: Redaguoti
+  example: Peržiūrėti pavyzdį
+  delete: Ištrinti
+  test:
+    activation_desc: Prieš aktyvuodami testą privalote nustatyti testo pradažios datą
+  answer:
+    disabled_option: Išsaugojus "Vieno pasirinkimo" arba "Kelių pasirinkimų" klausimo tipą, suteikiama prieiga pridėti atsakymų variantus
+    remove_disclaimer: Išsaugojus "Pateiktis" arba "Atviras" klausimo tipą, visi darbartiniai atsakymai (jeigu yra nustatytų) bus ištrinti
   group:
     add: Sukurti naują grupę
   sort:
-    question_name: Rūšiuoti pagal pavadinimą
+    name: Rūšiuoti pagal pavadinimą
     type: Rūšiuoti pagal tipą
     group: Rūšiuoti pagal grupę
+    created_at: Rūšiuoti pagal sukūrimo datą
+    start: Rūšiuoti pagal pradžios datą
+    end: Rūšiuoti pagal pabaigos datą
   filter:
     group: Filtruoti pagal grupę

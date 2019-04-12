@@ -26,35 +26,35 @@
 {% block admin_main %}
     <h1>{{ 'question.title.index'|trans }}</h1>
     <div class="table-responsive table-header-sticky">
-        <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header">
+        <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
             <thead>
-                <tr id="question-index-sort">
+                <tr>
                     <th scope="col" colspan="2">
-                        <span class="pr-2">{{ 'question.form.question_name_label'|trans }}</span>
-                        <a class="text-light" href="{{ path('question_index', { 'slug':'question_name' , 'sort': app.session.get('question_name') }) }}">
-                            <i id="questionIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.question_name'|trans }}" class="questionSort pointer fa {{ app.session.get('question_name') }}"></i>
+                        <span>{{ 'question.form.question_name_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('question_index', { 'slug':'question_name' , 'sort': data['question_name'] }) }}">
+                            <i id="questionIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.name'|trans }}" class="px-2 questionSort pointer fa {{ data['question_name'] }}"></i>
                         </a>
                     </th>
                     <th scope="col">
-                        <span class="pr-2">{{ 'question.form.type_label'|trans }}</span>
-                        <a class="text-light" href="{{ path('question_index', { 'slug':'type' , 'sort':app.session.get('type') }) }}">
-                            <i id="questionIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.type'|trans }}" class="questionSort pointer fa {{ app.session.get('type') }}"></i>
+                        <span>{{ 'question.form.type_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('question_index', { 'slug':'type' , 'sort':data['type'] }) }}">
+                            <i id="questionIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.created_at'|trans }}" class="px-2 questionSort pointer fa {{ data['type'] }}"></i>
                         </a>
                     </th>
                     <th scope="col">
-                        <span class="pr-2">{{ 'question.form.fk_group_label'|trans }}</span>
-                        <a class="text-light" href="{{ path('question_index', { 'slug':'group' , 'sort':app.session.get('group') }) }}">
-                            <i id="questionIndexCaret3" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.group'|trans }}" class="questionSort pointer fa {{  app.session.get('group') }}"></i>
+                        <span>{{ 'question.form.fk_group_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('question_index', { 'slug':'group' , 'sort':data['group'] }) }}">
+                            <i id="questionIndexCaret3" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.group'|trans }}" class="px-2 questionSort pointer fa {{  data['group'] }}"></i>
                         </a>
                     </th>
-                    <th scope="col"></th>
+                    <th scope="col">{{ 'actions'|trans }}</th>
                 </tr>
             </thead>
         </table>
     </div>
 
     <div class="table-responsive">
-        <table class="table table-borderless mb-0">
+        <table class="table table-borderless mb-0 table-index">
             <tbody>
             {% for question in questions %}
                     <tr>
@@ -74,14 +74,39 @@
                             </p>
                         </td>
                         <td>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="pr-2" href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="pr-2" href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-edit"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="px-1" href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="px-1" href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}" class="px-1" href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" class="px-1" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+
+
+                            <div class="modal fade" id="questionModal{{ question.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="questionModalLabel">{{ 'question.delete_message'|trans }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="d-flex justify-content-between">
+                                                {{ include('question/_delete_form.html.twig') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div class="my-2"></div>
 {% endblock %}

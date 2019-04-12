@@ -9,11 +9,16 @@
 
 // alert(input1.toSource());
 
+import {when} from "q";
+
 var $ = require('jquery');
 require('popper.js/dist/umd/popper.min.js');
 require('bootstrap');
-import 'font-awesome/css/font-awesome.css';
 require('bootstrap/dist/css/bootstrap.css');
+import 'font-awesome/css/font-awesome.css';
+global.moment = require('moment');
+require('tempusdominus-bootstrap-4');
+require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
 
 $('.modal-append-show').click(function () {
@@ -26,18 +31,41 @@ $('.modal-append-show').click(function () {
         $(item).modal('hide');
     });
 });
-
-$('.modal-delete').click(function () {
-    let item = $(this).data('target');
-    $(item).fadeIn('fast');
-    $('.modal-delete-cancel').click(function () {
-        $(item).fadeOut(0);
+$('.modal-append').click(function () {
+    $(this).data('target').appendTo("body");
+});
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-tooltip="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
+    $('#datetimepicker2').popover('disable');
+    // if ($('#question_type').val() === '') {
+    //     $('#question_question_formtype').popover('show');
+    // }
+    $('.datepicker').datetimepicker({
+        format: 'YYYY-MM-DD H:m:s',
+        locale: 'lt',
+        // inline: true,
+        buttons: {
+            showToday: true,
+        },
+        tooltips: {
+            today: 'Nustatyti dabartinę datą',
+            selectDate: 'Pasirinkti datą',
+            selectTime: "Pasirinkti laiką",
+        },
+        widgetPositioning: {
+            horizontal: 'right',
+            vertical: 'top'
+        },
     });
 });
 
+// Form validation
+
 (function() {
     'use strict';
-    window.addEventListener('load', function() {
+    // window.addEventListener('load', function() {
         // Fetch all the forms we want to apply custom Bootstrap validation styles to
         var forms = document.getElementsByClassName('needs-validation');
         // Loop over them and prevent submission
@@ -48,52 +76,108 @@ $('.modal-delete').click(function () {
                     event.stopPropagation();
                 }
                 form.classList.add('was-validated');
-
             }, false);
         });
-    }, false);
+    // }, false);
 })();
 
-var $collectionHolder;
-var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
-var $newLinkLi = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Naujas</label></div>').append($addTagButton);
+$('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
 
-$(document).ready(function() {
-    $collectionHolder = $('div.answeroptions');
-    $collectionHolder.find('div.d-flex').each(function() {
-        addTagFormDeleteLink($(this), $(this).parent().parent());
-    });
-    $collectionHolder.append($newLinkLi);
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-    $addTagButton.on('click', function(e) {
-        e.preventDefault();
-        addTagForm($collectionHolder, $newLinkLi);
+$('.modal-delete').click(function () {
+    let item = $(this).data('target');
+    $(item).fadeIn('fast');
+    $('.modal-delete-cancel').click(function () {
+        $(item).fadeOut(0);
     });
 });
 
-function addTagForm($collectionHolder, $newLinkLi) {
-    var prototype = $collectionHolder.data('prototype');
-    var index = $collectionHolder.data('index');
+$(".card-collapse").click(function (e) {
+    let caret = $(this).children('i');
+    let $link = $(e.target);
+    if(!$link.data('lockedAt') || +new Date() - $link.data('lockedAt') > 350) {
+        if (caret.hasClass("rotation")) {
+            caret.removeClass("rotation");
+        } else {
+            setTimeout(function()
+            {
+                caret.addClass("rotation");
+            }, 200);
+        }
+        $link.data('lockedAt', +new Date());
+    }
+});
 
-    var newForm = prototype;
-    newForm = newForm.replace(/__name__/g, index);
-    $collectionHolder.data('index', index + 1);
+$(".sidebar-collapse").click(function () {
+    let item = $(this).data('target');
+    $(item).collapse('show');
 
-    var $newFormLi = $('<div class="form-group row"><label class="col-sm-2 col-form-label">Atsakymas</label></div>').append('<div class="col-sm-10 mb-3"><div class="d-flex"></div></div>').append(newForm);
-    addTagFormDeleteLink($newFormLi);
-    $newLinkLi.before($newFormLi);
+    let caret = $(this).data('target-animation');
+    if  ( $(caret).hasClass("rotation")) {
+        $(caret).removeClass("rotation");
+    }
+});
+
+function questionAjaxPost(form, url, redi = false) {
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: form.serialize(),
+    })
+    .done(function (data) {
+        if ( redi ) {
+            let origin   = window.location.origin;
+            let link = origin + "/question/" + data.id;
+            window.location.replace(link);
+        }
+        else {
+            document.location.reload(true);
+        }
+    })
 }
-function addTagFormDeleteLink($tagFormLi, $newLink ) {
-    var $removeFormButton = $('<button class="btn btn-primary btn-no-left-radius">Pašalinti</button>');
-    $tagFormLi.append($removeFormButton);
-
-    $removeFormButton.on('click', function(e) {
-        e.preventDefault();
-        $newLink.remove();
-    });
+function questionRemoveAnswers(val) {
+    if (val !== 'one' && val !== 'multi'){
+        let $collectionHolder = $('div.answeroptions');
+        $collectionHolder.find('button.questionAnswerRemoveButton').each(function() {
+            $(this).click();
+        });
+    }
 }
+let form = $('#question_form');
+let val = $('#question_type');
 
+$('.questionTypeSave').click(function( event ) {
+    if ( val.val() === "" ) {
+        event.preventDefault();
+        $(val).addClass('invalid').parent().nextAll('div.invalid-feedback').show();}
+    else {
+        $('[required]').removeAttr('required');
+        $(val).removeClass('invalid').parent().nextAll('div.invalid-feedback').hide();
+        $('#answers').removeClass('show');
+        questionRemoveAnswers(val.val());}
+});
+$('.questionTypeEditSave').click(function( event ) {
+    event.preventDefault();
+    questionRemoveAnswers(val.val());
+    questionAjaxPost(form, $(this).data('link'));
+});
+$('.questionTypeRemove').click(function( event ) {
+    event.preventDefault();
+    $(val).removeClass('invalid').attr('disabled', false).parent().nextAll('div.invalid-feedback').hide();
+    $(this).hide(0).prev().fadeIn('fast');
+});
+$('.questionSave').click(function( event ) {
+    event.preventDefault();
+    if (form[0].checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    else {
+        $('[disabled]').removeAttr('disabled');
+        questionAjaxPost(form, $(this).data('link'), true);
+    }
+    form.addClass('was-validated');
+});
+$('#question_form').submit(function () { $('[disabled]').removeAttr('disabled');});
 
 $('.groupsSubmit').submit(function( event ) {
 
@@ -118,50 +202,6 @@ $('.groupsSubmit').submit(function( event ) {
     }
 });
 
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-})
-
-$(".p-collapse").click(function () {
-    let caret = $(this).children('i');
-    if (caret.hasClass("rotation")) {
-        caret.removeClass("rotation");
-    } else {
-        caret.addClass("rotation");
-    }
-});
-
-// $(".questionSort").click(function () {
-//     let i;
-//     let length = $('#question-index-sort').children('th').length;
-//
-//
-//     if ($(this).hasClass('fa-sort')){
-//         for (i = 1; i <= length-1; i++) {
-//             $('#questionIndexCaret' + i).removeClass('fa-sort-up').removeClass('fa-sort-down').addClass('fa-sort');
-//         }
-//         $(this).removeClass('fa-sort').addClass('fa-sort-up');
-//
-//     }
-//     else if ($(this).hasClass('fa-sort-up')) {
-//         $(this).removeClass('fa-sort-up').addClass('fa-sort-down');
-//     }
-//     else {
-//         $(this).removeClass('fa-sort-down').addClass('fa-sort');
-//     }
-// });
-
-
-$(".sidebar-collapse").click(function () {
-    let item = $(this).data('target');
-    $(item).collapse('show');
-
-    let caret = $(this).data('target-animation');
-    if  ( $(caret).hasClass("rotation")) {
-        $(caret).removeClass("rotation");
-    }
-});
-
 $(".groupAdd").click(function (event) {
     event.preventDefault();
     let itemInput = $(this).data('target');
@@ -172,11 +212,11 @@ $(".groupAdd").click(function (event) {
 
     $(itemAdd).fadeOut(0);
     $(itemSuccess).fadeOut(0);
-    $(itemDisplayDiv).fadeIn('slow');
+    $(itemDisplayDiv).fadeIn('fast');
     $(itemInput).focus();
 
     var url = itemForm.attr('action');
-    $(itemForm).submit(function (event) {
+    $(itemInput).next().one('click', function (event) {
         event.preventDefault();
         if ( $(itemInput).val().length >= 2 && $(itemInput).val().length <= 50) {
             $(itemInput).removeClass('invalid').addClass('valid');
@@ -187,17 +227,171 @@ $(".groupAdd").click(function (event) {
             }).done(function (data) {
                 $("#question_fk_group").append($("<option selected='selected'></option>").attr("value",data.id).text(data.value));
                 $(itemDisplayDiv).fadeOut(0);
-                $(itemAdd).fadeIn('slow');
-                $(itemSuccess).fadeIn('slow');
-                $(itemInput).val('');
-                $(itemInput).removeClass('valid');
+                $(itemAdd).fadeIn('fast');
+                $(itemSuccess).fadeIn('fast');
             });
         }
         else {
             $(itemInput).addClass('invalid');
         }
+        $(itemInput).val('');
+        $(itemInput).removeClass('valid');
+        $(itemInput).removeClass('invalid');
+    });
+
+    $(".groupRemove").click(function (event) {
+        event.preventDefault();
+        $(itemInput).val('');
+        $(itemDisplayDiv).fadeOut(0);
+        $(itemAdd).fadeIn('fast');
     });
 });
+
+// $("#question_type").click(function () {
+//     $(this).popover('disable').popover('hide');
+// });
+
+$('#test_form').submit(function () {
+    $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();
+    if ($('#test_test_start').val() === ''){ $("#test_is_active")[0].checked = false; }
+});
+$(".input-group-text").click(function () {
+    $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();
+});
+$("#test_is_active").click(function (event) {
+    let inputDate = $('#test_test_start');
+    if ($(inputDate).val() === '' && $(this).is(':checked') === true ){
+        event.preventDefault();
+        $(inputDate).popover('enable').popover('show');
+        $(inputDate).addClass('invalid').nextAll('div.invalid-feedback').show();
+    }
+    else if ($(inputDate).val() !== '') {
+        $(inputDate).removeClass('invalid');
+    }
+});
+
+
+// Collection of test answer forms
+
+var $collectionHolder;
+var $addTagButton = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują atsakymą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkLi = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Atsakymo kūrimas</label></div>').append($addTagButton);
+
+(function() {
+    $collectionHolder = $('div.answeroptions');
+
+    var numr = 0;
+    $collectionHolder.find('div.d-flex').each(function() {
+        addAnswerFormDeleteLink($(this));
+        numr+= 1;
+    });
+
+    $collectionHolder.append($newLinkLi);
+    $collectionHolder.data('index', $collectionHolder.find(':input').length-numr);
+
+    if ( $collectionHolder.data('index') < 1) {
+        addAnswerForm($collectionHolder, $newLinkLi);
+        addAnswerForm($collectionHolder, $newLinkLi);
+    }
+
+    $addTagButton.on('click', function(e) {
+        e.preventDefault();
+        addAnswerForm($collectionHolder, $newLinkLi);
+    });
+})();
+function addAnswerForm($collectionHolder, $newLinkLi) {
+    var prototype = $collectionHolder.data('prototype');
+    var index = $collectionHolder.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolder.data('index', index + 1);
+
+    var input = newForm.match(/<input(.*?)>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var number = index+1;
+
+    var $newFormLi =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex">' + input +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+    addAnswerFormDeleteLink($newFormLi.find('div.d-flex'));
+    $newLinkLi.before($newFormLi);
+}
+function addAnswerFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
+
+// Collection of test question forms
+
+var $collectionHolder2;
+var $addTestQuestionButton = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Klausimo pridėjimas</label></div>').append($addTestQuestionButton);
+(function() {
+    $collectionHolder2 = $('div.testquestions');
+
+    var numr = 0;
+    $collectionHolder2.find('div.d-flex').each(function() {
+        addTestQuestionFormDeleteLink($(this));
+        numr+= 1;
+    });
+
+    $collectionHolder2.append($newLinkLi2);
+    $collectionHolder2.data('index', $collectionHolder2.find(':input').length-numr);
+
+    $addTestQuestionButton.on('click', function(e) {
+        e.preventDefault();
+        addTestQuestionForm($collectionHolder2, $newLinkLi2);description
+    });
+})();
+
+function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
+
+    var prototype = $collectionHolder2.data('prototype');
+    var index = $collectionHolder2.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__label__/g, index);
+    newForm = newForm.replace(/__name__/g, index);
+
+    var select = newForm.match(/<select(.*?)<\/select>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var number = index+1;
+    $collectionHolder2.data('index', index + 1);
+
+    var $newFormLi2 =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex">' + select +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+    addTestQuestionFormDeleteLink($newFormLi2.find('div.d-flex'));
+    $newLinkLi2.before($newFormLi2);
+
+}
+function addTestQuestionFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
 
 const contentTop = $('.table-header-sticky').offset().top;
 $( window ).scroll(function() {
@@ -209,7 +403,3 @@ $( window ).scroll(function() {
         $('#tableheader').removeClass('header-transform').addClass('table-header');
     }
 });
-
-
-
-

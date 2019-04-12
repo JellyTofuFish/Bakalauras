@@ -60,7 +60,7 @@ class QuestionType extends AbstractType
                 'allow_add' => true,
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
-                 'allow_delete' => true,
+                'allow_delete' => true,
             ]);
         ;
     }

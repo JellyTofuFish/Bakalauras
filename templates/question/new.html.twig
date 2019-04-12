@@ -3,7 +3,6 @@
 {% block title %} {{ 'question.title.new'|trans }} | ETS{% endblock %}
 
 {% block admin_right_nav %}
-
     <ul class="section-nav">
         <li class="toc-entry">
             <p>{{ 'side_nav.navigation'|trans }}:</p>
@@ -23,13 +22,12 @@
         <li class="toc-entry">
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-save">{{ 'button.new'|trans }}</a>
         </li>
-        {#{{ include('group/new.html.twig') }}#}
     </ul>
 {% endblock %}
 
 {% block admin_main %}
 
     <h1>{{ 'question.title.new'|trans }}</h1>
-    {{ include('question/_form.html.twig', {'button_label': 'button.new'|trans}) }}
+    {{ include('question/_form.html.twig', {'button_label': 'button.new'}) }}
 
 {% endblock %}

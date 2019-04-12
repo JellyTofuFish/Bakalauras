@@ -21,30 +21,63 @@ class TestRepository extends ServiceEntityRepository
 
     // /**
     //  * @return Test[] Returns an array of Test objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Test
+    public function filterAllByNameASC()
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->orderBy('t.name', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+    public function filterAllByCreatedAtASC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.created_at', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function filterAllByStartASC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.test_start', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function filterAllByEndASC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.test_end', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function filterAllByNameDESC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.name', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function filterAllByCreatedAtDESC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function filterAllByStartDESC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.test_start', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    public function filterAllByEndDESC()
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.test_end', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

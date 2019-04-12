@@ -1,0 +1,6 @@
+<form class="w-49-5" method="post" action="{{ path('test_delete', {'id': test.id}) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ test.id) }}">
+    <button class="btn btn-block btn-outline-danger btn-no-right-radius">{{ 'button.delete'|trans }}</button>
+</form>
+<button data-dismiss="modal" class="w-49-5 btn btn-block btn-dark btn-no-left-radius">{{ 'button.cancel'|trans }}</button>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
@@ -19,7 +20,7 @@ class Question
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $question_name;
 
@@ -70,17 +71,32 @@ class Question
     private $testQuestions;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $question_wording;
 
-    public function __construct()
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="questions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fk_user;
+
+    public function __construct( )
     {
         $this->files = new ArrayCollection();
         $this->answeroptions = new ArrayCollection();
         $this->participantAnswers = new ArrayCollection();
         $this->questionAttributes = new ArrayCollection();
         $this->testQuestions = new ArrayCollection();
+    }
+
+    public function __toString(){
+        if ($this->getFkGroup() == null) {
+            return (string) $this->question_name;
+        }
+        else {
+            return (string) $this->getFkGroup()->getName() . ' : ' . $this->question_name;
+        }
     }
 
     public function getId(): ?int
@@ -300,6 +316,18 @@ class Question
     public function setQuestionWording(string $question_wording): self
     {
         $this->question_wording = $question_wording;
+
+        return $this;
+    }
+
+    public function getFkUser(): ?User
+    {
+        return $this->fk_user;
+    }
+
+    public function setFkUser(?User $fk_user): self
+    {
+        $this->fk_user = $fk_user;
 
         return $this;
     }

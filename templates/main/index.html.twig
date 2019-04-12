@@ -3,14 +3,11 @@
 {% block title %}Hello TestController!{% endblock %}
 
 {% block body %}
+    {{ include('_form_navbar.html.twig') }}
 
     <div class="example-wrapper">
         <h1>Hello ✅</h1>
-
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a href="#">src/Controller/TestController.php</a></code></li>
-            <li>Your template at <code><a href="#">templates/main/template.html.twig</a></code></li>
-        </ul>
     </div>
+
+
 {% endblock %}

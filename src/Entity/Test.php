@@ -69,15 +69,21 @@ class Test
     private $is_active = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_test")
+     * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_test", orphanRemoval=true, cascade={"persist"})
      */
     private $testQuestions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="tests")
+     */
+    private $users;
 
     public function __construct()
     {
         $this->testAttributes = new ArrayCollection();
         $this->testParticipations = new ArrayCollection();
         $this->testQuestions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -269,6 +275,34 @@ class Test
             if ($testQuestion->getFkTest() === $this) {
                 $testQuestion->setFkTest(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeTest($this);
         }
 
         return $this;

@@ -26,35 +26,8 @@
             </div>
         </div>
     </fieldset>
-
-    <button type="button" class="btn btn-block btn-outline-primary btn-no-bottom-radius modal-append-edit mb-2" data-toggle="modal" data-target="#groupModal{{ group.id }}Edit">
-        {{ 'button.edit'|trans }}
-    </button>
-
-    <div class="modal fade" id="groupModal{{ group.id }}Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ 'group.title.edit'|trans }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ include('group/_edit_form.html.twig', {'button_label': 'button.save'|trans}) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="btn btn-block btn-outline-danger modal-delete btn-no-top-radius" data-target="#groupModal{{ group.id }}Delete">
-        {{ 'button.delete'|trans }}
-    </button>
+    {{ include('group/edit.html.twig') }}
 </div>
 
-<div id="groupModal{{ group.id }}Delete" class="modal-footer-custom float-right" style="display: none;">
-    <p class=" mb-3">{{ 'group.delete_message'|trans }}</p>
-    <div class="d-flex justify-content-between">
-        {{ include('group/_delete_form.html.twig') }}
-    </div>
-</div>
+
 

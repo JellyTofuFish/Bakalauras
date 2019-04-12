@@ -22,29 +22,15 @@ class TestQuestionRepository extends ServiceEntityRepository
     // /**
     //  * @return TestQuestion[] Returns an array of TestQuestion objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+
+    public function findQuestionsbyTest($test) {
+        return $this->createQueryBuilder('qt')
+            ->select('q.question_name')
+            ->join('qt.fk_question', 'q')
+            ->andWhere('qt.fk_test = :val')
+            ->setParameter('val', $test)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?TestQuestion
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

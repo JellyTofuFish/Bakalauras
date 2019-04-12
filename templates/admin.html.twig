@@ -3,52 +3,70 @@
 {% set route = app.request.get('_route') %}
 
 {% block body %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm bd-navbar">
-        <a class="navbar-brand" href="{{ path('question_index') }}">ktu-logo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item px-2 m-auto">
-                    <a class="btn btn-light" href="#">{{ 'button.login'|trans }}</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    {{ include('_form_navbar.html.twig') }}
     <div class="container-fluid">
         <div class="row flex-xl-nowrap">
             <div class="col-12 col-md-2 col-xl-2 bd-sidebar">
                 <nav class="bd-links">
-                    <div class="bd-toc-item">
+                    <div class="bd-toc-item {{ 'question' in route ? 'active' }}">
                         <a class="bd-toc-link {{ 'question' in route ? 'active' }}" href="{{ path('question_index') }}">{{ 'button.question.title'|trans }}</a>
+                        {% if 'question' in route %}
                         <ul class="nav flex-column">
                             <li>
                                 <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('question_index') }}">{{ 'button.question.index'|trans }}</a>
                             </li>
                             <li>
-                                {% if 'edit' in route %}
+                                {% if 'edit' in route or 'show' in route %}
                                 <a class="nav-link {{ 'show' in route ? 'active' }}" href="{{ path('question_show', {'id': question.id}) }}">{{ 'button.question.show'|trans }}</a>
                                 {% else %}
-                                <a class="nav-link {{ 'show' in route ? 'active' }}" href="{{ path('question_index', {'route': 'route_show'}) }}">{{ 'button.question.show'|trans }}</a>
+                                <a class="nav-link disabled-menu" href="{{ path('question_index', {'route': 'route_show'}) }}">{{ 'button.question.show'|trans }}</a>
                                 {% endif %}
                             </li>
                             <li>
-                                {% if 'show' in route %}
+                                {% if 'edit' in route or 'show' in route %}
                                 <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('question_edit', {'id': question.id}) }}">{{ 'button.question.edit'|trans }}</a>
                                 {% else %}
-                                <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('question_index', {'route': 'route_edit'})}}">{{ 'button.question.edit'|trans }}</a>
+                                <a class="nav-link disabled-menu" href="{{ path('question_index', {'route': 'route_edit'})}}">{{ 'button.question.edit'|trans }}</a>
                                 {% endif %}
                             </li>
                             <li>
                                 <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('question_new') }}">{{ 'button.question.new'|trans }}</a>
                             </li>
                         </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="bd-toc-item {{ 'test' in route ? 'active' }}">
+                        <a class="bd-toc-link {{ 'test' in route ? 'active' }}" href="{{ path('test_index') }}">{{ 'button.test.title'|trans }}</a>
+                        {% if 'test' in route %}
+                        <ul class="nav flex-column">
+                            <li>
+                                <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('test_index') }}">{{ 'button.test.index'|trans }}</a>
+                            </li>
+                            <li>
+                                {% if 'edit' in route or 'show' in route %}
+                                    <a class="nav-link {{ 'show' in route ? 'active' }}" href="{{ path('test_show', {'id': test.id}) }}">{{ 'button.test.show'|trans }}</a>
+                                {% else %}
+                                    <a class="nav-link disabled-menu" href="{{ path('test_index', {'route': 'route_show'}) }}">{{ 'button.test.show'|trans }}</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                {% if 'edit' in route or 'show' in route %}
+                                    <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('test_edit', {'id': test.id}) }}">{{ 'button.test.edit'|trans }}</a>
+                                {% else %}
+                                    <a class="nav-link disabled-menu" href="{{ path('test_index', {'route': 'route_edit'})}}">{{ 'button.test.edit'|trans }}</a>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('test_new') }}">{{ 'button.test.new'|trans }}</a>
+                            </li>
+                        </ul>
+                        {% endif %}
                     </div>
                 </nav>
 
             </div>
-            <div class="d-xl-block col-xl-2 bd-toc">
+            <div class="d-xl-block col-md-2 col-xl-2 bd-toc">
                 {% block admin_right_nav %}
                 {% endblock %}
             </div>

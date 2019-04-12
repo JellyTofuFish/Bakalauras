@@ -3,14 +3,23 @@
 <li class="toc-entry">
     <p>{{ 'group.title.index'|trans }}:</p>
 </li>
+<div class="my-2"></div>
+
+{% set group = app.session.get('groupsort') %}
+{% if group != "full" and group != null %}
+    <li class="toc-entry">
+        <a href="{{ path('question_index', { 'group':'full' }) }}" class="modal-append-show badge badge-danger text-white">{{ 'group.button.filter_remove'|trans }}</a>
+    </li>
+{% endif %}
+<div class="my-2"></div>
 
 {% for group in groups %}
 
 <li class="toc-entry d-flex justify-content-start align-items-center">
-    <a class="pr-2" href="{{ path('question_index', { 'group':group.id }) }}">
-        <i id="questionIndexCaret{{ group.id }}" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.filter.group'|trans }}" class="pr-0 pointer fa fa-filter"></i>
+    <a href="{{ path('question_index', { 'group':group.id }) }}">
+        <i id="questionIndexCaret{{ group.id }}" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.filter.group'|trans }}" class="px-2 pointer fa fa-filter"></i>
     </a>
-    <a href="" class="btn btn-block btn-link text-left modal-append-show p-0" type="button" data-toggle="modal" data-target="#groupModal{{ group.id }}">
+    <a href="" class="btn btn-block btn-link text-left modal-append-show ml-2 p-0" type="button" data-toggle="modal" data-target="#groupModal{{ group.id }}">
         {{ group.name }}
     </a>
 </li>
@@ -25,14 +34,4 @@
 
 {% endfor %}
 
-<div class="my-3"></div>
 
-{% set group = app.session.get('groupsort') %}
-{% if group != "full" and group != null %}
-<li class="toc-entry">
-    <p>{{ 'group.side_nav.filter_remove'|trans }}:</p>
-</li>
-<li class="toc-entry">
-    <a href="{{ path('question_index', { 'group':'full' }) }}"><button class="btn btn-sm btn-block btn-outline-danger">{{ 'button.remove'|trans }}</button></a>
-</li>
-{% endif %}

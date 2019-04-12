@@ -12,10 +12,16 @@ a {
 h1 {
     font-family: 'Dosis', sans-serif;
     margin-bottom: 2rem;
+    font-size: 3rem;
 }
 h2 button, h2 {
     font-family: 'Dosis', sans-serif;
     font-size: 1.25rem !important;
+    font-weight: normal;
+}
+h3 {
+    font-family: 'Dosis', sans-serif;
+    font-size: 2rem !important;
     font-weight: normal;
 }
 p {
@@ -27,7 +33,6 @@ p {
 }
 body {
     margin: 0;
-    font-family: 'Source Sans Pro', Roboto, sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
@@ -35,14 +40,23 @@ body {
     text-align: left;
     background-color: #fff;
 }
+.mt-15 {
+    margin-top: 15vh;
+}
+.mt-10 {
+    margin-top: 10vh;
+}
 .w-49-5{
     width: 49%;
 }
-.table {
-    table-layout: fixed;
+.w-15 {
+    width: 15%;
 }
-thead {
-    font-family: 'Dosis', sans-serif;
+.w-12 {
+    width: 12%;
+}
+.table-index {
+    table-layout: fixed;
 }
 .table-header-sticky {
     position: -webkit-sticky;
@@ -87,7 +101,6 @@ thead {
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
 }
-
 .invalid {
     border-color: #dc3545;
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
@@ -105,6 +118,14 @@ thead {
     background-repeat: no-repeat;
     background-position: center right calc(0.375em + 0.1875rem);
     background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+.text-unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /*top navbar*/
@@ -129,6 +150,7 @@ thead {
     z-index: 1000;
     height: calc(100vh - 3.6rem);
     border-right: 1px solid rgba(0, 0, 0, .1);
+    min-width: 10rem;
 }
 nav .bd-links {
 
@@ -161,7 +183,7 @@ nav .bd-links {
 }
 .nav-link {
     display: block;
-    padding: .25rem 1.5rem;
+    padding: .25rem 2.5rem;
     color: rgba(0,0,0,.65);
     font-size: .9rem;
 }
@@ -176,6 +198,7 @@ nav .bd-links {
 @media only screen and (min-width: 768px){
     .bd-sidebar {
         padding-right: 0px;
+        padding-left: 0px;
     }
     .nav-link {
         padding-right: 0px !important;
@@ -186,7 +209,28 @@ nav .bd-links {
         display: block!important;
     }
 }
-
+@media only screen and (max-width: 768px){
+    .bd-sidebar {
+        top: 0;
+        position: relative;
+        height: auto;
+        border: 0;
+    }
+}
+@media only screen and (max-width: 1200px){
+    .bd-toc-link {
+        padding-left: 0.5rem;
+    }
+    .nav-link {
+        padding-left: 1rem;
+    }
+}
+.disabled-menu {
+    color: rgba(0,0,0,.35);
+}
+.disabled-menu:hover {
+    color: rgba(0,0,0,.35);
+}
 /* right navigation sidebar */
 
 .bd-toc {
@@ -202,25 +246,40 @@ nav .bd-links {
     padding-bottom: 1.5rem;
     font-size: .875rem;
 }
+@media only screen and (max-width: 1200px){
+    .bd-toc {
+        /*position: relative;*/
+        width: auto;
+        /*padding: 0 !important;*/
+    }
+    .section-nav {
+        border: 0;
+    }
+    .toc-entry {
+        padding: .125rem 0.5rem !important;
+    }
+}
 .section-nav {
     padding-left: 0;
     border-left: 1px solid #eee;
 }
 .toc-entry {
     display: block;
+    padding: .125rem 1.5rem;
 }
 .d-xl-block {
     display: block !important;
 }
 .toc-entry a, .toc-entry p, .toc-entry span {
     display: block;
-    padding: .125rem 1.5rem;
+    padding: 0;
     margin: 0;
     color: #77757a;
     font-size: 0.9rem;
 }
 .toc-entry a.badge {
-    margin: .125rem 1.5rem;
+    width: auto;
+    padding: 3px 0;
     font-weight: normal;
 }
 .toc-entry p {
@@ -238,13 +297,14 @@ nav .bd-links {
     -webkit-box-ordinal-group: 2;
     -ms-flex-order: 1;
     order: 1;
+    min-width: 550px;
 }
 
 .p-form {
     padding: 7px 15px;
 }
 
-/*-->questions */
+/*questions */
 
 .table-borderless th:not(:last-child) {
     border-right: 1px solid white;
@@ -256,7 +316,7 @@ nav .bd-links {
     border-top: 1px solid #eee;
 }
 
-.p-collapse {
+.p-card {
     padding: 12px 20px;
 }
 
@@ -264,6 +324,30 @@ nav .bd-links {
 
 .p-h4 {
     font-size: 1.1rem !important;
+}
+
+/*tests*/
+
+ .bootstrap-datetimepicker-widget table th{
+    border: 0;
+}
+
+.question-label {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+.label-number-gap {
+    min-width: 3rem;
+}
+
+.q-content {
+    -webkit-box-ordinal-group: 1;
+    -ms-flex-order: 0;
+    order: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1000;
 }
 
 /*flash message css */
@@ -274,7 +358,15 @@ nav .bd-links {
 
 /*font awesome icon css*/
 
-.fa {
+.fa-sort,
+.fa-sort-up,
+.fa-sort-down,
+.fa-caret-down,
+.fa-file,
+.fa-pencil,
+.fa-trash,
+.fa-eye,
+.fa-check-circle {
     font-size: 24px;
 }
 .fa-filter {
@@ -284,6 +376,9 @@ nav .bd-links {
 }
 .fa-plus-square {
     font-size: 28px;
+}
+.fa-calendar {
+    font-size: 1rem;
 }
 .pointer {
     cursor: pointer;
@@ -312,11 +407,12 @@ nav .bd-links {
     border-top-left-radius: 10px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-
+    font-family: 'Dosis', sans-serif;
 }
 .header-transform {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    font-family: 'Dosis', sans-serif;
 }

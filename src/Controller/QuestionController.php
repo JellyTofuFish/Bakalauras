@@ -13,6 +13,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\StringType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,9 +30,20 @@ class QuestionController extends AbstractController
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
-        $session->set('question_name', 'fa-sort');
-        $session->set('type', 'fa-sort');
-        $session->set('group', 'fa-sort');
+    }
+    protected $arrayData = [
+        'question_name' => 'fa-sort',
+        'type'=> 'fa-sort',
+        'group'=> 'fa-sort',
+    ];
+
+    public function setData($key, $value)
+    {
+        $this->arrayData[$key] = $value;
+    }
+    public function getData($key)
+    {
+        return $this->arrayData[$key];
     }
 
     /**
@@ -57,10 +69,10 @@ class QuestionController extends AbstractController
 
         // Order questions table by group and table fields
         if ( $sort == 'fa-sort') {
-            $this->session->set('question_name', 'fa-sort');
-            $this->session->set('type', 'fa-sort');
-            $this->session->set('group', 'fa-sort');
-            $this->session->set($slug, 'fa-sort-up');
+            $this->setData('question_name','fa-sort');
+            $this->setData('type','fa-sort');
+            $this->setData('group','fa-sort');
+            $this->setData($slug,'fa-sort-up');
             if ($slug == 'question_name') {
                 $questionQuery = $questionRepository->findAllAndSortNameAsc($g);
             }
@@ -72,7 +84,7 @@ class QuestionController extends AbstractController
             }
         }
         elseif ($sort == 'fa-sort-up'){
-            $this->session->set($slug, 'fa-sort-down');
+            $this->setData($slug,'fa-sort-down');
 
             if ($slug == 'question_name') {
                 $questionQuery = $questionRepository->findAllAndSortNameDesc($g);
@@ -85,7 +97,7 @@ class QuestionController extends AbstractController
             }
         }
         else if ($sort == 'fa-sort-down'){
-            $this->session->set($slug, 'fa-sort');
+            $this->setData($slug,'fa-sort');
         }
 
         // Group query and new group request form handle
@@ -106,10 +118,10 @@ class QuestionController extends AbstractController
         }
 
         return $this->render('question/index.html.twig', [
-
             'questions' => $questionQuery,
             'groups' => $groupQuery,
             'form' => $form->createView(),
+            'data' => $this->arrayData,
         ]);
     }
 
@@ -118,37 +130,49 @@ class QuestionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $question = new Question();
         $group = new GroupList();
-        $anwser = new AnswerOption();
-        $anwser->setFkQuestion($question);
-        $anwser2 = new AnswerOption();
-        $anwser2->setFkQuestion($question);
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $question->getAnsweroptions()->add($anwser);
-        $question->getAnsweroptions()->add($anwser2);
+        $question = new Question();
+        $question->setFkUser($this->getUser());
 
         $form = $this->createForm(QuestionType::class, $question);
         $formGroup = $this->createForm(GroupSimpleType::class, $group);
         $form->handleRequest($request);
 
-        $data = $form->get('answeroptions')->getData();
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($data as $answeroption) {
-                $entityManager->persist($answeroption);
-            }
-            $entityManager->persist($question);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('question_index');
-        }
-
         return $this->render('question/new.html.twig', [
+            'question'=> $question,
             'form' => $form->createView(),
             'formGroup' => $formGroup->createView()
         ]);
+    }
+
+//    /**
+//     * @Route("/question/new/sessionClear", name="question_new", methods={"GET","POST"})
+//     */
+//    public function newSessionClear()
+//    {
+//        $this->session->clear();
+//        return $this->redirectToRoute('question_new_sessionClear');
+//    }
+
+    /**
+     * @Route("/question/new/save", name="question_new_save", methods={"GET","POST"})
+     */
+    public function newSave(Request $request)
+    {
+        $question = new Question();
+        $form = $this->createForm(QuestionType::class, $question);
+        $form->handleRequest($request);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Answers = $question->getAnsweroptions();
+            foreach ($Answers as $ao) {
+                $entityManager->persist($ao);
+            }
+            $entityManager->persist($question);
+            $entityManager->flush();
+        }
+        return new JsonResponse(['id'=> $question->getId()]);
     }
 
     /**
@@ -157,7 +181,7 @@ class QuestionController extends AbstractController
     public function show(Question $question): Response
     {
         if (null === $questionQ = $this->getDoctrine()->getManager()->getRepository(Question::class)->find($question->getId())) {
-            throw $this->createNotFoundException('No task found for id '.$question->getId());
+            throw $this->createNotFoundException('No task Question for id '.$question->getId());
         }
         $originalAnswers = new ArrayCollection();
 
@@ -172,19 +196,35 @@ class QuestionController extends AbstractController
     }
 
     /**
+     * @Route("/question/{id}/example", name="question_show_example", methods={"GET"})
+     */
+    public function showExample(Question $question): Response
+    {
+        if (null === $questionQ = $this->getDoctrine()->getManager()->getRepository(Question::class)->find($question->getId())) {
+            throw $this->createNotFoundException('No Question found for id '.$question->getId());
+        }
+
+        $Answers = new ArrayCollection();
+
+        foreach ($questionQ->getAnsweroptions() as $answeroption) {
+            $Answers->add($answeroption);
+        }
+
+        return $this->render('question/example_show.html.twig', [
+            'question' => $question,
+            'answers' => $Answers
+        ]);
+    }
+
+    /**
      * @Route("/question/{id}/edit", name="question_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Question $question): Response
     {
+        $group = new GroupList();
         $entityManager = $this->getDoctrine()->getManager();
         if (null === $questionQ = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No task found for id '.$question->getId());
-        }
-        $group = new GroupList();
-        $originalAnswers = new ArrayCollection();
-
-        foreach ($questionQ->getAnsweroptions() as $answeroption) {
-            $originalAnswers->add($answeroption);
         }
 
         $form = $this->createForm(QuestionType::class, $questionQ);
@@ -192,10 +232,11 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($originalAnswers as $answeroption) {
-                if (false === $questionQ->getAnsweroptions()->contains($answeroption)) {
-                    $entityManager->remove($answeroption);
-                    $entityManager->persist($answeroption);
+            $Answers = $question->getAnsweroptions();
+            foreach ($Answers as $ao) {
+                if (false === $questionQ->getAnsweroptions()->contains($ao)) {
+                    $questionQ->removeAnsweroption($ao);
+                    $entityManager->persist($ao);
                 }
             }
             $entityManager->persist($questionQ);
@@ -220,6 +261,18 @@ class QuestionController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $question->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $Answers = $question->getAnsweroptions();
+//            foreach ($Answers as $ao) {
+//                if (false === $question->getAnsweroptions()->contains($ao)) {
+//                    $question->removeAnsweroption($ao);
+//                    $entityManager->persist($ao);
+//                }
+//            }
+            $Tests = $question->getTestQuestions();
+            foreach ($Tests as $t) {
+                $t->getFkQuestion()->removeTestQuestion();
+                $entityManager->persist($t);
+            }
             $entityManager->remove($question);
             $entityManager->flush();
         }

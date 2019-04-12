@@ -1,0 +1,122 @@
+{{ form_start(form, { 'attr': { 'id':'test_form', 'class':'needs-validation', 'novalidate':'' }}) }}
+
+<div class="accordion">
+    <div class="overflow-hidden">
+        <div class="card bg-light btn-no-bottom-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-general">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                        <i id="testCaret1" class="fa fa-caret-down transition"></i>
+                        <span class="pl-2">{{ 'general'|trans }}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="home" class="tab-pane show " aria-labelledby="list-general list-general-list">
+                <div class="card-body">
+                    <div class="form-group row">
+                        {{ form_label(form.name, null, { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
+                        <div class="col-sm-10 mb-3">
+                            {{ form_widget(form.name, { 'attr': { 'class':'form-control'} }) }}
+                            <div class="invalid-feedback ">
+                                {{ 'test.validation.name'|trans }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                        <div class="col-sm-10 mb-3">
+                            {{ form_widget(form.description, { 'attr': {'class':'form-control '} }) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        {{ form_label(form.code, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                        <div class="col-sm-10 mb-3">
+                            {{ form_widget(form.code, { 'attr': {'class':'form-control', 'readonly':''} }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-activation">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#activation" aria-expanded="false" aria-controls="activation">
+                        <i id="testCaret2" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'activation'|trans }}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="activation" class="tab-pane collapse" aria-labelledby="list-activation list-activation-list" >
+                <div class="card-body">
+                    <div class="form-group row date">
+                        {{ form_label(form.test_start, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                        <div class="col-sm-10 mb-3 input-group date datepicker" id="datetimepicker2" data-target-input="nearest">
+                            {{ form_widget(form.test_start, { 'attr': {'class':'form-control datetimepicker-input', 'data-target':'#datetimepicker2', 'data-toggle':'popover', 'data-placement':'bottom', 'data-content':'poppers.test.activation_desc' |trans  } }) }}
+                            <div class="input-group-append" data-toggle="datetimepicker" data-target="#datetimepicker2">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                            <div class="invalid-feedback">
+                                {{ 'test.validation.date'|trans }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row date">
+                        {{ form_label(form.test_end, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                        <div class="col-sm-10 mb-3 input-group date datepicker" id="datetimepicker1" data-target-input="nearest">
+                            {{ form_widget(form.test_end, { 'attr': {'class':'form-control datetimepicker-input', 'data-target':'#datetimepicker1'} }) }}
+                            <div class="input-group-append" data-toggle="datetimepicker" data-target="#datetimepicker1">
+                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">{{ 'test.form.is_active_label'|trans }}</label>
+                        <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            {{ form_widget(form.is_active, { 'attr': {'class':'custom-control-input'} }) }}
+                            {{ form_label(form.is_active, null, { 'label_attr': {'class':'custom-control-label'} }) }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-questions">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#questions" aria-expanded="false" aria-controls="questions">
+                        <i id="testCaret3" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'questions'|trans }}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="questions" class="tab-pane collapse" aria-labelledby="list-questions list-questions-list" >
+                <div class="card-body testquestions" data-prototype="{{ form_row(form.testquestions.vars.prototype.fk_question)|e }}">
+                    {% set numb = 1 %}
+                    {% for question in form.testquestions %}
+                        <div class="form-group row">
+                            {{ form_label(question.fk_question, 'test.form.test_question_label'|trans ~ ' ' ~ numb, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                            <div class="col-sm-10 mb-3">
+                                <div class="d-flex">
+                                    {{ form_widget(question.fk_question) }}
+                                </div>
+                            </div>
+                        </div>
+                        {% set numb = numb +1 %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-light btn-no-top-radius">
+            <div class="card-header bg-transparent p-0" id="list-save">
+                <h2 class="mb-0">
+                    <button class="btn btn-block btn-outline-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ form_end(form) }}

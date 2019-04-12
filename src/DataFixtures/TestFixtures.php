@@ -16,6 +16,8 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
         $test->setCode('XXXXX');
         $test->setTestStart(new \DateTime('now'));
         $test->setCreatedAt();
+        $test->addUser($this->getReference('user1'));
+        $test->addUser($this->getReference('user2'));
         $this->addReference('test2',$test );
         $manager->persist($test);
 
@@ -26,6 +28,7 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
         $test1->setTestStart(new \DateTime('now'));
         $test1->setIsActive(true);
         $test1->setCreatedAt();
+        $test1->addUser($this->getReference('user1'));
         $this->addReference('test1',$test1 );
         $manager->persist($test1);
 
@@ -33,6 +36,6 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
 
     }
     public function getOrder() {
-        return 100;
+        return 110;
     }
 }

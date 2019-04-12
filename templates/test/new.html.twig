@@ -1,0 +1,30 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %} {{ 'test.title.new'|trans }} | ETS{% endblock %}
+
+{% block admin_right_nav %}
+<ul class="section-nav">
+    <li class="toc-entry">
+        <p>{{ 'side_nav.navigation'|trans }}:</p>
+    </li>
+    <li class="toc-entry">
+        <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-general" data-target="#home" data-target-animation="#testCaret1" aria-controls="home">{{ 'general'|trans }}</a>
+    </li>
+    <li class="toc-entry">
+        <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-activation" data-target="#activation" data-target-animation="#testCaret2" aria-controls="activation">{{ 'activation'|trans }}</a>
+    </li>
+    <li class="toc-entry">
+        <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-questions" data-target="#questions" data-target-animation="#testCaret3" aria-controls="questions">{{ 'questions'|trans }}</a>
+    </li>
+    <li class="toc-entry">
+        <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-save">{{ 'button.new'|trans }}</a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block admin_main %}
+    <h1>{{ 'test.title.new'|trans }}</h1>
+
+    {{ include('test/_form.html.twig', {'button_label': 'button.new'|trans}) }}
+
+{% endblock %}

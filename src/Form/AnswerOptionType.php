@@ -15,8 +15,8 @@ class AnswerOptionType extends AbstractType
         $builder
             ->add('answer', TextType::class, [
                 'attr' => ['placeholder' => 'question.form.answeroptions_input_placeholder', 'class'=>'form-control btn-no-right-radius'],
-                'label' => false,
-                'required' => true,
+                'label' => 'question.form.answeroptions_label',
+                'required'=> true
             ])
         ;
     }
