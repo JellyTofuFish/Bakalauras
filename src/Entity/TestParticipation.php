@@ -88,9 +88,9 @@ class TestParticipation
         return $this->test_started_at;
     }
 
-    public function setTestStartedAt(?\DateTimeInterface $test_started_at): self
+    public function setTestStartedAt(): self
     {
-        $this->test_started_at = $test_started_at;
+        $this->test_started_at = new \DateTime('now');
 
         return $this;
     }

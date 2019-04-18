@@ -21,6 +21,8 @@ require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
 
+// General + bootrstap animations
+
 $('.modal-append-show').click(function () {
     let item = $(this).data('target');
     $(item).appendTo("body");
@@ -39,13 +41,9 @@ $(function () {
     $('[data-tooltip="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
     $('#datetimepicker2').popover('disable');
-    // if ($('#question_type').val() === '') {
-    //     $('#question_question_formtype').popover('show');
-    // }
     $('.datepicker').datetimepicker({
         format: 'YYYY-MM-DD H:m:s',
         locale: 'lt',
-        // inline: true,
         buttons: {
             showToday: true,
         },
@@ -59,6 +57,38 @@ $(function () {
             vertical: 'top'
         },
     });
+});
+$('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
+$('.modal-delete').click(function () {
+    let item = $(this).data('target');
+    $(item).fadeIn('fast');
+    $('.modal-delete-cancel').click(function () {
+        $(item).fadeOut(0);
+    });
+});
+$(".card-collapse").click(function (e) {
+    let caret = $(this).children('i');
+    let $link = $(e.target);
+    if(!$link.data('lockedAt') || +new Date() - $link.data('lockedAt') > 350) {
+        if (caret.hasClass("rotation")) {
+            caret.removeClass("rotation");
+        } else {
+            setTimeout(function()
+            {
+                caret.addClass("rotation");
+            }, 200);
+        }
+        $link.data('lockedAt', +new Date());
+    }
+});
+$(".sidebar-collapse").click(function () {
+    let item = $(this).data('target');
+    $(item).collapse('show');
+
+    let caret = $(this).data('target-animation');
+    if  ( $(caret).hasClass("rotation")) {
+        $(caret).removeClass("rotation");
+    }
 });
 
 // Form validation
@@ -81,41 +111,7 @@ $(function () {
     // }, false);
 })();
 
-$('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
-
-$('.modal-delete').click(function () {
-    let item = $(this).data('target');
-    $(item).fadeIn('fast');
-    $('.modal-delete-cancel').click(function () {
-        $(item).fadeOut(0);
-    });
-});
-
-$(".card-collapse").click(function (e) {
-    let caret = $(this).children('i');
-    let $link = $(e.target);
-    if(!$link.data('lockedAt') || +new Date() - $link.data('lockedAt') > 350) {
-        if (caret.hasClass("rotation")) {
-            caret.removeClass("rotation");
-        } else {
-            setTimeout(function()
-            {
-                caret.addClass("rotation");
-            }, 200);
-        }
-        $link.data('lockedAt', +new Date());
-    }
-});
-
-$(".sidebar-collapse").click(function () {
-    let item = $(this).data('target');
-    $(item).collapse('show');
-
-    let caret = $(this).data('target-animation');
-    if  ( $(caret).hasClass("rotation")) {
-        $(caret).removeClass("rotation");
-    }
-});
+// Question controller / html functions
 
 function questionAjaxPost(form, url, redi = false) {
     $.ajax({
@@ -144,7 +140,6 @@ function questionRemoveAnswers(val) {
 }
 let form = $('#question_form');
 let val = $('#question_type');
-
 $('.questionTypeSave').click(function( event ) {
     if ( val.val() === "" ) {
         event.preventDefault();
@@ -179,6 +174,8 @@ $('.questionSave').click(function( event ) {
 });
 $('#question_form').submit(function () { $('[disabled]').removeAttr('disabled');});
 
+// Group controller / html functions
+
 $('.groupsSubmit').submit(function( event ) {
 
     event.preventDefault();
@@ -201,7 +198,6 @@ $('.groupsSubmit').submit(function( event ) {
         });
     }
 });
-
 $(".groupAdd").click(function (event) {
     event.preventDefault();
     let itemInput = $(this).data('target');
@@ -238,7 +234,6 @@ $(".groupAdd").click(function (event) {
         $(itemInput).removeClass('valid');
         $(itemInput).removeClass('invalid');
     });
-
     $(".groupRemove").click(function (event) {
         event.preventDefault();
         $(itemInput).val('');
@@ -247,10 +242,7 @@ $(".groupAdd").click(function (event) {
     });
 });
 
-// $("#question_type").click(function () {
-//     $(this).popover('disable').popover('hide');
-// });
-
+// Test controller / html functions
 $('#test_form').submit(function () {
     $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();
     if ($('#test_test_start').val() === ''){ $("#test_is_active")[0].checked = false; }
@@ -270,7 +262,36 @@ $("#test_is_active").click(function (event) {
     }
 });
 
+// Test start functions
+let formArticle = $('#slider');
+$("article:last").find("button.next").hide().parent().append('<button type="submit" class="submit mr-5 btn btn-danger">Baigti testą</button>')
+//hide every form section except first
+$("article:nth-child(1n+2)").hide();
+//add class of visible to first screen
+$("article:first").addClass("visible");
 
+$("button.next").on("click", function(e){
+    e.preventDefault();
+    $(this).closest("article").removeClass("visible").hide().next().addClass("visible").fadeIn();
+});
+// $("button.submit").on("click", function(e){
+//     e.preventDefault();
+//     $.ajax({
+//         type: formArticle.attr('method'),
+//         url: formArticle.attr('action'),
+//         data: formArticle.serialize(),
+//         success:function(data){
+//
+//             // handling the response data from the controller
+//             if(data.status == 'error'){
+//                 alert("[API] ERROR: "+data);
+//             }
+//             if(data.status == 'success'){
+//                 alert("[API] SUCCESS: "+data);
+//             }
+//         }
+//     });
+// });
 // Collection of test answer forms
 
 var $collectionHolder;
@@ -333,6 +354,7 @@ function addAnswerFormDeleteLink($tagFormLi) {
     });
 }
 
+
 // Collection of test question forms
 
 var $collectionHolder2;
@@ -392,6 +414,8 @@ function addTestQuestionFormDeleteLink($tagFormLi) {
         $tagFormLi.parent().parent().remove();
     });
 }
+
+// Table header animation
 
 const contentTop = $('.table-header-sticky').offset().top;
 $( window ).scroll(function() {

@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\ParticipantAnswer;
+use App\Entity\Question;
 use App\Entity\Test;
+use App\Entity\TestParticipation;
 use App\Entity\TestQuestion;
 use App\Form\TestType;
+use App\Repository\QuestionRepository;
 use App\Repository\TestQuestionRepository;
 use App\Repository\TestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TestController extends AbstractController
@@ -19,6 +23,14 @@ class TestController extends AbstractController
     /**
      * QuestionController constructor.
      */
+
+    protected $arrayTest = [[]];
+
+    public function setDataTest($key, $key1, $value)
+    {
+        $this->arrayTest[$key][$key1] = $value;
+    }
+
     protected $arrayData = [
         'test_name' => 'fa-sort',
         'created_at'=> 'fa-sort',
@@ -145,15 +157,66 @@ class TestController extends AbstractController
     /**
      * @Route("test/{id}", name="test_show", methods={"GET"})
      */
-    public function show(Test $test, TestQuestionRepository $testQuestionRepository): Response
+    public function show(Test $test, TestQuestionRepository $questionRepository): Response
     {
         if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
-        $questions =  $testQuestionRepository->findQuestionsbyTest($test->getId());
+        $questions = $questionRepository->findQuestionsbyTest($Test);
         return $this->render('test/show.html.twig', [
             'test' => $test,
             'questions' => $questions
+        ]);
+    }
+
+    /**
+     * @Route("test/{id}/participation/{testPart}/start", name="test_new_start", methods={"GET","POST"})
+     * @Entity("participation", expr="repository.find(testPart)")
+     */
+    public function newStart(Request $request, Test $test, TestParticipation $participation, TestRepository $testRepository, QuestionRepository $questionRepository): Response
+    {
+        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
+        $questionOrder = $testRepository->findTestQuestionOrder($Test);
+        foreach ($questionOrder as $question){
+            $this->setDataTest($question['serial_number']-1, 'serial_number', $question['serial_number']);
+            $this->setDataTest($question['serial_number']-1, 'questionID', $question['id']);
+            $this->setDataTest($question['serial_number']-1, 'type', $question['type']);
+            $this->setDataTest($question['serial_number']-1, 'question_wording', $question['question_wording']);
+            $this->setDataTest($question['serial_number']-1, 'answers', $questionRepository->findQuestionAnswers($question['id']));
+        }
+
+        if ($request->isMethod('POST')){
+            $entityManager = $this->getDoctrine()->getManager();
+
+            if (null === $part = $this->getDoctrine()->getManager()->getRepository(TestParticipation::class)->find($participation->getId())) {
+                throw $this->createNotFoundException('No participation for id '.$participation->getId());
+            }
+            $part->setTestEndedAt(new \DateTime('now'));
+            $part->setIsTestOver(1);
+            $entityManager->persist($part);
+            $entityManager->flush();
+//            foreach ($_POST as $key => $value ){
+//                $participantAnswer = new ParticipantAnswer();
+//                $question = $this->getDoctrine()->getManager()->getRepository(Question::class)->findOneBy(['id'=>$key]);
+//                if ($question->getType() == "open") {
+//                    $participantAnswer->setFkQuestion($question);
+//                    $participantAnswer->setAnswer($key);
+//                }
+//                else if ($question->getType() == "multi" or $question->getType() == "one"){
+//                    foreach ($value as $key => $value){
+//                        $participantAnswer->addFkAnsweroption();
+//                    }
+//                }
+//                $participantAnswer->setFkTestParticipation($part);
+//            }
+            return $this->redirectToRoute('home_index');
+        }
+        return $this->render('test/new_test_start.html.twig', [
+            'test' => $test,
+            'data' => $this->arrayTest,
+            'testPart' => $participation->getId()
         ]);
     }
 
@@ -186,7 +249,6 @@ class TestController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('test_index', [
-                'id' => $test->getId(),
             ]);
         }
 
@@ -201,6 +263,9 @@ class TestController extends AbstractController
      */
     public function delete(Request $request, Test $test): Response
     {
+        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
         if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($test);

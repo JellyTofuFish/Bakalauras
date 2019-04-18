@@ -1,12 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TestController!{% endblock %}
+{% block title %} {{ 'test.title.test'|trans }} | ETS{% endblock %}
 
 {% block body %}
     {{ include('_form_navbar.html.twig') }}
 
-    <div class="example-wrapper">
-        <h1>Hello ✅</h1>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-8 col-md-3 col-xl-3 mt-25 text-center">
+
+                <h1 class="mb-5 text-primary">{{ 'test.test_start_code'|trans }}:</h1>
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="mx-auto w-75 alert alert-{{ label }}">
+                            <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <span class='alert-message'>{{ message|trans }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'' }}) }}
+                <div class="form-group mx-auto w-75">
+                    {{ form_widget(form.code, { 'attr': {'class':'form-control'} }) }}
+                    <div class="invalid-feedback ">
+                        {{ 'test.validation.code_test_start'|trans }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary">{{ 'button.test.test_start_active'|trans }} ></button>
+                {{ form_end(form) }}
+            </div>
+        </div>
     </div>
 
 

@@ -23,6 +23,17 @@ class QuestionRepository extends ServiceEntityRepository
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */
+    public function findQuestionAnswers($question) {
+        return $this->createQueryBuilder('q')
+            ->select('a.answer')
+            ->join('q.answeroptions', 'a')
+            ->andWhere('q.id = :val')
+            ->setParameter('val', $question)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findAllAndFilterByGroup($group)
     {
         return $this->createQueryBuilder('q')

@@ -145,15 +145,6 @@ class QuestionController extends AbstractController
         ]);
     }
 
-//    /**
-//     * @Route("/question/new/sessionClear", name="question_new", methods={"GET","POST"})
-//     */
-//    public function newSessionClear()
-//    {
-//        $this->session->clear();
-//        return $this->redirectToRoute('question_new_sessionClear');
-//    }
-
     /**
      * @Route("/question/new/save", name="question_new_save", methods={"GET","POST"})
      */

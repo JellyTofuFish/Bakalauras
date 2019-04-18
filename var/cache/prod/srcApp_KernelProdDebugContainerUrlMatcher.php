@@ -15,23 +15,51 @@ class srcApp_KernelProdDebugContainerUrlMatcher extends Symfony\Bundle\Framework
     {
         $this->context = $context;
         $this->staticRoutes = [
-            '/' => [[['_route' => 'test', '_controller' => 'App\\Controller\\MainController::index'], null, null, null, false, false, null]],
-            '/question' => [[['_route' => 'question_index', '_controller' => 'App\\Controller\\QuestionController::index'], null, ['GET' => 0], null, false, false, null]],
+            '/group/new/simple' => [[['_route' => 'group_new_simple', '_controller' => 'App\\Controller\\GroupController::newSimple'], null, ['POST' => 0], null, false, false, null]],
+            '/group/new' => [[['_route' => 'group_new', '_controller' => 'App\\Controller\\GroupController::new'], null, ['POST' => 0], null, false, false, null]],
+            '/' => [[['_route' => 'home_index', '_controller' => 'App\\Controller\\MainController::index'], null, null, null, false, false, null]],
+            '/questions' => [[['_route' => 'question_index', '_controller' => 'App\\Controller\\QuestionController::index'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
             '/question/new' => [[['_route' => 'question_new', '_controller' => 'App\\Controller\\QuestionController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            '/question/new/save' => [[['_route' => 'question_new_save', '_controller' => 'App\\Controller\\QuestionController::newSave'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            '/tests' => [[['_route' => 'test_index', '_controller' => 'App\\Controller\\TestController::index'], null, ['GET' => 0], null, false, false, null]],
+            '/test/new' => [[['_route' => 'test_new', '_controller' => 'App\\Controller\\TestController::new'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            '/logout' => [[['_route' => 'app_logout', '_controller' => 'App\\Controller\\UserController::logout'], null, null, null, false, false, null]],
         ];
         $this->regexpList = [
             0 => '{^(?'
+                    .'|/group/([^/]++)(?'
+                        .'|/edit(*:30)'
+                        .'|(*:37)'
+                    .')'
                     .'|/question/([^/]++)(?'
-                        .'|(*:28)'
-                        .'|/edit(*:40)'
-                        .'|(*:47)'
+                        .'|(*:66)'
+                        .'|/e(?'
+                            .'|xample(*:84)'
+                            .'|dit(*:94)'
+                        .')'
+                        .'|(*:102)'
+                    .')'
+                    .'|/test/([^/]++)(?'
+                        .'|(*:128)'
+                        .'|/(?'
+                            .'|participation/([^/]++)/start(*:168)'
+                            .'|edit(*:180)'
+                        .')'
+                        .'|(*:189)'
                     .')'
                 .')/?$}sDu',
         ];
         $this->dynamicRoutes = [
-            28 => [[['_route' => 'question_show', '_controller' => 'App\\Controller\\QuestionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-            40 => [[['_route' => 'question_edit', '_controller' => 'App\\Controller\\QuestionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-            47 => [[['_route' => 'question_delete', '_controller' => 'App\\Controller\\QuestionController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+            30 => [[['_route' => 'group_edit', '_controller' => 'App\\Controller\\GroupController::edit'], ['id'], ['POST' => 0], null, false, false, null]],
+            37 => [[['_route' => 'group_delete', '_controller' => 'App\\Controller\\GroupController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+            66 => [[['_route' => 'question_show', '_controller' => 'App\\Controller\\QuestionController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+            84 => [[['_route' => 'question_show_example', '_controller' => 'App\\Controller\\QuestionController::showExample'], ['id'], ['GET' => 0], null, false, false, null]],
+            94 => [[['_route' => 'question_edit', '_controller' => 'App\\Controller\\QuestionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            102 => [[['_route' => 'question_delete', '_controller' => 'App\\Controller\\QuestionController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+            128 => [[['_route' => 'test_show', '_controller' => 'App\\Controller\\TestController::show'], ['id'], ['GET' => 0], null, false, true, null]],
+            168 => [[['_route' => 'test_new_start', '_controller' => 'App\\Controller\\TestController::newStart'], ['id', 'testPart'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            180 => [[['_route' => 'test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            189 => [[['_route' => 'test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
         ];
     }
 }

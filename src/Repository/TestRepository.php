@@ -22,6 +22,30 @@ class TestRepository extends ServiceEntityRepository
     // /**
     //  * @return Test[] Returns an array of Test objects
 
+    public function findTestQuestionOrder($test) {
+        return $this->createQueryBuilder('t')
+            ->select('q.id', 'tq.serial_number' , 'q.type', 'q.question_wording')
+            ->join('t.testQuestions', 'tq')
+            ->join('tq.fk_question', 'q')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $test)
+            ->orderBy('tq.serial_number', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findActiveTestByCode($code) {
+
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.is_active = 1')
+            ->andWhere('t.code = :val')
+            ->setParameter('val', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     public function filterAllByNameASC()
     {
         return $this->createQueryBuilder('t')

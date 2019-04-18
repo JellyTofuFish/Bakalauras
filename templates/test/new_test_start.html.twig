@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'question.title.example'|trans }} | ETS{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-5 col-xl-5 mt-25">
+                <form id="slider" method="post" action="{{ path('test_new_start', {'id': test.id, 'testPart': testPart }) }}">
+                    {% for question in data %}
+                    {% if  question['type'] == 'multi' %}
+                    <article id="page_{{ question['serial_number'] }}">
+                        <div class="d-flex my-3">
+                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
+                            <h3> {{ question['question_wording'] }}</h3>
+                        </div>
+                        <div class="container py-3">
+                            <div class="row">
+                                <div class="w-100 mx-5">
+                                {% set anwerNumeber = 0 %}
+                                {% for answer in question['answers'] %}
+                                    {% set anwerNumeber = anwerNumeber +1 %}
+                                        <div class="custom-control custom-checkbox mb-3">
+                                            <input type="checkbox" name="{{ question['questionID']}}[]" class="custom-control-input" id="customCheck{{ anwerNumeber }}" value="{{ answer['answer'] }}">
+                                            <label class="text-unselectable custom-control-label" for="customCheck{{ anwerNumeber }}">{{ answer['answer'] }}</label>
+                                        </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container mt-3">
+                            <div class="row justify-content-between">
+                                <div>
+                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
+                                </div>
+                                <div>
+                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {% elseif question['type'] == 'one' %}
+
+                    <article id="page_{{ question['serial_number'] }}">
+                        <div class="d-flex my-3">
+                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
+                            <h3> {{ question['question_wording'] }}</h3>
+                        </div>
+                        <div class="container py-3">
+                            <div class="row">
+                                <div class="w-100 mx-5">
+                                {% set anwerNumeber = 0 %}
+                                {% for answer in question['answers'] %}
+                                    {% set anwerNumeber = anwerNumeber +1 %}
+                                    <div class="custom-control custom-radio mb-3 ">
+                                        {% if anwerNumeber == 1 %}
+                                        <input type="radio" name="{{ question['questionID'] }}" class="custom-control-input" id="customRadio{{ anwerNumeber }}" value="{{ answer['answer'] }}" required="required">
+                                        {% else %}
+                                        <input type="radio" name="{{ question['questionID'] }}" class="custom-control-input" id="customRadio{{ anwerNumeber }}" value="{{ answer['answer'] }}">
+                                        {% endif %}
+                                        <label class="text-unselectable custom-control-label" for="customRadio{{ anwerNumeber }}">{{ answer['answer'] }}</label>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container mt-3">
+                            <div class="row justify-content-between">
+                                <div>
+                                    <button class="ml-5 btn btn-primary ">{{ 'answer.prev_question'|trans }}</button>
+                                </div>
+                                <div>
+                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {% elseif question['type'] == 'open' %}
+
+                    <article id="page_{{ question['serial_number'] }}">
+                    <div class="d-flex my-3">
+                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
+                            <h3> {{ question['question_wording'] }}</h3>
+                        </div>
+                        <div class="container py-3">
+                            <div class="row">
+                                <div class="w-100 mx-5 mb-3">
+                                    <textarea name="{{ question['questionID'] }}" class="form-control" placeholder="{{ 'answer.placeholder'|trans }}" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container mt-3">
+                            <div class="row justify-content-between">
+                                <div>
+                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
+                                </div>
+                                <div>
+                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    {% elseif question['type'] == 'presentation' %}
+
+                    <article id="page_{{ question['serial_number'] }}">
+                        <div class="d-flex p-3">
+                            <h2> {{ question['question_wording'] }}</h2>
+                        </div>
+
+                        <div class="container mt-3">
+                            <div class="row justify-content-between">
+                                <div>
+                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
+                                </div>
+                                <div>
+                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% endif %}
+                {% endfor %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

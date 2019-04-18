@@ -14,6 +14,7 @@ test:
     description_label: Aprašas
     description_input_placeholder: Įveskite trumpą aprašą apie testą
     code: Kodas
+    code_test_start: 'Kodo pvz.: T-123456'
     created_at_label: Sukūrimo data
     last_activated_label: Paskutinio akyvavimo data
     is_active_label: Testo aktyvumas
@@ -31,15 +32,19 @@ test:
   validation:
     name: Privaloma užpildyti testo pavadinimo laukelį
     date: Privaloma pasirinkti testo pradžios datą
+    code_test_start: Kodas privalo būti 8 simbolių ilgio
   title:
     index: Testų sąrašas
     show: Testo peržiūra
     edit: Testo redagavimas
     new: Testo kūrimas
     delete: Testo trynimas
+    test: Testas
   flash_message:
     test: Norėdami peržiūrėti ar redaguoti testą, pasirinkite testą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
+    warning: Netinkamai įvestas kodas
   delete_message: Ar tikrai norite ištrinti šį testą?
+  test_start_code: Įveskite testo kodą
 
 
 question:
@@ -136,6 +141,7 @@ button:
     show: Testo peržiūra
     edit: Testo redagavimas
     title: Testai
+    test_start_active: Pradėti testą
   login: Prisijungti
   logout: Atsijungti
   edit: Redaguoti

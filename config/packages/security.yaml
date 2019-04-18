@@ -22,7 +22,7 @@ security:
                     - App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                target: home
+                target: home_index
             remember_me:
                 secret:   '%kernel.secret%'
                 lifetime: 1209600 # 2 week in seconds
@@ -39,8 +39,9 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/question$, roles: ROLE_USER }
          - { path: ^/questions$, roles: ROLE_USER }
          - { path: ^/test$, roles: ROLE_USER }
          - { path: ^/tests$, roles: ROLE_USER }
+         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+

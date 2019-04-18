@@ -38,8 +38,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        return 'home' === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        return 'home_index' === $request->attributes->get('_route')
+            && $request->isMethod('POST') && $request->get('email') != null;
     }
 
     public function getCredentials(Request $request)
@@ -90,6 +90,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('home');
+        return $this->urlGenerator->generate('home_index');
     }
 }
