@@ -10,7 +10,6 @@
 // alert(input1.toSource());
 
 import {when} from "q";
-
 var $ = require('jquery');
 require('popper.js/dist/umd/popper.min.js');
 require('bootstrap');
@@ -20,6 +19,7 @@ global.moment = require('moment');
 require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
+require('../images');
 
 // General + bootrstap animations
 
