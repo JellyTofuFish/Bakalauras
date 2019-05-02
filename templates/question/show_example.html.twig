@@ -36,7 +36,7 @@
         {% if data.picture is not empty %}
             {% for PictureA in data.picture %}
                 {% if PictureA.name == '' %}
-                {% set link = 'build/images/' ~ 'Default.png' %}
+                {% set link = 'build/images/' ~ 'Default.jpg' %}
             {% else %}
                 {% set link = 'build/images/' ~ PictureA.name %}
             {% endif %}
@@ -65,7 +65,7 @@
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
-                                {% set link = 'build/images/' ~ 'Default.png' %}
+                                {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ paramPictureA.value %}
                             {% endif %}
@@ -114,7 +114,7 @@
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
-                                {% set link = 'build/images/' ~ 'Default.png' %}
+                                {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ paramPictureA.value %}
                             {% endif %}
@@ -167,7 +167,7 @@
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
-                                {% set link = 'build/images/' ~ 'Default.png' %}
+                                {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ paramPictureA.value %}
                             {% endif %}
@@ -208,7 +208,7 @@
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
-                                {% set link = 'build/images/' ~ 'Default.png' %}
+                                {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ paramPictureA.value %}
                             {% endif %}
