@@ -66,11 +66,20 @@
                 </nav>
 
             </div>
+
+            {% if (route == 'test_index') %}
+            <div class=" bd-toc">
+            {% else %}
             <div class="d-xl-block col-md-2 col-xl-2 bd-toc">
+            {% endif %}
                 {% block admin_right_nav %}
                 {% endblock %}
             </div>
+            {% if (route == 'test_index') %}
+            <div class="col-12 col-md-10 col-xl-10 py-md-3 px-md-5 bd-content">
+            {% else %}
             <div class="col-12 col-md-8 col-xl-8 py-md-3 pl-md-5 bd-content">
+            {% endif %}
                 {% block admin_main %}
                 {% endblock %}
             </div>

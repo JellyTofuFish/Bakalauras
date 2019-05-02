@@ -30,7 +30,7 @@ class AnswerOption
     private $fk_question;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\ParticipantAnswer", inversedBy="fk_answeroption")
+     * @ORM\ManyToMany(targetEntity="App\Entity\ParticipantAnswer", inversedBy="fk_answeroption",cascade={"persist"})
      */
     private $fk_participantanswer;
 

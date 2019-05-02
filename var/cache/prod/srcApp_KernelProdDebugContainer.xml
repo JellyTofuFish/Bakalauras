@@ -2965,7 +2965,7 @@
     </service>
     <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap" public="false">
       <call method="add">
-        <argument type="service" id=".security.request_matcher.SHp9fYw"/>
+        <argument type="service" id=".security.request_matcher.8.Sdjwo"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
@@ -2979,7 +2979,7 @@
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.1BNBTKM"/>
+        <argument type="service" id=".security.request_matcher.eSqmOJG"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
@@ -3480,14 +3480,14 @@
         <argument key="security.firewall.map.context.main" type="service" id="security.firewall.map.context.main"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.SHp9fYw" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
-      <argument>^/question$</argument>
+    <service id=".security.request_matcher.8.Sdjwo" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/question/</argument>
     </service>
     <service id=".security.request_matcher..P9BHf5" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/questions$</argument>
     </service>
-    <service id=".security.request_matcher.1BNBTKM" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
-      <argument>^/test$</argument>
+    <service id=".security.request_matcher.eSqmOJG" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/test/</argument>
     </service>
     <service id=".security.request_matcher.7wnZh02" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/tests$</argument>
@@ -4167,6 +4167,13 @@
         <argument key="question" type="service" id=".errored..service_locator.6R9gNN2.App\Entity\Question"/>
       </argument>
     </service>
+    <service id=".service_locator.Vqvxuhp" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="fileRepository" type="service" id="App\Repository\FileRepository"/>
+        <argument key="question" type="service" id=".errored..service_locator.Vqvxuhp.App\Entity\Question"/>
+      </argument>
+    </service>
     <service id=".service_locator.4pMLaJi" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4180,6 +4187,12 @@
         <argument key="test" type="service" id=".errored..service_locator.SyrymO0.App\Entity\Test"/>
       </argument>
     </service>
+    <service id=".service_locator.P8yJ05j" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="test" type="service" id=".errored..service_locator.P8yJ05j.App\Entity\Test"/>
+      </argument>
+    </service>
     <service id=".service_locator.EVgs.La" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4189,13 +4202,7 @@
         <argument key="testRepository" type="service" id="App\Repository\TestRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.P8yJ05j" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="test" type="service" id=".errored..service_locator.P8yJ05j.App\Entity\Test"/>
-      </argument>
-    </service>
-    <service id=".service_locator.zNe1Txy" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.ulsOgFS" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\GroupController::delete" type="service" id=".service_locator.1OGat4T"/>
@@ -4205,12 +4212,13 @@
         <argument key="App\Controller\QuestionController::edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController::show" type="service" id=".service_locator.6R9gNN2"/>
-        <argument key="App\Controller\QuestionController::showExample" type="service" id=".service_locator.6R9gNN2"/>
+        <argument key="App\Controller\QuestionController::showExample" type="service" id=".service_locator.Vqvxuhp"/>
         <argument key="App\Controller\TestController::delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::edit" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::index" type="service" id=".service_locator.4pMLaJi"/>
         <argument key="App\Controller\TestController::newStart" type="service" id=".service_locator.EVgs.La"/>
         <argument key="App\Controller\TestController::show" type="service" id=".service_locator.SyrymO0"/>
+        <argument key="App\Controller\TestController::showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="group_controller::delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="group_controller::edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\GroupController:delete" type="service" id=".service_locator.1OGat4T"/>
@@ -4220,12 +4228,13 @@
         <argument key="App\Controller\QuestionController:edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController:show" type="service" id=".service_locator.6R9gNN2"/>
-        <argument key="App\Controller\QuestionController:showExample" type="service" id=".service_locator.6R9gNN2"/>
+        <argument key="App\Controller\QuestionController:showExample" type="service" id=".service_locator.Vqvxuhp"/>
         <argument key="App\Controller\TestController:delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:edit" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:index" type="service" id=".service_locator.4pMLaJi"/>
         <argument key="App\Controller\TestController:newStart" type="service" id=".service_locator.EVgs.La"/>
         <argument key="App\Controller\TestController:show" type="service" id=".service_locator.SyrymO0"/>
+        <argument key="App\Controller\TestController:showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="group_controller:delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="group_controller:edit" type="service" id=".service_locator.JEcBMWw"/>
       </argument>
@@ -4577,17 +4586,18 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.zNe1Txy"/>
+      <argument type="service" id=".service_locator.ulsOgFS"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id=".errored..service_locator.JEcBMWw.App\Entity\GroupList" class="App\Entity\GroupList"/>
     <service id=".errored..service_locator.1OGat4T.App\Entity\GroupList" class="App\Entity\GroupList"/>
     <service id=".errored..service_locator.6R9gNN2.App\Entity\Question" class="App\Entity\Question"/>
+    <service id=".errored..service_locator.Vqvxuhp.App\Entity\Question" class="App\Entity\Question"/>
     <service id=".errored..service_locator.SyrymO0.App\Entity\Test" class="App\Entity\Test"/>
+    <service id=".errored..service_locator.P8yJ05j.App\Entity\Test" class="App\Entity\Test"/>
     <service id=".errored..service_locator.EVgs.La.App\Entity\TestParticipation" class="App\Entity\TestParticipation"/>
     <service id=".errored..service_locator.EVgs.La.App\Entity\Test" class="App\Entity\Test"/>
-    <service id=".errored..service_locator.P8yJ05j.App\Entity\Test" class="App\Entity\Test"/>
     <service id=".service_locator.HKoUR8q" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4839,7 +4849,7 @@
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger" public="false"/>
     <service id="fos_js_routing.router" alias="router.default" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.zNe1Txy"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.ulsOgFS"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".service_locator.tSKDlY7" alias=".1_ServiceLocator~n2lsigk" public="false"/>

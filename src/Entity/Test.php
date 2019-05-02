@@ -54,12 +54,14 @@ class Test
     private $test_end;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TestAttribute", mappedBy="fk_test", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\TestAttribute", mappedBy="fk_test")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $testAttributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TestParticipation", mappedBy="fk_test", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\TestParticipation", mappedBy="fk_test")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $testParticipations;
 
@@ -70,20 +72,22 @@ class Test
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_test", orphanRemoval=true, cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $testQuestions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="tests")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tests")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $users;
+    private $fk_user;
+
 
     public function __construct()
     {
         $this->testAttributes = new ArrayCollection();
         $this->testParticipations = new ArrayCollection();
         $this->testQuestions = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,30 +284,14 @@ class Test
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
+    public function getFkUser(): ?User
     {
-        return $this->users;
+        return $this->fk_user;
     }
 
-    public function addUser(User $user): self
+    public function setFkUser(?User $fk_user): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addTest($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeTest($this);
-        }
+        $this->fk_user = $fk_user;
 
         return $this;
     }

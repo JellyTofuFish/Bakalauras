@@ -3,14 +3,17 @@
 {% block title %} {{ 'question.title.example'|trans }} | ETS{% endblock %}
 
 {% block body %}
-
+    <input class="display-hidden test-slug" data-action="{{ 'test participation' }}">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12 col-md-5 col-xl-5 mt-25">
                 <form id="slider" method="post" action="{{ path('test_new_start', {'id': test.id, 'testPart': testPart }) }}">
+
                     {% for question in data %}
+
                     {% if  question['type'] == 'multi' %}
-                    <article id="page_{{ question['serial_number'] }}">
+
+                    <article class="hide" id="page_{{ question['serial_number'] }}">
                         <div class="d-flex my-3">
                             <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
                             <h3> {{ question['question_wording'] }}</h3>
@@ -32,10 +35,10 @@
                         <div class="container mt-3">
                             <div class="row justify-content-between">
                                 <div>
-                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
+                                    <button class="ml-5 btn">{{ 'answer.prev_question'|trans }}</button>
                                 </div>
                                 <div>
-                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
+                                    <button class="next mr-5 btn">{{ 'answer.next_question'|trans }}</button>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +46,7 @@
 
                     {% elseif question['type'] == 'one' %}
 
-                    <article id="page_{{ question['serial_number'] }}">
+                    <article class="hide" id="page_{{ question['serial_number'] }}">
                         <div class="d-flex my-3">
                             <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
                             <h3> {{ question['question_wording'] }}</h3>
@@ -80,7 +83,7 @@
 
                     {% elseif question['type'] == 'open' %}
 
-                    <article id="page_{{ question['serial_number'] }}">
+                    <article class="hide" id="page_{{ question['serial_number'] }}">
                     <div class="d-flex my-3">
                             <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
                             <h3> {{ question['question_wording'] }}</h3>
@@ -106,7 +109,7 @@
 
                     {% elseif question['type'] == 'presentation' %}
 
-                    <article id="page_{{ question['serial_number'] }}">
+                    <article class="hide" id="page_{{ question['serial_number'] }}">
                         <div class="d-flex p-3">
                             <h2> {{ question['question_wording'] }}</h2>
                         </div>

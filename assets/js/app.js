@@ -121,7 +121,7 @@ function questionAjaxPost(form, url, redi = false) {
     })
     .done(function (data) {
         if ( redi ) {
-            let origin   = window.location.origin;
+            let origin  = window.location.origin;
             let link = origin + "/question/" + data.id;
             window.location.replace(link);
         }
@@ -161,6 +161,18 @@ $('.questionTypeRemove').click(function( event ) {
     $(this).hide(0).prev().fadeIn('fast');
 });
 $('.questionSave').click(function( event ) {
+    event.preventDefault();
+    if (form[0].checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    else {
+        $('[disabled]').removeAttr('disabled');
+        questionAjaxPost(form, $(this).data('link'), true);
+    }
+    form.addClass('was-validated');
+});
+$('.questionEditSave').click(function( event ) {
     event.preventDefault();
     if (form[0].checkValidity() === false) {
         event.preventDefault();
@@ -262,36 +274,401 @@ $("#test_is_active").click(function (event) {
     }
 });
 
-// Test start functions
-let formArticle = $('#slider');
-$("article:last").find("button.next").hide().parent().append('<button type="submit" class="submit mr-5 btn btn-danger">Baigti testą</button>')
+// Question example functions
+
+let timeoutDisplayTime;
+if ($('input.test-slug').data('action') === 'question example') {
+
+    // Question example color attribute options
+    $("a.paramButtonColor").on("click", function(e) {
+        e.preventDefault();
+        let attribute = $(this).data('attribute');
+        setButtonColor(attribute);
+    });
+    $("a.paramBackgroundColor").on("click", function(e) {
+        e.preventDefault();
+        let attribute = $(this).data('attribute');
+        setBackgroundColor(attribute);
+    });
+    // Question example time attribute options
+    $("a.paramTime").on("click", function(e) {
+        e.preventDefault();
+        let attribute = $(this).data('attribute');
+        let totalSeconds = 0; i = 0;
+        $('div.paramTime').show().find('div.time-font').each(function() {
+            if ($(this).find('span').data('target') === attribute) {
+                i = setTime(totalSeconds, $(this).find('span.chronometer'), i, $(this).find('span').data('attribute'), null);
+                i++;
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    });
+    // Question example display time attribute options
+    $("a.paramDisplayTime").on("click", function(e) {
+        e.preventDefault();
+        let attribute = $(this).data('attribute'), j;
+        $('div.paramDisplayTime').find('div.paramDT').each(function() {
+            let element = $(this);
+            let attributeDisplayTime = $(this).data('attribute');
+            let attributeDisplayTimeArray = attributeDisplayTime.split(":");
+
+            if (attributeDisplayTime === attribute) {
+                if (attributeDisplayTimeArray[1] === '1') {
+                    $(element).hide();
+                    timeoutDisplayTime = setTimeout(function(){
+                        $(element).fadeIn();
+                    }, attributeDisplayTimeArray[0] * 1000);
+
+                }
+                if (attributeDisplayTimeArray[1] === '0') {
+                    $(element).show().find('button').prop('disabled', true);
+                    for (j = 0; j <= i; j++) {
+                        clearTimeout(timeoutDisplayTime);
+                    }
+                    setTimeout(function(){
+                        $(element).find('button').prop('disabled', false);
+                    }, attributeDisplayTimeArray[0] * 1000);
+                }
+            }
+            else {
+                $(element).hide();
+            }
+        });
+    });
+    // Question example picture attribute options
+    $("a.paramPicture").on("click", function(e) {
+        e.preventDefault();
+        let attribute = $(this).data('attribute');
+        $('div.paramPicture').find('div.paramP').each(function() {
+            let attributePicture = $(this).data('attribute');
+            if (attributePicture === attribute) {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    });
+}
+
+// Test start execute
+
+if ($('input.test-slug').data('action') === 'test participation' ) {
+    $("article.test:last").find("button.next").hide().parent().append('<button type="submit" class="submit float-right btn btn-danger">Baigti testą</button>');
+}
+else {
+    $("article.test:last").find("button.next").hide().parent().append('<button class="example-end float-right btn btn-danger">Baigti testą</button>');
+}
+//hide the first button labeled previous
+$("article.test:first").find("button.prev").hide();
 //hide every form section except first
 $("article:nth-child(1n+2)").hide();
 //add class of visible to first screen
-$("article:first").addClass("visible");
+$("article:first").show();
 
-$("button.next").on("click", function(e){
+// check if delay was executed
+let displayWasPressed = {};
+var totalSeconds, i = 0;
+let paramTimeQArray = {};
+let SetTQ;
+
+if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
+// test start color attribute execute
+    setButtonColor($("article.test:first").find('input.paramButtonColor').data('attribute'));
+    setBackgroundColor($("article.test:first").find('input.paramBackgroundColor').data('attribute'));
+// test start file display execute
+    findFile($("article.test:first").find('input.File').data('attribute'));
+    $("article.test:first").find('.paramP').show();
+// test start time attribute execute
+    $('div.paramTime').find('span.timer').each(function () {
+        let timerInput = $(this).data('attribute');
+        let timeAttribute = $(this).data('target').split(':');
+        i = startTimer(timeAttribute[0], $(this), i, timerInput);
+        i++;
+    });
+    i = 0;
+    $('div.paramTime').find('span.chronometer').each(function () {
+        totalSeconds = 0;
+        let chronometerInput = $(this).data('attribute');
+        let chronometerAttribute = $(this).data('target').split(':');
+        i = setTime(totalSeconds, $(this), i, chronometerAttribute[0], chronometerInput);
+        i++;
+    });
+// test start time attribute execute
+    let paramTimeQInput = $("article.test:first").find('.paramTimeQ').data('attribute');
+    if (typeof paramTimeQInput !== 'undefined') {
+        SetTQ = setTimeQ(paramTimeQInput);
+    }
+}
+// test validation ( pressed next question )
+$("button.next").on("click", function(e) {
     e.preventDefault();
-    $(this).closest("article").removeClass("visible").hide().next().addClass("visible").fadeIn();
+    let container = $(this).closest(".container").parent().prev();
+    let checkbox_required = $(container).find('.custom-checkbox').data('action');
+    let checked = validateQuestion(container);
+    if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
+        addValidation(container);
+    }
+    else {
+        $(this).closest("article.test").removeClass("visible").hide().next().addClass("visible").fadeIn();
+        // test start button and background color attribute execute
+        setButtonColor($(this).closest("article.test").next().find('input.paramButtonColor').data('attribute'));
+        setBackgroundColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
+        // test start picture attribute execute
+        $(this).closest("article.test").find('.paramP').hide();
+        $(this).closest("article.test").next().find('.paramP').fadeIn(0);
+        // test start file execute
+        findFile($(this).closest("article.test").next().find('input.File').data('attribute'));
+        // test start question time attribute execute
+        clearTimeout(SetTQ);
+        let paramTimeQInput = $(this).closest("article.test").next().find('input.paramTimeQ').data('attribute');
+        if (typeof paramTimeQInput !== 'undefined') {
+            SetTQ = setTimeQ(paramTimeQInput);
+        }
+        // test start display time attribute execute
+        let displayTime = $(this).closest("article.test").next().find('div.paramDT');
+        if (typeof (displayWasPressed[displayTime.data('attribute')]) === 'undefined' ) {
+            startDisplayTime(displayTime);
+            displayWasPressed[displayTime.data('attribute')] = false;
+        }
+    }
+    removeValidation(container);
 });
-// $("button.submit").on("click", function(e){
-//     e.preventDefault();
-//     $.ajax({
-//         type: formArticle.attr('method'),
-//         url: formArticle.attr('action'),
-//         data: formArticle.serialize(),
-//         success:function(data){
-//
-//             // handling the response data from the controller
-//             if(data.status == 'error'){
-//                 alert("[API] ERROR: "+data);
-//             }
-//             if(data.status == 'success'){
-//                 alert("[API] SUCCESS: "+data);
-//             }
-//         }
-//     });
-// });
+// test validation ( pressed previous question )
+$("button.prev").on("click", function(e) {
+    e.preventDefault();
+    let container = $(this).closest(".container").parent().prev();
+    let checkbox_required = $(container).find('.custom-checkbox').data('action');
+    let checked = validateQuestion(container);
+    if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
+        addValidation(container);
+    }
+    else {
+        $(this).closest("article.test").removeClass("visible").hide().prev().addClass("visible").fadeIn();
+        // test start button and background color attribute execute
+        setButtonColor($(this).closest("article.test").prev().find('input.paramButtonColor').data('attribute'));
+        setBackgroundColor($(this).closest("article.test").prev().find('input.paramBackgroundColor').data('attribute'));
+        // test start picture attribute execute
+        $(this).closest("article.test").find('.paramP').hide();
+        $(this).closest("article.test").prev().find('.paramP').fadeIn(0);
+        // test start file execute
+        findFile($(this).closest("article.test").prev().find('input.File').data('attribute'));
+        // test start question time attribute execute
+        clearTimeout(SetTQ);
+        let paramTimeQInput = $(this).closest("article.test").prev().find('input.paramTimeQ').data('attribute');
+        if (typeof paramTimeQInput !== 'undefined') {
+            SetTQ = setTimeQ(paramTimeQInput);
+        }
+    }
+    removeValidation(container);
+});
+$("button.example-end").on("click", function(e) {
+    e.preventDefault();
+    let container = $(this).closest(".container").parent().prev();
+    let checked = validateQuestion(container);
+    clearInterval(i);
+    if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
+        addValidation(container);
+    }
+    removeValidation(container);
+});
+
+// test start functions
+
+// add test validation to required fields
+function addValidation(container) {
+    $(container).find('input').each(function () {
+        $(this).addClass('is-invalid');
+    });
+    $(container).find('textarea').addClass('is-invalid');
+    $(container).find('.invalid-feedback').show();
+}
+// remove test validation from selected fields
+function removeValidation(container) {
+    $(container).find('input').on("click", function(){
+        $(container).find('input').each(function () {
+            $(this).removeClass('is-invalid');
+            $(container).find('.invalid-feedback').hide();
+        });
+    });
+    $(container).find('textarea').on("click", function(){
+        $(this).removeClass('is-invalid');
+        $(container).find('.invalid-feedback').hide();
+    });
+}
+// validate required test fields
+function validateQuestion(container) {
+    let required = false;
+    let selected = false;
+    // check if property required is set on inputs
+    $(container).find('input').each(function() {
+        if ($(this)[0].type === 'radio' ) {
+            if ($(this).prop('required')) {
+                required = true;
+            }
+        }
+        if($(this).is(':checked')){
+            selected = true;
+        }
+    });
+    // check if property required is set on textarea
+    if ($(container).find('textarea').prop('required')) {
+        required = true;
+        if ($(container).find('textarea').val().trim().length > 0) {
+            selected = true;
+        }
+    }
+    return [selected, required];
+}
+// color attributes
+function setButtonColor(attribute){
+    let color = getContrastYIQ(attribute.substring(1));
+    $('.buttonColor').css( "background-color", attribute).css( "border-color", attribute).css( "color", color);
+}
+function setBackgroundColor(attribute){
+    $('body').css( "background-color", attribute);
+    let color = getContrastYIQ(attribute.substring(1));
+    $('.backgroundColor').css( "color", color ).css( "border-color", color);
+}
+// color contrasts
+function getContrastYIQ(hexcolor){
+    var r = parseInt(hexcolor.substr(0,2),16);
+    var g = parseInt(hexcolor.substr(2,2),16);
+    var b = parseInt(hexcolor.substr(4,2),16);
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return (yiq >= 128) ? 'black' : 'white';
+}
+// chronometer
+function setTime(time, elem, i, chronometerTime, input, minutes = 0, seconds = 0, hours = 0 ) {
+    let string = "00:00:00";
+    if (elem !==null) {
+        $(elem).html(string);
+    }
+    i = setInterval(function() {
+        ++time;
+        seconds = parseInt((time % 60), 10);
+        minutes = parseInt(((time / 60) % 60), 10);
+        hours = parseInt(((time / 3600) % 60), 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        hours = hours < 10 ? "0" + hours : hours;
+
+        let string = hours + ":" + minutes + ":" + seconds;
+        if (input !==null) {
+            document.getElementById(input).value = time;
+        }
+        if (elem !==null) {
+            $(elem).html(string);
+        }
+        if (time >= chronometerTime && chronometerTime !== 0) {
+            if ($('input.test-slug').data('action') === 'test participation' ) {
+                clearInterval(i);
+
+            } else {
+                clearInterval(i);
+            }
+        }
+    },1000);
+    return i;
+}
+// timer
+function startTimer(time, elem, i, input, minutes = 0, seconds = 0, hours = 0) {
+    minutes = parseInt(time / 60, 10);
+    seconds = parseInt(time % 60, 10);
+    hours = parseInt(time / 3600, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    hours = hours < 10 ? "0" + hours : hours;
+
+    let string = hours + ":" + minutes + ":" + seconds;
+    if (elem !==null) {
+        $(elem).html(string);
+    }
+
+    i = setInterval(function() {
+        minutes = parseInt(time / 60, 10);
+        seconds = parseInt(time % 60, 10);
+        hours = parseInt(time / 3600, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        hours = hours < 10 ? "0" + hours : hours;
+
+        let string = hours + ":" + minutes + ":" + seconds;
+
+        if (input !==null) {
+            document.getElementById(input).value = time;
+        }
+        if (elem !==null) {
+            $(elem).html(string);
+        }
+        if (--time < 0) {
+            if ($('input.test-slug').data('action') === 'test participation' ) {
+                clearInterval(i);
+
+            } else {
+                clearInterval(i);
+            }
+        }
+    },1000);
+    return i;
+}
+// Question time chronometer
+function setTimeQ(input) {
+    let seconds=0, minutes=0, time;
+    if (typeof paramTimeQArray[input] === 'undefined') {
+        time = 0;
+    }
+    else {
+        time = paramTimeQArray[input];
+    }
+    SetTQ = setInterval(function() {
+        ++time;
+        seconds = parseInt((time % 60), 10);
+        minutes = parseInt(((time / 60) % 60), 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        document.getElementById(input).value = time;
+        paramTimeQArray[input] = time;
+    },1000);
+    return SetTQ;
+}
+// start display time attributes
+function startDisplayTime(element) {
+    let attributeDisplayTimeArray = $(element).data('attribute').split(":");
+    if (attributeDisplayTimeArray[1] === '1') {
+        $(element).hide();
+        timeoutDisplayTime = setTimeout(function () {
+            $(element).fadeIn();
+        }, attributeDisplayTimeArray[0] * 1000);
+
+    }
+    if (attributeDisplayTimeArray[1] === '0') {
+        $(element).show().find('button').prop('disabled', true);
+        setTimeout(function () {
+            $(element).find('button').prop('disabled', false);
+        }, attributeDisplayTimeArray[0] * 1000);
+    }
+}
+function findFile(FileArticle) {
+    $('div.FileList').find('div.File').each(function() {
+        let File = $(this).data('attribute');
+        if (FileArticle === File) {
+            $(this).fadeIn(0);
+        }
+        else {
+            $(this).hide();
+        }
+    });
+}
+
 // Collection of test answer forms
 
 var $collectionHolder;
@@ -334,7 +711,7 @@ function addAnswerForm($collectionHolder, $newLinkLi) {
 
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + '</label>' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
             '<div class="col-sm-10 mb-3">' +
             '<div class="d-flex">' + input +
             '</div>' +
@@ -394,7 +771,7 @@ function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
 
     var $newFormLi2 =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + '</label>' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' Nr.' + number + '*' + '</label>' +
             '<div class="col-sm-10 mb-3">' +
             '<div class="d-flex">' + select +
             '</div>' +

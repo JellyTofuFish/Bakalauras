@@ -52,14 +52,14 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_user", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
      */
     private $questions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Test", inversedBy="users")
+     * @ORM\OneToMany(targetEntity="App\Entity\Test", mappedBy="fk_user", cascade={"persist"})
      */
     private $tests;
+
 
     public function __construct()
     {
@@ -224,6 +224,7 @@ class User implements UserInterface
     {
         if (!$this->tests->contains($test)) {
             $this->tests[] = $test;
+            $test->setFkUser($this);
         }
 
         return $this;
@@ -233,6 +234,10 @@ class User implements UserInterface
     {
         if ($this->tests->contains($test)) {
             $this->tests->removeElement($test);
+            // set the owning side to null (unless already changed)
+            if ($test->getFkUser() === $this) {
+                $test->setFkUser(null);
+            }
         }
 
         return $this;

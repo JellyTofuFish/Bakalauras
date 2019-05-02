@@ -7,30 +7,45 @@
 
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-8 col-md-3 col-xl-3 mt-25 text-center">
-
+            <div class="col-md-5 col-xl-5 mt-25 text-center">
                 <h1 class="mb-5 text-primary">{{ 'test.test_start_code'|trans }}:</h1>
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="mx-auto w-75 alert alert-{{ label }}">
-                            <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <span class='alert-message'>{{ message|trans }}</span>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                {{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'' }}) }}
-                <div class="form-group mx-auto w-75">
-                    {{ form_widget(form.code, { 'attr': {'class':'form-control'} }) }}
-                    <div class="invalid-feedback ">
-                        {{ 'test.validation.code_test_start'|trans }}
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-outline-primary">{{ 'button.test.test_start_active'|trans }} ></button>
-                {{ form_end(form) }}
             </div>
         </div>
+        {% if app.request.get('done') is not null %}
+            <div class="row justify-content-center">
+                <div class="col-md-3 col-xl-3 text-center">
+                    <div class="d-flex justify-content-center">
+                        <p class="h4 p-form text-success pr-2 pl-0 pointer-default">{{ 'test.finish_message'|trans }}</p>
+                        <i class="px-0 pt-2 text-success p-form fa fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-3 col-xl-3 text-center">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="mx-auto w-75 alert alert-{{ label }}">
+                                <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <span class='alert-message'>{{ message|trans }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'' }}) }}
+                    <div class="form-group mx-auto w-75">
+                        {{ form_widget(form.code, { 'attr': {'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'test.validation.code_test_start'|trans }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">{{ 'button.test.test_start_active'|trans }} ></button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+
+        {% endif %}
     </div>
 
 

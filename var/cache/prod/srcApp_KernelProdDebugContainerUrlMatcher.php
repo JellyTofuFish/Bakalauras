@@ -42,10 +42,13 @@ class srcApp_KernelProdDebugContainerUrlMatcher extends Symfony\Bundle\Framework
                     .'|/test/([^/]++)(?'
                         .'|(*:128)'
                         .'|/(?'
-                            .'|participation/([^/]++)/start(*:168)'
-                            .'|edit(*:180)'
+                            .'|e(?'
+                                .'|xample(*:150)'
+                                .'|dit(*:161)'
+                            .')'
+                            .'|participation/([^/]++)/start(*:198)'
                         .')'
-                        .'|(*:189)'
+                        .'|(*:207)'
                     .')'
                 .')/?$}sDu',
         ];
@@ -57,9 +60,10 @@ class srcApp_KernelProdDebugContainerUrlMatcher extends Symfony\Bundle\Framework
             94 => [[['_route' => 'question_edit', '_controller' => 'App\\Controller\\QuestionController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
             102 => [[['_route' => 'question_delete', '_controller' => 'App\\Controller\\QuestionController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
             128 => [[['_route' => 'test_show', '_controller' => 'App\\Controller\\TestController::show'], ['id'], ['GET' => 0], null, false, true, null]],
-            168 => [[['_route' => 'test_new_start', '_controller' => 'App\\Controller\\TestController::newStart'], ['id', 'testPart'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-            180 => [[['_route' => 'test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
-            189 => [[['_route' => 'test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
+            150 => [[['_route' => 'show_test_example', '_controller' => 'App\\Controller\\TestController::showExample'], ['id'], ['GET' => 0], null, false, false, null]],
+            161 => [[['_route' => 'test_edit', '_controller' => 'App\\Controller\\TestController::edit'], ['id'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            198 => [[['_route' => 'test_new_start', '_controller' => 'App\\Controller\\TestController::newStart'], ['id', 'testPart'], ['GET' => 0, 'POST' => 1], null, false, false, null]],
+            207 => [[['_route' => 'test_delete', '_controller' => 'App\\Controller\\TestController::delete'], ['id'], ['DELETE' => 0], null, false, true, null]],
         ];
     }
 }

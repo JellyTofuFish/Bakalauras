@@ -35,7 +35,7 @@ class Question
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="fk_question")
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="fk_question", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $files;
@@ -59,7 +59,7 @@ class Question
     private $participantAnswers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionAttribute", mappedBy="fk_question", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\QuestionAttribute", mappedBy="fk_question")
      * @ORM\JoinColumn(nullable=true)
      */
     private $questionAttributes;
@@ -77,9 +77,13 @@ class Question
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="questions")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_user;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $required = false;
 
     public function __construct( )
     {
@@ -328,6 +332,18 @@ class Question
     public function setFkUser(?User $fk_user): self
     {
         $this->fk_user = $fk_user;
+
+        return $this;
+    }
+
+    public function getRequired(): ?bool
+    {
+        return $this->required;
+    }
+
+    public function setRequired(bool $required): self
+    {
+        $this->required = $required;
 
         return $this;
     }

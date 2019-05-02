@@ -16,8 +16,7 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
         $test->setCode('XXXXX');
         $test->setTestStart(new \DateTime('now'));
         $test->setCreatedAt();
-        $test->addUser($this->getReference('user1'));
-        $test->addUser($this->getReference('user2'));
+        $test->setFkUser($this->getReference('user1'));
         $this->addReference('test2',$test );
         $manager->persist($test);
 
@@ -28,7 +27,7 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
         $test1->setTestStart(new \DateTime('now'));
         $test1->setIsActive(true);
         $test1->setCreatedAt();
-        $test1->addUser($this->getReference('user1'));
+        $test1->setFkUser($this->getReference('user1'));
         $this->addReference('test1',$test1 );
         $manager->persist($test1);
 

@@ -74,10 +74,10 @@
                             </p>
                         </td>
                         <td>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="px-1" href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="px-1" href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
-                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}" class="px-1" href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" class="px-1" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="pr-2-5 py-2" href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="pr-2-5 py-2" href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}" class="pr-2-5 py-2" href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" class="pr-2-5 py-2" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
 
 
                             <div class="modal fade" id="questionModal{{ question.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
@@ -101,7 +101,7 @@
                     </tr>
 
             {% else %}
-                <tr>
+                <tr class="text-center">
                     <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
                 </tr>
             {% endfor %}

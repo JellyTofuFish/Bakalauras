@@ -25,13 +25,13 @@ class QuestionAttribute
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Attribute", inversedBy="questionAttributes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_attribute;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="questionAttributes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_question;
 

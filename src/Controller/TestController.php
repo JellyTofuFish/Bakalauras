@@ -2,12 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\AnswerOption;
+use App\Entity\File;
 use App\Entity\ParticipantAnswer;
 use App\Entity\Question;
+use App\Entity\QuestionAttribute;
 use App\Entity\Test;
+use App\Entity\TestAttribute;
 use App\Entity\TestParticipation;
 use App\Entity\TestQuestion;
 use App\Form\TestType;
+use App\Repository\FileRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\TestQuestionRepository;
 use App\Repository\TestRepository;
@@ -123,6 +128,7 @@ class TestController extends AbstractController
     public function new(Request $request): Response
     {
         $test = new Test();
+        $test->setFkUser($this->getUser());
         $test->setCode($this->generateRandomString(6));
         $test->setCreatedAt();
 
@@ -170,14 +176,99 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("test/{id}/participation/{testPart}/start", name="test_new_start", methods={"GET","POST"})
+     * @Route("/test/{id}/example", name="show_test_example", methods={"GET"})
+     */
+    public function showExample(Test $test): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
+        $this->arrayTest = [[]];
+        $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
+
+        $backgroundT = $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test->getId());
+        if ($backgroundT != null) {
+            $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
+        }
+        else {
+            $backgroundTRandom = null;
+        }
+        $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
+        if ($buttonColorT != null) {
+            $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
+        }
+        else {
+            $buttonColorTRandom = null;
+        }
+        $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
+        if ($picturesT != null) {
+            $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
+        }
+        else {
+            $picturesTRandom = null;
+        }
+        $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
+        if ($timeT != null) {
+            $timeTRandom = $timeT[array_rand($timeT, 1)];
+        }
+        else {
+            $timeTRandom = '';
+        }
+
+        foreach ($questionOrder as $question){
+            $this->setDataTest($question['serial_number']-1, 'question', $question);
+            $this->setDataTest($question['serial_number']-1, 'answers', $entityManager->getRepository(Question::class)->findQuestionAnswers($question['id']));
+
+            if ($backgroundT != null) { $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundTRandom); }
+            else {
+                $backgroundQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($question['id']);
+                if ($backgroundQ != null) { $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundQ[array_rand($backgroundQ, 1)]); }
+                else { $this->setDataTest($question['serial_number']-1, 'paramBackground', ['value' => '#FFFFFF']); }
+            }
+
+            if ($buttonColorT != null) { $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorTRandom); }
+            else {
+                $buttonColorQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($question['id']);
+                if ($buttonColorQ != null) { $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorQ[array_rand($buttonColorQ, 1)]); }
+                else { $this->setDataTest($question['serial_number']-1, 'paramButton', ['value' => '#007bff']);  }
+            }
+
+            $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
+            if ($displayTimeQ != null) { $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', $displayTimeQ[array_rand($displayTimeQ, 1)]); }
+            else { $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', []);  }
+
+            $pictureQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
+            if ($pictureQ != null) { $this->setDataTest($question['serial_number']-1, 'picture', $pictureQ[array_rand($pictureQ, 1)]); }
+            else { $this->setDataTest($question['serial_number']-1, 'picture', []);  }
+
+            if ($picturesT != null) { $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesTRandom); }
+            else {
+                $picturesQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByPicture($question['id']);
+                if ($picturesQ != null) { $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesQ[array_rand($picturesQ, 1)]); }
+                else { $this->setDataTest($question['serial_number']-1, 'paramPictures', []);  }
+            }
+
+            $timeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($question['id']);
+            if ($timeQ != null) { $this->setDataTest($question['serial_number']-1, 'paramTimeQ', $timeQ[array_rand($timeQ, 1)]); }
+            else { $this->setDataTest($question['serial_number']-1, 'paramTimeQ', []);  }
+        }
+        return $this->render('test/show_example.html.twig', [
+            'data_test' => $this->arrayTest,
+            'paramTimeT' => $timeTRandom
+        ]);
+    }
+
+    /**
+     * @Route("participation/{testPart}/test/{id}", name="test_new_start", methods={"GET","POST"})
      * @Entity("participation", expr="repository.find(testPart)")
      */
     public function newStart(Request $request, Test $test, TestParticipation $participation, TestRepository $testRepository, QuestionRepository $questionRepository): Response
     {
-        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+        if (null === $Test = $testRepository->find($test->getId())) {
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
+        $this->arrayTest = [[]];
         $questionOrder = $testRepository->findTestQuestionOrder($Test);
         foreach ($questionOrder as $question){
             $this->setDataTest($question['serial_number']-1, 'serial_number', $question['serial_number']);
@@ -190,33 +281,42 @@ class TestController extends AbstractController
         if ($request->isMethod('POST')){
             $entityManager = $this->getDoctrine()->getManager();
 
-            if (null === $part = $this->getDoctrine()->getManager()->getRepository(TestParticipation::class)->find($participation->getId())) {
+            if (null === $part = $entityManager->getRepository(TestParticipation::class)->find($participation->getId())) {
                 throw $this->createNotFoundException('No participation for id '.$participation->getId());
             }
             $part->setTestEndedAt(new \DateTime('now'));
             $part->setIsTestOver(1);
             $entityManager->persist($part);
             $entityManager->flush();
-//            foreach ($_POST as $key => $value ){
-//                $participantAnswer = new ParticipantAnswer();
-//                $question = $this->getDoctrine()->getManager()->getRepository(Question::class)->findOneBy(['id'=>$key]);
-//                if ($question->getType() == "open") {
-//                    $participantAnswer->setFkQuestion($question);
-//                    $participantAnswer->setAnswer($key);
-//                }
-//                else if ($question->getType() == "multi" or $question->getType() == "one"){
-//                    foreach ($value as $key => $value){
-//                        $participantAnswer->addFkAnsweroption();
-//                    }
-//                }
-//                $participantAnswer->setFkTestParticipation($part);
-//            }
-            return $this->redirectToRoute('home_index');
+            foreach ($_POST as $key => $value ){
+                $participantAnswer = new ParticipantAnswer();
+                $participantAnswer->setFkTestParticipation($part);
+                $question = $entityManager->getRepository(Question::class)->findOneBy(['id'=>$key]);
+                if ($question->getType() == "open") {
+                    $participantAnswer->setFkQuestion($question);
+                    $participantAnswer->setAnswer($value);
+                }
+                if ( $question->getType() == "one"){
+                    $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer'=>$value]);
+                    $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                }
+                if ($question->getType() == "multi"){
+                    foreach ($value as $value1){
+                        $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer'=>$value1]);
+                        $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                    }
+                }
+            }
+            $entityManager->persist($participantAnswer);
+            $entityManager->flush();
+            return $this->redirectToRoute('home_index', [
+                'done' => 'true',
+            ]);
         }
-        return $this->render('test/new_test_start.html.twig', [
+        return $this->render('test/new_participation.html.twig', [
             'test' => $test,
             'data' => $this->arrayTest,
-            'testPart' => $participation->getId()
+            'testPart' => $participation->getId(),
         ]);
     }
 
@@ -229,10 +329,9 @@ class TestController extends AbstractController
         if (null === $Test = $entityManager->getRepository(Test::class)->find($test->getId())) {
             throw $this->createNotFoundException('Nerastas testas pagal id '.$test->getId());
         }
-        $entityManager = $this->getDoctrine()->getManager();
+
         $form = $this->createForm(TestType::class, $Test);
         $form->handleRequest($request);
-
         $testQuestions = $Test->getTestQuestions();
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -263,11 +362,33 @@ class TestController extends AbstractController
      */
     public function delete(Request $request, Test $test): Response
     {
-        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $Test = $entityManager->getRepository(Test::class)->find($test->getId())) {
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
         if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+            $questions = $Test->getTestQuestions();
+            foreach ($questions as $q) {
+                $q->getFkTest()->removeTestQuestion($q);
+                $entityManager->persist($q);
+                $entityManager->flush();
+            }
+
+            $Tattribute = $Test->getTestAttributes();
+            foreach ($Tattribute as $ta) {
+                $ta->setFkTest(null);
+                $entityManager->persist($ta);
+                $entityManager->flush();
+            }
+
+            $testPart = $Test->getTestParticipations();
+            foreach ($testPart as $tp) {
+                $tp->setFkTest(null);
+                $entityManager->persist($tp);
+                $entityManager->flush();
+            }
+
             $entityManager->remove($test);
             $entityManager->flush();
         }

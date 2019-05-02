@@ -40,7 +40,7 @@ class TestParticipation
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testParticipations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_test;
 

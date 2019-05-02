@@ -21,8 +21,11 @@ h2 button, h2 {
 }
 h3 {
     font-family: 'Dosis', sans-serif;
-    font-size: 2rem !important;
+    font-size: 1.85rem !important;
     font-weight: normal;
+    text-overflow: ellipsis;
+    width: auto;
+    overflow:hidden;
 }
 p {
     text-overflow: ellipsis;
@@ -40,11 +43,22 @@ body {
     text-align: left;
     background-color: #fff;
 }
-.mt-15 {
-    margin-top: 15vh;
+.wrap {
+    display:block;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+.vh-file {
+    height: 33vh;
+    max-height: 33vh;
+    min-height: 33vh;
 }
 .mt-25 {
     margin-top: 25vh;
+}
+.mt-15 {
+    margin-top: 15vh;
 }
 .mt-10 {
     margin-top: 10vh;
@@ -57,6 +71,9 @@ body {
 }
 .w-12 {
     width: 12%;
+}
+.pr-2-5 {
+    padding-right: 0.7rem !important;
 }
 .table-index {
     table-layout: fixed;
@@ -130,7 +147,15 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
-
+.time-font {
+    font-size: 1.2rem;
+}
+.timer, .time {
+    letter-spacing: 0.02rem;
+}
+.border-dark-ni{
+    border-color: #343a40;
+}
 /*top navbar*/
 
 .bd-navbar {

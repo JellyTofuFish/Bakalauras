@@ -20,7 +20,7 @@ class TestType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label'=> 'test.form.test_name_label',
-                'attr' => ['placeholder' => 'test.form.test_input_placeholder'],
+                'attr' => ['placeholder' => 'test.form.test_input_placeholder', 'maxlength' => 255],
                 'required' => true,
             ])
             ->add('description',TextareaType::class, [

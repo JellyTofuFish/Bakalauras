@@ -1,0 +1,405 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'question.title.example'|trans }} | ETS{% endblock %}
+
+{% block body %}
+    <input class="display-hidden test-slug" data-action="{{ 'question example' }}">
+
+ {# time atttribute #}
+{% if data.paramTime is not empty %}
+    <div class="position-fixed mt-5 ml-5">
+        <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor paramTime display-hidden" style="width: 15rem">
+        {% for timeA in data.paramTime %}
+            {% set time = timeA.value|split(':') %}
+            {% if time[1] == 1 %}
+                <div class="card-body border-0 py-2 px-3 time-font display-hidden">
+                    {{ 'question.time'|trans }}: <span class="timer" data-target="{{ timeA.value }}" data-attribute="{{ time[0] }}"></span>
+                </div>
+            {% endif %}
+            {% if time[1] == 0 %}
+                <div class="card-body border-0 py-2 px-3 time-font display-hidden">
+                    {{ 'question.time'|trans }}: <span class="chronometer" data-target="{{ timeA.value }}" data-attribute="{{ time[0] }}"></span>
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5 col-xl-5 offset-2 vh-file my-3">
+
+        {# Files #}
+        {% if data.picture is not empty %}
+            {% for PictureA in data.picture %}
+                {% if PictureA.name == '' %}
+                {% set link = 'build/images/' ~ 'Default.png' %}
+            {% else %}
+                {% set link = 'build/images/' ~ PictureA.name %}
+            {% endif %}
+            <div class="text-center h-100">
+                <img class="h-100 img-fluid rounded" src="{{ asset(link) }}" >
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-5 col-xl-5 offset-xl-2">
+
+            {% if data.question.type == 'multi' %}
+
+            <article>
+                <div class="d-flex">
+                    <h3 class="backgroundColor label-number-gap "><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
+                </div>
+                <div class="container px-0 py-3 paramPicture">
+
+                    {#picture atttribute #}
+                    {% if data.paramPictures is not empty %}
+                        {% for paramPictureA in data.paramPictures %}
+                            {% if paramPictureA.value == '' %}
+                                {% set link = 'build/images/' ~ 'Default.png' %}
+                            {% else %}
+                                {% set link = 'build/images/' ~ paramPictureA.value %}
+                            {% endif %}
+                            <div class="display-hidden text-center paramP vh-file" data-attribute="{{ paramPictureA.id }}">
+                                <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% set anwerNumber = 0 %}
+                        {% for answer in data.answers %}
+                        {% set anwerNumber = anwerNumber +1 %}
+                        <div class="w-100 mb-3">
+                            <div class="custom-control custom-checkbox" data-action="{{ data.question.required ? 'required' : 'none' }}">
+                                <input type="checkbox" name="{{ data.question.id }}[]" class="custom-control-input" id="customCheck{{ anwerNumber }}" value="{{ answer.answer }}">
+                                <label class="wrap w-100 text-unselectable custom-control-label backgroundColor" for="customCheck{{ anwerNumber }}">{{ answer.answer }}</label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="m-0 invalid-feedback">
+                            {{ 'question.validation.input_required'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container px-0 pt-3">
+                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                    </div>
+                </div>
+            </article>
+
+            {% elseif data.question.type == 'one' %}
+
+            <article>
+                <div class="d-flex">
+                    <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
+                </div>
+                <div class="container px-0 py-3 paramPicture">
+
+                    {#picture atttribute #}
+                    {% if data.paramPictures is not empty %}
+                        {% for paramPictureA in data.paramPictures %}
+                            {% if paramPictureA.value == '' %}
+                                {% set link = 'build/images/' ~ 'Default.png' %}
+                            {% else %}
+                                {% set link = 'build/images/' ~ paramPictureA.value %}
+                            {% endif %}
+                            <div class="display-hidden text-center paramP vh-file" data-attribute="{{ paramPictureA.id }}">
+                                <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="container">
+                    <div class="row">
+                        {% set anwerNumber = 0 %}
+                        {% for answer in data['answers'] %}
+                            {% set anwerNumber = anwerNumber +1 %}
+                            <div class="w-100 mb-3">
+                                <div class="custom-control custom-radio">
+                                    {% if anwerNumber == 1 %}
+                                        <input type="radio" name="{{ data.question.id }}" class="custom-control-input" id="customRadio{{ anwerNumber }}" value="{{ answer.answer }}" {{ data.question.required ? 'required' : 'none' }} >
+                                    {% else %}
+                                        <input type="radio" name="{{ data.question.id }}" class="custom-control-input" id="customRadio{{ anwerNumber }}" value="{{ answer.answer }}">
+                                    {% endif %}
+                                    <label class="backgroundColor text-unselectable custom-control-label" for="customRadio{{ anwerNumber }}">{{ answer.answer }}</label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="m-0 invalid-feedback">
+                            {{ 'question.validation.input_required'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container px-0 pt-3">
+                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                    </div>
+                </div>
+            </article>
+
+            {% elseif data.question.type == 'open' %}
+
+            <article>
+                <div class="d-flex">
+                    <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor" > {{ data.question.questionWording }}</h3>
+                </div>
+                <div class="container px-0 py-3 paramPicture">
+
+                    {#picture atttribute #}
+                    {% if data.paramPictures is not empty %}
+                        {% for paramPictureA in data.paramPictures %}
+                            {% if paramPictureA.value == '' %}
+                                {% set link = 'build/images/' ~ 'Default.png' %}
+                            {% else %}
+                                {% set link = 'build/images/' ~ paramPictureA.value %}
+                            {% endif %}
+                            <div class="display-hidden text-center paramP vh-file" data-attribute="{{ paramPictureA.id }}">
+                                <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="w-100">
+                            <textarea name="{{ data.question.id }}" class="form-control" placeholder="{{ 'answer.placeholder'|trans }}" {{ data.question.required ? 'required' : 'none' }}></textarea>
+                            <div class="invalid-feedback m-0">
+                                {{ 'question.validation.textarea_required'|trans }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="container px-0 pt-3">
+                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                    </div>
+                </div>
+            </article>
+
+            {% elseif data.question.type == 'presentation' %}
+
+            <article>
+                <div class="d-flex">
+                    <h2 class="backgroundColor"> {{ data.question.questionWording }}</h2>
+                </div>
+                <div class="container px-0 py-3 paramPicture">
+
+                     {# picture atttribute #}
+                    {% if data.paramPictures is not empty %}
+                        {% for paramPictureA in data.paramPictures %}
+                            {% if paramPictureA.value == '' %}
+                                {% set link = 'build/images/' ~ 'Default.png' %}
+                            {% else %}
+                                {% set link = 'build/images/' ~ paramPictureA.value %}
+                            {% endif %}
+                            <div class="display-hidden text-center paramP vh-file" data-attribute="{{ paramPictureA.id }}">
+                                <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="paramDisplayTime">
+
+                     {# time display atttribute #}
+                    {% if data.paramDisplayTime is not empty %}
+                        {% for displayTimeA in data.paramDisplayTime %}
+                            {% set displayTime = displayTimeA.value|split(':') %}
+                            {% if (displayTime[1] == 1)%}
+                            <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
+                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            </div>
+                            {% endif %}
+                            {% if (displayTime[1] == 0)%}
+                            <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
+                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                            <div class="container px-0">
+                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            </div>
+                    {% endif %}
+
+                </div>
+            </article>
+            {% endif %}
+        </div>
+
+        <div class="col-12 col-md-3 col-xl-3 offset-xl-1 p-0">
+            <div class="card bg-dark text-white mb-3" >
+                <div class="card-header text-center">{{ 'attribute.question_attributes'|trans }}</div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="backgroundColor card text-black pt-3 pb-2 w-100 bg-transparent border-dark-ni">
+
+                    {% if data.paramBackground is not empty %}
+                    <div class="card-body py-1">
+                        <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-left btn btn-light btn-block mb-2" id="dropdownBC" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 badge badge-dark">{{ data.paramBackground|length }}</span> {{ 'attribute.background_color'|trans }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownBC">
+                                <h6 class="dropdown-header">{{ 'attribute.colors'|trans }}:</h6>
+                                {% set numb = 1 %}
+                                {% for backgroundC in data.paramBackground %}
+                                    <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramBackgroundColor" data-attribute="{{ backgroundC.value }}">{{ numb }}. <span class="py-2 px-4 badge" style="background-color:{{ backgroundC.value }}">&nbsp;</span> {{ backgroundC.value }}</a>
+                                    {% set numb = numb +1 %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if data.paramButton is not empty %}
+
+                    <div class="card-body py-1">
+                        <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-left btn btn-light btn-block mb-2" id="dropdownBtnC" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 badge badge-dark">{{ data.paramButton|length }}</span>{{ 'attribute.button_color'|trans }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownBtnC">
+                                <h6 class="dropdown-header">{{ 'attribute.colors'|trans }}:</h6>
+                                {% set numb = 1 %}
+                                {% for buttonC in data.paramButton %}
+                                <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramButtonColor" data-attribute="{{ buttonC.value }}" >{{ numb }}. <span class="py-2 badge px-4" style="background-color:{{ buttonC.value }}">&nbsp;</span> {{ buttonC.value }}</a>
+                                {% set numb = numb +1 %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+                    {% if data.paramTime is not empty %}
+
+                    <div class="card-body py-1">
+                        <div class="dropdown">
+                            <button type="button" class="dropdown-toggle text-left btn  btn-light btn-block mb-2" id="dropdownTme" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 badge badge-dark">{{ data.paramTime|length }}</span>{{ 'attribute.time'|trans }}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownTme">
+                                <h6 class="dropdown-header">{{ 'attribute.time_attributes'|trans }}:</h6>
+                                {% set numb = 1 %}
+                                {% for timeA in data.paramTime %}
+                                    {% set time = timeA.value|split(':') %}
+                                    <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramTime" data-attribute="{{ timeA.value }}">
+                                        {{ numb }}.
+                                        {% if (time[1] == 1)%} {{ 'attribute.timer'|trans }}: {{ time[0] }} {{ 'attribute.seconds'|trans }}
+                                        {% elseif (time[1] == 0)%} {{ 'attribute.chronometer'|trans }}: {{ time[0] }} {{ 'attribute.seconds'|trans }}
+                                        {% endif %}
+                                    </a>
+                                    {% set numb = numb +1 %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endif %}
+                    {% if data.paramDisplayTime is not empty %}
+
+                        <div class="card-body py-1">
+                            <div class="dropdown">
+                                <button type="button" class="dropdown-toggle text-left btn btn-light btn-block mb-2" id="dropdownDsplyTme" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 badge badge-dark">{{ data.paramDisplayTime|length }}</span>{{ 'attribute.display_time'|trans }}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownDsplyTme">
+                                    <h6 class="dropdown-header">{{ 'attribute.time_attributes'|trans }}:</h6>
+                                    {% set numb = 1 %}
+                                    {% for displayTimeA in data.paramDisplayTime %}
+                                        {% set displayTime = displayTimeA.value|split(':') %}
+                                        <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramDisplayTime" data-attribute="{{ displayTimeA.value }}">
+                                            {{ numb }}.
+                                            {% if (displayTime[1] == 1)%} {{ 'attribute.next_hidden'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
+                                            {% elseif (displayTime[1] == 0)%} {{ 'attribute.next_off'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
+                                            {% endif %}
+                                        </a>
+                                        {% set numb = numb +1 %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                    {% if data.paramPictures is not empty %}
+
+                        <div class="card-body py-1">
+                            <div class="dropdown">
+                                <button type="button" class="dropdown-toggle text-left btn btn-light btn-block mb-2" id="dropdownDsplyTme" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 badge badge-dark">{{ data.paramPictures|length }}</span>{{ 'attribute.file'|trans }}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownDsplyTme">
+                                    <h6 class="dropdown-header">{{ 'attribute.files'|trans }}:</h6>
+                                    {% set numb = 1 %}
+                                    {% for pictureA in data.paramPictures %}
+                                        <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramPicture" data-attribute="{{ pictureA.id }}">
+                                            {{ numb }}.
+                                            {% if pictureA.value is null %} {{ 'attribute.file_missing'|trans }}
+                                            {% else %} {{ pictureA.value }}
+                                            {% endif %}
+                                        </a>
+                                        {% set numb = numb +1 %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    {% if data.paramTime is empty and data.paramButton is empty and data.paramBackground is empty and data.paramDisplayTime is empty and data.paramPictures is empty %}
+
+                        <div class="card-body py-1">
+                            <div class="text-center">
+                                <i>{{ 'empty_attributes'|trans }}</i>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if data.paramTime is not empty or data.paramButton is not empty or data.paramBackground is not empty or data.paramDisplayTime is not empty or data.paramPictures is not empty %}
+                        {% set paramTime = 1 %}
+                        {% set paramButton = 1 %}
+                        {% set paramBackground = 1 %}
+                        {% set paramDisplayTime = 1 %}
+                        {% set paramPictures = 1 %}
+                        {% if data.paramTime is not empty %} {% set paramTime = data.paramTime|length %} {% endif %}
+                        {% if data.paramButton is not empty %} {% set paramButton = data.paramButton|length %}  {% endif %}
+                        {% if data.paramBackground is not empty %} {% set paramBackground = data.paramBackground|length %}  {% endif %}
+                        {% if data.paramDisplayTime is not empty %} {% set paramDisplayTime = data.paramDisplayTime|length %}  {% endif %}
+                        {% if data.paramPictures is not empty %} {% set paramPictures = data.paramPictures|length %}  {% endif %}
+                        <div class="card-body py-1">
+                            <div class="text-center">
+                                <i>Klausimo variacijos:
+                                    {{ paramTime * paramButton * paramBackground * paramDisplayTime * paramPictures }}
+                                </i>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

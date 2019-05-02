@@ -22,29 +22,65 @@ class QuestionAttributeRepository extends ServiceEntityRepository
     // /**
     //  * @return QuestionAttribute[] Returns an array of QuestionAttribute objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllByBackgroundColor($value)
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?QuestionAttribute
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
+        return$this->createQueryBuilder('qa')
+            ->join('qa.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'backgroundcolor')
+            ->andWhere('qa.fk_question = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+    public function findAllByButtonColor($value)
+    {
+        return $this->createQueryBuilder('qa')
+            ->join('qa.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'buttoncolor')
+            ->andWhere('qa.fk_question = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllByTime($value)
+    {
+        $qb = $this->createQueryBuilder('qa')
+            ->join('qa.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'time')
+            ->andWhere('qa.fk_question = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+        return $qb
+            ;
+    }
+    public function findAllByDisplayTime($value)
+    {
+        $qb = $this->createQueryBuilder('qa')
+            ->join('qa.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'displaytime')
+            ->andWhere('qa.fk_question = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+        return $qb
+            ;
+    }
+    public function findAllByPicture($value)
+    {
+        $qb = $this->createQueryBuilder('qa')
+            ->join('qa.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'picture')
+            ->andWhere('qa.fk_question = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+        return $qb
+            ;
+    }
 }

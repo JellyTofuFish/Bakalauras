@@ -22,8 +22,6 @@ test:
     test_start_label: Testo pradžia
     test_end_label: Testo pabaiga
     date_placeholder: 'yyyy-mm-dd hh:mm:ss'
-    user_label: Naudotojas
-    user_input_placeholder: Pasirinkite naudotojus...
     test_question_label: Klausimas
     test_count: Klausimų skaičius
     test_question_input_placeholder: Pasirinkite klausimą...
@@ -40,12 +38,15 @@ test:
     new: Testo kūrimas
     delete: Testo trynimas
     test: Testas
+    example: Testo pavyzdys
   flash_message:
     test: Norėdami peržiūrėti ar redaguoti testą, pasirinkite testą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
     warning: Netinkamai įvestas kodas
+    expired: Testo kodas nebegalioja
+    not_started: "Testas neprasidėjo. Testą galėsite vykdyti nuo: "
   delete_message: Ar tikrai norite ištrinti šį testą?
   test_start_code: Įveskite testo kodą
-
+  finish_message: Testas baigtas. Ačiū už jūsų skirtą laiką!
 
 question:
   form:
@@ -79,10 +80,13 @@ question:
     question_name: Privaloma užpildyti klausimo pavadinimo laukelį
     question_wording: Privaloma užpildyti klausimo formuluotės laukelį
     type: Privaloma pasirinkti ir išsaugoti klausimo tipą
+    input_required: Privalo būti pasirinktas bent vienas atsakymo variantas
+    textarea_required: Atsakymas privalo būti užpildytas
   delete_message: Ar tikrai norite ištrinti šį klausimą?
   button:
     new: Sukurti klausimą
     delete: Ištrinti klausimą
+  time: Laikas
 
 group:
   form:
@@ -103,11 +107,30 @@ group:
   delete_message: Ar tikrai norite ištrinti šią grupę?
   new_message: Grupė sukurta
 
+attribute:
+  attributes: Nustatymai
+  question_attributes : Klausimo atributai
+  test_attributes: Testo atributai
+  background_color: Fono spalva
+  button_color: Mygtuko spalva
+  display_time: Rodymo trukmė
+  time: Laiko skaičiavimas
+  file: Failas
+  files: Failai
+  empty: Atributų nėra
+  colors: Spalvų atributai
+  time_attributes: Laiko atributai
+  timer: Laikmatis
+  chronometer: Chronometras
+  seconds: sek.
+  next_hidden: Mygtukas paslėptas
+  next_off: Mygtukas neveiksnus
+  file_missing: Failas nenustatytas
+
 answer:
   placeholder: Atsakymą įveskite į šį laukelį...
-  next_question: Sekantis klausimas
-  prev_question: Ankstesnis klausimas
-
+  next_question: Sekantis >
+  prev_question: < Ankstesnis
 
 actions: Operacijos
 open: Atviras
@@ -123,7 +146,8 @@ activation: Aktyvacija
 questions: Klausimai
 blank: Laukelis tuščias
 empty: Įrašų nerasta
-requied: Laukelis privalomas
+empty_attributes: Atributų nerasta
+requied: Yra privalomų laukelių
 
 side_nav:
   navigation: Navigacija
@@ -173,3 +197,4 @@ poppers:
     end: Rūšiuoti pagal pabaigos datą
   filter:
     group: Filtruoti pagal grupę
+

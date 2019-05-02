@@ -19,9 +19,9 @@ class ParticipantAnswer
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $answer = null;
+    private $answer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="participantAnswers")
@@ -36,7 +36,7 @@ class ParticipantAnswer
     private $fk_answeroption;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ParticipantAnswerAttribute", mappedBy="fk_participantAnswer", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ParticipantAnswerAttribute", mappedBy="fk_participantAnswer")
      */
     private $participantAnswerAttributes;
 

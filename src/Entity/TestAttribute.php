@@ -36,7 +36,7 @@ class TestAttribute
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testAttributes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_test;
 

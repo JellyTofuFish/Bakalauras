@@ -21,7 +21,7 @@ class QuestionType extends AbstractType
         $builder
             ->add('question_name', TextType::class, [
                 'label'=> 'question.form.question_name_label',
-                'attr' => ['placeholder' => 'question.form.question_input_placeholder'],
+                'attr' => ['placeholder' => 'question.form.question_input_placeholder', 'maxlength' => 255],
                 'required' => true,
             ])
             ->add('question_wording',TextareaType::class, [

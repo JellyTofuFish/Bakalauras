@@ -16,7 +16,7 @@ class GroupType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label'=> 'group.form.name_label',
-                'attr' => ['placeholder' => 'group.form.name_input_placeholder'],
+                'attr' => ['placeholder' => 'group.form.name_input_placeholder', 'maxlength' => 255],
                 'required' => true,
             ])
             ->add('description',TextareaType::class, [

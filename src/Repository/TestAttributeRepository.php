@@ -22,29 +22,60 @@ class TestAttributeRepository extends ServiceEntityRepository
     // /**
     //  * @return TestAttribute[] Returns an array of TestAttribute objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?TestAttribute
+    public function findAllByBackgroundColor($value)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+        return $this->createQueryBuilder('ta')
+            ->join('ta.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'backgroundcolor')
+            ->andWhere('ta.fk_test = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+    public function findAllByButtonColor($value)
+    {
+        return $this->createQueryBuilder('ta')
+            ->join('ta.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'buttoncolor')
+            ->andWhere('ta.fk_test = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllByTime($value)
+    {
+        return $this->createQueryBuilder('ta')
+            ->join('ta.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'time')
+            ->andWhere('ta.fk_test = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllByDisplayTime($value)
+    {
+        return $this->createQueryBuilder('ta')
+            ->join('ta.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'displaytime')
+            ->andWhere('ta.fk_test = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findAllByPicture($value)
+    {
+        return $this->createQueryBuilder('ta')
+            ->join('ta.fk_attribute', 'a')
+            ->where("a.name = :attribute")
+            ->setParameter('attribute', 'picture')
+            ->andWhere('ta.fk_test = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -22,7 +22,6 @@ class GroupList
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\Length(
-     *      min = 2,
      *      max = 50
      * )
      */

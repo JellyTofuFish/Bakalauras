@@ -5,28 +5,33 @@ namespace App\Controller;
 use App\Entity\AnswerOption;
 use App\Entity\GroupList;
 use App\Entity\Question;
+use App\Entity\QuestionAttribute;
 use App\Form\GroupSimpleType;
 use App\Form\GroupType;
 use App\Form\QuestionType;
+use App\Repository\FileRepository;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 
 class QuestionController extends AbstractController
 {
-    private $session;
-
     /**
      * QuestionController constructor.
      */
+    protected $arrayQuestion = [[]];
+
+    public function setDataQuestion( $key1, $value)
+    {
+        $this->arrayQuestion[$key1] = $value;
+    }
+
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
@@ -151,6 +156,7 @@ class QuestionController extends AbstractController
     public function newSave(Request $request)
     {
         $question = new Question();
+        $question->setFkUser($this->getUser());
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
@@ -189,21 +195,29 @@ class QuestionController extends AbstractController
     /**
      * @Route("/question/{id}/example", name="question_show_example", methods={"GET"})
      */
-    public function showExample(Question $question): Response
+    public function showExample(Question $question, FileRepository $fileRepository): Response
     {
-        if (null === $questionQ = $this->getDoctrine()->getManager()->getRepository(Question::class)->find($question->getId())) {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $questionQ = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No Question found for id '.$question->getId());
         }
-
-        $Answers = new ArrayCollection();
-
-        foreach ($questionQ->getAnsweroptions() as $answeroption) {
-            $Answers->add($answeroption);
-        }
-
-        return $this->render('question/example_show.html.twig', [
-            'question' => $question,
-            'answers' => $Answers
+        $answers = $entityManager->getRepository(Question::class)->findQuestionAnswers($questionQ->getId());
+        $background = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($questionQ->getId());
+        $buttonColor = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($questionQ->getId());
+        $time = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($questionQ->getId());
+        $displayTime = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($questionQ->getId());
+        $pictures = $entityManager->getRepository(QuestionAttribute::class)->findAllByPicture( $questionQ->getId());
+        $picture = $fileRepository->findOneByQuestion($questionQ->getId());
+        $this->setDataQuestion( 'question', $questionQ);
+        $this->setDataQuestion( 'answers', $answers);
+        $this->setDataQuestion( 'paramButton', $buttonColor);
+        $this->setDataQuestion( 'paramBackground', $background);
+        $this->setDataQuestion( 'paramTime', $time);
+        $this->setDataQuestion( 'paramDisplayTime', $displayTime);
+        $this->setDataQuestion( 'picture', $picture);
+        $this->setDataQuestion( 'paramPictures', $pictures);
+        return $this->render('question/show_example.html.twig', [
+            'data' => $this->arrayQuestion
         ]);
     }
 
@@ -213,33 +227,28 @@ class QuestionController extends AbstractController
     public function edit(Request $request, Question $question): Response
     {
         $group = new GroupList();
+        $formGroup = $this->createForm(GroupSimpleType::class, $group);
+
         $entityManager = $this->getDoctrine()->getManager();
-        if (null === $questionQ = $entityManager->getRepository(Question::class)->find($question->getId())) {
+        if (null === $Question = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No task found for id '.$question->getId());
         }
 
-        $form = $this->createForm(QuestionType::class, $questionQ);
-        $formGroup = $this->createForm(GroupSimpleType::class, $group);
+        $form = $this->createForm(QuestionType::class, $Question);
         $form->handleRequest($request);
+        $Answers = $Question->getAnsweroptions();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $Answers = $question->getAnsweroptions();
             foreach ($Answers as $ao) {
-                if (false === $questionQ->getAnsweroptions()->contains($ao)) {
-                    $questionQ->removeAnsweroption($ao);
-                    $entityManager->persist($ao);
-                }
+                $entityManager->persist($ao);
             }
-            $entityManager->persist($questionQ);
+            $entityManager->persist($Question);
             $entityManager->flush();
-
-            return $this->redirectToRoute('question_show', [
-                'id' => $question->getId(),
-            ]);
+            return new JsonResponse(['id'=> $question->getId()]);
         }
 
         return $this->render('question/edit.html.twig', [
-            'question' => $question,
+            'question' => $Question,
             'form' => $form->createView(),
             'formGroup' => $formGroup->createView()
         ]);
@@ -250,20 +259,44 @@ class QuestionController extends AbstractController
      */
     public function delete(Request $request, Question $question): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $question->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $Answers = $question->getAnsweroptions();
-//            foreach ($Answers as $ao) {
-//                if (false === $question->getAnsweroptions()->contains($ao)) {
-//                    $question->removeAnsweroption($ao);
-//                    $entityManager->persist($ao);
-//                }
-//            }
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if (null === $Test = $entityManager->getRepository(Question::class)->find($question->getId())) {
+            throw $this->createNotFoundException('No Question for id '.$question->getId());
+        }
+        if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
+
+            $Files = $question->getFileS();
+            foreach ($Files as $f) {
+                $f->getFkQuestion()->removeFile($f);
+                $entityManager->persist($f);
+                $entityManager->flush();
+            }
+
             $Tests = $question->getTestQuestions();
             foreach ($Tests as $t) {
-                $t->getFkQuestion()->removeTestQuestion();
+                $t->getFkQuestion()->removeTestQuestion($t);
                 $entityManager->persist($t);
+                $entityManager->flush();
             }
+
+            $Qattribute = $question->getQuestionAttributes();
+            foreach ($Qattribute as $qa) {
+                $qa->setFkQuestion(null );
+                $entityManager->persist($qa);
+                $entityManager->flush();
+            }
+
+            $partAnswers = $question->getParticipantAnswers();
+            foreach ($partAnswers as $pa) {
+                foreach ($pa->getFkAnsweroption() as $a) {
+                $pa->removeFkAnsweroption($a);
+                $entityManager->persist($pa);
+                }
+                $pa->setFkQuestion(null);
+                $entityManager->flush();
+            }
+
             $entityManager->remove($question);
             $entityManager->flush();
         }

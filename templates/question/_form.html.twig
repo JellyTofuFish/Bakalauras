@@ -12,14 +12,14 @@
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
                     <i id="questionCaret1" class="fa fa-caret-down transition"></i>
-                    <span class="pl-2">{{ 'general'|trans }}</span>
+                    <span class="pl-2">{{ 'general'|trans }} <b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
                 </button>
             </h2>
         </div>
         <div id="home" class="tab-pane show" aria-labelledby="list-general list-general-list">
             <div class="card-body">
                 <div class="form-group row">
-                    {{ form_label(form.question_name, null, { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
+                    {{ form_label(form.question_name, 'question.form.question_name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
                     <div class="col-sm-10 mb-3">
                         {{ form_widget(form.question_name, { 'attr': { 'class':'form-control'} }) }}
                         <div class="invalid-feedback ">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{ form_label(form.question_wording, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                    {{ form_label(form.question_wording, 'question.form.question_wording_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
                     <div class="col-sm-10 mb-3">
                         {{ form_widget(form.question_wording, { 'attr': {'class':'form-control'} }) }}
                         <div class="invalid-feedback">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{ form_label(form.type, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                    {{ form_label(form.type, 'question.form.type_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
                     <div class="col-sm-10">
                         <div class="d-flex">
                             {% if question.type is not null %}
@@ -65,7 +65,7 @@
                                 {% endif %}
                             {% endif %}
                         </div>
-                        <div class="invalid-feedback"> {{ 'question.validation.type'|trans }} </div>
+                        <div class="invalid-feedback"> {{ 'question.validation.type'|trans }}</div>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 {% if  question.type == 'one' or question.type == 'multi' %}
                 <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
                     <i id="questionCaret3" class="fa fa-caret-down transition rotation" ></i>
-                    <span class="pl-2">{{ 'answers'|trans }}</span>
+                    <span class="pl-2">{{ 'answers'|trans }}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
                 </button>
                 {% else %}
                 <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#answers" aria-expanded="false" aria-controls="answers">
@@ -136,7 +136,7 @@
                 {% set numb = 1 %}
                 {% for answer in form.answeroptions %}
                     <div class="form-group row">
-                        {{ form_label(answer.answer, 'question.form.answeroptions_label'|trans ~ ' ' ~ numb, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                        {{ form_label(answer.answer, 'question.form.answeroptions_label'|trans ~ ' ' ~ numb ~ ' ' ~ '*', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
                         <div class="col-sm-10 mb-3">
                             <div class="d-flex">
                                 {{ form_widget(answer.answer) }}
@@ -156,7 +156,7 @@
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
                     <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
-                    <span class="pl-2">{{ 'settings'|trans }}</span>
+                    <span class="pl-2">{{ 'settings'|trans }}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
                 </button>
             </h2>
         </div>
@@ -169,7 +169,11 @@
     <div class="card border-light">
         <div class="card-header bg-transparent p-0" id="list-save">
             <h2 class="mb-0">
+                {% if (app.request.get('_route')) == 'question_edit' %}
+                <button class="btn btn-block btn-outline-primary questionEditSave btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}">{{ button_label|default('Save')|trans }}</button>
+                {% else %}
                 <button class="btn btn-block btn-outline-primary questionSave btn-save btn-no-top-radius" data-link="{{ path('question_new_save')}}" >{{ button_label|default('Save')|trans }}</button>
+                {% endif %}
             </h2>
         </div>
     </div>

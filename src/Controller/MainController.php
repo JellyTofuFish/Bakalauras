@@ -21,7 +21,7 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="home_index")
      */
-    public function index(AuthenticationUtils $authenticationUtils, TestRepository $testRepository, QuestionRepository $questionRepository, Request $request) {
+    public function index(AuthenticationUtils $authenticationUtils, TestRepository $testRepository, Request $request) {
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -38,22 +38,42 @@ class MainController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $data = $form->getData();
             $activeTest = $testRepository->findActiveTestByCode(end ($data));
+
             if ($activeTest != null) {
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $testParticipation = new TestParticipation();
-                $testParticipation->setFkTest($activeTest);
-                $testParticipation->setTestStartedAt();
-                $testParticipation->setIsTestOver(0);
-                $entityManager->persist($testParticipation);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('test_new_start', [
-                    'id' => $activeTest->getId(),
-                    'testPart' => $testParticipation->getId()
-                ]);
+                if ($activeTest->getIsActive() ) {
+                    if ( $activeTest->getTestStart() > new \DateTime('now') ) {
+                        $this->addFlash('warning', 'test.flash_message.not_started' + $activeTest->getTestStart());
+                        return $this->render('main/index.html.twig', [
+                            'last_username' => $lastUsername,
+                            'form' => $form->createView(),
+                        ]);
+                    }
+                    if ($activeTest->getTestEnd() != null ) {
+                        if ($activeTest->getTestEnd() < new \DateTime('now') ) {
+                            $activeTest->setIsActive(false);
+                            $entityManager->persist($activeTest);
+                            $entityManager->flush();
+                            $this->addFlash('warning', 'test.flash_message.expired');
+                            return $this->render('main/index.html.twig', [
+                                'last_username' => $lastUsername,
+                                'form'=>$form->createView(),
+                            ]);
+                        }
+                    }
+                    $testParticipation = new TestParticipation();
+                    $testParticipation->setFkTest($activeTest);
+                    $testParticipation->setTestStartedAt();
+                    $testParticipation->setIsTestOver(0);
+                    $entityManager->persist($testParticipation);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('test_new_start', [
+                        'id' => $activeTest->getId(),
+                        'testPart' => $testParticipation->getId()
+                    ]);
+                }
             }
             else {
                 $this->addFlash('warning', 'test.flash_message.warning');

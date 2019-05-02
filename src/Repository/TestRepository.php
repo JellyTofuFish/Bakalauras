@@ -24,7 +24,7 @@ class TestRepository extends ServiceEntityRepository
 
     public function findTestQuestionOrder($test) {
         return $this->createQueryBuilder('t')
-            ->select('q.id', 'tq.serial_number' , 'q.type', 'q.question_wording')
+            ->select('q.id', 'tq.serial_number' , 'q.type', 'q.question_wording', 'q.required')
             ->join('t.testQuestions', 'tq')
             ->join('tq.fk_question', 'q')
             ->andWhere('t.id = :val')
@@ -103,5 +103,4 @@ class TestRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }
