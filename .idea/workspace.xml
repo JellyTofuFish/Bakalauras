@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="" />
+    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/MainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/MainController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/QuestionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/QuestionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TestController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/AnswerOptionFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AnswerOptionFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/AttributeFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AttributeFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/FileFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/FileFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/GrouplistFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/GrouplistFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerAttributeFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerAttributeFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/QuestionAttributeFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/QuestionAttributeFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/QuestionFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/QuestionFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/TestAttributeFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/TestAttributeFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/TestFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/TestFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/TestParticipationFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/TestParticipationFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/_form_navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_form_navbar.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/group/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/group/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/group/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/group/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question/show_example.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/show_example.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/new.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/test/show_example.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/show_example.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations/messages.lt.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/translations/messages.lt.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/translations/question.lt.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php.meta" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainerCompiler.log" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainerCompiler.log" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +81,13 @@
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="heroku_060faedb701da26: schema" type="76f4a085:MysqlImplModel$Schema" />
       </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="heroku_060faedb701da26@eu-cdbr-west-02.cleardb.net" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="heroku_060faedb701da26: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="user: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
     </expand>
     <select />
   </component>
@@ -49,17 +99,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+            <state relative-caret-position="220">
+              <caret line="11" column="19" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            <state relative-caret-position="460">
+              <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -67,26 +117,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="262" column="40" selection-start-line="262" selection-start-column="40" selection-end-line="262" selection-end-column="49" />
-              <folding>
-                <element signature="e#34#62#0#PHP" expanded="true" />
-                <element signature="e#13443#13455#0#PHP" expanded="true" />
-                <element signature="e#13618#13652#0#PHP" expanded="true" />
-                <element signature="e#14990#15011#0#PHP" expanded="true" />
-              </folding>
+      <file pinned="false" current-in-tab="true">
+        <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question_attribute">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.env">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+        <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -102,26 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>slider</find>
-      <find>test-question-label</find>
-      <find>valid</find>
-      <find>valid`</find>
-      <find>test-question-label</find>
-      <find>parseInt</find>
-      <find>nenustat</find>
-      <find>each</find>
-      <find>paramTime</find>
-      <find>backgroundColorText</find>
-      <find>target</find>
-      <find>session</find>
-      <find>$arrayQuestion</find>
-      <find>arrayQuestion</find>
-      <find>setDataQuestion</find>
-      <find>paramDisplayTime</find>
-      <find>document.title</find>
-      <find>test</find>
-      <find>paramPicture</find>
-      <find>alert</find>
       <find>$('.test-slug')</find>
       <find>valu</find>
       <find>string</find>
@@ -132,6 +156,26 @@
       <find>aler</find>
       <find>timeoutDisplayTime</find>
       <find>-slug</find>
+      <find>defaul</find>
+      <find>sepa</find>
+      <find>fa</find>
+      <find>3.6</find>
+      <find>3.</find>
+      <find>d-xl-block</find>
+      <find>min-wid</find>
+      <find>conten</find>
+      <find>bd-toc</find>
+      <find>min-w</find>
+      <find>done</find>
+      <find>neteisin</find>
+      <find>buttonColor</find>
+      <find>backgroundColor</find>
+      <find>picture.name</find>
+      <find>paramTimeQ</find>
+      <find>setButtonColor</find>
+      <find>h2</find>
+      <find>req</find>
+      <find>origin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -140,57 +184,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" />
-        <option value="$PROJECT_DIR$/templates/main/show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Repository/TestQuestionRepository.php" />
-        <option value="$PROJECT_DIR$/src/Repository/QuestionRepository.php" />
-        <option value="$PROJECT_DIR$/templates/test/active_show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Form/QuestionType.php" />
-        <option value="$PROJECT_DIR$/src/Form/AnswerOptionType.php" />
-        <option value="$PROJECT_DIR$/src/Form/GroupSimpleType.php" />
-        <option value="$PROJECT_DIR$/src/Form/GroupType.php" />
-        <option value="$PROJECT_DIR$/src/Form/TestType.php" />
-        <option value="$PROJECT_DIR$/templates/test/_form.html.twig" />
-        <option value="$PROJECT_DIR$/templates/question/_form.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/AnswerOption.php" />
-        <option value="$PROJECT_DIR$/templates/main/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/admin.html.twig" />
-        <option value="$PROJECT_DIR$/templates/base.html.twig" />
-        <option value="$PROJECT_DIR$/src/Kernel.php" />
-        <option value="$PROJECT_DIR$/src/Entity/TestParticipation.php" />
-        <option value="$PROJECT_DIR$/src/Entity/QuestionAttribute.php" />
-        <option value="$PROJECT_DIR$/src/Entity/User.php" />
-        <option value="$PROJECT_DIR$/src/DataFixtures/TestFixtures.php" />
-        <option value="$PROJECT_DIR$/src/Entity/TestAttribute.php" />
-        <option value="$PROJECT_DIR$/templates/question/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/Test.php" />
-        <option value="$PROJECT_DIR$/src/DataFixtures/AttributeFixtures.php" />
-        <option value="$PROJECT_DIR$/src/Entity/GroupList.php" />
-        <option value="$PROJECT_DIR$/src/Entity/ParticipantAnswer.php" />
-        <option value="$PROJECT_DIR$/src/Migrations/Version20190426181536.php" />
-        <option value="$PROJECT_DIR$/src/Migrations/Version20190426181825.php" />
-        <option value="$PROJECT_DIR$/src/Entity/File.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Attribute.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Question.php" />
-        <option value="$PROJECT_DIR$/templates/test/new_test_start.html.twig" />
-        <option value="$PROJECT_DIR$/templates/question/example_show.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/QuestionController.php" />
-        <option value="$PROJECT_DIR$/templates/test/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Repository/TestRepository.php" />
-        <option value="$PROJECT_DIR$/src/Repository/TestAttributeRepository.php" />
-        <option value="$PROJECT_DIR$/src/Repository/QuestionAttributeRepository.php" />
-        <option value="$PROJECT_DIR$/translations/messages.lt.yaml" />
-        <option value="$PROJECT_DIR$/src/Repository/FileRepository.php" />
-        <option value="$PROJECT_DIR$/assets/css/app.css" />
-        <option value="$PROJECT_DIR$/templates/test/new_participation.html.twig" />
-        <option value="$PROJECT_DIR$/templates/test/show_example.html.twig" />
-        <option value="$PROJECT_DIR$/templates/question/show_example.html.twig" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
-        <option value="$PROJECT_DIR$/src/Controller/MainController.php" />
-        <option value="$PROJECT_DIR$/src/Controller/TestController.php" />
         <option value="$PROJECT_DIR$/config/packages/security.yaml" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/a1263f89-36dc-43e2-bf24-4b45891ed602/console.sql" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/templates/question/new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/test/new.html.twig" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/UserFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/AttributeFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/TestFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/AnswerOptionFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/FileFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/GrouplistFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/TestAttributeFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/TestParticipationFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/QuestionAttributeFixtures.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/ParticipantAnswerAttributeFixtures.php" />
+        <option value="$PROJECT_DIR$/templates/group/_delete_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/group/edit.html.twig" />
+        <option value="$PROJECT_DIR$/templates/group/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/question/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/base.html.twig" />
+        <option value="$PROJECT_DIR$/templates/group/new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/group/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/_form_navbar.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/MainController.php" />
+        <option value="$PROJECT_DIR$/templates/main/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/test/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/attribute/new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/attribute/_delete_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/AttributeController.php" />
+        <option value="$PROJECT_DIR$/templates/attribute/edit.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/AttributeType.php" />
+        <option value="$PROJECT_DIR$/templates/attribute/_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/UserType.php" />
+        <option value="$PROJECT_DIR$/templates/attribute/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/user/_delete_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/user/new.html.twig" />
+        <option value="$PROJECT_DIR$/templates/admin.html.twig" />
+        <option value="$PROJECT_DIR$/templates/user/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/QuestionFixtures.php" />
+        <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/TestController.php" />
+        <option value="$PROJECT_DIR$/translations/messages.lt.yaml" />
+        <option value="$PROJECT_DIR$/templates/test/show_example.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/QuestionController.php" />
+        <option value="$PROJECT_DIR$/templates/question/show_example.html.twig" />
+        <option value="$PROJECT_DIR$/assets/css/app.css" />
+        <option value="$PROJECT_DIR$/templates/question/_form.html.twig" />
+        <option value="$PROJECT_DIR$/templates/test/_form.html.twig" />
         <option value="$PROJECT_DIR$/assets/js/app.js" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
       </list>
     </option>
   </component>
@@ -310,9 +354,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/apache-pack" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="70" />
-    <option name="y" value="8" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-40" />
+    <option name="y" value="-19" />
     <option name="width" value="1936" />
     <option name="height" value="1055" />
   </component>
@@ -357,19 +401,13 @@
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="bundles" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="packages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
@@ -386,12 +424,42 @@
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Repository" type="462c0819:PsiDirectoryNode" />
+              <item name="DataFixtures" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Form" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="attribute" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="group" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
@@ -403,18 +471,29 @@
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="security" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
               <item name="translations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
+              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+              <item name="cache" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -434,12 +513,15 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="P:\web\SitesPHP\bakalauras\templates\user" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="P:\web\SitesPHP\bakalauras\assets\images" />
+      <recent name="P:\web\SitesPHP\bakalauras\assets\images\image" />
       <recent name="P:\web\SitesPHP\bakalauras\public\build\images" />
       <recent name="P:\web\SitesPHP\bakalauras\assets\default.png" />
       <recent name="P:\web\SitesPHP\bakalauras\templates" />
-      <recent name="P:\web\SitesPHP\bakalauras" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -496,17 +578,21 @@
       <workItem from="1556062110483" duration="1477000" />
       <workItem from="1556120826471" duration="2791000" />
       <workItem from="1556293185789" duration="10593000" />
-      <workItem from="1556547729376" duration="149173000" />
+      <workItem from="1556547729376" duration="149703000" />
+      <workItem from="1556989590298" duration="21396000" />
+      <workItem from="1557132623248" duration="20563000" />
+      <workItem from="1557366505880" duration="11031000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="963225000" />
+    <option name="totallyTimeSpent" value="1016745000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="70" y="8" width="1936" height="1055" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6092965" visible="true" weight="0.1098081" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6092965" visible="true" weight="0.10021322" />
       <window_info id="Structure" order="1" sideWeight="0.39070353" side_tool="true" weight="0.13272922" />
       <window_info id="Favorites" order="2" sideWeight="0.2139973" side_tool="true" weight="0.13646056" />
       <window_info anchor="bottom" id="Database Console" order="0" sideWeight="0.48187634" weight="0.15276273" />
@@ -520,268 +606,297 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48560768" visible="true" weight="0.23969631" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.48560768" weight="0.27193934" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5143923" side_tool="true" weight="0.07367281" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" show_stripe_button="false" weight="0.32827735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.14072494" />
+      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.12260128" />
     </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6092965" weight="0.1098081" />
-      <window_info id="Structure" order="1" sideWeight="0.39070353" side_tool="true" weight="0.13272922" />
-      <window_info id="Favorites" order="2" sideWeight="0.2139973" side_tool="true" weight="0.13646056" />
-      <window_info anchor="bottom" id="Database Console" order="0" sideWeight="0.48187634" weight="0.15276273" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" />
-      <window_info anchor="bottom" id="Run" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.48614073" weight="0.07367281" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5138593" side_tool="true" weight="0.11484291" />
-      <window_info anchor="bottom" id="Command Line Tools Console" order="13" show_stripe_button="false" weight="0.32827735" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.14072494" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190426182450.php" />
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190426181536.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190426182850.php" />
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190426182938.php" />
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190426183217.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="uml://DATABASE/a1263f89-36dc-43e2-bf24-4b45891ed602.SCHEMA:heroku_060faedb701da26">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>DATABASE</ID>
-          <OriginalElement>a1263f89-36dc-43e2-bf24-4b45891ed602.SCHEMA:heroku_060faedb701da26</OriginalElement>
-          <nodes>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.test_attribute</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.test_question</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.answer_option_participant_answer</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.answer_option</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.migration_versions</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.test</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.participant_answer_attribute</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.group_list</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.user</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.test_participation</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.attribute</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.question_attribute</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.question</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.participant_answer</node>
-            <node x="" y="">a1263f89-36dc-43e2-bf24-4b45891ed602.TABLE:heroku_060faedb701da26.file</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="0.8617283950617285" x="536.0" y="390.0" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Key columns</Category>
-            <Category>Columns</Category>
-          </Categories>
-          <SCOPE>All</SCOPE>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/TestQuestion.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Attribute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/File.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="24" column="44" selection-start-line="24" selection-start-column="44" selection-end-line="24" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/answer_option_participant_answer">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/AttributeRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-205" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/admin.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/group/_form.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="60">
+          <caret line="3" column="51" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
           <folding>
             <element signature="e#92#101#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/question/_form.html.twig">
+    <entry file="file://$PROJECT_DIR$/templates/_form_navbar.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-400" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="105" column="24" selection-start-line="105" selection-start-column="24" selection-end-line="106" selection-end-column="32" />
+        <state relative-caret-position="180">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/QuestionRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#12#27#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/services.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/build/images/Default.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/doctrine/persistence/lib/Doctrine/Common/Persistence/ObjectRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/ParticipantAnswerAttributeRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="45" column="12" selection-start-line="45" selection-start-column="12" selection-end-line="45" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question">
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/participant_answer_attribute">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Question.php">
+    <entry file="file://$PROJECT_DIR$/src/Controller/MainController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="192" column="20" selection-start-line="192" selection-start-column="20" selection-end-line="192" selection-end-column="20" />
+        <state relative-caret-position="760">
+          <caret line="49" column="58" selection-start-line="49" selection-start-column="58" selection-end-line="49" selection-end-column="58" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/question/index.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/Controller/GroupController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="79" column="28" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="269" />
-          <folding>
-            <element signature="e#12#27#0#Twig" expanded="true" />
-          </folding>
+        <state relative-caret-position="420">
+          <caret line="32" column="64" selection-start-line="32" selection-start-column="64" selection-end-line="32" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/common.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/test/index.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="85" column="176" selection-start-line="85" selection-start-column="176" selection-end-line="85" selection-end-column="176" />
+        <state relative-caret-position="100">
+          <caret line="25" column="47" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="47" />
           <folding>
             <element signature="e#12#27#0#Twig" expanded="true" />
-            <element signature="e#4424#4433#0#Twig" expanded="true" />
-            <element signature="e#4869#4886#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/attribute">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
+    <entry file="file://$PROJECT_DIR$/templates/group/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="18" column="25" selection-start-line="18" selection-start-column="25" selection-end-line="18" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/QuestionController.php">
+    <entry file="file://$PROJECT_DIR$/templates/question/new.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="216" column="53" lean-forward="true" selection-start-line="216" selection-start-column="53" selection-end-line="216" selection-end-column="53" />
+        <state>
+          <caret selection-end-line="38" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attribute/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="153" selection-start-line="10" selection-start-column="153" selection-end-line="10" selection-end-column="153" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/question/edit.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="27" column="191" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="191" />
           <folding>
-            <element signature="e#34#62#0#PHP" expanded="true" />
+            <element signature="e#12#27#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/TestAttributeRepository.php">
+    <entry file="file://$PROJECT_DIR$/templates/group/_delete_form.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="30" column="58" selection-start-line="30" selection-start-column="58" selection-end-line="30" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/QuestionAttributeRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/test_attribute">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
-          <filtering enabled="true" />
+          <caret column="13" selection-start-column="13" selection-end-column="19" />
+          <folding>
+            <element signature="e#52#64#0#Twig" expanded="true" />
+          </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attribute/_delete_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+          <folding>
+            <element signature="e#402#418#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/test/_delete_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="5" selection-end-column="122" />
+          <folding>
+            <element signature="e#52#63#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/QuestionType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="46" selection-end-column="14" />
+          <folding>
+            <element signature="e#28#56#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attribute/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="14" column="71" selection-start-line="14" selection-start-column="71" selection-end-line="14" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attribute/edit.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="e#12#27#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/AttributeType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="18" column="52" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="52" />
+          <folding>
+            <element signature="e#28#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/main/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="43" column="40" lean-forward="true" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/question/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1760">
+          <caret line="88" column="58" selection-start-line="88" selection-start-column="58" selection-end-line="88" selection-end-column="58" />
+          <folding>
+            <element signature="e#12#27#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/TestType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-100">
+          <caret line="24" column="14" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="24" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user/_delete_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="75" selection-start-line="3" selection-start-column="75" selection-end-line="3" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/routes.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/services.yaml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/admin.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="876">
+          <caret line="100" column="138" selection-start-line="100" selection-start-column="138" selection-end-line="100" selection-end-column="138" />
+          <folding>
+            <element signature="e#4150#4159#0#Twig" expanded="true" />
+            <element signature="e#4993#5008#0#Twig" expanded="true" />
+            <element signature="e#6535#6545#0#Twig" expanded="true" />
+            <element signature="e#6836#6846#0#Twig" expanded="true" />
+            <element signature="e#7097#7110#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-330" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/user/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="34" column="55" selection-start-line="34" selection-start-column="55" selection-end-line="34" selection-end-column="55" />
+          <folding>
+            <element signature="e#12#27#0#Twig" expanded="true" />
+            <element signature="e#1975#1986#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/UserType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="520">
+          <caret line="31" column="24" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/attribute/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="896">
+          <caret line="51" column="72" selection-start-line="51" selection-start-column="72" selection-end-line="51" selection-end-column="72" />
+          <folding>
+            <element signature="e#12#27#0#Twig" expanded="true" />
+            <element signature="e#1920#1934#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/AttributeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="27" column="4" selection-start-line="27" selection-start-column="4" selection-end-line="48" selection-end-column="5" />
+          <folding>
+            <element signature="e#34#59#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/QuestionFixtures.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="42" column="28" lean-forward="true" selection-start-line="42" selection-start-column="28" selection-end-line="42" selection-end-column="28" />
+          <folding>
+            <element signature="e#34#54#0#PHP" expanded="true" />
+            <element signature="e#478#500#0#PHP" expanded="true" />
+            <element signature="e#1159#1171#1#PHP" expanded="true" />
+            <element signature="e#1214#1234#0#PHP" expanded="true" />
+            <element signature="e#1776#1788#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/UserFixtures.php">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/file">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
@@ -790,10 +905,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/TestRepository.php">
+    <entry file="file://$PROJECT_DIR$/templates/test/show_example.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="858">
-          <caret line="104" column="5" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
+        <state relative-caret-position="-120">
+          <caret line="294" column="35" selection-start-line="294" selection-start-column="35" selection-end-line="294" selection-end-column="35" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/QuestionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="144" selection-start-line="144" selection-end-line="144" />
+          <folding>
+            <element signature="e#4301#4327#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/question/show_example.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="211" column="22" selection-start-line="211" selection-start-column="22" selection-end-line="211" selection-end-column="23" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/question/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2715">
+          <caret line="280" column="89" selection-start-line="280" selection-start-column="89" selection-end-line="280" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/test/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="225" column="18" selection-start-line="225" selection-start-column="18" selection-end-line="225" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="156" column="30" selection-start-line="156" selection-start-column="30" selection-end-line="156" selection-end-column="30" />
+          <folding>
+            <element signature="e#4792#4804#1#PHP" expanded="true" />
+            <element signature="e#4847#4867#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -804,90 +982,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/FileRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question_attribute">
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/attribute">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="79" selection-start-line="5" selection-start-column="79" selection-end-line="5" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/test_participation">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding>
-            <element signature="e#34#67#0#PHP" expanded="true" />
-            <element signature="e#3267#3283#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/packages/security.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/question/show_example.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="192" column="99" selection-start-line="192" selection-start-column="99" selection-end-line="192" selection-end-column="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/show_example.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="245" column="38" selection-start-line="245" selection-start-column="38" selection-end-line="245" selection-end-column="38" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="21" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -898,40 +996,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="262" column="40" selection-start-line="262" selection-start-column="40" selection-end-line="262" selection-end-column="49" />
-          <folding>
-            <element signature="e#34#62#0#PHP" expanded="true" />
-            <element signature="e#13443#13455#0#PHP" expanded="true" />
-            <element signature="e#13618#13652#0#PHP" expanded="true" />
-            <element signature="e#14990#15011#0#PHP" expanded="true" />
-          </folding>
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/test_attribute">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/app.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/test_participation">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="460">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://a1263f89-36dc-43e2-bf24-4b45891ed602/schema/heroku_060faedb701da26/table/question_attribute">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>

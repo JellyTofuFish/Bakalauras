@@ -43,7 +43,10 @@ test:
     test: Norėdami peržiūrėti ar redaguoti testą, pasirinkite testą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
     warning: Netinkamai įvestas kodas
     expired: Testo kodas nebegalioja
-    not_started: "Testas neprasidėjo. Testą galėsite vykdyti nuo: "
+    not_started: "Testą galėsite vykdyti nuo: "
+    created: Testas sėkmingai sukurtas
+    edited: Testas sėkmingai pakeistas
+    deleted: Testas ištrintas
   delete_message: Ar tikrai norite ištrinti šį testą?
   test_start_code: Įveskite testo kodą
   finish_message: Testas baigtas. Ačiū už jūsų skirtą laiką!
@@ -76,6 +79,9 @@ question:
     example: Klausimo pavyzdys
   flash_message:
     question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite klausimą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
+    created: Klausimas sėkmingai sukurtas
+    edited: Klausimas sėkmingai pakeistas
+    deleted: Klausimas ištrintas
   validation:
     question_name: Privaloma užpildyti klausimo pavadinimo laukelį
     question_wording: Privaloma užpildyti klausimo formuluotės laukelį
@@ -126,10 +132,45 @@ attribute:
   next_hidden: Mygtukas paslėptas
   next_off: Mygtukas neveiksnus
   file_missing: Failas nenustatytas
+  form:
+    description_label: Aprašas
+    description_input_placeholder: Įveskite trumpą aprašą apie atributą
+    name_label: Pavadinimas
+    name_input_placeholder: Pasirinkite atributą...
+  name:
+    backgroundcolor: Fono spalva
+    buttoncolor: Mygtuko spalva
+    displaytime: Rodymo trukmė
+    picture: Paveikslėlis
+    time: Laiko skaičiavimas
+  title:
+    show: Atributo peržiūra
+    edit: Atributo redagavimas
+    new: Atributo kūrimas
+    index: Atributų sąrašas
+  button:
+    new: Sukurti atributą
+    delete: Ištrinti atributą
+  delete_message: Ar tikrai norite ištrinti šį atributą?
+
+user:
+  title:
+    index: Naudotojų sąrašas
+    new: Naudotojo registracija
+    edit: Redaguoti profilį
+  form:
+    email_type: Elektroninis paštas
+    email_type_placeholder: Įveskite elektroninio pašto pavadinimą
+    name_label: Naudotojo vardas
+    name_label_placeholder: Įveskite naudotojo vardą
+    last_name_label: Naudotojo pavardė
+    last_name_label_placeholder: Įveskite naudotojo pavardę
+    phone_label: Telefono numeris
+    phone_placeholder: Įveskite naudotojo telefono numerį
 
 answer:
   placeholder: Atsakymą įveskite į šį laukelį...
-  next_question: Sekantis >
+  next_question: Kitas >
   prev_question: < Ankstesnis
 
 actions: Operacijos
@@ -148,6 +189,12 @@ blank: Laukelis tuščias
 empty: Įrašų nerasta
 empty_attributes: Atributų nerasta
 requied: Yra privalomų laukelių
+required_input: Privalote atsakyti į klausimą
+backgroundcolor: Fono spalva
+buttoncolor: Mygtuko spalva
+displaytime: Rodymo trukmė
+picture: Paveikslėlis
+time: Laiko skaičiavimas
 
 side_nav:
   navigation: Navigacija
@@ -159,6 +206,16 @@ button:
     show: Klausimo peržiūra
     edit: Klausimo redagavimas
     title: Klausimai
+  attribute:
+    new: Atributo kūrimas
+    index: Atributų sąrašas
+    show: Atributo peržiūra
+    edit: Atributo redagavimas
+    title: Atributai
+  user:
+    new: Naudotojo registravimas
+    index: Naudotojų sąrašas
+    title: Naudotojai
   test:
     new: Testo kūrimas
     index: Testų sąrašas
@@ -198,3 +255,4 @@ poppers:
   filter:
     group: Filtruoti pagal grupę
 
+IE: 'Naršyklė "Internet Explorer" nepalaikoma. Prašome prie sistemos prisijungti su kita naršykle'

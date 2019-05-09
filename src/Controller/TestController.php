@@ -253,6 +253,7 @@ class TestController extends AbstractController
             if ($timeQ != null) { $this->setDataTest($question['serial_number']-1, 'paramTimeQ', $timeQ[array_rand($timeQ, 1)]); }
             else { $this->setDataTest($question['serial_number']-1, 'paramTimeQ', []);  }
         }
+        dump($this->arrayTest);
         return $this->render('test/show_example.html.twig', [
             'data_test' => $this->arrayTest,
             'paramTimeT' => $timeTRandom
@@ -313,6 +314,7 @@ class TestController extends AbstractController
                 'done' => 'true',
             ]);
         }
+
         return $this->render('test/new_participation.html.twig', [
             'test' => $test,
             'data' => $this->arrayTest,

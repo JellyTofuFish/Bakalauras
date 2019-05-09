@@ -7,7 +7,12 @@
     <div class="container-fluid">
         <div class="row flex-xl-nowrap">
             <div class="col-12 col-md-2 col-xl-2 bd-sidebar">
-                <nav class="bd-links">
+                <nav class="navbar navbar-light bg-light navigation-sm">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
+                <nav class="bd-links collapse" id="navbarToggleExternalContent">
                     <div class="bd-toc-item {{ 'question' in route ? 'active' }}">
                         <a class="bd-toc-link {{ 'question' in route ? 'active' }}" href="{{ path('question_index') }}">{{ 'button.question.title'|trans }}</a>
                         {% if 'question' in route %}
@@ -63,14 +68,49 @@
                         </ul>
                         {% endif %}
                     </div>
+
+                    <div class="bd-toc-item {{ 'attribute' in route ? 'active' }}">
+                        <a class="bd-toc-link {{ 'attribute' in route ? 'active' }}" href="{{ path('attribute_index') }}">{{ 'button.attribute.title'|trans }}</a>
+                        {% if 'attribute' in route %}
+                            <ul class="nav flex-column">
+                                <li>
+                                    <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('attribute_index') }}">{{ 'button.attribute.index'|trans }}</a>
+                                </li>
+                                <li>
+                                    {% if 'edit' in route or 'show' in route %}
+                                        <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('attribute_edit', {'id': attribute.id}) }}">{{ 'button.attribute.edit'|trans }}</a>
+                                    {% else %}
+                                        <a class="nav-link disabled-menu" href="{{ path('attribute_index', {'route': 'route_edit'})}}">{{ 'button.attribute.edit'|trans }}</a>
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('attribute_new') }}">{{ 'button.attribute.new'|trans }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="bd-toc-item {{ 'user' in route ? 'active' }}">
+                        <a class="bd-toc-link {{ 'user' in route ? 'active' }}" href="{{ path('user_index') }}">{{ 'button.user.title'|trans }}</a>
+                        {% if 'user' in route %}
+                            <ul class="nav flex-column">
+                                <li>
+                                    <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('user_index') }}">{{ 'button.user.index'|trans }}</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('attribute_new') }}">{{ 'button.user.new'|trans }}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
                 </nav>
 
             </div>
 
             {% if (route == 'test_index') %}
-            <div class=" bd-toc">
+            <div class=" bd-toc d-none">
             {% else %}
-            <div class="d-xl-block col-md-2 col-xl-2 bd-toc">
+            <div class="d-xl-block col-md-2 col-xl-2 bd-toc d-none">
             {% endif %}
                 {% block admin_right_nav %}
                 {% endblock %}
@@ -78,7 +118,7 @@
             {% if (route == 'test_index') %}
             <div class="col-12 col-md-10 col-xl-10 py-md-3 px-md-5 bd-content">
             {% else %}
-            <div class="col-12 col-md-8 col-xl-8 py-md-3 pl-md-5 bd-content">
+            <div class="col-12 col-md-10 col-xl-8 py-md-3 pl-md-5 bd-content">
             {% endif %}
                 {% block admin_main %}
                 {% endblock %}

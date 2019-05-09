@@ -35,7 +35,7 @@
                 {% for data in data_test %}
                     {# files #}
                     {% if data.picture is not empty %}
-                        {% if data.picture.name == '' %}
+                        {% if data.picture.name == '' or PictureA.name is not defined%}
                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                         {% else %}
                             {% set link = 'build/images/' ~ PictureA.name %}
@@ -74,18 +74,21 @@
 
                         {# question time attribute #}
                         {% if data.paramTimeQ is not empty %}
-                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
                         {% endif %}
 
                         <div class="d-flex">
                             <h3 class="backgroundColor label-number-gap "><span>{{ data.question.serial_number }}.</span></h3>
                             <h3 class="backgroundColor"> {{ data.question.question_wording }}</h3>
                         </div>
+                        {% if data.question.required %}
+                            <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                        {% endif %}
                         <div class="container px-0 py-3 paramPicture">
 
                             {# picture atttribute #}
                             {% if data.paramPictures is not empty %}
-                                {% if data.paramPictures.value == '' %}
+                                {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
                                     {% set link = 'build/images/' ~ 'Default.jpg' %}
                                 {% else %}
                                     {% set link = 'build/images/' ~ data.paramPictures.value %}
@@ -142,18 +145,21 @@
 
                         {# question time attribute #}
                         {% if data.paramTimeQ is not empty %}
-                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
                         {% endif %}
 
                         <div class="d-flex">
                             <h3 class="backgroundColor label-number-gap"><span>{{ data.question.serial_number }}.</span></h3>
                             <h3 class="backgroundColor"> {{ data.question.question_wording }}</h3>
                         </div>
+                        {% if data.question.required %}
+                            <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                        {% endif %}
                         <div class="container px-0 py-3 paramPicture">
 
                             {# picture atttribute #}
                             {% if data.paramPictures is not empty %}
-                                {% if data.paramPictures.value == '' %}
+                                {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
                                     {% set link = 'build/images/' ~ 'Default.jpg' %}
                                 {% else %}
                                     {% set link = 'build/images/' ~ data.paramPictures.value %}
@@ -214,18 +220,21 @@
 
                         {# question time attribute #}
                         {% if data.paramTimeQ is not empty %}
-                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
                         {% endif %}
 
                         <div class="d-flex">
                             <h3 class="backgroundColor label-number-gap"><span>{{ data.question.serial_number }}.</span></h3>
                             <h3 class="backgroundColor" > {{ data.question.question_wording }}</h3>
                         </div>
+                        {% if data.question.required %}
+                            <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                        {% endif %}
                         <div class="container px-0 py-3 paramPicture">
 
                             {# picture attribute #}
                             {% if data.paramPictures is not empty %}
-                                {% if data.paramPictures.value == '' %}
+                                {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
                                     {% set link = 'build/images/' ~ 'Default.jpg' %}
                                 {% else %}
                                     {% set link = 'build/images/' ~ data.paramPictures.value %}
@@ -275,17 +284,20 @@
 
                         {# question time attribute #}
                         {% if data.paramTimeQ is not empty %}
-                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                            <input type="text" id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
                         {% endif %}
 
                         <div class="d-flex">
                             <h2 class="backgroundColor"> {{ data.question.question_wording }}</h2>
                         </div>
+                        {% if data.question.required %}
+                            <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                        {% endif %}
                         <div class="container px-0 py-3 paramPicture">
 
                             {# picture atttribute #}
                             {% if data.paramPictures is not empty %}
-                                {% if data.paramPictures.value == '' %}
+                                {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
                                     {% set link = 'build/images/' ~ 'Default.jpg' %}
                                 {% else %}
                                     {% set link = 'build/images/' ~ data.paramPictures.value %}

@@ -21,9 +21,8 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $user->setEmail(sprintf('email1@e.e'));
         $user->setName('Bob');
         $user->setLastName('Johnathan');
-        $user->setPhone('+37068975578');
-        $user->setPassword($this->passwordEncoder->encodePassword(
-            $user,'e'));
+        $user->setPhone('+1-202-555-0112');
+        $user->setPassword($this->passwordEncoder->encodePassword( $user,'e'));
         $manager->persist($user);
         $manager->flush();
         $this->addReference('user1',$user );
@@ -32,8 +31,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $user->setEmail(sprintf('email2@example.com'));
         $user->setName('Dante');
         $user->setLastName('Broncs');
-        $user->setPassword($this->passwordEncoder->encodePassword(
-            $user,'password123'));
+        $user->setPassword($this->passwordEncoder->encodePassword($user,'password123'));
         $manager->persist($user);
         $manager->flush();
         $this->addReference('user2',$user );

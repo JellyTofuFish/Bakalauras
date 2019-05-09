@@ -12,12 +12,14 @@ class GrouplistFixtures extends Fixture implements OrderedFixtureInterface
     {
         $group = new GroupList();
         $group->setName('Test group main');
-        $group->setDescription('group description');
+        $group->setDescription('group for active test1 questions');
         $this->addReference('group1',$group );
         $manager->persist($group);
         $manager->flush();
+
         $group = new GroupList();
         $group->setName('Test group secondary');
+        $group->setDescription('group for other questions');
         $this->addReference('group2',$group );
         $manager->persist($group);
         $manager->flush();

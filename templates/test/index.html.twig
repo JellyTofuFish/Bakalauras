@@ -2,115 +2,118 @@
 
 {% block title %} {{ 'test.title.index'|trans }} | ETS{% endblock %}
 
-{% block admin_right_nav %}
-    {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }}">
-                <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <span class='alert-message'>{{ message|trans }}</span>
-            </div>
+
+    {% block admin_right_nav %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">
+                    <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span class='alert-message'>{{ message|trans }}</span>
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    {% endblock %}
 
-{% endblock %}
+    {% block admin_main %}
 
-{% block admin_main %}
-
-    <h1>{{ 'test.title.index'|trans }}</h1>
-    <div class="table-responsive table-header-sticky">
-        <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
-            <thead>
-            <tr>
-                <th scope="col" colspan="2">
-                    <span>{{ 'test.form.test_name_label'|trans }}</span>
-                    <a class="text-light" href="{{ path('test_index', { 'slug':'test_name' , 'sort':data['test_name'] }) }}">
-                        <i id="testIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.name'|trans }}" class="px-2 questionSort pointer fa {{ data['test_name'] }}"></i>
-                    </a>
-                </th>
-                <th scope="col">
-                    <span>{{ 'test.form.created_at_label'|trans }}</span>
-                    <a class="text-light" href="{{ path('test_index', { 'slug':'created_at' , 'sort':data['created_at'] }) }}">
-                        <i id="testIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.created_at'|trans }}" class="px-2 questionSort pointer fa {{ data['created_at'] }}"></i>
-                    </a>
-                </th>
-                <th scope="col">
-                    <span>{{ 'test.form.test_start_label'|trans }}</span>
-                    <a class="text-light" href="{{ path('test_index', { 'slug':'start' , 'sort':data['start'] }) }}">
-                        <i id="testIndexCaret3" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.start'|trans }}" class="px-2 questionSort pointer fa {{  data['start'] }}"></i>
-                    </a>
-                </th>
-                <th scope="col">
-                    <span>{{ 'test.form.test_end_label'|trans }}</span>
-                    <a class="text-light" href="{{ path('test_index', { 'slug':'end' , 'sort':data['end'] }) }}">
-                        <i id="testIndexCaret4" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.end'|trans }}" class="px-2 questionSort pointer fa {{  data['end'] }}"></i>
-                    </a>
-                </th>
-                <th scope="col" class="w-12">
-                    <span>{{ 'test.form.test_count'|trans }}</span>
-                </th>
-                <th scope="col">{{ 'actions'|trans }}</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-
-    <div class="table-responsive">
-        <table class="table table-borderless mb-0 table-index">
-            <tbody>
-            {% set blank = '<i>' ~ 'blank'|trans ~ '</i>' %}
-            {% for test in tests %}
+        <h1>{{ 'test.title.index'|trans }}</h1>
+        <div class="table-responsive table-header-sticky">
+            <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
+                <thead>
                 <tr>
-                    <td colspan="2">
-                        <p>{{ test.name|trans }}</p>
-                    </td>
-                    <td>
-                        <p>{{ test.createdAt|date('Y-m-d') }}</p>
-                    </td>
-                    <td>
-                        <p>{% if test.testStart %}{{ test.testStart|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
-                    </td>
-                    <td>
-                        <p>{% if test.testEnd %}{{ test.testEnd|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
-                    </td>
-                    <td class="text-center w-12">
-                        <p>
-                            {{ test.testQuestions.count }}
-                        </p>
-                    </td>
-                    <td>
-                        <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="pr-2-5 py-2" href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file"></i></a>
-                        <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="pr-2-5 py-2" href="{{ path('test_edit', {'id': test.id}) }}"><i class="fa fa-pencil"></i></a>
-                        <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}" class="pr-2-5 py-2" href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
-                        <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" class="pr-2-5 py-2" href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+                    <th scope="col" colspan="2">
+                        <span>{{ 'test.form.test_name_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('test_index', { 'slug':'test_name' , 'sort':data['test_name'] }) }}">
+                            <i id="testIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.name'|trans }}" class="px-2 questionSort pointer fa {{ data['test_name'] }}"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <span>{{ 'test.form.created_at_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('test_index', { 'slug':'created_at' , 'sort':data['created_at'] }) }}">
+                            <i id="testIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.created_at'|trans }}" class="px-2 questionSort pointer fa {{ data['created_at'] }}"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <span>{{ 'test.form.test_start_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('test_index', { 'slug':'start' , 'sort':data['start'] }) }}">
+                            <i id="testIndexCaret3" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.start'|trans }}" class="px-2 questionSort pointer fa {{  data['start'] }}"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <span>{{ 'test.form.test_end_label'|trans }}</span>
+                        <a class="text-light" href="{{ path('test_index', { 'slug':'end' , 'sort':data['end'] }) }}">
+                            <i id="testIndexCaret4" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.end'|trans }}" class="px-2 questionSort pointer fa {{  data['end'] }}"></i>
+                        </a>
+                    </th>
+                    <th scope="col" class="w-12">
+                        <span>{{ 'test.form.test_count'|trans }}</span>
+                    </th>
+                    <th scope="col">{{ 'actions'|trans }}</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
 
-                        <div class="modal fade" id="testModal{{ test.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="testModalLabel">{{ 'test.delete_message'|trans }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="d-flex justify-content-between">
-                                            {{ include('test/_delete_form.html.twig') }}
+        <div class="table-responsive">
+            <table class="table table-borderless mb-0 table-index">
+                <tbody>
+                {% set blank = '<i>' ~ 'blank'|trans ~ '</i>' %}
+                {% for test in tests %}
+                    <tr>
+                        <td colspan="2">
+                            <p>{{ test.name|trans }}</p>
+                        </td>
+                        <td>
+                            <p>{{ test.createdAt|date('Y-m-d') }}</p>
+                        </td>
+                        <td>
+                            <p>{% if test.testStart %}{{ test.testStart|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
+                        </td>
+                        <td>
+                            <p>{% if test.testEnd %}{{ test.testEnd|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
+                        </td>
+                        <td class="text-center w-12">
+                            <p>
+                                {{ test.testQuestions.count }}
+                            </p>
+                        </td>
+                        <td class="d-flex justify-content-between">
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('test_edit', {'id': test.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-copy"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-file-excel-o"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}"  href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+
+                            <div class="modal fade" id="testModal{{ test.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="testModalLabel">{{ 'test.delete_message'|trans }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="d-flex justify-content-between">
+                                                {{ include('test/_delete_form.html.twig') }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-            {% else %}
-                <tr class="text-center">
-                    <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                        </td>
+                    </tr>
 
-{% endblock %}
+                {% else %}
+                    <tr class="text-center">
+                        <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endblock %}

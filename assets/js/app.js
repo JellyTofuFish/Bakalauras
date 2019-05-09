@@ -20,8 +20,20 @@ require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
 require('../images/Default.jpg');
+require('../images/reddit.jpg');
+require('../images/facebook.jpg');
 
 // General + bootrstap animations
+
+function isIE() {
+    var ua = navigator.userAgent;
+    var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+
+    return is_ie;
+}
+if (isIE()){
+    alert('Naršyklė "Internet Explorer" nepalaikoma. Prašome prie sistemos prisijungti su kita naršykle');
+}
 
 $('.modal-append-show').click(function () {
     let item = $(this).data('target');
@@ -122,7 +134,7 @@ function questionAjaxPost(form, url, redi = false) {
     .done(function (data) {
         if ( redi ) {
             let origin  = window.location.origin;
-            let link = origin + "/question/" + data.id;
+            let link = origin + "/questions" ;
             window.location.replace(link);
         }
         else {
@@ -273,8 +285,6 @@ $("#test_is_active").click(function (event) {
         $(inputDate).removeClass('invalid');
     }
 });
-
-// Question example functions
 
 let timeoutDisplayTime;
 if ($('input.test-slug').data('action') === 'question example') {
@@ -751,7 +761,7 @@ var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col
 
     $addTestQuestionButton.on('click', function(e) {
         e.preventDefault();
-        addTestQuestionForm($collectionHolder2, $newLinkLi2);description
+        addTestQuestionForm($collectionHolder2, $newLinkLi2);
     });
 })();
 

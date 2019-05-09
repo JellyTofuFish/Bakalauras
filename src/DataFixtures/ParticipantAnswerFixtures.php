@@ -15,25 +15,24 @@ class ParticipantAnswerFixtures extends Fixture implements OrderedFixtureInterfa
         $pa = new ParticipantAnswer();
         $pa->setFkQuestion($this->getReference('question3'));
         $pa->setFkTestParticipation($this->getReference('participation1'));
-        $pa->setAnswer('participant open answer value');
+        $pa->setAnswer('textbox type question answer value');
         $this->addReference('ParticipantAnswer1',$pa );
         $manager->persist($pa);
         $manager->flush();
-
         $pa = new ParticipantAnswer();
-        $pa->setFkQuestion($this->getReference('question1'));
+        $pa->setFkQuestion(null);
         $pa->setFkTestParticipation($this->getReference('participation1'));
+        $pa->setAnswer(null);
         $pa->addFkAnsweroption($this->getReference('AnswerOption1'));
         $this->addReference('ParticipantAnswer2',$pa );
         $manager->persist($pa);
         $manager->flush();
-
         $pa = new ParticipantAnswer();
-        $pa->setFkQuestion($this->getReference('question2'));
+        $pa->setFkQuestion(null);
         $pa->setFkTestParticipation($this->getReference('participation1'));
+        $pa->setAnswer(null);
         $pa->addFkAnsweroption($this->getReference('AnswerOption3'));
         $pa->addFkAnsweroption($this->getReference('AnswerOption4'));
-        $pa->addFkAnsweroption($this->getReference('AnswerOption5'));
         $this->addReference('ParticipantAnswer3',$pa );
         $manager->persist($pa);
         $manager->flush();
@@ -41,19 +40,27 @@ class ParticipantAnswerFixtures extends Fixture implements OrderedFixtureInterfa
         $pa = new ParticipantAnswer();
         $pa->setFkQuestion($this->getReference('question3'));
         $pa->setFkTestParticipation($this->getReference('participation2'));
-        $pa->setAnswer('participant open answer value 2');
+        $pa->setAnswer('textbox type question answer value2');
         $this->addReference('ParticipantAnswer4',$pa );
         $manager->persist($pa);
         $manager->flush();
-
         $pa = new ParticipantAnswer();
-        $pa->setFkQuestion($this->getReference('question5'));
-        $pa->setFkTestParticipation($this->getReference('participation3'));
-        $pa->addFkAnsweroption($this->getReference('AnswerOption6'));
-        $pa->addFkAnsweroption($this->getReference('AnswerOption7'));
+        $pa->setFkQuestion(null);
+        $pa->setFkTestParticipation($this->getReference('participation2'));
+        $pa->setAnswer(null);
+        $pa->addFkAnsweroption($this->getReference('AnswerOption2'));
         $this->addReference('ParticipantAnswer5',$pa );
         $manager->persist($pa);
         $manager->flush();
+        $pa = new ParticipantAnswer();
+        $pa->setFkQuestion(null);
+        $pa->setFkTestParticipation($this->getReference('participation2'));
+        $pa->setAnswer(null);
+        $pa->addFkAnsweroption($this->getReference('AnswerOption5'));
+        $this->addReference('ParticipantAnswer6',$pa );
+        $manager->persist($pa);
+        $manager->flush();
+
 
     }
     public function getOrder() {

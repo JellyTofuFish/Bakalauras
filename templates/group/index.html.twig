@@ -19,7 +19,7 @@
     <a href="{{ path('question_index', { 'group':group.id }) }}">
         <i id="questionIndexCaret{{ group.id }}" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.filter.group'|trans }}" class="px-2 pointer fa fa-filter"></i>
     </a>
-    <a href="" class="btn btn-block btn-link text-left modal-append-show ml-2 p-0" type="button" data-toggle="modal" data-target="#groupModal{{ group.id }}">
+    <a href="" class="btn btn-block btn-link text-left modal-append-show ml-2 p-0" data-toggle="modal" data-target="#groupModal{{ group.id }}">
         {{ group.name }}
     </a>
 </li>

@@ -1315,7 +1315,6 @@
             <argument>P:\web\SitesPHP\bakalauras\vendor\symfony\form/Resources/translations\validators.lt.xlf</argument>
             <argument>P:\web\SitesPHP\bakalauras\vendor\symfony\security-core/Resources/translations\security.lt.xlf</argument>
             <argument>P:\web\SitesPHP\bakalauras/translations\messages.lt.yaml</argument>
-            <argument>P:\web\SitesPHP\bakalauras/translations\question.lt.yaml</argument>
           </argument>
           <argument key="lv" type="collection">
             <argument>P:\web\SitesPHP\bakalauras\vendor\symfony\validator/Resources/translations\validators.lv.xlf</argument>
@@ -1821,6 +1820,14 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -2993,6 +3000,13 @@
         <argument>null</argument>
       </call>
       <call method="add">
+        <argument type="service" id=".security.request_matcher.L0yUp4P"/>
+        <argument type="collection">
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
         <argument type="service" id=".security.request_matcher.PhQgZ9B"/>
         <argument type="collection">
           <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
@@ -3491,6 +3505,9 @@
     </service>
     <service id=".security.request_matcher.7wnZh02" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/tests$</argument>
+    </service>
+    <service id=".security.request_matcher.L0yUp4P" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/participation</argument>
     </service>
     <service id=".security.request_matcher.PhQgZ9B" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/</argument>
@@ -4146,11 +4163,10 @@
         <argument key="questionRepository" type="service" id="App\Repository\QuestionRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.FB8Fqd2" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.2I4ByA9" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="authenticationUtils" type="service" id="security.authentication_utils"/>
-        <argument key="questionRepository" type="service" id="App\Repository\QuestionRepository"/>
         <argument key="testRepository" type="service" id="App\Repository\TestRepository"/>
       </argument>
     </service>
@@ -4202,12 +4218,12 @@
         <argument key="testRepository" type="service" id="App\Repository\TestRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.ulsOgFS" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.S9_XQRB" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\GroupController::delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="App\Controller\GroupController::edit" type="service" id=".service_locator.JEcBMWw"/>
-        <argument key="App\Controller\MainController::index" type="service" id=".service_locator.FB8Fqd2"/>
+        <argument key="App\Controller\MainController::index" type="service" id=".service_locator.2I4ByA9"/>
         <argument key="App\Controller\QuestionController::delete" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::index" type="service" id=".service_locator.yqXH9Y."/>
@@ -4223,7 +4239,7 @@
         <argument key="group_controller::edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\GroupController:delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="App\Controller\GroupController:edit" type="service" id=".service_locator.JEcBMWw"/>
-        <argument key="App\Controller\MainController:index" type="service" id=".service_locator.FB8Fqd2"/>
+        <argument key="App\Controller\MainController:index" type="service" id=".service_locator.2I4ByA9"/>
         <argument key="App\Controller\QuestionController:delete" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:index" type="service" id=".service_locator.yqXH9Y."/>
@@ -4586,7 +4602,7 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.ulsOgFS"/>
+      <argument type="service" id=".service_locator.S9_XQRB"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
@@ -4849,7 +4865,7 @@
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger" public="false"/>
     <service id="fos_js_routing.router" alias="router.default" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.ulsOgFS"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.S9_XQRB"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".service_locator.tSKDlY7" alias=".1_ServiceLocator~n2lsigk" public="false"/>

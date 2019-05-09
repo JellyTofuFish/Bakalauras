@@ -119,7 +119,7 @@ class QuestionController extends AbstractController
 
         // Flash message
         if ($route != null ) {
-            $this->addFlash('primary', 'question.flash_message.question');
+            $this->addFlash('warning', 'question.flash_message.question');
         }
 
         return $this->render('question/index.html.twig', [
@@ -142,6 +142,7 @@ class QuestionController extends AbstractController
         $form = $this->createForm(QuestionType::class, $question);
         $formGroup = $this->createForm(GroupSimpleType::class, $group);
         $form->handleRequest($request);
+
 
         return $this->render('question/new.html.twig', [
             'question'=> $question,
@@ -169,6 +170,7 @@ class QuestionController extends AbstractController
             $entityManager->persist($question);
             $entityManager->flush();
         }
+        $this->addFlash('success', 'question.flash_message.created');
         return new JsonResponse(['id'=> $question->getId()]);
     }
 
@@ -244,9 +246,9 @@ class QuestionController extends AbstractController
             }
             $entityManager->persist($Question);
             $entityManager->flush();
+            $this->addFlash('success', 'question.flash_message.edited');
             return new JsonResponse(['id'=> $question->getId()]);
         }
-
         return $this->render('question/edit.html.twig', [
             'question' => $Question,
             'form' => $form->createView(),
@@ -301,6 +303,7 @@ class QuestionController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('warning', 'question.flash_message.deleted');
         return $this->redirectToRoute('question_index');
     }
 

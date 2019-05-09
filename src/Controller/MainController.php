@@ -45,7 +45,10 @@ class MainController extends AbstractController
             if ($activeTest != null) {
                 if ($activeTest->getIsActive() ) {
                     if ( $activeTest->getTestStart() > new \DateTime('now') ) {
-                        $this->addFlash('warning', 'test.flash_message.not_started' + $activeTest->getTestStart());
+                        $time = (string)$activeTest->getTestStart()->format('Y-m-d H:i:s');
+                        $this->addFlash('warning', 'test.flash_message.not_started' );
+                        $this->addFlash('warning', $time);
+
                         return $this->render('main/index.html.twig', [
                             'last_username' => $lastUsername,
                             'form' => $form->createView(),

@@ -59,6 +59,9 @@
                     <h3 class="backgroundColor label-number-gap "><span>{{ random(20) }}.</span></h3>
                     <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
                 </div>
+                {% if data.question.required %}
+                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                {% endif %}
                 <div class="container px-0 py-3 paramPicture">
 
                     {#picture atttribute #}
@@ -95,8 +98,8 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
@@ -108,6 +111,9 @@
                     <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
                     <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
                 </div>
+                {% if data.question.required %}
+                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                {% endif %}
                 <div class="container px-0 py-3 paramPicture">
 
                     {#picture atttribute #}
@@ -148,8 +154,8 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
@@ -161,6 +167,9 @@
                     <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
                     <h3 class="backgroundColor" > {{ data.question.questionWording }}</h3>
                 </div>
+                {% if data.question.required %}
+                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                {% endif %}
                 <div class="container px-0 py-3 paramPicture">
 
                     {#picture atttribute #}
@@ -190,8 +199,8 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary  buttonColor">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
@@ -202,6 +211,9 @@
                 <div class="d-flex">
                     <h2 class="backgroundColor"> {{ data.question.questionWording }}</h2>
                 </div>
+                {% if data.question.required %}
+                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
+                {% endif %}
                 <div class="container px-0 py-3 paramPicture">
 
                      {# picture atttribute #}
@@ -227,21 +239,21 @@
                             {% set displayTime = displayTimeA.value|split(':') %}
                             {% if (displayTime[1] == 1)%}
                             <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
-                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
                             </div>
                             {% endif %}
                             {% if (displayTime[1] == 0)%}
                             <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
-                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary  buttonColor">{{ 'answer.next_question'|trans }}</button>
                             </div>
                             {% endif %}
                         {% endfor %}
                     {% else %}
                             <div class="container px-0">
-                                <button class="float-left prev btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary bg-primary border-primary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
                             </div>
                     {% endif %}
 
@@ -267,7 +279,7 @@
                                 <h6 class="dropdown-header">{{ 'attribute.colors'|trans }}:</h6>
                                 {% set numb = 1 %}
                                 {% for backgroundC in data.paramBackground %}
-                                    <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramBackgroundColor" data-attribute="{{ backgroundC.value }}">{{ numb }}. <span class="py-2 px-4 badge" style="background-color:{{ backgroundC.value }}">&nbsp;</span> {{ backgroundC.value }}</a>
+                                    <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramBackgroundColor" data-attribute="{{ backgroundC.value }}">{{ numb }}. <span class="py-2 px-4 badge" style="background-color:{{ backgroundC.value }}">&nbsp;</span> {{ backgroundC.value }}</a>
                                     {% set numb = numb +1 %}
                                 {% endfor %}
                             </div>
@@ -285,7 +297,7 @@
                                 <h6 class="dropdown-header">{{ 'attribute.colors'|trans }}:</h6>
                                 {% set numb = 1 %}
                                 {% for buttonC in data.paramButton %}
-                                <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramButtonColor" data-attribute="{{ buttonC.value }}" >{{ numb }}. <span class="py-2 badge px-4" style="background-color:{{ buttonC.value }}">&nbsp;</span> {{ buttonC.value }}</a>
+                                <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramButtonColor" data-attribute="{{ buttonC.value }}" >{{ numb }}. <span class="py-2 badge px-4" style="background-color:{{ buttonC.value }}">&nbsp;</span> {{ buttonC.value }}</a>
                                 {% set numb = numb +1 %}
                                 {% endfor %}
                             </div>
@@ -305,7 +317,7 @@
                                 {% set numb = 1 %}
                                 {% for timeA in data.paramTime %}
                                     {% set time = timeA.value|split(':') %}
-                                    <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramTime" data-attribute="{{ timeA.value }}">
+                                    <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramTime" data-attribute="{{ timeA.value }}">
                                         {{ numb }}.
                                         {% if (time[1] == 1)%} {{ 'attribute.timer'|trans }}: {{ time[0] }} {{ 'attribute.seconds'|trans }}
                                         {% elseif (time[1] == 0)%} {{ 'attribute.chronometer'|trans }}: {{ time[0] }} {{ 'attribute.seconds'|trans }}
@@ -330,7 +342,7 @@
                                     {% set numb = 1 %}
                                     {% for displayTimeA in data.paramDisplayTime %}
                                         {% set displayTime = displayTimeA.value|split(':') %}
-                                        <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramDisplayTime" data-attribute="{{ displayTimeA.value }}">
+                                        <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramDisplayTime" data-attribute="{{ displayTimeA.value }}">
                                             {{ numb }}.
                                             {% if (displayTime[1] == 1)%} {{ 'attribute.next_hidden'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
                                             {% elseif (displayTime[1] == 0)%} {{ 'attribute.next_off'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
@@ -354,7 +366,7 @@
                                     <h6 class="dropdown-header">{{ 'attribute.files'|trans }}:</h6>
                                     {% set numb = 1 %}
                                     {% for pictureA in data.paramPictures %}
-                                        <a type="button" class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramPicture" data-attribute="{{ pictureA.id }}">
+                                        <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramPicture" data-attribute="{{ pictureA.id }}">
                                             {{ numb }}.
                                             {% if pictureA.value is null %} {{ 'attribute.file_missing'|trans }}
                                             {% else %} {{ pictureA.value }}

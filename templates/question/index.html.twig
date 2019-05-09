@@ -38,7 +38,7 @@
                     <th scope="col">
                         <span>{{ 'question.form.type_label'|trans }}</span>
                         <a class="text-light" href="{{ path('question_index', { 'slug':'type' , 'sort':data['type'] }) }}">
-                            <i id="questionIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.created_at'|trans }}" class="px-2 questionSort pointer fa {{ data['type'] }}"></i>
+                            <i id="questionIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.type'|trans }}" class="px-2 questionSort pointer fa {{ data['type'] }}"></i>
                         </a>
                     </th>
                     <th scope="col">
@@ -73,12 +73,12 @@
                             {% endif %}
                             </p>
                         </td>
-                        <td>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}" class="pr-2-5 py-2" href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}" class="pr-2-5 py-2" href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
-                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}" class="pr-2-5 py-2" href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" class="pr-2-5 py-2" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
-
+                        <td class="d-flex justify-content-around">
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-copy"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
 
                             <div class="modal fade" id="questionModal{{ question.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">

@@ -1,7 +1,7 @@
 {{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'', 'action': path('group_new') }}) }}
 
 <div class="form-group row">
-    {{ form_label(form.name, null, { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
+    {{ form_label(form.name, 'group.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
     <div class="col-sm-10">
         {{ form_widget(form.name, { 'attr': { 'class':'form-control', 'pattern':'.{2,50}' }  }) }}
         <div class="invalid-feedback mb-3">

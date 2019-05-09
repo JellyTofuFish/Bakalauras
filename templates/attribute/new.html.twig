@@ -1,0 +1,24 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %} {{ 'attribute.title.new'|trans }} | ETS{% endblock %}
+
+{% block admin_right_nav %}
+    <ul class="section-nav">
+        <li class="toc-entry">
+            <p>{{ 'side_nav.navigation'|trans }}:</p>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-general" data-target="#home" data-target-animation="#attributeCaret1" aria-controls="home">{{ 'general'|trans }}</a>
+        </li>
+        <li class="toc-entry">
+            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-save">{{ 'button.new'|trans }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block admin_main %}
+
+    <h1>{{ 'attribute.title.new'|trans }}</h1>
+    {{ include('attribute/_form.html.twig', {'button_label': 'button.new'}) }}
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{{ form_start(form, { 'attr': { 'id':'attribute_form', 'class':'needs-validation', 'novalidate':'' }}) }}
+<div class="accordion">
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-general">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                    <i id="attributeCaret1" class="fa fa-caret-down transition"></i>
+                    <span class="pl-2">{{ 'general'|trans }} <b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
+                </button>
+            </h2>
+        </div>
+        <div id="home" class="tab-pane show" aria-labelledby="list-general list-general-list">
+            <div class="card-body">
+                <div class="form-group row">
+                    {{ form_label(form.name, 'attribute.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
+                    <div class="col-sm-10 mb-3">
+                        {{ form_widget(form.name, { 'attr': { 'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'test.validation.name'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
+                    <div class="col-sm-10 mb-3">
+                        {{ form_widget(form.description, { 'attr': {'class':'form-control '} }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card border-light">
+        <div class="card-header bg-transparent p-0" id="list-save">
+            <h2 class="mb-0">
+                <button class="btn btn-block btn-outline-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save')|trans  }}</button>
+            </h2>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}

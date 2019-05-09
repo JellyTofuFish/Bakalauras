@@ -2,23 +2,61 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\UserType;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
 
-//    /**
-//     * @Route("/login", name="app_login")
-//     */
-//    public function login(AuthenticationUtils $authenticationUtils)
-//    {
-//        $lastUsername = $authenticationUtils->getLastUsername();
-//        return $this->render('main/index.html.twig', [
-//            'last_username' => $lastUsername,
-//        ]);
-//    }
+    /**
+     * @Route("/users", name="user_index", methods={"GET"})
+     */
+    public function index(UserRepository $uRepositor ): Response
+    {
+        return $this->render('user/index.html.twig', [
+            'users' => $uRepositor->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/new", name="user_new", methods={"GET","POST"})
+     */
+    public function new(Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('user/new.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("user/{id}", name="user_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
     /**
      * @Route("/logout", name="app_logout")
      */

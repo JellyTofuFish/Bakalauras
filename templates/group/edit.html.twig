@@ -22,7 +22,7 @@
     {{ 'button.delete'|trans }}
 </button>
 
-<div id="groupModal{{ group.id }}Delete" class="modal-footer-custom float-right" style="display: none;">
+<div id="groupModal{{ group.id }}Delete" class="modal-footer-custom display-hidden">
     <p class=" mb-3">{{ 'group.delete_message'|trans }}</p>
     <div class="d-flex justify-content-between">
         {{ include('group/_delete_form.html.twig') }}
