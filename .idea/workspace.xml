@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ParticipantAnswerAttribute.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ParticipantAnswerAttribute.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TestAttributeRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TestAttributeRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/question/show_example.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/show_example.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/new_participation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/new_participation.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/show_example.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/show_example.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translations/messages.lt.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/translations/messages.lt.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,30 +71,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
+        <entry file="file://$PROJECT_DIR$/src/Controller/QuestionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2116">
-              <caret line="431" column="13" selection-start-line="431" selection-start-column="13" selection-end-line="431" selection-end-column="13" />
+            <state relative-caret-position="239">
+              <caret line="220" selection-start-line="220" selection-end-line="220" />
               <folding>
-                <element signature="e#34#62#0#PHP" expanded="true" />
-                <element signature="e#4994#5006#1#PHP" expanded="true" />
-                <element signature="e#5049#5069#0#PHP" expanded="true" />
-                <element signature="e#24685#24697#0#PHP" expanded="true" />
-                <element signature="e#24790#24824#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-              <folding>
-                <element signature="e#12#26#0#Twig" expanded="true" />
-                <element signature="e#257#271#0#Twig" expanded="true" />
-                <element signature="e#340#348#0#Twig" expanded="true" />
+                <element signature="e#4301#4327#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -556,16 +524,15 @@
       <workItem from="1557366505880" duration="11031000" />
       <workItem from="1557758282406" duration="77000" />
       <workItem from="1557758608372" duration="37000" />
-      <workItem from="1557758964025" duration="90683000" />
+      <workItem from="1557758964025" duration="90980000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1107542000" />
+    <option name="totallyTimeSpent" value="1107839000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.10341151" />
@@ -582,13 +549,13 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.48560768" weight="0.17009751" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48560768" visible="true" weight="0.17009751" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5143923" side_tool="true" weight="0.07367281" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" weight="0.32827735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.12260128" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.12260128" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -916,16 +883,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/QuestionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3355">
-          <caret line="220" selection-start-line="220" selection-end-line="220" />
-          <folding>
-            <element signature="e#4301#4327#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/GroupController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -1004,7 +961,7 @@
     <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
-          <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
           <folding>
             <element signature="e#12#26#0#Twig" expanded="true" />
             <element signature="e#257#271#0#Twig" expanded="true" />
@@ -1015,14 +972,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2116">
-          <caret line="431" column="13" selection-start-line="431" selection-start-column="13" selection-end-line="431" selection-end-column="13" />
+        <state relative-caret-position="644">
+          <caret line="149" column="29" selection-start-line="149" selection-start-column="29" selection-end-line="149" selection-end-column="29" />
           <folding>
             <element signature="e#34#62#0#PHP" expanded="true" />
             <element signature="e#4994#5006#1#PHP" expanded="true" />
             <element signature="e#5049#5069#0#PHP" expanded="true" />
             <element signature="e#24685#24697#0#PHP" expanded="true" />
             <element signature="e#24790#24824#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/QuestionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="220" selection-start-line="220" selection-end-line="220" />
+          <folding>
+            <element signature="e#4301#4327#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
