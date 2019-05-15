@@ -23,7 +23,7 @@
             <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
                 <thead>
                 <tr>
-                    <th scope="col" colspan="2">
+                    <th scope="col">
                         <span>{{ 'test.form.test_name_label'|trans }}</span>
                         <a class="text-light" href="{{ path('test_index', { 'slug':'test_name' , 'sort':data['test_name'] }) }}">
                             <i id="testIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.name'|trans }}" class="px-2 questionSort pointer fa {{ data['test_name'] }}"></i>
@@ -62,7 +62,7 @@
                 {% set blank = '<i>' ~ 'blank'|trans ~ '</i>' %}
                 {% for test in tests %}
                     <tr>
-                        <td colspan="2">
+                        <td>
                             <p>{{ test.name|trans }}</p>
                         </td>
                         <td>
@@ -85,7 +85,7 @@
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-copy"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-file-excel-o"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}"  href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}"  href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
 
                             <div class="modal fade" id="testModal{{ test.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">

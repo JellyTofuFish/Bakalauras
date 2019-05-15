@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="heroku_060faedb701da26@eu-cdbr-west-02.cleardb.net">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.14">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.15">
     <root id="1">
       <ServerVersion>5.6.43</ServerVersion>
       <DefaultEngine>InnoDB</DefaultEngine>
@@ -1546,30 +1546,30 @@ participant_answer_id</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="376" parent="233" name="last_activated_at">
+    <column id="376" parent="233" name="test_start">
       <Position>6</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="377" parent="233" name="test_start">
+    <column id="377" parent="233" name="test_end">
       <Position>7</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="378" parent="233" name="test_end">
+    <column id="378" parent="233" name="is_active">
       <Position>8</Position>
-      <DataType>datetime|0s</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="379" parent="233" name="is_active">
-      <Position>9</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="380" parent="233" name="fk_user_id">
-      <Position>10</Position>
+    <column id="379" parent="233" name="fk_user_id">
+      <Position>9</Position>
       <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="380" parent="233" name="prev_button">
+      <Position>10</Position>
+      <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="381" parent="233" name="IDX_D87F7E0C5741EEB9">

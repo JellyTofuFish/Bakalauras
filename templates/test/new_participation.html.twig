@@ -1,136 +1,378 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ 'question.title.example'|trans }} | ETS{% endblock %}
+{% block title %} {{ 'test.title.test'|trans }} | ETS{% endblock %}
 
 {% block body %}
     <input class="display-hidden test-slug" data-action="{{ 'test participation' }}">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-5 col-xl-5 mt-25">
-                <form id="slider" method="post" action="{{ path('test_new_start', {'id': test.id, 'testPart': testPart }) }}">
+    <form id="slider" method="post" action="{{ path('test_new_start', {'id': test.id, 'testPart': testPart }) }}" data-target="{{ path('test_end', {'testPart': testPart }) }}">
 
-                    {% for question in data %}
+    {# time attribute #}
+    {% if paramTimeT is not empty %}
+        <div class="position-fixed mt-5 ml-5">
+            {% set time = paramTimeT.value|split(':') %}
+            <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor paramTime {% if time[2] == 0 %} display-hidden {% endif %}" style="width: 12rem">
+                {% if time[1] == 1 %}
+                    <div class="card-body border-0 py-2 px-3 font-acc">
+                        {{ 'question.time'|trans }}:
+                        <span class="timer" data-target="{{ paramTimeT.value }}" data-attribute="{{ paramTimeT.id }}"></span>
+                        <input id="{{ paramTimeT.id }}" name="test_new_start[testTime][{{ paramTimeT.id }}]" type="text" class="display-hidden" value="">
+                    </div>
+                {% endif %}
+                {% if time[1] == 0 %}
+                    <div class="card-body border-0 py-2 px-3 font-acc">
+                        {{ 'question.time'|trans }}:
+                        <span class="chronometer" data-target="{{ paramTimeT.value }}" data-attribute="{{ paramTimeT.id }}"></span>
+                        <input id="{{ paramTimeT.id }}" name="test_new_start[testTime][{{ paramTimeT.id }}]" type="text" class="display-hidden" value="">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
-                    {% if  question['type'] == 'multi' %}
-
-                    <article class="hide" id="page_{{ question['serial_number'] }}">
-                        <div class="d-flex my-3">
-                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
-                            <h3> {{ question['question_wording'] }}</h3>
-                        </div>
-                        <div class="container py-3">
-                            <div class="row">
-                                <div class="w-100 mx-5">
-                                {% set anwerNumeber = 0 %}
-                                {% for answer in question['answers'] %}
-                                    {% set anwerNumeber = anwerNumeber +1 %}
-                                        <div class="custom-control custom-checkbox mb-3">
-                                            <input type="checkbox" name="{{ question['questionID']}}[]" class="custom-control-input" id="customCheck{{ anwerNumeber }}" value="{{ answer['answer'] }}">
-                                            <label class="text-unselectable custom-control-label" for="customCheck{{ anwerNumeber }}">{{ answer['answer'] }}</label>
-                                        </div>
-                                {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3">
-                            <div class="row justify-content-between">
-                                <div>
-                                    <button class="ml-5 btn">{{ 'answer.prev_question'|trans }}</button>
-                                </div>
-                                <div>
-                                    <button class="next mr-5 btn">{{ 'answer.next_question'|trans }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    {% elseif question['type'] == 'one' %}
-
-                    <article class="hide" id="page_{{ question['serial_number'] }}">
-                        <div class="d-flex my-3">
-                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
-                            <h3> {{ question['question_wording'] }}</h3>
-                        </div>
-                        <div class="container py-3">
-                            <div class="row">
-                                <div class="w-100 mx-5">
-                                {% set anwerNumeber = 0 %}
-                                {% for answer in question['answers'] %}
-                                    {% set anwerNumeber = anwerNumeber +1 %}
-                                    <div class="custom-control custom-radio mb-3 ">
-                                        {% if anwerNumeber == 1 %}
-                                        <input type="radio" name="{{ question['questionID'] }}" class="custom-control-input" id="customRadio{{ anwerNumeber }}" value="{{ answer['answer'] }}" required="required">
-                                        {% else %}
-                                        <input type="radio" name="{{ question['questionID'] }}" class="custom-control-input" id="customRadio{{ anwerNumeber }}" value="{{ answer['answer'] }}">
-                                        {% endif %}
-                                        <label class="text-unselectable custom-control-label" for="customRadio{{ anwerNumeber }}">{{ answer['answer'] }}</label>
-                                    </div>
-                                {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3">
-                            <div class="row justify-content-between">
-                                <div>
-                                    <button class="ml-5 btn btn-primary ">{{ 'answer.prev_question'|trans }}</button>
-                                </div>
-                                <div>
-                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    {% elseif question['type'] == 'open' %}
-
-                    <article class="hide" id="page_{{ question['serial_number'] }}">
-                    <div class="d-flex my-3">
-                            <h3 class="label-number-gap"><span>{{ question['serial_number'] }}.</span></h3>
-                            <h3> {{ question['question_wording'] }}</h3>
-                        </div>
-                        <div class="container py-3">
-                            <div class="row">
-                                <div class="w-100 mx-5 mb-3">
-                                    <textarea name="{{ question['questionID'] }}" class="form-control" placeholder="{{ 'answer.placeholder'|trans }}" required></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container mt-3">
-                            <div class="row justify-content-between">
-                                <div>
-                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
-                                </div>
-                                <div>
-                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    {% elseif question['type'] == 'presentation' %}
-
-                    <article class="hide" id="page_{{ question['serial_number'] }}">
-                        <div class="d-flex p-3">
-                            <h2> {{ question['question_wording'] }}</h2>
-                        </div>
-
-                        <div class="container mt-3">
-                            <div class="row justify-content-between">
-                                <div>
-                                    <button class="ml-5 btn btn-primary">{{ 'answer.prev_question'|trans }}</button>
-                                </div>
-                                <div>
-                                    <button class="next mr-5 btn btn-primary">{{ 'answer.next_question'|trans }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                    {% endif %}
-                {% endfor %}
-                </form>
+    {# question count #}
+    <div class="position-fixed mt-5 mr-5" style="width: 12rem; right: 0; ">
+        <div class=" card bg-transparent border-dark-ni text-center text-unselectable backgroundColor">
+            <div class="card-body border-0 py-2 px-3 font-acc">
+                {{ 'question.count'|trans }}
+                <span class="count"> </span>
+                {{ 'question.count_out_of'|trans }}
+                <span> {{ data_test|length }} </span>
             </div>
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12 ol-md-5 col-xl-5 my-2 FileList ">
+                {% set empty = 0 %}
+                {% for data in data_test %}
+
+                    {# files #}
+                    {% if data.picture is not empty %}
+                        {% if data.picture.name == '' or PictureA.name is not defined%}
+                            {% set link = 'build/images/' ~ 'Default.jpg' %}
+                        {% else %}
+                            {% set link = 'build/images/' ~ PictureA.name %}
+                        {% endif %}
+                        <div class="display-hidden vh-file text-center File h-100" data-attribute="{{ data.picture.id }}">
+                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                        </div>
+                    {% else %}
+                        <div class="display-hidden vh-file-empty text-center File h-100" data-attribute="empty"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-5 col-xl-5 pb-2">
+
+                    {% for data in data_test %}
+                        {% if data.question.type == 'multi' %}
+
+                            <article class="test display-hidden pb-2" id="page_{{ data.question.serial_number }}" data-count="{{ data.question.serial_number }}">
+
+                                {# backgroundcolor atttribute#}
+                                {% if data.paramBackground is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# buttoncolor atttribute#}
+                                {% if data.paramButton is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# files #}
+                                {% if data.picture is not empty %}
+                                    <input type="text" class="File display-hidden" data-attribute="{{ data.picture.id }}"  value="{{ data.picture.id }}">
+                                {% endif %}
+
+                                {# question time attribute #}
+                                {% if data.paramTimeQ is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][{{ data.paramTimeQ.id }}]"  id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                                {% endif %}
+
+                                <div class="d-flex">
+                                    <h3 class="backgroundColor label-number-gap "><span>{{ data.question.serial_number }}.</span></h3>
+                                    <h3 class="backgroundColor"> {{ data.question.question_wording }}</h3>
+                                </div>
+                                <div class="container px-0 pt-2 pb-3 paramPicture">
+
+                                    {# picture atttribute #}
+                                    {% if data.paramPictures is not empty %}
+                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                            {% set link = 'build/images/' ~ 'Default.jpg' %}
+                                        {% else %}
+                                            {% set link = 'build/images/' ~ data.paramPictures.value %}
+                                        {% endif %}
+                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        </div>
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
+                                    {% endif %}
+
+                                </div>
+
+                                {% if data.question.required %}
+                                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                                {% endif %}
+
+                                <div class="container answerContainer">
+                                    <div class="row">
+                                        {% set anwerNumber = 0 %}
+                                        {% for answer in data.answers %}
+                                            {% set anwerNumber = anwerNumber +1 %}
+                                            <div class="w-100 pb-2">
+                                                <div class="custom-control custom-checkbox" data-action="{{ data.question.required ? 'required' : 'none' }}">
+                                                    <input type="checkbox" name="test_new_start[{{ data.question.id }}][answers][]" class="custom-control-input" id="customCheck{{ anwerNumber }}" value="{{ answer.answer }}">
+                                                    <label class="wrap w-100 text-unselectable custom-control-label backgroundColor" for="customCheck{{ anwerNumber }}">{{ answer.answer }}</label>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="m-0 invalid-feedback">
+                                            {{ 'question.validation.input_required'|trans }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="container px-0 pt-3">
+                                        {% if test.prevButton %}
+                                            <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                        {% endif %}
+                                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                        {% elseif data.question.type == 'one' %}
+
+                            <article class="test display-hidden pb-2" id="page_{{ data.question.serial_number }}" data-count="{{ data.question.serial_number }}">
+
+                                {# backgroundcolor atttribute#}
+                                {% if data.paramBackground is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# buttoncolor atttribute#}
+                                {% if data.paramButton is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# files #}
+                                {% if data.picture is not empty %}
+                                    <input type="text" class="File display-hidden" data-attribute="{{ data.picture.id }}"  value="{{ data.picture.id }}">
+                                {% endif %}
+
+                                {# question time attribute #}
+                                {% if data.paramTimeQ is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][{{ data.paramTimeQ.id }}]"  id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                                {% endif %}
+
+                                <div class="d-flex">
+                                    <h3 class="backgroundColor m-0 label-number-gap"><span>{{ data.question.serial_number }}.</span></h3>
+                                    <h3 class="backgroundColor m-0"> {{ data.question.question_wording }}</h3>
+                                </div>
+                                <div class="container px-0 pt-2 pb-3 paramPicture">
+
+                                    {# picture atttribute #}
+                                    {% if data.paramPictures is not empty %}
+                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                            {% set link = 'build/images/' ~ 'Default.jpg' %}
+                                        {% else %}
+                                            {% set link = 'build/images/' ~ data.paramPictures.value %}
+                                        {% endif %}
+                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        </div>
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
+                                    {% endif %}
+
+                                </div>
+
+                                {% if data.question.required %}
+                                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                                {% endif %}
+
+                                <div class="container answerContainer">
+                                    <div class="row">
+                                        {% set anwerNumber = 0 %}
+                                        {% for answer in data.answers %}
+                                            {% set anwerNumber = anwerNumber +1 %}
+                                            <div class="w-100 pb-2">
+                                                <div class="custom-control custom-radio">
+                                                    {% if anwerNumber == 1 %}
+                                                        <input type="radio" name="test_new_start[{{ data.question.id }}][answers]" class="custom-control-input" id="customRadio{{ anwerNumber }}" value="{{ answer.answer }}" {{ data.question.required ? 'required' : 'none' }} >
+                                                    {% else %}
+                                                        <input type="radio" name="test_new_start[{{ data.question.id }}][answers]"  class="custom-control-input" id="customRadio{{ anwerNumber }}" value="{{ answer.answer }}">
+                                                    {% endif %}
+                                                    <label class="backgroundColor text-unselectable custom-control-label" for="customRadio{{ anwerNumber }}">{{ answer.answer }}</label>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="m-0 invalid-feedback">
+                                            {{ 'question.validation.input_required'|trans }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="container px-0 pt-3">
+                                        {% if test.prevButton %}
+                                            <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                        {% endif %}
+                                        <button class="float-right next btn btn-secondary buttonColor ">{{ 'answer.next_question'|trans }}</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                        {% elseif data.question.type == 'open' %}
+
+                            <article class="test display-hidden pb-2" id="page_{{ data.question.serial_number }}" data-count="{{ data.question.serial_number }}">
+
+                                {# backgroundcolor atttribute#}
+                                {% if data.paramBackground is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# buttoncolor atttribute#}
+                                {% if data.paramButton is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# files #}
+                                {% if data.picture is not empty %}
+                                    <input type="text" class="File display-hidden" data-attribute="{{ data.picture.id }}"  value="{{ data.picture.id }}">
+                                {% endif %}
+
+                                {# question time attribute #}
+                                {% if data.paramTimeQ is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][{{ data.paramTimeQ.id }}]"  id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                                {% endif %}
+
+                                <div class="d-flex">
+                                    <h3 class="backgroundColor m-0 label-number-gap"><span>{{ data.question.serial_number }}.</span></h3>
+                                    <h3 class="backgroundColor m-0" > {{ data.question.question_wording }}</h3>
+                                </div>
+                                <div class="container px-0 py-3 paramPicture">
+
+                                    {# picture attribute #}
+                                    {% if data.paramPictures is not empty %}
+                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                            {% set link = 'build/images/' ~ 'Default.jpg' %}
+                                        {% else %}
+                                            {% set link = 'build/images/' ~ data.paramPictures.value %}
+                                        {% endif %}
+                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        </div>
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
+                                    {% endif %}
+
+                                </div>
+
+                                {% if data.question.required %}
+                                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                                {% endif %}
+
+                                <div class="container answerContainer">
+                                    <div class="row">
+                                        <div class="w-100">
+                                            <textarea name="test_new_start[{{ data.question.id }}][textarea]" class="form-control" placeholder="{{ 'answer.placeholder'|trans }}" {{ data.question.required ? 'required' : 'none' }}></textarea>
+                                            <div class="invalid-feedback m-0">
+                                                {{ 'question.validation.textarea_required'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="container px-0 pt-3">
+                                        {% if test.prevButton %}
+                                            <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                        {% endif %}
+                                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                    </div>
+                                </div>
+                            </article>
+
+                        {% elseif data.question.type == 'presentation' %}
+
+                            <article class="test display-hidden pb-2" id="page_{{ data.question.serial_number }}" data-count="{{ data.question.serial_number }}">
+
+                                {# backgroundcolor atttribute#}
+                                {% if data.paramBackground is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# buttoncolor atttribute#}
+                                {% if data.paramButton is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% endif %}
+
+                                {# files #}
+                                {% if data.picture is not empty %}
+                                    <input type="text" class="File display-hidden" data-attribute="{{ data.picture.id }}"  value="{{ data.picture.id }}">
+                                {% endif %}
+
+                                {# question time attribute #}
+                                {% if data.paramTimeQ is not empty %}
+                                    <input type="text" name="test_new_start[{{ data.question.id }}][{{ data.paramTimeQ.id }}]"  id='{{ data.paramTimeQ.id }}' class="paramTimeQ display-hidden" data-attribute="{{ data.paramTimeQ.id }}" value="">
+                                {% endif %}
+
+                                <div class="d-flex">
+                                    <h2 class="backgroundColor m-0"> {{ data.question.question_wording }}</h2>
+                                </div>
+                                <div class="container px-0 pt-2 pb-3 paramPicture">
+
+                                    {# picture atttribute #}
+                                    {% if data.paramPictures is not empty %}
+                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                            {% set link = 'build/images/' ~ 'Default.jpg' %}
+                                        {% else %}
+                                            {% set link = 'build/images/' ~ data.paramPictures.value %}
+                                        {% endif %}
+                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        </div>
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
+                                    {% endif %}
+
+                                </div>
+                                <div class="paramDisplayTime">
+                                    {# time display atttribute#}
+                                    {% if data.paramDisplayTime is not empty %}
+                                        {% set displayTime = data.paramDisplayTime.value|split(':') %}
+                                        {% if (displayTime[1] == 1)%}
+                                            <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">
+                                            <div class="container px-0 pt-3 paramDT display-hidden" data-attribute="{{ data.paramDisplayTime.value }}">
+                                                {% if test.prevButton %}
+                                                    <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                                {% endif %}
+                                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                            </div>
+                                        {% endif %}
+                                        {% if (displayTime[1] == 0)%}
+                                            <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">
+                                            <div class="container px-0 pt-3 paramDT display-hidden" data-attribute="{{ data.paramDisplayTime.value }}">
+                                                {% if test.prevButton %}
+                                                    <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                                {% endif %}
+                                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="container px-0 pt-3">
+                                            {% if test.prevButton %}
+                                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
+                                            {% endif %}
+                                            <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </article>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </form>
 
 {% endblock %}

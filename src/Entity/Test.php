@@ -39,9 +39,9 @@ class Test
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $last_activated_at;
+    private $prev_button = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -143,14 +143,14 @@ class Test
         return $this;
     }
 
-    public function getLastActivatedAt(): ?\DateTimeInterface
+    public function getPrevButton(): ?bool
     {
-        return $this->last_activated_at;
+        return $this->prev_button;
     }
 
-    public function setLastActivatedAt(?\DateTimeInterface $last_activated_at): self
+    public function setPrevButton(bool $prev_button): self
     {
-        $this->last_activated_at = $last_activated_at;
+        $this->prev_button = $prev_button;
 
         return $this;
     }

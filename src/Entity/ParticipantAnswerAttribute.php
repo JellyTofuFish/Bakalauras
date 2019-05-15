@@ -19,7 +19,7 @@ class ParticipantAnswerAttribute
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $value = null;
 
@@ -49,12 +49,12 @@ class ParticipantAnswerAttribute
         return $this->id;
     }
 
-    public function getValue(): ?int
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function setValue(?int $value): self
+    public function setValue(?string $value): self
     {
         $this->value = $value;
 

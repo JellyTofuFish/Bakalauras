@@ -23,6 +23,23 @@ class TestAttributeRepository extends ServiceEntityRepository
     //  * @return TestAttribute[] Returns an array of TestAttribute objects
     //  */
 
+    public function findAllByBackgroundColorDefault()
+    {
+        return $this->createQueryBuilder('ta')
+            ->andWhere('ta.value like :val')
+            ->setParameter('val', '%FFFFFF')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+    public function findAllByButtonColorDefault()
+    {
+        return $this->createQueryBuilder('ta')
+            ->andWhere('ta.value like :val')
+            ->setParameter('val', '%007bff')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findAllByBackgroundColor($value)
     {
         return $this->createQueryBuilder('ta')

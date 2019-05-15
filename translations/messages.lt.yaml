@@ -47,6 +47,7 @@ test:
     created: Testas sėkmingai sukurtas
     edited: Testas sėkmingai pakeistas
     deleted: Testas ištrintas
+    time_over: Pasibaigė laikas skirtas testo vykdymui
   delete_message: Ar tikrai norite ištrinti šį testą?
   test_start_code: Įveskite testo kodą
   finish_message: Testas baigtas. Ačiū už jūsų skirtą laiką!
@@ -93,6 +94,8 @@ question:
     new: Sukurti klausimą
     delete: Ištrinti klausimą
   time: Laikas
+  count: Klausimas
+  count_out_of: iš
 
 group:
   form:
@@ -131,6 +134,9 @@ attribute:
   seconds: sek.
   next_hidden: Mygtukas paslėptas
   next_off: Mygtukas neveiksnus
+  next_forced: (Peršoka klausimą)
+  next_stay: (Neperšoka klausimo)
+
   file_missing: Failas nenustatytas
   form:
     description_label: Aprašas
@@ -189,7 +195,7 @@ blank: Laukelis tuščias
 empty: Įrašų nerasta
 empty_attributes: Atributų nerasta
 requied: Yra privalomų laukelių
-required_input: Privalote atsakyti į klausimą
+required_input: Privalote atsakyti į šį klausimą
 backgroundcolor: Fono spalva
 buttoncolor: Mygtuko spalva
 displaytime: Rodymo trukmė

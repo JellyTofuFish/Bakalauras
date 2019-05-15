@@ -3,22 +3,22 @@
 {% block title %} {{ 'question.title.example'|trans }} | ETS{% endblock %}
 
 {% block body %}
-    <input class="display-hidden test-slug" data-action="{{ 'question example' }}">
+<input class="display-hidden test-slug" data-action="{{ 'question example' }}">
 
  {# time atttribute #}
 {% if data.paramTime is not empty %}
     <div class="position-fixed mt-5 ml-5">
-        <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor paramTime display-hidden" style="width: 15rem">
+        <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor paramTime display-hidden" style="width: 12rem">
         {% for timeA in data.paramTime %}
             {% set time = timeA.value|split(':') %}
             {% if time[1] == 1 %}
                 <div class="card-body border-0 py-2 px-3 time-font display-hidden">
-                    {{ 'question.time'|trans }}: <span class="timer" data-target="{{ timeA.value }}" data-attribute="{{ time[0] }}"></span>
+                    {{ 'question.time'|trans }}: <span class="timer" data-attribute="{{ timeA.value }}"></span>
                 </div>
             {% endif %}
             {% if time[1] == 0 %}
                 <div class="card-body border-0 py-2 px-3 time-font display-hidden">
-                    {{ 'question.time'|trans }}: <span class="chronometer" data-target="{{ timeA.value }}" data-attribute="{{ time[0] }}"></span>
+                    {{ 'question.time'|trans }}: <span class="chronometer" data-attribute="{{ timeA.value }}"></span>
                 </div>
             {% endif %}
         {% endfor %}
@@ -26,11 +26,9 @@
     </div>
 {% endif %}
 
-
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-5 col-xl-5 offset-2 vh-file my-3">
+        <div class="col-md-5 col-xl-5 offset-2 vh-file my-2">
 
         {# Files #}
         {% if data.picture is not empty %}
@@ -50,21 +48,18 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-md-5 col-xl-5 offset-xl-2">
+        <div class="col-12 col-md-5 col-xl-5 offset-xl-2 pb-2">
 
             {% if data.question.type == 'multi' %}
 
-            <article>
+            <article class="pb-2">
                 <div class="d-flex">
-                    <h3 class="backgroundColor label-number-gap "><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
+                    <h3 class="backgroundColor m-0 label-number-gap "><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor m-0"> {{ data.question.questionWording }}</h3>
                 </div>
-                {% if data.question.required %}
-                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
-                {% endif %}
-                <div class="container px-0 py-3 paramPicture">
+                <div class="container px-0 pt-2 pb-3 paramPicture">
 
-                    {#picture atttribute #}
+                    {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
@@ -77,14 +72,18 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-
                 </div>
+
+                {% if data.question.required %}
+                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                {% endif %}
+
                 <div class="container">
                     <div class="row">
                         {% set anwerNumber = 0 %}
                         {% for answer in data.answers %}
                         {% set anwerNumber = anwerNumber +1 %}
-                        <div class="w-100 mb-3">
+                        <div class="w-100 pb-2">
                             <div class="custom-control custom-checkbox" data-action="{{ data.question.required ? 'required' : 'none' }}">
                                 <input type="checkbox" name="{{ data.question.id }}[]" class="custom-control-input" id="customCheck{{ anwerNumber }}" value="{{ answer.answer }}">
                                 <label class="wrap w-100 text-unselectable custom-control-label backgroundColor" for="customCheck{{ anwerNumber }}">{{ answer.answer }}</label>
@@ -98,23 +97,20 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor" style=" background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary buttonColor" style=" background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
 
             {% elseif data.question.type == 'one' %}
 
-            <article>
+            <article class="pb-2">
                 <div class="d-flex">
-                    <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor"> {{ data.question.questionWording }}</h3>
+                    <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor m-0"> {{ data.question.questionWording }}</h3>
                 </div>
-                {% if data.question.required %}
-                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
-                {% endif %}
-                <div class="container px-0 py-3 paramPicture">
+                <div class="container px-0 pt-2 pb-3 paramPicture">
 
                     {#picture atttribute #}
                     {% if data.paramPictures is not empty %}
@@ -131,12 +127,17 @@
                     {% endif %}
 
                 </div>
+
+                {% if data.question.required %}
+                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                {% endif %}
+
                 <div class="container">
                     <div class="row">
                         {% set anwerNumber = 0 %}
                         {% for answer in data['answers'] %}
                             {% set anwerNumber = anwerNumber +1 %}
-                            <div class="w-100 mb-3">
+                            <div class="w-100 pb-2">
                                 <div class="custom-control custom-radio">
                                     {% if anwerNumber == 1 %}
                                         <input type="radio" name="{{ data.question.id }}" class="custom-control-input" id="customRadio{{ anwerNumber }}" value="{{ answer.answer }}" {{ data.question.required ? 'required' : 'none' }} >
@@ -154,25 +155,22 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor" style=" background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary buttonColor" style=" background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
 
             {% elseif data.question.type == 'open' %}
 
-            <article>
+            <article class="pb-2">
                 <div class="d-flex">
-                    <h3 class="backgroundColor label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor" > {{ data.question.questionWording }}</h3>
+                    <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
+                    <h3 class="backgroundColor m-0" > {{ data.question.questionWording }}</h3>
                 </div>
-                {% if data.question.required %}
-                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
-                {% endif %}
-                <div class="container px-0 py-3 paramPicture">
+                <div class="container px-0 pt-2 pb-3 paramPicture">
 
-                    {#picture atttribute #}
+                    {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for paramPictureA in data.paramPictures %}
                             {% if paramPictureA.value == '' %}
@@ -187,6 +185,11 @@
                     {% endif %}
 
                 </div>
+
+                {% if data.question.required %}
+                    <i class="form-text text-muted mb-2">* {{ 'required_input'|trans }}</i>
+                {% endif %}
+
                 <div class="container">
                     <div class="row">
                         <div class="w-100">
@@ -199,22 +202,19 @@
                 </div>
                 <div>
                     <div class="container px-0 pt-3">
-                        <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                        <button class="float-right next btn btn-secondary  buttonColor">{{ 'answer.next_question'|trans }}</button>
+                        <button class="float-left prev btn btn-secondary buttonColor " style=" background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                        <button class="float-right next btn btn-secondary buttonColor " style=" background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                     </div>
                 </div>
             </article>
 
             {% elseif data.question.type == 'presentation' %}
 
-            <article>
+            <article class="pb-2">
                 <div class="d-flex">
-                    <h2 class="backgroundColor"> {{ data.question.questionWording }}</h2>
+                    <h2 class="backgroundColor m-0"> {{ data.question.questionWording }}</h2>
                 </div>
-                {% if data.question.required %}
-                    <i class="form-text text-muted">* {{ 'required_input'|trans }}</i>
-                {% endif %}
-                <div class="container px-0 py-3 paramPicture">
+                <div class="container px-0 pt-2 pb-3 paramPicture">
 
                      {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
@@ -238,22 +238,22 @@
                         {% for displayTimeA in data.paramDisplayTime %}
                             {% set displayTime = displayTimeA.value|split(':') %}
                             {% if (displayTime[1] == 1)%}
-                            <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
-                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            <div class="container px-0 pt-3 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
+                                <button class="float-left prev btn btn-secondary buttonColor" style="background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary buttonColor question-button-label-blue" style="background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                             </div>
                             {% endif %}
                             {% if (displayTime[1] == 0)%}
-                            <div class="container px-0 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
-                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary  buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            <div class="container px-0 pt-3 paramDT display-hidden" data-attribute="{{ displayTimeA.value }}">
+                                <button class="float-left prev btn btn-secondary buttonColor" style="background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn btn-secondary buttonColor " style="background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                             </div>
                             {% endif %}
                         {% endfor %}
                     {% else %}
-                            <div class="container px-0">
-                                <button class="float-left prev btn btn-secondary buttonColor">{{ 'answer.prev_question'|trans }}</button>
-                                <button class="float-right next btn btn-secondary buttonColor">{{ 'answer.next_question'|trans }}</button>
+                            <div class="container px-0 pt-3">
+                                <button class="float-left prev btn buttonColor btn-secondary " style="background-color: #007bff; border-color: #007bff">{{ 'answer.prev_question'|trans }}</button>
+                                <button class="float-right next btn buttonColor btn-secondary " style="background-color: #007bff; border-color: #007bff">{{ 'answer.next_question'|trans }}</button>
                             </div>
                     {% endif %}
 
@@ -345,7 +345,9 @@
                                         <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramDisplayTime" data-attribute="{{ displayTimeA.value }}">
                                             {{ numb }}.
                                             {% if (displayTime[1] == 1)%} {{ 'attribute.next_hidden'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
+                                                {% if (displayTime[2] == 1) %} {{ 'attribute.next_forced'|trans }} {% else %} {{ 'attribute.next_stay'|trans }} {% endif %}
                                             {% elseif (displayTime[1] == 0)%} {{ 'attribute.next_off'|trans }}: {{ displayTime[0] }} {{ 'attribute.seconds'|trans }}
+                                                {% if (displayTime[2] == 1) %} {{ 'attribute.next_forced'|trans }} {% else %} {{ 'attribute.next_stay'|trans }} {% endif %}
                                             {% endif %}
                                         </a>
                                         {% set numb = numb +1 %}
