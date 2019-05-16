@@ -28,6 +28,8 @@ class TestAttributeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ta')
             ->andWhere('ta.value like :val')
             ->setParameter('val', '%FFFFFF')
+            ->andWhere('ta.fk_test = :val2')
+            ->setParameter('val2', null)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -36,6 +38,8 @@ class TestAttributeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ta')
             ->andWhere('ta.value like :val')
             ->setParameter('val', '%007bff')
+            ->andWhere('ta.fk_test = :val2')
+            ->setParameter('val2', null)
             ->getQuery()
             ->getOneOrNullResult();
     }
