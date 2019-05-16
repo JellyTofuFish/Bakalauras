@@ -548,6 +548,8 @@ class TestController extends AbstractController
                     $this->setDataTest($question['serial_number']-1, 'paramButton', $entityManager->getRepository(TestAttribute::class)->findAllByButtonColorDefault());
                 }
             }
+            dump($entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColorDefault());
+            dump($entityManager->getRepository(TestAttribute::class)->findAllByButtonColorDefault());
 
             $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
             if ($displayTimeQ != null) {
