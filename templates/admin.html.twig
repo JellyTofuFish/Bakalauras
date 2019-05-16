@@ -83,9 +83,6 @@
                                         <a class="nav-link disabled-menu" href="{{ path('attribute_index', {'route': 'route_edit'})}}">{{ 'button.attribute.edit'|trans }}</a>
                                     {% endif %}
                                 </li>
-                                <li>
-                                    <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('attribute_new') }}">{{ 'button.attribute.new'|trans }}</a>
-                                </li>
                             </ul>
                         {% endif %}
                     </div>
@@ -98,7 +95,7 @@
                                     <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('user_index') }}">{{ 'button.user.index'|trans }}</a>
                                 </li>
                                 <li>
-                                    <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('attribute_new') }}">{{ 'button.user.new'|trans }}</a>
+                                    <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('user_new') }}">{{ 'button.user.new'|trans }}</a>
                                 </li>
                             </ul>
                         {% endif %}

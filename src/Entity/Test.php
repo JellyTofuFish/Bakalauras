@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -215,7 +216,10 @@ class Test
      */
     public function getTestParticipations(): Collection
     {
-        return $this->testParticipations;
+        $expr = Criteria::expr();
+        $criteria = Criteria::create();
+        $criteria->where($expr->gte('is_test_over', '1'));
+        return $this->testParticipations->matching($criteria);
     }
 
     public function addTestParticipation(Testparticipation $testParticipation): self

@@ -30,12 +30,6 @@
                         </a>
                     </th>
                     <th scope="col">
-                        <span>{{ 'test.form.created_at_label'|trans }}</span>
-                        <a class="text-light" href="{{ path('test_index', { 'slug':'created_at' , 'sort':data['created_at'] }) }}">
-                            <i id="testIndexCaret2" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.created_at'|trans }}" class="px-2 questionSort pointer fa {{ data['created_at'] }}"></i>
-                        </a>
-                    </th>
-                    <th scope="col">
                         <span>{{ 'test.form.test_start_label'|trans }}</span>
                         <a class="text-light" href="{{ path('test_index', { 'slug':'start' , 'sort':data['start'] }) }}">
                             <i id="testIndexCaret3" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.start'|trans }}" class="px-2 questionSort pointer fa {{  data['start'] }}"></i>
@@ -49,6 +43,9 @@
                     </th>
                     <th scope="col" class="w-12">
                         <span>{{ 'test.form.test_count'|trans }}</span>
+                    </th>
+                    <th scope="col" class="w-12">
+                        <span>{{ 'test.form.participation_count'|trans }}</span>
                     </th>
                     <th scope="col">{{ 'actions'|trans }}</th>
                 </tr>
@@ -66,9 +63,6 @@
                             <p>{{ test.name|trans }}</p>
                         </td>
                         <td>
-                            <p>{{ test.createdAt|date('Y-m-d') }}</p>
-                        </td>
-                        <td>
                             <p>{% if test.testStart %}{{ test.testStart|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
                         </td>
                         <td>
@@ -77,6 +71,11 @@
                         <td class="text-center w-12">
                             <p>
                                 {{ test.testQuestions.count }}
+                            </p>
+                        </td>
+                        <td class="text-center w-12">
+                            <p>
+                                {{ test.testParticipations.count}}
                             </p>
                         </td>
                         <td class="d-flex justify-content-between">

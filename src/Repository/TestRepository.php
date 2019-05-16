@@ -35,8 +35,19 @@ class TestRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findActiveTestByCode($code) {
+    public function findParticipations($test) {
+        return $this->createQueryBuilder('t')
+            ->select('count(tp.fk_test)')
+            ->join('t.testParticipations', 'tp')
+            ->andWhere('tp.fk_test = :val')
+            ->setParameter('val', $test)
+            ->andWhere('tp.is_test_over = 1')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 
+    public function findActiveTestByCode($code) {
         return $this->createQueryBuilder('t')
             ->andWhere('t.is_active = 1')
             ->andWhere('t.code = :val')

@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\AnswerOption;
+use App\Entity\Attribute;
 use App\Entity\GroupList;
 use App\Entity\Question;
 use App\Entity\QuestionAttribute;
 use App\Form\GroupSimpleType;
 use App\Form\GroupType;
+use App\Form\QuestionAttributeTimeType;
 use App\Form\QuestionType;
 use App\Repository\FileRepository;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use function PHPSTORM_META\type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,13 +144,48 @@ class QuestionController extends AbstractController
 
         $form = $this->createForm(QuestionType::class, $question);
         $formGroup = $this->createForm(GroupSimpleType::class, $group);
-        $form->handleRequest($request);
 
+        $data = $request->get('question');
+        if($data != null) {
+            $form->handleRequest($request);
+        }
 
+        $attributeText = [];
+        $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
+        $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
+        $attributeText['backgroundColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute();
+        $attributeText['displayTime'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute();
+        $attributeText['picture'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute();
+
+        $attributes = [];
+        $attributes['times'] = [];
+        $attributes['buttonColors'] = [];
+        $attributes['backgroundColors'] = [];
+        $attributes['displayTimes'] = [];
+        if (isset($_POST['question_attribute_time'])) {
+            $attributes['time'] = $_POST['question_attribute_time']['value'];
+        }
+        if (isset($_POST['question_attribute_buttonColor']) && $_POST['question_attribute_buttonColor'] != '') {
+            foreach ($_POST['question_attribute_buttonColor'] as $key => $value) {
+                $attributes['buttonColors'] = $_POST['question_attribute_buttonColor'];
+            }
+        }
+        if (isset($_POST['question_attribute_backgroundColor']) && $_POST['question_attribute_backgroundColor'] != '') {
+            foreach ($_POST['question_attribute_backgroundColor'] as $key => $value) {
+                $attributes['backgroundColors'] = $_POST['question_attribute_backgroundColor'];
+            }
+        }
+        if (isset($_POST['question_attribute_displayTime']) && $_POST['question_attribute_displayTime'] != '') {
+            foreach ($_POST['question_attribute_displayTime'] as $key => $value) {
+                $attributes['displayTimes'] = $_POST['question_attribute_displayTime'];
+            }
+        }
         return $this->render('question/new.html.twig', [
             'question'=> $question,
             'form' => $form->createView(),
-            'formGroup' => $formGroup->createView()
+            'formGroup' => $formGroup->createView(),
+            'attributes' => $attributes,
+            'attributeText' =>$attributeText,
         ]);
     }
 
@@ -162,15 +200,53 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
 
         $entityManager = $this->getDoctrine()->getManager();
+        $Answers = $question->getAnsweroptions();
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $Answers = $question->getAnsweroptions();
             foreach ($Answers as $ao) {
                 $entityManager->persist($ao);
             }
             $entityManager->persist($question);
             $entityManager->flush();
+            if (isset($_POST['question_attribute_time'])) {
+                $questionTimeAttribute = new QuestionAttribute();
+                $questionTimeAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
+                $questionTimeAttribute->setValue('0:0:0');
+                $questionTimeAttribute->setFkQuestion($question);
+                $entityManager->persist($questionTimeAttribute);
+                $entityManager->flush();
+            }
+            if (isset($_POST['question_attribute_buttonColor']) && $_POST['question_attribute_buttonColor'] != '') {
+                foreach ($_POST['question_attribute_buttonColor'] as $key => $value) {
+                    $questionBtnCAttribute = new QuestionAttribute();
+                    $questionBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
+                    $questionBtnCAttribute->setValue(array_values($value)[0]);
+                    $questionBtnCAttribute->setFkQuestion($question);
+                    $entityManager->persist($questionBtnCAttribute);
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['question_attribute_backgroundColor']) && $_POST['question_attribute_backgroundColor'] != '') {
+                foreach ($_POST['question_attribute_backgroundColor'] as $key => $value) {
+                    $questionBgCAttribute = new QuestionAttribute();
+                    $questionBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
+                    $questionBgCAttribute->setValue(array_values($value)[0]);
+                    $questionBgCAttribute->setFkQuestion($question);
+                    $entityManager->persist($questionBgCAttribute);
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['question_attribute_displayTime']) && $_POST['question_attribute_displayTime'] != '') {
+                foreach ($_POST['question_attribute_displayTime'] as $key => $value) {
+                    $questionDTAttribute = new QuestionAttribute();
+                    $questionDTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute());
+                    $questionDTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                    $questionDTAttribute->setFkQuestion($question);
+                    $entityManager->persist($questionDTAttribute);
+                    $entityManager->flush();
+                }
+            }
         }
-        $this->addFlash('success', 'question.flash_message.created');
         return new JsonResponse(['id'=> $question->getId()]);
     }
 
@@ -228,31 +304,198 @@ class QuestionController extends AbstractController
      */
     public function edit(Request $request, Question $question): Response
     {
-        $group = new GroupList();
-        $formGroup = $this->createForm(GroupSimpleType::class, $group);
-
         $entityManager = $this->getDoctrine()->getManager();
         if (null === $Question = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No task found for id '.$question->getId());
         }
-
         $form = $this->createForm(QuestionType::class, $Question);
+
+        $group = new GroupList();
+        $formGroup = $this->createForm(GroupSimpleType::class, $group);
+
+        $attributeText = [];
+        $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
+        $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
+        $attributeText['backgroundColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute();
+        $attributeText['displayTime'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute();
+        $attributeText['picture'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute();
+
+        $attributes = [];
+        $attributes['time'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByTime($Question);
+        $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByButtonColor($Question);
+        $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($Question);
+        $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByDisplayTime($Question);
+
         $form->handleRequest($request);
         $Answers = $Question->getAnsweroptions();
-
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($Answers as $ao) {
                 $entityManager->persist($ao);
             }
             $entityManager->persist($Question);
+            if (isset($_POST['question_attribute_time'])) {
+                if ($attributes['time'] == null) {
+                    $questionTimeAttribute = new QuestionAttribute();
+                    $questionTimeAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
+                    $questionTimeAttribute->setValue('0:0:0');
+                    $questionTimeAttribute->setFkQuestion($question);
+                    $entityManager->persist($questionTimeAttribute);
+                }
+            } else {
+                if ($attributes['time'] != null) {
+                    foreach ( $attributes['time'] as $time ) {
+                        $attribute = $entityManager->getRepository(QuestionAttribute::class)->find($time);
+                        $attributesArray = $attribute->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $attribute->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($attribute);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($time);
+                    }
+                }
+            }
             $entityManager->flush();
+            if (isset($_POST['question_attribute_buttonColor']) && $_POST['question_attribute_buttonColor'] != '') {
+                $question_attribute_buttonColor = [];
+                foreach ($_POST['question_attribute_buttonColor'] as $key => $value) {
+                    $buttonColor = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($buttonColor, $attributes['buttonColors'])) {
+                        $buttonColor->setValue(array_values($value)[0]);
+                        $entityManager->persist($buttonColor);
+                        $question_attribute_buttonColor[] = $buttonColor;
+                    } else {
+                        $questionBtnCAttribute = new QuestionAttribute();
+                        $questionBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
+                        $questionBtnCAttribute->setValue(array_values($value)[0]);
+                        $questionBtnCAttribute->setFkQuestion($question);
+                        $entityManager->persist($questionBtnCAttribute);
+                    }
+                }
+                foreach ( $attributes['buttonColors'] as $buttonColor ) {
+                    if (!in_array($buttonColor, $question_attribute_buttonColor)) {
+                        $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $buttonColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($buttonColor);
+                        }
+                        $entityManager->remove($buttonColor);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['buttonColors'] != null) {
+                    foreach ( $attributes['buttonColors'] as $buttonColor ) {
+                        if (!in_array($buttonColor, [])) {
+                            $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $buttonColor->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($buttonColor);
+                            }
+                            $entityManager->remove($buttonColor);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['question_attribute_backgroundColor']) && $_POST['question_attribute_backgroundColor'] != '') {
+                $question_attribute_backgroundColor = [];
+                foreach ($_POST['question_attribute_backgroundColor'] as $key => $value) {
+                    $backgroundColor = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($backgroundColor, $attributes['backgroundColors'])) {
+                        $backgroundColor->setValue(array_values($value)[0]);
+                        $entityManager->persist($backgroundColor);
+                        $question_attribute_backgroundColor[] = $backgroundColor;
+                    }
+                    else {
+                        $questionBgCAttribute = new QuestionAttribute();
+                        $questionBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
+                        $questionBgCAttribute->setValue(array_values($value)[0]);
+                        $questionBgCAttribute->setFkQuestion($question);
+                        $entityManager->persist($questionBgCAttribute);
+                    }
+                }
+                foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
+                    if (!in_array($backgroundColor, $question_attribute_backgroundColor)) {
+                        $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $backgroundColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($backgroundColor);
+                        }
+                        $entityManager->remove($backgroundColor);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['backgroundColors'] != null) {
+                    foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
+                        if (!in_array($backgroundColor, [])) {
+                            $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $backgroundColor->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($backgroundColor);
+                            }
+                            $entityManager->remove($backgroundColor);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['question_attribute_displayTime']) && $_POST['question_attribute_displayTime'] != '') {
+                $question_attribute_DT = [];
+                foreach ($_POST['question_attribute_displayTime'] as $key => $value) {
+                    $DT = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($DT, $attributes['displayTimes'])) {
+                        $DT->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $entityManager->persist($DT);
+                        $question_attribute_DT[] = $DT;
+                    }
+                    else {
+                        $questionDTAttribute = new QuestionAttribute();
+                        $questionDTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute());
+                        $questionDTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $questionDTAttribute->setFkQuestion($question);
+                        $entityManager->persist($questionDTAttribute);
+                    }
+                }
+                foreach ( $attributes['displayTimes'] as $DT ) {
+                    if (!in_array($DT, $question_attribute_DT)) {
+                        $attributesArray = $DT->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $DT->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($DT);
+                        }
+                        $entityManager->remove($DT);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['displayTimes'] != null) {
+                    foreach ( $attributes['displayTimes'] as $DT ) {
+                        if (!in_array($DT, [])) {
+                            $attributesArray = $DT->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $DT->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($DT);
+                            }
+                            $entityManager->remove($DT);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
             $this->addFlash('success', 'question.flash_message.edited');
             return new JsonResponse(['id'=> $question->getId()]);
         }
         return $this->render('question/edit.html.twig', [
             'question' => $Question,
             'form' => $form->createView(),
-            'formGroup' => $formGroup->createView()
+            'formGroup' => $formGroup->createView(),
+            'attributes' => $attributes,
+            'attributeText' =>$attributeText,
         ]);
     }
 

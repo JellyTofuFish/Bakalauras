@@ -116,7 +116,9 @@ $(".sidebar-collapse").click(function () {
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function(form) {
             form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
+                let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
+                let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
+                if (form.checkValidity() === false  || button === true || background === true) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
@@ -124,10 +126,37 @@ $(".sidebar-collapse").click(function () {
             }, false);
         });
     // }, false);
+
 })();
 
-// Question controller / html functions
+// Attribute submit
+$('.attribute-update').click(function() {
+    $('[disabled]').removeAttr('disabled');
+});
 
+// Question controller / html functions
+function checkAttributeValidity(uniqueInputs, uniqueSpans) {
+    let Arr = [];
+    let inputs = uniqueInputs;
+    let Invalid = false;
+    let spans = uniqueSpans;
+    $.each(inputs, function (i, key) {
+        if(Arr.indexOf($(key).val()) !== -1) {
+            Invalid = true;
+        }
+        else
+            Arr.push($(key).val());
+    });
+    if (Invalid === true) {
+        $(inputs).addClass('invalid');
+        $(spans).show();
+    }
+    else {
+        $(inputs).removeClass('invalid');
+        $(spans).hide();
+    }
+    return Invalid;
+}
 function questionAjaxPost(form, url, redi = false) {
     $.ajax({
         type: 'POST',
@@ -175,9 +204,14 @@ $('.questionTypeRemove').click(function( event ) {
     $(val).removeClass('invalid').attr('disabled', false).parent().nextAll('div.invalid-feedback').hide();
     $(this).hide(0).prev().fadeIn('fast');
 });
-$('.questionSave').click(function( event ) {
+
+$('.questionSave').click(function( event ){
     event.preventDefault();
-    if (form[0].checkValidity() === false) {
+    let button = false,
+        background = false;
+    button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
+    background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
+    if (form[0].checkValidity() === false || button === true || background === true) {
         event.preventDefault();
         event.stopPropagation();
     }
@@ -189,7 +223,11 @@ $('.questionSave').click(function( event ) {
 });
 $('.questionEditSave').click(function( event ) {
     event.preventDefault();
-    if (form[0].checkValidity() === false) {
+    let button = false,
+        background = false;
+    button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
+    background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
+    if (form[0].checkValidity() === false || button === true || background === true) {
         event.preventDefault();
         event.stopPropagation();
     }
@@ -807,14 +845,12 @@ var $newLinkLi = $('<div class="form-group row mb-0"><label class="col-sm-2 col-
 (function() {
     $collectionHolder = $('div.answeroptions');
 
-    var numr = 0;
     $collectionHolder.find('div.d-flex').each(function() {
         addAnswerFormDeleteLink($(this));
-        numr+= 1;
     });
 
     $collectionHolder.append($newLinkLi);
-    $collectionHolder.data('index', $collectionHolder.find(':input').length-numr);
+    $collectionHolder.data('index', $collectionHolder.find('input').length);
 
     if ( $collectionHolder.data('index') < 1) {
         addAnswerForm($collectionHolder, $newLinkLi);
@@ -860,6 +896,243 @@ function addAnswerFormDeleteLink($tagFormLi) {
     });
 }
 
+// Collection of button color attributes
+
+var $collectionHolderBtnC;
+var $addButtonBtnC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują mygtuko spalvą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkBtnC = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują spalvą</label></div>').append($addButtonBtnC);
+
+(function() {
+    $collectionHolderBtnC = $('div.buttoncolors');
+
+    $collectionHolderBtnC.find('div.d-flex').each(function() {
+        addBtnCFormDeleteLink($(this));
+    });
+
+    $collectionHolderBtnC.append($newLinkBtnC);
+    $collectionHolderBtnC.data('index', $collectionHolderBtnC.find('input').length);
+
+    $addButtonBtnC.on('click', function(e) {
+        e.preventDefault();
+        addBtnCForm($collectionHolderBtnC, $newLinkBtnC);
+    });
+})();
+function addBtnCForm($collectionHolderBtnC, $newLinkBtnC) {
+    var prototype = $collectionHolderBtnC.data('prototype');
+    var index = $collectionHolderBtnC.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolderBtnC.data('index', index + 1);
+
+    var input = newForm.match(/<input(.*?)>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var span = newForm.match(/<span(.*?)<\/span>/ig);
+    var number = index+1;
+
+    var $newFormLi =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex">' + input +
+            '</div>' +
+            span +
+            '</div>' +
+            '</div>');
+
+addBtnCFormDeleteLink($newFormLi.find('div.d-flex'));
+$newLinkBtnC.before($newFormLi);
+}
+function addBtnCFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
+
+// Collection of background color attributes
+
+var $collectionHolderBgC;
+var $addButtonBgC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują fono spalvą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkBgC = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują spalvą</label></div>').append($addButtonBgC);
+
+(function() {
+    $collectionHolderBgC = $('div.backgroundColors');
+
+    $collectionHolderBgC.find('div.d-flex').each(function() {
+        addBgCFormDeleteLink($(this));
+    });
+
+    $collectionHolderBgC.append($newLinkBgC);
+    $collectionHolderBgC.data('index', $collectionHolderBgC.find('input').length);
+
+    $addButtonBgC.on('click', function(e) {
+        e.preventDefault();
+        addBgCForm($collectionHolderBgC, $newLinkBgC);
+    });
+})();
+function addBgCForm($collectionHolderBgC, $newLinkBgC) {
+    var prototype = $collectionHolderBgC.data('prototype');
+    var index = $collectionHolderBgC.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolderBgC.data('index', index + 1);
+
+    var input = newForm.match(/<input(.*?)>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var span = newForm.match(/<span(.*?)<\/span>/ig);
+    var number = index+1;
+
+    var $newFormLi =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex">' + input +
+            '</div>' +
+            span +
+            '</div>' +
+            '</div>');
+
+    addBgCFormDeleteLink($newFormLi.find('div.d-flex'));
+    $newLinkBgC.before($newFormLi);
+}
+function addBgCFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
+
+// Collection of Time attributes
+
+var $collectionHolderT;
+var $addButtonT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują laiko skaičiavimo vienetą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkT = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują laiką</label></div>').append($addButtonT);
+
+(function() {
+    $collectionHolderT = $('div.times');
+
+    $collectionHolderT.find('div.d-flex').each(function() {
+        addTFormDeleteLink($(this));
+    });
+
+    $collectionHolderT.append($newLinkT);
+    $collectionHolderT.data('index', $collectionHolderT.find('div.d-flex').length);
+
+    $addButtonT.on('click', function(e) {
+        e.preventDefault();
+        addTForm($collectionHolderT, $newLinkT);
+    });
+})();
+function addTForm($collectionHolderT, $newLinkT) {
+    var prototype = $collectionHolderT.data('prototype');
+    var index = $collectionHolderT.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolderT.data('index', index + 1);
+
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var input = newForm.match(/<input(.*?)>/ig);
+    var inputs = input.toString().split(",");
+    var number = index+1;
+    var function1 = 'this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;';
+    var function2 = 'this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value';
+    var $newFormLi =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex input-group">' +
+            inputs[0] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 font-weight-bold">' + ' : ' +'</span></div>'+
+            inputs[1] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 border-right-0 font-weight-bold">'+' : '+'</span></div>'+
+            inputs[2] +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+    addTFormDeleteLink($newFormLi.find('div.input-group'));
+    $newFormLi.find('.t').attr("oninput", function1);
+    $newFormLi.find('.bool').attr("oninput", function2);
+    $newLinkT.before($newFormLi);
+}
+function addTFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
+
+// Collection of display Time attributes
+
+var $collectionHolderDT;
+var $addButtonDT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują rodymo trukmę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkDT = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują trukmę</label></div>').append($addButtonDT);
+
+(function() {
+    $collectionHolderDT = $('div.displayTimes');
+
+    $collectionHolderDT.find('div.d-flex').each(function() {
+        addDTFormDeleteLink($(this));
+    });
+
+    $collectionHolderDT.append($newLinkDT);
+    $collectionHolderDT.data('index', $collectionHolderDT.find('div.d-flex').length);
+
+    $addButtonDT.on('click', function(e) {
+        e.preventDefault();
+        addDTForm($collectionHolderDT, $newLinkDT);
+    });
+})();
+function addDTForm($collectionHolderDT, $newLinkDT) {
+    var prototype = $collectionHolderDT.data('prototype');
+    var index = $collectionHolderDT.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolderDT.data('index', index + 1);
+
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var input = newForm.match(/<input(.*?)>/ig);
+    var inputs = input.toString().split(",");
+    var number = index+1;
+    var function1 = 'this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;';
+    var function2 = 'this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value';
+    var $newFormLi =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-10 mb-3">' +
+            '<div class="d-flex input-group">' +
+            inputs[0] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 font-weight-bold">' + ' : ' +'</span></div>'+
+            inputs[1] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 border-right-0 font-weight-bold">'+' : '+'</span></div>'+
+            inputs[2] +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+    addDTFormDeleteLink($newFormLi.find('div.input-group'));
+    $newFormLi.find('.t').attr("oninput", function1);
+    $newFormLi.find('.bool').attr("oninput", function2);
+    $newLinkDT.before($newFormLi);
+}
+function addDTFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
 
 // Collection of test question forms
 
@@ -869,14 +1142,12 @@ var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col
 (function() {
     $collectionHolder2 = $('div.testquestions');
 
-    var numr = 0;
     $collectionHolder2.find('div.d-flex').each(function() {
         addTestQuestionFormDeleteLink($(this));
-        numr+= 1;
     });
 
     $collectionHolder2.append($newLinkLi2);
-    $collectionHolder2.data('index', $collectionHolder2.find(':input').length-numr);
+    $collectionHolder2.data('index', $collectionHolder2.find('input').length);
 
     $addTestQuestionButton.on('click', function(e) {
         e.preventDefault();
@@ -925,8 +1196,8 @@ function addTestQuestionFormDeleteLink($tagFormLi) {
 
 const contentTop = $('.table-header-sticky').offset().top;
 $( window ).scroll(function() {
-    let navTop = $('.table-header-sticky').offset().top;
-    if (contentTop !== navTop) {
+    const contentTop2 = $('.bd-navbar').offset().top + 50;
+    if (contentTop2 >= contentTop ) {
         $('#tableheader').removeClass('table-header').addClass('header-transform');
     }
     else {

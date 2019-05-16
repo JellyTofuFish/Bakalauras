@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\AnswerOption;
+use App\Entity\Attribute;
 use App\Entity\File;
 use App\Entity\GroupList;
 use App\Entity\ParticipantAnswer;
@@ -43,7 +44,6 @@ class TestController extends AbstractController
 
     protected $arrayData = [
         'test_name' => 'fa-sort',
-        'created_at'=> 'fa-sort',
         'start'=> 'fa-sort',
         'end'=> 'fa-sort'
     ];
@@ -80,16 +80,12 @@ class TestController extends AbstractController
 
         if ( $sort == 'fa-sort') {
             $this->setData('test_name','fa-sort');
-            $this->setData('created_at','fa-sort');
             $this->setData('start','fa-sort');
             $this->setData('end','fa-sort');
             $this->setData($slug,'fa-sort-up');
 
             if ($slug == 'test_name') {
                 $tests = $testRepository->filterAllByNameASC();
-            }
-            else if ($slug == 'created_at'){
-                $tests = $testRepository->filterAllByCreatedAtASC();
             }
             else if ($slug == 'start'){
                 $tests = $testRepository->filterAllByStartASC();
@@ -103,9 +99,6 @@ class TestController extends AbstractController
 
             if ($slug == 'test_name') {
                 $tests = $testRepository->filterAllByNameDESC();
-            }
-            else if ($slug == 'created_at'){
-                $tests = $testRepository->filterAllByCreatedAtDESC();
             }
             else if ($slug == 'start'){
                 $tests = $testRepository->filterAllByStartDESC();
@@ -142,7 +135,33 @@ class TestController extends AbstractController
 
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
+        $attributeText = [];
+        $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
+        $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
+        $attributeText['backgroundColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute();
+        $attributeText['displayTime'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute();
+        $attributeText['picture'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute();
 
+        $attributes = [];
+        $attributes['times'] = [];
+        $attributes['buttonColors'] = [];
+        $attributes['backgroundColors'] = [];
+        $attributes['displayTimes'] = [];
+        if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
+            foreach ($_POST['test_attribute_time'] as $key => $value) {
+                $attributes['times'] = $_POST['test_attribute_time'];
+            }
+        }
+        if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
+            foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
+                $attributes['buttonColors'] = $_POST['test_attribute_buttonColor'];
+            }
+        }
+        if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
+            foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
+                $attributes['backgroundColors'] = $_POST['test_attribute_backgroundColor'];
+            }
+        }
         $entityManager = $this->getDoctrine()->getManager();
         if ($form->isSubmitted() && $form->isValid()) {
             $testQuestions = $test->getTestQuestions();
@@ -155,12 +174,44 @@ class TestController extends AbstractController
             }
             $entityManager->persist($test);
             $entityManager->flush();
+            if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
+                foreach ($_POST['test_attribute_time'] as $key => $value) {
+                    $testTAttribute = new TestAttribute();
+                    $testTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
+                    $testTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                    $testTAttribute->setFkTest($test);
+                    $entityManager->persist($testTAttribute);
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
+                foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
+                    $questionBtnCAttribute = new TestAttribute();
+                    $questionBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
+                    $questionBtnCAttribute->setValue(array_values($value)[0]);
+                    $questionBtnCAttribute->setFkTest($test);
+                    $entityManager->persist($questionBtnCAttribute);
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
+                foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
+                    $questionBgCAttribute = new TestAttribute();
+                    $questionBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
+                    $questionBgCAttribute->setValue(array_values($value)[0]);
+                    $questionBgCAttribute->setFkTest($test);
+                    $entityManager->persist($questionBgCAttribute);
+                    $entityManager->flush();
+                }
+            }
 
             return $this->redirectToRoute('test_index');
         }
 
         return $this->render('test/new.html.twig', [
             'form' => $form->createView(),
+            'attributes' => $attributes,
+            'attributeText' =>$attributeText,
         ]);
     }
 
@@ -572,9 +623,22 @@ class TestController extends AbstractController
         }
 
         $form = $this->createForm(TestType::class, $Test);
+
+        $attributeText = [];
+        $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
+        $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
+        $attributeText['backgroundColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute();
+        $attributeText['displayTime'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute();
+        $attributeText['picture'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute();
+
+        $attributes = [];
+        $attributes['times'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByTime($Test);
+        $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
+        $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
+        $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
+
         $form->handleRequest($request);
         $testQuestions = $Test->getTestQuestions();
-
         if ($form->isSubmitted() && $form->isValid()) {
             $i = 1;
             foreach ($testQuestions as $tq) {
@@ -588,6 +652,139 @@ class TestController extends AbstractController
             $entityManager->persist($Test);
             $entityManager->flush();
 
+            if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
+                $test_attribute_T = [];
+                foreach ($_POST['test_attribute_time'] as $key => $value) {
+                    $T = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($T, $attributes['times'])) {
+                        $T->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $entityManager->persist($T);
+                        $test_attribute_T[] = $T;
+                    }
+                    else {
+                        $testDTAttribute = new TestAttribute();
+                        $testDTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
+                        $testDTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $testDTAttribute->setFkTest($Test);
+                        $entityManager->persist($testDTAttribute);
+                    }
+                }
+                foreach ( $attributes['times'] as $T ) {
+                    if (!in_array($T, $test_attribute_T)) {
+                        $attributesArray = $T->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $T->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($T);
+                        }
+                        $entityManager->remove($T);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['times'] != null) {
+                    foreach ( $attributes['times'] as $T ) {
+                        if (!in_array($T, [])) {
+                            $attributesArray = $T->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $T->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($T);
+                            }
+                            $entityManager->remove($T);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
+                $test_attribute_buttonColor = [];
+                foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
+                    $buttonColor = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($buttonColor, $attributes['buttonColors'])) {
+                        $buttonColor->setValue(array_values($value)[0]);
+                        $entityManager->persist($buttonColor);
+                        $test_attribute_buttonColor[] = $buttonColor;
+                    } else {
+                        $testBtnCAttribute = new TestAttribute();
+                        $testBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
+                        $testBtnCAttribute->setValue(array_values($value)[0]);
+                        $testBtnCAttribute->setFkTest($Test);
+                        $entityManager->persist($testBtnCAttribute);
+                    }
+                }
+                foreach ( $attributes['buttonColors'] as $buttonColor ) {
+                    if (!in_array($buttonColor, $test_attribute_buttonColor)) {
+                        $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $buttonColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($buttonColor);
+                        }
+                        $entityManager->remove($buttonColor);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['buttonColors'] != null) {
+                    foreach ( $attributes['buttonColors'] as $buttonColor ) {
+                        if (!in_array($buttonColor, [])) {
+                            $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $buttonColor->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($buttonColor);
+                            }
+                            $entityManager->remove($buttonColor);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
+                $question_attribute_backgroundColor = [];
+                foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
+                    $backgroundColor = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($backgroundColor, $attributes['backgroundColors'])) {
+                        $backgroundColor->setValue(array_values($value)[0]);
+                        $entityManager->persist($backgroundColor);
+                        $question_attribute_backgroundColor[] = $backgroundColor;
+                    }
+                    else {
+                        $testBgCAttribute = new TestAttribute();
+                        $testBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
+                        $testBgCAttribute->setValue(array_values($value)[0]);
+                        $testBgCAttribute->setFkTest($Test);
+                        $entityManager->persist($testBgCAttribute);
+                    }
+                }
+                foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
+                    if (!in_array($backgroundColor, $question_attribute_backgroundColor)) {
+                        $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $backgroundColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($backgroundColor);
+                        }
+                        $entityManager->remove($backgroundColor);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['backgroundColors'] != null) {
+                    foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
+                        if (!in_array($backgroundColor, [])) {
+                            $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $backgroundColor->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($backgroundColor);
+                            }
+                            $entityManager->remove($backgroundColor);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+
+            $this->addFlash('success', 'test.flash_message.edited');
             return $this->redirectToRoute('test_index', [
             ]);
         }
@@ -595,6 +792,8 @@ class TestController extends AbstractController
         return $this->render('test/edit.html.twig', [
             'test' => $test,
             'form' => $form->createView(),
+            'attributes' => $attributes,
+            'attributeText' =>$attributeText,
         ]);
     }
 

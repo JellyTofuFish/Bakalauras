@@ -176,8 +176,6 @@ body {
     z-index: 1040;
 }
 
-/*left navigation sidebar */
-
 .bd-sidebar {
     -webkit-box-ordinal-group: 1;
     -ms-flex-order: 0;
@@ -187,10 +185,12 @@ body {
     position: sticky;
     top: 3.6rem;
     z-index: 1000;
-    height: calc(100vh - 3.50rem);
+    height: calc(100vh - 3.5rem);
     border-right: 1px solid rgba(0, 0, 0, .1);
-
 }
+
+/*left navigation sidebar */
+
 nav .bd-links {
     display: -ms-flexbox;
     display: flex;

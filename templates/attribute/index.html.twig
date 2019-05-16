@@ -25,7 +25,7 @@
                     <th scope="col">
                         <span>{{ 'question.form.type_label'|trans }}</span>
                     </th>
-                    <th scope="col" colspan="2">
+                    <th scope="col" colspan="3">
                         <span>{{ 'question.form.description_label'|trans }}</span>
                     </th>
                     <th scope="col">{{ 'actions'|trans }}</th>
@@ -40,7 +40,7 @@
                 {% for attribute in attributes %}
                     <tr>
                         <td>{{ attribute.name|trans }}</td>
-                        <td colspan="2">{{ attribute.description }}</td>
+                        <td colspan="3">{{ attribute.description }}</td>
                         <td class="d-flex justify-content-around">
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('attribute_edit', {'id': attribute.id}) }}"><i class="fa fa-pencil"></i></a>
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#attributeModal{{ attribute.id }}Delete"><i class="fa fa-trash"></i></a>

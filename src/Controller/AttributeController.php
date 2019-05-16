@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Attribute;
+use App\Entity\Question;
 use App\Form\AttributeType;
 use App\Repository\AttributeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -76,8 +77,19 @@ class AttributeController extends AbstractController
      */
     public function delete(Request $request, Attribute $attribute): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if (null === $Attribute = $entityManager->getRepository(Attribute::class)->find($attribute->getId())) {
+            throw $this->createNotFoundException('No Attribute for id '.$attribute->getId());
+        }
         if ($this->isCsrfTokenValid('delete'.$attribute->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+            $Qattribute = $Attribute->getQuestionAttributes();
+            foreach ($Qattribute as $qa) {
+                $Attribute->removeQuestionAttribute($qa);
+                $entityManager->persist($Attribute);
+                $entityManager->flush();
+            }
             $entityManager->remove($attribute);
             $entityManager->flush();
         }

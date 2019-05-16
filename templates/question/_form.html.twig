@@ -57,15 +57,22 @@
                                 <button class="btn btn-outline-dark btn-no-left-radius questionTypeRemove" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.answer.remove_disclaimer'|trans }}"> {{ 'button.remove'|trans }}</button>
                             {% elseif button_label == "button.new" %}
                                 {% if question.type is null %}
-                                <button class="btn btn-primary questionTypeSave btn-no-left-radius ">{{ 'button.save'|trans }}</button>
-                                <button class="btn btn-outline-dark btn-no-left-radius questionTypeRemove display-hidden" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.answer.remove_disclaimer'|trans }}"> {{ 'button.remove'|trans }}</button>
+                                    <button class="btn btn-primary questionTypeSave btn-no-left-radius ">{{ 'button.save'|trans }}</button>
+                                    <button class="btn btn-outline-dark btn-no-left-radius questionTypeRemove display-hidden" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.answer.remove_disclaimer'|trans }}"> {{ 'button.remove'|trans }}</button>
                                 {% else %}
-                                <button class="btn btn-primary questionTypeSave btn-no-left-radius display-hidden">{{ 'button.save'|trans }}</button>
-                                <button class="btn btn-outline-dark btn-no-left-radius questionTypeRemove" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.answer.remove_disclaimer'|trans }}"> {{ 'button.remove'|trans }}</button>
+                                    <button class="btn btn-primary questionTypeSave btn-no-left-radius display-hidden">{{ 'button.save'|trans }}</button>
+                                    <button class="btn btn-outline-dark btn-no-left-radius questionTypeRemove" data-toggle="tooltip" data-placement="top" title="{{ 'poppers.answer.remove_disclaimer'|trans }}"> {{ 'button.remove'|trans }}</button>
                                 {% endif %}
                             {% endif %}
                         </div>
                         <div class="invalid-feedback"> {{ 'question.validation.type'|trans }}</div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-sm-2">{{ 'question.form.required_label'|trans }}</label>
+                    <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                        {{ form_widget(form.required, { 'attr': {'class':'custom-control-input'} }) }}
+                        {{ form_label(form.required, null, { 'label_attr': {'class':'custom-control-label'} }) }}
                     </div>
                 </div>
             </div>
@@ -118,15 +125,15 @@
         <div class="card-header bg-transparent p-0" id="list-answers">
             <h2 class="mb-0">
                 {% if  question.type == 'one' or question.type == 'multi' %}
-                <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
                     <i id="questionCaret3" class="fa fa-caret-down transition rotation" ></i>
                     <span class="pl-2">{{ 'answers'|trans }}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
                 </button>
                 {% else %}
-                <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#answers" aria-expanded="false" aria-controls="answers">
-                    <i id="questionCaret3" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
-                    <span data-toggle="tooltip" data-placement="right" title="{{ 'poppers.answer.disabled_option'|trans }}" class="disabled-menu pl-2">{{ 'answers'|trans }}</span>
-                </button>
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#answers" aria-expanded="false" aria-controls="answers">
+                        <i id="questionCaret3" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
+                        <span data-toggle="tooltip" data-placement="right" title="{{ 'poppers.answer.disabled_option'|trans }}" class="disabled-menu pl-2">{{ 'answers'|trans }}</span>
+                    </button>
                 {% endif %}
             </h2>
         </div>
@@ -151,136 +158,178 @@
         </div>
     </div>
 
-    {#<div class="card bg-light">#}
-        {#<div class="card-header bg-transparent p-0" id="list-settings">#}
-            {#<h2 class="mb-0">#}
-                {#<button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">#}
-                    {#<i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>#}
-                    {#<span class="pl-2">{{ 'settings'|trans }}</span>#}
-                {#</button>#}
-            {#</h2>#}
-        {#</div>#}
-        {#<div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >#}
-            {#<div class="card-body">#}
-
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-attributes">
+        <div class="card-header bg-transparent p-0" id="list-settings">
             <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#attributes" aria-expanded="false" aria-controls="attributes">
-                    <i id="questionCaret5" class="fa fa-caret-down transition rotation" ></i>
-                    <span class="pl-2">Attributai</span>
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                    <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'time'|trans }}</span>
                 </button>
             </h2>
         </div>
-        <div id="attributes" class="tab-pane collapse" aria-labelledby="list-attributes list-attributes-list" >
+        <div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >
             <div class="card-body">
 
-                <h5 class="mb-3">Mygtuko spalvos</h5>
                 <div class="form-group row">
-                    <label for="inputDescription" class="col-sm-2 col-form-label">Mygtuko spalva 1</label>
-                    <div class="col-sm-10">
-                        <div class="d-flex">
-                            <input type="color" required="required" value="#c6cad4" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />
-                            <button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>
-                        </div>
+                    <label class="col-form-label col-sm-2">{{ 'question.form.time_label'|trans }}</label>
+                    <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                        <input type="checkbox" name="question_attribute_time[value]" form="question_form" id="{{ question.id }}Time" class="custom-control-input" {% if attributes.time is defined and attributes.time is not empty %} checked {% endif %}/>
+                        <label class="custom-control-label" for="{{ question.id }}Time">{{ 'question.form.time_description'|trans }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Mygtuko spalva 2</label>
-                    <div class="col-sm-10">
-                        <div class="d-flex">
-                            <input type="color" required="required" value="#bdd1e5" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />
-                            <button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Pridėti mygtuko spalvą</label>
-                    <a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>
-                </div>
-
-                {#<div class="border-grey-separator"></div>#}
-
-                {#<h5 class="mb-3 mt-3">Fono spalvos</h5>#}
-                {#<div class="form-group row">#}
-                    {#<label for="inputDescription" class="col-sm-2 col-form-label">Fono spalva 1</label>#}
-                    {#<div class="col-sm-10">#}
-                        {#<div class="d-flex">#}
-                            {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                            {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="form-group row">#}
-                    {#<label class="col-sm-2 col-form-label">Fono spalva 2</label>#}
-                    {#<div class="col-sm-10">#}
-                        {#<div class="d-flex">#}
-                            {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                            {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
-                {#<div class="form-group row">#}
-                    {#<label class="col-sm-2 col-form-label">Pridėti fono spalvą</label>#}
-                    {#<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>#}
-                {#</div>#}
-
-                {#<div class="border-grey-separator"></div>#}
-
-                {#<h5 class="mb-3 mt-3">Failai</h5>#}
-                {#<div class="form-group row">#}
-                    {#<label for="inputDescription" class="col-sm-2 col-form-label">Failas 1</label>#}
-                    {#<div class="col-sm-10">#}
-                        {#<div class="d-flex">#}
-                            {#<div class="custom-file">#}
-                                {#<input type="file" class="custom-file-input" id="customFileLang" lang="lt">#}
-                                {#<label class="custom-file-label" for="customFileLang">Pasirinkti failą</label>#}
-                            {#</div>#}
-                            {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="form-group row">#}
-                    {#<label class="col-sm-2 col-form-label">Failas 2</label>#}
-                    {#<div class="col-sm-10">#}
-                        {#<div class="d-flex">#}
-                            {#<div class="custom-file">#}
-                                {#<input type="file" class="form-control-file" id="customFileLang" lang="lt">#}
-                                {#<label class="custom-file-label" for="customFileLang">Pasirinkti failą</label>#}
-                            {#</div>#}
-                            {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
-                {#<div class="form-group row">#}
-                    {#<label class="col-sm-2 col-form-label">Pridėti failą</label>#}
-                    {#<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>#}
-                {#</div>#}
 
             </div>
         </div>
     </div>
+
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-buttonColor">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#buttonColor" aria-expanded="false" aria-controls="buttonColor">
+                    <i id="questionCaret5" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'buttoncolor'|trans }} {% if attributes.buttonColors is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                </button>
+            </h2>
+        </div>
+        <div id="buttonColor" class="tab-pane collapse" aria-labelledby="list-buttonColor list-buttonColor-list" >
+            <div class="card-body buttoncolors" data-prototype='<div><label for="question_attribute_buttonColor___name___id" class="required">{{'attribute.button_color'|trans}}</label><input type="color" value="#007bff" id="question_attribute_buttonColor___name___id" name="question_attribute_buttonColor[__name__][id]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" /></div>
+            <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>'>
+
+                <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
+
+                {% set numb = 1 %}
+                {% for key, bc in attributes.buttonColors %}
+                    <div class="form-group row">
+                        <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-10 mb-3">
+                            <div class="d-flex">
+                                {% if (app.request.get('_route')) == 'question_edit' %}
+                                    <input type="color" value="{{ bc.value }}" id="question_attribute_buttonColor_{{ key }}_id" name="question_attribute_buttonColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
+                                {% else  %}
+                                    <input type="color" value="{{ bc | first }}" id="question_attribute_buttonColor_{{ key }}_id" name="question_attribute_buttonColor[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
+                                {% endif %}
+
+                            </div>
+                            <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>
+                        </div>
+                        {% set numb = numb +1 %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-backgroundColor">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#backgroundColor" aria-expanded="false" aria-controls="backgroundColor">
+                    <i id="questionCaret6" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'backgroundcolor'|trans }} {% if attributes.backgroundColors is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                </button>
+            </h2>
+        </div>
+        <div id="backgroundColor" class="tab-pane collapse" aria-labelledby="list-backgroundColor list-backgroundColor-list" >
+            <div class="card-body backgroundColors" data-prototype='<div><label for="question_attribute_backgroundColor___name___id" class="required">{{'attribute.background_color'|trans}}</label><input type="color" value="#FFFFFF" id="question_attribute_backgroundColor___name___id" name="question_attribute_backgroundColor[__name__][id]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" /></div>
+            <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>'>
+
+                <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
+
+                {% set numb = 1 %}
+                {% for key, bc in attributes.backgroundColors %}
+                    <div class="form-group row">
+                        <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-10 mb-3">
+                            <div class="d-flex">
+                                {% if (app.request.get('_route')) == 'question_edit' %}
+                                    <input type="color" value="{{ bc.value }}" id="question_attribute_backgroundColor_{{ key }}_id" name="question_attribute_backgroundColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
+                                {% else  %}
+                                    <input type="color" value="{{ bc | first }}" id="question_attribute_backgroundColor_{{ key }}_id" name="question_attribute_backgroundColor[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
+                                {% endif %}
+                            </div>
+                            <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>
+                        </div>
+                        {% set numb = numb +1 %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-displayTime">
+            <h2 class="mb-0">
+                {% if  question.type == 'presentation' %}
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
+                        <i id="questionCaretDT" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'displaytime'|trans }} {% if attributes.displayTimes is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                    </button>
+                {% else %}
+                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
+                        <i id="questionCaretDT" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
+                        <span data-toggle="tooltip" data-placement="right" title="{{ 'poppers.answer.disabled_option_presentation'|trans }}" class="disabled-menu pl-2">{{ 'displaytime'|trans }}</span>
+                    </button>
+                {% endif %}
+            </h2>
+        </div>
+        <div id="displayTime" class="tab-pane collapse" aria-labelledby="list-displayTime list-displayTime-list" >
+            <div class="card-body displayTimes" data-prototype='<label for="question_attribute_displayTime___name___id" class="required">{{'attribute.display_time'|trans}}</label>
+                <block>
+                 <input type="number" value="0" id="question_attribute_displayTime___name___id" name="question_attribute_displayTime[__name__][id]" form="question_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" min="0" max="9999" maxlength="99999" />
+                <input type="number" value="0" id="question_attribute_displayTime___name___type" name="question_attribute_displayTime[__name__][type]" form="question_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
+                <input type="number" value="0" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
+                </block>'>
+
+                <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>
+
+                {% set numb = 1 %}
+                {% for key, bc in attributes.displayTimes %}
+
+                    {% set displayTime = bc.value|split(':') %}
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-10 mb-3">
+                            <div class="d-flex input-group">
+                                {% if (app.request.get('_route')) == 'question_edit' %}
+                                    <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>
+                                    </div>
+                                    <input type="number" value="{{ displayTime[1] }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
+                                    </div>
+                                    <input type="number" value="{{ displayTime[2] }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                 {% else  %}
+                                     <input type="number" value="{{ bc | first }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                     <div class="input-group-prepend">
+                                         <span class="input-group-text border-left-0 font-weight-bold"> : </span>
+                                     </div>
+                                     <input type="number" value="{{ bc.type }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                     <div class="input-group-prepend">
+                                         <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
+                                     </div>
+                                     <input type="number" value="{{ bc.vis }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                {% endif %}
+
+                             </div>
+                        </div>
+                        {% set numb = numb +1 %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <div class="card bg-light">
         <div class="card-header bg-transparent p-0" id="list-file">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#file" aria-expanded="false" aria-controls="file">
-                    <i id="questionCaret6" class="fa fa-caret-down transition rotation" ></i>
+                    <i id="questionCaret7" class="fa fa-caret-down transition rotation" ></i>
                     <span class="pl-2">Failas</span>
                 </button>
             </h2>
         </div>
         <div id="file" class="tab-pane collapse" aria-labelledby="list-file list-file-list" >
             <div class="card-body">
-
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="validatedCustomFile">
-                    <label class="custom-file-label" for="validatedCustomFile">Pasirinkti failą...</label>
-                </div>
 
             </div>
         </div>
@@ -289,14 +338,17 @@
         <div class="card-header bg-transparent p-0" id="list-save">
             <h2 class="mb-0">
                 {% if (app.request.get('_route')) == 'question_edit' %}
-                <button class="btn btn-block btn-outline-primary questionEditSave btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}">{{ button_label|default('Save')|trans }}</button>
+                <button class="btn btn-block btn-primary questionEditSave btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}">{{ button_label|default('Save')|trans }}</button>
                 {% else %}
-                <button class="btn btn-block btn-outline-primary questionSave btn-save btn-no-top-radius" data-link="{{ path('question_new_save')}}" >{{ button_label|default('Save')|trans }}</button>
+                <button class="btn btn-block btn-primary questionSave btn-save btn-no-top-radius" data-link="{{ path('question_new_save')}}" >{{ button_label|default('Save')|trans }}</button>
                 {% endif %}
+{#                <button class="btn btn-block btn-primary btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}" >{{ button_label|default('Save')|trans }}</button>#}
+{#                <button class="btn btn-block btn-primary btn-save btn-no-top-radius" data-link="{{ path('question_new')}}" >{{ button_label|default('Save')|trans }}</button>#}
             </h2>
         </div>
     </div>
 </div>
 {{ form_end(form) }}
+
 
 

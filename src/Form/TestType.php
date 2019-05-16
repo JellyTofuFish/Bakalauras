@@ -51,6 +51,10 @@ class TestType extends AbstractType
                 'label' => 'test.form.is_active_description',
                 'required' => false,
             ])
+            ->add('prev_button', CheckboxType::class, [
+                'label' => 'test.form.prev_button_description',
+                'required' => false,
+            ])
             ->add('testquestions', CollectionType::class, [
                 'label' => false,
                 'entry_type' => TestQuestionType::class,
@@ -59,7 +63,6 @@ class TestType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-//            ->add('users')
         ;
     }
 

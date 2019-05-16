@@ -177,7 +177,13 @@
             </div>
             <div id="settings" class="collapse show" aria-labelledby="list-settings list-settings-list">
                 <div class="card-body">
-
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">{{ 'question.form.required_label'|trans }}</label>
+                        <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            <input type="checkbox" id="{{ question.id }}Switch" class="custom-control-input" disabled {{ question.required ? 'checked' : "" }} >
+                            <label class="custom-control-label" for="{{ question.id }}Switch">{{ question.required ? 'question.required_true'|trans : 'question.required_false' |trans }}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

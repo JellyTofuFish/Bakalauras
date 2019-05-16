@@ -14,7 +14,7 @@
                 <div class="form-group row">
                     {{ form_label(form.name, 'attribute.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
                     <div class="col-sm-10 mb-3">
-                        {{ form_widget(form.name, { 'attr': { 'class':'form-control'} }) }}
+                        {{ form_widget(form.name, { 'attr': { 'class':'form-control', 'readonly':'readonly', 'disabled':'disabled'} }) }}
                         <div class="invalid-feedback ">
                             {{ 'test.validation.name'|trans }}
                         </div>
@@ -32,7 +32,7 @@
     <div class="card border-light">
         <div class="card-header bg-transparent p-0" id="list-save">
             <h2 class="mb-0">
-                <button class="btn btn-block btn-outline-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save')|trans  }}</button>
+                <button class="btn btn-block btn-primary btn-save btn-no-top-radius attribute-update" type="submit">{{ button_label|default('Save')|trans  }}</button>
             </h2>
         </div>
     </div>

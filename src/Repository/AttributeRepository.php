@@ -22,29 +22,50 @@ class AttributeRepository extends ServiceEntityRepository
     // /**
     //  * @return Attribute[] Returns an array of Attribute objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findButtonColorAttribute()
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Attribute
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.name = :val')
+            ->setParameter('val', 'buttoncolor')
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    public function findBackgroundColorAttribute()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :val')
+            ->setParameter('val', 'backgroundcolor')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+    public function findTimeAttribute()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :val')
+            ->setParameter('val', 'time')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+    public function findDisplayTimeAttribute()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :val')
+            ->setParameter('val', 'displaytime')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+    public function findPictureAttribute()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.name = :val')
+            ->setParameter('val', 'picture')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 }

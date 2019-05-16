@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\AnswerOption;
 use App\Entity\GroupList;
 use App\Entity\Question;
+use App\Entity\QuestionAttribute;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -61,7 +63,19 @@ class QuestionType extends AbstractType
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
                 'allow_delete' => true,
-            ]);
+            ])
+            ->add('required', CheckboxType::class, [
+                'label' => 'question.form.required_description',
+                'required' => false,
+            ])
+//            ->add('questionAttributes', CollectionType::class, [
+//                'entry_type' => QuestionAttributeTimeType::class,
+//                'label' => false,
+//                'allow_add' => true,
+//                'entry_options' => ['label' => false],
+//                'by_reference' => false,
+//                'allow_delete' => true,
+//            ])
         ;
     }
 

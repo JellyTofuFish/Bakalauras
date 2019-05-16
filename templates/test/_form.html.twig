@@ -34,6 +34,13 @@
                             {{ form_widget(form.code, { 'attr': {'class':'form-control', 'readonly':''} }) }}
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-sm-2">{{ 'test.form.prev_button_label'|trans }}</label>
+                        <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            {{ form_widget(form.prev_button, { 'attr': {'class':'custom-control-input'} }) }}
+                            {{ form_label(form.prev_button, null, { 'label_attr': {'class':'custom-control-label'} }) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,126 +116,141 @@
             </div>
         </div>
 
-        {#<div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">#}
-            {#<div class="card-header bg-transparent p-0" id="list-settings">#}
-                {#<h2 class="mb-0">#}
-                    {#<button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">#}
-                        {#<i id="testCaret4" class="fa fa-caret-down transition rotation"></i>#}
-                        {#<span class="pl-2">{{ 'settings'|trans }}</span>#}
-                    {#</button>#}
-                {#</h2>#}
-            {#</div>#}
-            {#<div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >#}
-                {#<div class="card-body">#}
+        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-settings">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                        <i id="testCaret4" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'time'|trans }}{% if attributes.times is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >
+                <div class="card-body times" data-prototype='<label for="test_attribute_time___name___id" class="required">{{'attribute.time'|trans}}</label>
+                <block>
+                 <input type="number" value="0" id="test_attribute_time___name___id" name="test_attribute_time[__name__][id]" form="test_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" min="0" max="9999" maxlength="99999" />
+                <input type="number" value="0" id="test_attribute_time___name___type" name="test_attribute_time[__name__][type]" form="test_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
+                <input type="number" value="0" id="test_attribute_time___name___vis" name="test_attribute_time[__name__][vis]" form="test_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
+                </block>'>
 
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
+                    <i class="form-text text-muted mb-3">{{ attributeText.time.description }}</i>
 
-        {#<div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">#}
-            {#<div class="card-header bg-transparent p-0" id="list-attributes">#}
-                {#<h2 class="mb-0">#}
-                    {#<button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#attributes" aria-expanded="false" aria-controls="attributes">#}
-                        {#<i id="testCaret5" class="fa fa-caret-down transition rotation"></i>#}
-                        {#<span class="pl-2">Attributai</span>#}
-                    {#</button>#}
-                {#</h2>#}
-            {#</div>#}
-            {#<div id="attributes" class="tab-pane collapse" aria-labelledby="list-attributes list-attributes-list" >#}
-                {#<div class="card-body">#}
+                    {% set numb = 1 %}
+                    {% for key, bc in attributes.times %}
 
-                    {#<h5 class="mb-3">Mygtuko spalvos</h5>#}
-                    {#<div class="form-group row">#}
-                        {#<label for="inputDescription" class="col-sm-2 col-form-label">Mygtuko spalva 1</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Mygtuko spalva 2</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Pridėti mygtuko spalvą</label>#}
-                        {#<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>#}
-                    {#</div>#}
+                        {% set Time = bc.value|split(':') %}
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">{{ 'attribute.time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-10 mb-3">
+                                <div class="d-flex input-group">
+                                    {% if (app.request.get('_route')) == 'test_edit' %}
+                                        <input type="number" value="{{ Time[0] }}" id="test_attribute_time_{{ key }}_id" name="test_attribute_time[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-left-0 font-weight-bold"> : </span>
+                                        </div>
+                                        <input type="number" value="{{ Time[1] }}" id="test_attribute_time_{{ key }}_type" name="test_attribute_time[{{ key }}][type]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
+                                        </div>
+                                        <input type="number" value="{{ Time[2] }}" id="test_attribute_time_{{ key }}_vis" name="test_attribute_time[{{ key }}][vis]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                    {% else  %}
+                                        <input type="number" value="{{ bc | first }}" id="test_attribute_time_{{ key }}_id" name="test_attribute_time[{{ key }}][{{ bc| keys |first }}]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-left-0 font-weight-bold"> : </span>
+                                        </div>
+                                        <input type="number" value="{{ bc.type }}" id="test_attribute_time_{{ key }}_type" name="test_attribute_time[{{ key }}][type]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
+                                        </div>
+                                        <input type="number" value="{{ bc.vis }}" id="test_attribute_time_{{ key }}_vis" name="test_attribute_time{{ key }}][vis]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                    {% endif %}
 
-                    {#<div class="border-grey-separator"></div>#}
+                                </div>
+                            </div>
+                            {% set numb = numb +1 %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-                    {#<h5 class="mb-3 mt-3">Fono spalvos</h5>#}
-                    {#<div class="form-group row">#}
-                        {#<label for="inputDescription" class="col-sm-2 col-form-label">Fono spalva 1</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Fono spalva 2</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<input type="color" required="required" value="#ff0000" placeholder="Įveskite atsakymo variantą" class="form-control btn-no-right-radius" maxlength="255" />#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
+        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-buttonColor">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#buttonColor" aria-expanded="false" aria-controls="buttonColor">
+                        <i id="testCaret5" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'buttoncolor'|trans }} {% if attributes.buttonColors is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="buttonColor" class="tab-pane collapse" aria-labelledby="list-buttonColor list-buttonColor-list" >
+                <div class="card-body buttoncolors" data-prototype='<div><label for="test_attribute_buttonColor___name___id" class="required">{{'attribute.button_color'|trans}}</label><input type="color" value="#007bff" id="test_attribute_buttonColor___name___id" name="test_attribute_buttonColor[__name__][id]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" /></div>
+            <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>'>
 
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Pridėti fono spalvą</label>#}
-                        {#<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>#}
-                    {#</div>#}
+                    <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
 
-                    {#<div class="border-grey-separator"></div>#}
+                    {% set numb = 1 %}
+                    {% for key, bc in attributes.buttonColors %}
+                        <div class="form-group row">
+                            <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-10 mb-3">
+                                <div class="d-flex">
+                                    {% if (app.request.get('_route')) == 'test_edit' %}
+                                        <input type="color" value="{{ bc.value }}" id="test_attribute_buttonColor_{{ key }}_id" name="test_attribute_buttonColor[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
+                                    {% else  %}
+                                        <input type="color" value="{{ bc | first }}" id="test_attribute_buttonColor_{{ key }}_id" name="test_attribute_buttonColor[{{ key }}][{{ bc| keys |first }}]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
+                                    {% endif %}
 
-                    {#<h5 class="mb-3 mt-3">Failai</h5>#}
-                    {#<div class="form-group row">#}
-                        {#<label for="inputDescription" class="col-sm-2 col-form-label">Failas 1</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<div class="custom-file">#}
-                                    {#<input type="file" class="custom-file-input" id="customFileLang" lang="lt">#}
-                                    {#<label class="custom-file-label" for="customFileLang">Pasirinkti failą</label>#}
-                                {#</div>#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Failas 2</label>#}
-                        {#<div class="col-sm-10">#}
-                            {#<div class="d-flex">#}
-                                {#<div class="custom-file">#}
-                                    {#<input type="file" class="form-control-file" id="customFileLang" lang="lt">#}
-                                    {#<label class="custom-file-label" for="customFileLang">Pasirinkti failą</label>#}
-                                {#</div>#}
-                                {#<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
+                                </div>
+                                <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>
+                            </div>
+                            {% set numb = numb +1 %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-                    {#<div class="form-group row">#}
-                        {#<label class="col-sm-2 col-form-label">Pridėti failą</label>#}
-                        {#<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>#}
-                    {#</div>#}
+        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+            <div class="card-header bg-transparent p-0" id="list-backgroundColor">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#backgroundColor" aria-expanded="false" aria-controls="backgroundColor">
+                        <i id="testCaret6" class="fa fa-caret-down transition rotation" ></i>
+                        <span class="pl-2">{{ 'backgroundcolor'|trans }} {% if attributes.backgroundColors is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                    </button>
+                </h2>
+            </div>
+            <div id="backgroundColor" class="tab-pane collapse" aria-labelledby="list-backgroundColor list-backgroundColor-list" >
+                <div class="card-body backgroundColors" data-prototype='<div><label for="test_attribute_backgroundColor___name___id" class="required">{{'attribute.background_color'|trans}}</label><input type="color" value="#FFFFFF" id="test_attribute_backgroundColor___name___id" name="test_attribute_backgroundColor[__name__][id]" form="test_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" /></div>
+            <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>'>
 
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
+                    <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
+
+                    {% set numb = 1 %}
+                    {% for key, bc in attributes.backgroundColors %}
+                        <div class="form-group row">
+                            <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-10 mb-3">
+                                <div class="d-flex">
+                                    {% if (app.request.get('_route')) == 'test_edit' %}
+                                        <input type="color" value="{{ bc.value }}" id="test_attribute_backgroundColor_{{ key }}_id" name="test_attribute_backgroundColor[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
+                                    {% else  %}
+                                        <input type="color" value="{{ bc | first }}" id="test_attribute_backgroundColor_{{ key }}_id" name="test_attribute_backgroundColor[{{ key }}][{{ bc| keys |first }}]" form="test_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
+                                    {% endif %}
+                                </div>
+                                <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>
+                            </div>
+                            {% set numb = numb +1 %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
         <div class="card border-light btn-no-top-radius">
             <div class="card-header bg-transparent p-0" id="list-save">
                 <h2 class="mb-0">
-                    <button class="btn btn-block btn-outline-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
+                    <button class="btn btn-block btn-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
                 </h2>
             </div>
         </div>

@@ -19,12 +19,15 @@ test:
     last_activated_label: Paskutinio akyvavimo data
     is_active_label: Testo aktyvumas
     is_active_description: Įjunkite šį jungiklį, jeigu norite aktyvuoti testą
+    prev_button_label: Testo navigacija
+    prev_button_description: Įjunkite šį jungiklį, jeigu norite, kad testo vykdymo metu galima suteikta galimybė grįžti į ankstesnį klausimą
     test_start_label: Testo pradžia
     test_end_label: Testo pabaiga
     date_placeholder: 'yyyy-mm-dd hh:mm:ss'
     test_question_label: Klausimas
     test_count: Klausimų skaičius
     test_question_input_placeholder: Pasirinkite klausimą...
+    participation_count: Vykdymų skaičius
   active: Testas aktyvus
   inactive: Testas neaktyvus
   validation:
@@ -66,6 +69,12 @@ question:
     fk_group_input_placeholder: Pasirinkite grupę...
     answeroptions_label: Atsakymas
     answeroptions_input_placeholder: Įveskite atsakymo variantą
+    required_label: Privalomas
+    required_description: Įjunkite šį jungiklį, jeigu norite, kad klausimo užpildymas būtų privalomas
+    time_label: Laikas
+    time_description: Įjunkite šį jungiklį, jeigu norite, kad būtų sekamas klausimo užpildymo laikas
+  required_true: Klausimas privalomas
+  required_false: Klausimas neprivalomas
   type:
     open: Atviras
     one: Vieno pasirinkimo
@@ -121,9 +130,14 @@ attribute:
   question_attributes : Klausimo atributai
   test_attributes: Testo atributai
   background_color: Fono spalva
+  background_color_placeholder: Pasirinkite fono spalvą
   button_color: Mygtuko spalva
+  button_color_placeholder: Pasirinkite mygtuko spalvą
   display_time: Rodymo trukmė
+  display_time_placeholder_bool: 'Imtis: 0-1'
+  display_time_placeholder_val: 'Imtis: 0-99999'
   time: Laiko skaičiavimas
+
   file: Failas
   files: Failai
   empty: Atributų nėra
@@ -136,7 +150,8 @@ attribute:
   next_off: Mygtukas neveiksnus
   next_forced: (Peršoka klausimą)
   next_stay: (Neperšoka klausimo)
-
+  validation:
+    unique: Laukelių reikšmės privalo būti unikalios
   file_missing: Failas nenustatytas
   form:
     description_label: Aprašas
@@ -248,6 +263,7 @@ poppers:
     activation_desc: Prieš aktyvuodami testą privalote nustatyti testo pradažios datą
   answer:
     disabled_option: Išsaugojus "Vieno pasirinkimo" arba "Kelių pasirinkimų" klausimo tipą, suteikiama prieiga pridėti atsakymų variantus
+    disabled_option_presentation: Išsaugojus "Pateikties" klausimo tipą, suteikiama prieiga priskirti rodymo trukmės parametrus
     remove_disclaimer: Išsaugojus "Pateiktis" arba "Atviras" klausimo tipą, visi darbartiniai atsakymai (jeigu yra nustatytų) bus ištrinti
   group:
     add: Sukurti naują grupę
