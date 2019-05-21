@@ -134,7 +134,7 @@ class TestController extends AbstractController
         $test->getTestQuestions()->add($testQuestion);
 
         $form = $this->createForm(TestType::class, $test);
-        $form->handleRequest($request);
+
         $attributeText = [];
         $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
         $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
@@ -147,74 +147,99 @@ class TestController extends AbstractController
         $attributes['buttonColors'] = [];
         $attributes['backgroundColors'] = [];
         $attributes['displayTimes'] = [];
-        if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
-            foreach ($_POST['test_attribute_time'] as $key => $value) {
-                $attributes['times'] = $_POST['test_attribute_time'];
-            }
-        }
-        if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
-            foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
-                $attributes['buttonColors'] = $_POST['test_attribute_buttonColor'];
-            }
-        }
-        if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
-            foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
-                $attributes['backgroundColors'] = $_POST['test_attribute_backgroundColor'];
-            }
-        }
+        $attributes['pictures'] = [];
+
         $entityManager = $this->getDoctrine()->getManager();
-        if ($form->isSubmitted() && $form->isValid()) {
-            $testQuestions = $test->getTestQuestions();
-            $i = 1;
-            foreach ($testQuestions as $tq) {
-                $tq->setSerialNumber($i);
-                $tq->setFkTest($test);
-                $entityManager->persist($tq);
-                $i+=1;
-            }
-            $entityManager->persist($test);
-            $entityManager->flush();
+        $form->handleRequest($request);
+        if ($request->isMethod('POST')) {
+
             if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
                 foreach ($_POST['test_attribute_time'] as $key => $value) {
-                    $testTAttribute = new TestAttribute();
-                    $testTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
-                    $testTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
-                    $testTAttribute->setFkTest($test);
-                    $entityManager->persist($testTAttribute);
-                    $entityManager->flush();
+                    $attributes['times'] = $_POST['test_attribute_time'];
                 }
             }
             if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
                 foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
-                    $questionBtnCAttribute = new TestAttribute();
-                    $questionBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
-                    $questionBtnCAttribute->setValue(array_values($value)[0]);
-                    $questionBtnCAttribute->setFkTest($test);
-                    $entityManager->persist($questionBtnCAttribute);
-                    $entityManager->flush();
+                    $attributes['buttonColors'] = $_POST['test_attribute_buttonColor'];
                 }
             }
             if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
                 foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
-                    $questionBgCAttribute = new TestAttribute();
-                    $questionBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
-                    $questionBgCAttribute->setValue(array_values($value)[0]);
-                    $questionBgCAttribute->setFkTest($test);
-                    $entityManager->persist($questionBgCAttribute);
-                    $entityManager->flush();
+                    $attributes['backgroundColors'] = $_POST['test_attribute_backgroundColor'];
+                }
+            }
+            if (isset($_POST['test_attribute_displayTime']) && $_POST['test_attribute_displayTime'] != '') {
+                foreach ($_POST['test_attribute_displayTime'] as $key => $value) {
+                    $attributes['displayTimes'] = $_POST['test_attribute_displayTime'];
+                }
+            }
+            if (isset($_POST['test_attribute_picture']) && $_POST['test_attribute_picture'] != '') {
+                foreach ($_POST['test_attribute_picture'] as $key => $value) {
+                    $attributes['pictures'] = $_POST['test_attribute_picture'];
                 }
             }
 
-            return $this->redirectToRoute('test_index');
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $testQuestions = $test->getTestQuestions();
+                $i = 1;
+                foreach ($testQuestions as $tq) {
+                    $tq->setSerialNumber($i);
+                    $tq->setFkTest($test);
+                    $entityManager->persist($tq);
+                    $i += 1;
+                }
+                $entityManager->persist($test);
+                $entityManager->flush();
+                if (isset($_POST['test_attribute_time']) && $_POST['test_attribute_time'] != '') {
+                    foreach ($_POST['test_attribute_time'] as $key => $value) {
+                        $testTAttribute = new TestAttribute();
+                        $testTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
+                        $testTAttribute->setValue(array_values($value)[0] . ':' . array_values($value)[1] . ':' . array_values($value)[2]);
+                        $testTAttribute->setFkTest($test);
+                        $entityManager->persist($testTAttribute);
+                        $entityManager->flush();
+                    }
+                }
+                if (isset($_POST['test_attribute_buttonColor']) && $_POST['test_attribute_buttonColor'] != '') {
+                    foreach ($_POST['test_attribute_buttonColor'] as $key => $value) {
+                        $testBtnCAttribute = new TestAttribute();
+                        $testBtnCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute());
+                        $testBtnCAttribute->setValue(array_values($value)[0]);
+                        $testBtnCAttribute->setFkTest($test);
+                        $entityManager->persist($testBtnCAttribute);
+                        $entityManager->flush();
+                    }
+                }
+                if (isset($_POST['test_attribute_backgroundColor']) && $_POST['test_attribute_backgroundColor'] != '') {
+                    foreach ($_POST['test_attribute_backgroundColor'] as $key => $value) {
+                        $testBgCAttribute = new TestAttribute();
+                        $testBgCAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute());
+                        $testBgCAttribute->setValue(array_values($value)[0]);
+                        $testBgCAttribute->setFkTest($test);
+                        $entityManager->persist($testBgCAttribute);
+                        $entityManager->flush();
+                    }
+                }
+                if (isset($_POST['test_attribute_displayTime']) && $_POST['test_attribute_displayTime'] != '') {
+                    foreach ($_POST['test_attribute_displayTime'] as $key => $value) {
+                        $testDTAttribute = new TestAttribute();
+                        $testDTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute());
+                        $testDTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $testDTAttribute->setFkTest($test);
+                        $entityManager->persist($testDTAttribute);
+                        $entityManager->flush();
+                    }
+                }
 
+                return $this->redirectToRoute('test_index');
+            }
+        }
         return $this->render('test/new.html.twig', [
             'form' => $form->createView(),
             'attributes' => $attributes,
             'attributeText' =>$attributeText,
         ]);
     }
-
 
     /**
      * @Route("test/{id}", name="test_show", methods={"GET"})
@@ -242,287 +267,42 @@ class TestController extends AbstractController
         }
         $this->arrayTest = [[]];
         $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
-
+        $testTime = null;
         $backgroundT = $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test->getId());
         if ($backgroundT != null) {
             $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
-        }
-        else {
+        } else {
             $backgroundTRandom = null;
         }
-
         $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
         if ($buttonColorT != null) {
             $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
-        }
-        else {
+        } else {
             $buttonColorTRandom = null;
         }
-
         $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
         if ($picturesT != null) {
             $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
-        }
-        else {
+        } else {
             $picturesTRandom = null;
         }
-
+        $displayTimeT = $entityManager->getRepository(TestAttribute::class)->findAllByDisplayTime($Test->getId());
+        if ($displayTimeT != null) {
+            $displayTimeTRandom = $displayTimeT[array_rand($displayTimeT, 1)];
+        } else {
+            $displayTimeTRandom = null;
+        }
         $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
         if ($timeT != null) {
             $timeTRandom = $timeT[array_rand($timeT, 1)];
-        }
-        else {
-            $timeTRandom = '';
+            $testTime = $timeTRandom;
+        } else {
+            $timeTRandom = null;
         }
 
         foreach ($questionOrder as $question){
             $this->setDataTest($question['serial_number']-1, 'question', $question);
             $this->setDataTest($question['serial_number']-1, 'answers', $entityManager->getRepository(Question::class)->findQuestionAnswers($question['id']));
-
-            if ($backgroundT != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundTRandom);
-            }
-            else {
-                $backgroundQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($question['id']);
-                if ($backgroundQ != null) {
-                    $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundQ[array_rand($backgroundQ, 1)]);
-                }
-                else {
-                    $this->setDataTest($question['serial_number']-1, 'paramBackground', ['value' => '#FFFFFF']);
-                }
-            }
-
-            if ($buttonColorT != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorTRandom);
-            }
-            else {
-                $buttonColorQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($question['id']);
-                if ($buttonColorQ != null) {
-                    $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorQ[array_rand($buttonColorQ, 1)]);
-                }
-                else {
-                    $this->setDataTest($question['serial_number']-1, 'paramButton', ['value' => '#007bff']);
-                }
-            }
-
-            $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
-            if ($displayTimeQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', $displayTimeQ[array_rand($displayTimeQ, 1)]);
-            }
-            else {
-                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', []);
-            }
-
-            $pictureQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
-            if ($pictureQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'picture', $pictureQ[array_rand($pictureQ, 1)]);
-            }
-            else {
-                $this->setDataTest($question['serial_number']-1, 'picture', []);
-            }
-
-            if ($picturesT != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesTRandom);
-            }
-            else {
-                $picturesQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByPicture($question['id']);
-                if ($picturesQ != null) {
-                    $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesQ[array_rand($picturesQ, 1)]);
-                }
-                else {
-                    $this->setDataTest($question['serial_number']-1, 'paramPictures', []);
-                }
-            }
-
-            $timeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($question['id']);
-            if ($timeQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramTimeQ', $timeQ[array_rand($timeQ, 1)]);
-            }
-            else {
-                $this->setDataTest($question['serial_number']-1, 'paramTimeQ', []);
-            }
-        }
-        return $this->render('test/show_example.html.twig', [
-            'paramTimeT' => $timeTRandom,
-            'test' => $Test,
-            'data_test' => $this->arrayTest,
-        ]);
-    }
-    /**
-    * @Route("participation/{testPart}/test/{id}", name="test_new_start", methods={"GET","POST"})
-    * @Entity("participation", expr="repository.find(testPart)")
-    */
-    public function newStart(Request $request, Test $test, TestParticipation $participation): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
-            throw $this->createNotFoundException('No Test for id '.$test->getId());
-        }
-        $this->arrayTest = [[]];
-
-        if ($request->isMethod('POST')){
-
-            if (null === $part = $entityManager->getRepository(TestParticipation::class)->find($participation->getId())) {
-                throw $this->createNotFoundException('No participation for id '.$participation->getId());
-            }
-            $part->setTestEndedAt(new \DateTime('now'));
-            $part->setIsTestOver(1);
-            $entityManager->persist($part);
-            $entityManager->flush();
-
-            $timeT = '';
-            $participantTimeT = '';
-            foreach ($_POST['test_new_start']['testTime'] as $key => $value) {
-                $participantTimeT = $entityManager->getRepository(TestAttribute::class)->find($key);
-                if ($participantTimeT != null) {
-                    $timeType = explode(':', $participantTimeT->getValue());
-                    if ($timeType[1] == '1') {
-                        $timeT = $timeType[0] - $value;
-                    }
-                    if ($timeType[1] == '0') {
-                        $timeT = $value;
-                    }
-                }
-            }
-            foreach ($_POST['test_new_start'] as $key => $value ) {
-                $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $key]);
-                if ($question != null) {
-                    $participantAnswer = new ParticipantAnswer();
-                    $participantAnswer->setFkQuestion($question);
-                    $participantAnswer->setFkTestParticipation($part);
-                    $entityManager->persist($participantAnswer);
-                    $entityManager->flush();
-                    foreach ($value as $key1 => $value1) {
-                        if ($key1 == 'paramBackground') {
-                            $paramBackgroundQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
-                            if ($paramBackgroundQ != null) {
-                                $participantAnswer1 = new ParticipantAnswerAttribute();
-                                $participantAnswer1->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer1->setFkQuestionAttribute($paramBackgroundQ);
-                                $entityManager->persist($participantAnswer1);
-
-                            } else {
-                                $participantAnswer1 = new ParticipantAnswerAttribute();
-                                $participantAnswer1->setFkParticipantAnswer($participantAnswer);
-                                $paramBackgroundT = $entityManager->getRepository(TestAttribute::class)->find($value1);
-                                $participantAnswer1->setFkTestAttribute($paramBackgroundT);
-                                $entityManager->persist($participantAnswer1);
-                            }
-                        } else if ($key1 == 'paramButton') {
-                            $paramButtonQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
-                            if ($paramButtonQ != null) {
-                                $participantAnswer2 = new ParticipantAnswerAttribute();
-                                $participantAnswer2->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer2->setFkQuestionAttribute($paramButtonQ);
-                                $entityManager->persist($participantAnswer2);
-                            } else {
-                                $participantAnswer2 = new ParticipantAnswerAttribute();
-                                $participantAnswer2->setFkParticipantAnswer($participantAnswer);
-                                $paramButtonT = $entityManager->getRepository(TestAttribute::class)->find($value1);
-                                $participantAnswer2->setFkTestAttribute($paramButtonT);
-                                $entityManager->persist($participantAnswer2);
-                            }
-                            if ($participantTimeT != null) {
-                                $participantAnswer5 = new ParticipantAnswerAttribute();
-                                $participantAnswer5->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer5->setFkTestAttribute($participantTimeT);
-                                $participantAnswer5->setValue($timeT);
-                                $entityManager->persist($participantAnswer5);
-                            }
-                        } else if (ctype_digit($key1)) {
-                            if ($participantTimeT != null) {
-                                $participantAnswer5 = new ParticipantAnswerAttribute();
-                                $participantAnswer5->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer5->setFkTestAttribute($participantTimeT);
-                                $participantAnswer5->setValue($timeT . ':' . $value1);
-                                $entityManager->persist($participantAnswer5);
-                            }
-                            else {
-                                $timeQ = $entityManager->getRepository(QuestionAttribute::class)->find($key1);
-                                if ($timeQ != null) {
-                                    $participantAnswer5 = new ParticipantAnswerAttribute();
-                                    $participantAnswer5->setFkParticipantAnswer($participantAnswer);
-                                    $participantAnswer5->setFkQuestionAttribute($timeQ);
-                                    $participantAnswer5->setValue($value1);
-                                    $entityManager->persist($participantAnswer5);
-                                }
-                            }
-                        } else if ($key1 == 'picture') {
-                            $pictureQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
-                            if ($pictureQ != null) {
-                                $participantAnswer3 = new ParticipantAnswerAttribute();
-                                $participantAnswer3->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer3->setFkQuestionAttribute($pictureQ);
-                                $entityManager->persist($participantAnswer3);
-                            }
-                        } else if ($key1 == 'textarea') {
-                            $participantAnswer->setAnswer($value1);
-                        } else if ($key1 == 'answers') {
-                            if ( $question->getType() == "one") {
-                                $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value1]);
-                                $participantAnswer->addFkAnsweroption($participantAnswerOption);
-                            }
-                            if ( $question->getType() == "multi") {
-                                foreach ($value1 as $key2 => $value2) {
-                                    $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value2]);
-                                    $participantAnswer->addFkAnsweroption($participantAnswerOption);
-                                }
-                            }
-                        } else if ($key1 == 'paramDisplayTime') {
-                            $paramDisplayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
-                            if ($paramDisplayTimeQ != null) {
-                                $participantAnswer4 = new ParticipantAnswerAttribute();
-                                $participantAnswer4->setFkParticipantAnswer($participantAnswer);
-                                $participantAnswer4->setFkQuestionAttribute($paramDisplayTimeQ);
-                                $entityManager->persist($participantAnswer4);
-                            }
-                        }
-                        $entityManager->flush();
-                    }
-                }
-            }
-            return $this->redirectToRoute('home_index', [
-                'done' => 'true',
-            ]);
-        }
-        $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
-
-        $backgroundT = $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test->getId());
-        if ($backgroundT != null) {
-            $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
-        }
-        else {
-            $backgroundTRandom = null;
-        }
-
-        $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
-        if ($buttonColorT != null) {
-            $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
-        }
-        else {
-            $buttonColorTRandom = null;
-        }
-
-        $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
-        if ($picturesT != null) {
-            $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
-        }
-        else {
-            $picturesTRandom = null;
-        }
-
-        $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
-        if ($timeT != null) {
-            $timeTRandom = $timeT[array_rand($timeT, 1)];
-        }
-        else {
-            $timeTRandom = '';
-        }
-
-        foreach ($questionOrder as $question){
-            $this->setDataTest($question['serial_number']-1, 'question', $question);
-            $this->setDataTest($question['serial_number']-1, 'answers', $entityManager->getRepository(Question::class)->findQuestionAnswers($question['id']));
-
             if ($backgroundT != null) {
                 $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundTRandom);
             }
@@ -548,23 +328,25 @@ class TestController extends AbstractController
                     $this->setDataTest($question['serial_number']-1, 'paramButton', $entityManager->getRepository(TestAttribute::class)->findAllByButtonColorDefault());
                 }
             }
-            dump($entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColorDefault());
-            dump($entityManager->getRepository(TestAttribute::class)->findAllByButtonColorDefault());
 
-            $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
-            if ($displayTimeQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', $displayTimeQ[array_rand($displayTimeQ, 1)]);
+            if ($displayTimeT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', $displayTimeTRandom);
             }
             else {
-                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', []);
+                $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
+                if ($displayTimeQ != null) {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramDisplayTime', $displayTimeQ[array_rand($displayTimeQ, 1)]);
+                } else {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramDisplayTime', []);
+                }
             }
 
-            $pictureQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
-            if ($pictureQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'picture', $pictureQ[array_rand($pictureQ, 1)]);
+            $filQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
+            if ($filQ != null) {
+                $this->setDataTest($question['serial_number']-1, 'file', $filQ[array_rand($filQ, 1)]);
             }
             else {
-                $this->setDataTest($question['serial_number']-1, 'picture', []);
+                $this->setDataTest($question['serial_number']-1, 'file', []);
             }
 
             if ($picturesT != null) {
@@ -580,16 +362,273 @@ class TestController extends AbstractController
                 }
             }
 
-            $timeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($question['id']);
-            if ($timeQ != null) {
-                $this->setDataTest($question['serial_number']-1, 'paramTimeQ', $timeQ[array_rand($timeQ, 1)]);
+            if ($timeT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramTime', $timeTRandom);
             }
             else {
-                $this->setDataTest($question['serial_number']-1, 'paramTimeQ', []);
+                $timeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($question['id']);
+                if ($timeQ != null) {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramTime', $timeQ[array_rand($timeQ, 1)]);
+                } else {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramTime', []);
+                }
+            }
+        }
+        return $this->render('test/show_example.html.twig', [
+            'testTime' => $testTime,
+            'test' => $Test,
+            'data_test' => $this->arrayTest,
+        ]);
+    }
+    /**
+     * @Route("participation/{testPart}/test/{id}", name="test_new_start", methods={"GET","POST"})
+     * @Entity("participation", expr="repository.find(testPart)")
+     */
+    public function newStart(Request $request, Test $test, TestParticipation $participation): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
+        $this->arrayTest = [[]];
+
+        if ($request->isMethod('POST')){
+
+            if (null === $part = $entityManager->getRepository(TestParticipation::class)->find($participation->getId())) {
+                throw $this->createNotFoundException('No participation for id '.$participation->getId());
+            }
+            $part->setTestEndedAt(new \DateTime('now'));
+            $part->setIsTestOver(1);
+            $entityManager->persist($part);
+            $entityManager->flush();
+
+            foreach ($_POST['test_new_start'] as $key => $value ) {
+                $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $key]);
+                if ($question != null) {
+                    $participantAnswer = new ParticipantAnswer();
+                    $participantAnswer->setFkQuestion($question);
+                    $participantAnswer->setFkTestParticipation($part);
+                    $entityManager->persist($participantAnswer);
+                    $entityManager->flush();
+                    foreach ($value as $key1 => $value1) {
+                        if ($key1 == 'paramBackground') {
+                            $paramBackgroundT = $entityManager->getRepository(TestAttribute::class)->find($value1);
+                            if ($paramBackgroundT == null) {
+                                $paramBackgroundQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
+                                $participantAnswer1 = new ParticipantAnswerAttribute();
+                                $participantAnswer1->setFkParticipantAnswer($participantAnswer);
+                                $participantAnswer1->setFkQuestionAttribute($paramBackgroundQ);
+                                $entityManager->persist($participantAnswer1);
+
+                            } else {
+                                $participantAnswer1 = new ParticipantAnswerAttribute();
+                                $participantAnswer1->setFkParticipantAnswer($participantAnswer);
+                                $participantAnswer1->setFkTestAttribute($paramBackgroundT);
+                                $entityManager->persist($participantAnswer1);
+                            }
+                            $entityManager->flush();
+                        }
+                         if ($key1 == 'paramButton') {
+                             $paramButtonT = $entityManager->getRepository(TestAttribute::class)->find($value1);
+                             if ($paramButtonT == null) {
+                                 $paramButtonQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
+                                 $participantAnswer2 = new ParticipantAnswerAttribute();
+                                 $participantAnswer2->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer2->setFkQuestionAttribute($paramButtonQ);
+                                 $entityManager->persist($participantAnswer2);
+                             } else {
+                                 $participantAnswer2 = new ParticipantAnswerAttribute();
+                                 $participantAnswer2->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer2->setFkTestAttribute($paramButtonT);
+                                 $entityManager->persist($participantAnswer2);
+                             }
+                             $entityManager->flush();
+                         }
+                         if (ctype_digit($key1)) {
+                             $participantTimeT = $entityManager->getRepository(TestAttribute::class)->find($key1);
+                             if ($participantTimeT == null) {
+                                 $timeQ = $entityManager->getRepository(QuestionAttribute::class)->find($key1);
+                                 $participantAnswer5 = new ParticipantAnswerAttribute();
+                                 $participantAnswer5->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer5->setFkQuestionAttribute($timeQ);
+                                 $participantAnswer5->setValue($value1);
+                                 $entityManager->persist($participantAnswer5);
+                             } else {
+                                 if ($participantTimeT != null) {
+                                     $participantAnswer5 = new ParticipantAnswerAttribute();
+                                     $participantAnswer5->setFkParticipantAnswer($participantAnswer);
+                                     $participantAnswer5->setFkTestAttribute($participantTimeT);
+                                     $participantAnswer5->setValue($value1);
+                                     $entityManager->persist($participantAnswer5);
+                                 }
+                             }
+                             $entityManager->flush();
+                         }
+                         if ($key1 == 'picture') {
+                             $pictureT = $entityManager->getRepository(TestAttribute::class)->find($value1);
+                             if ($pictureT == null) {
+                                 $pictureQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
+                                 $participantAnswer3 = new ParticipantAnswerAttribute();
+                                 $participantAnswer3->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer3->setFkQuestionAttribute($pictureQ);
+                                 $entityManager->persist($participantAnswer3);
+                             } else {
+                                 $participantAnswer3 = new ParticipantAnswerAttribute();
+                                 $participantAnswer3->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer3->setFkTestAttribute($pictureT);
+                                 $entityManager->persist($participantAnswer3);
+                             }
+                             $entityManager->flush();
+                         }
+                        if ($key1 == 'textarea') {
+                             $participantAnswer->setAnswer($value1);
+                        }
+                        if ($key1 == 'answers') {
+                             if ($question->getType() == "one") {
+                                 $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value1]);
+                                 $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                             }
+                             if ($question->getType() == "multi") {
+                                 foreach ($value1 as $key2 => $value2) {
+                                     $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value2]);
+                                     $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                                 }
+                             }
+                            $entityManager->flush();
+                        }
+                        if ($key1 == 'paramDisplayTime') {
+                            $paramDisplayTimeT = $entityManager->getRepository(TestAttribute::class)->find($value1);
+                            if ($paramDisplayTimeT == null) {
+                                $paramDisplayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->find($value1);
+                                $participantAnswer4 = new ParticipantAnswerAttribute();
+                                $participantAnswer4->setFkParticipantAnswer($participantAnswer);
+                                $participantAnswer4->setFkQuestionAttribute($paramDisplayTimeQ);
+                                $entityManager->persist($participantAnswer4);
+                            } else {
+                                $participantAnswer4 = new ParticipantAnswerAttribute();
+                                $participantAnswer4->setFkParticipantAnswer($participantAnswer);
+                                $participantAnswer4->setFkTestAttribute($paramDisplayTimeT);
+                                $entityManager->persist($participantAnswer4);
+                            }
+                            $entityManager->flush();
+                        }
+                    }
+                }
+            }
+            return $this->redirectToRoute('home_index', [
+                'done' => 'true',
+            ]);
+        }
+        $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
+        $testTime = null;
+        $backgroundT = $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test->getId());
+        if ($backgroundT != null) {
+            $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
+        } else {
+            $backgroundTRandom = null;
+        }
+        $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
+        if ($buttonColorT != null) {
+            $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
+        } else {
+            $buttonColorTRandom = null;
+        }
+        $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
+        if ($picturesT != null) {
+            $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
+        } else {
+            $picturesTRandom = null;
+        }
+        $displayTimeT = $entityManager->getRepository(TestAttribute::class)->findAllByDisplayTime($Test->getId());
+        if ($displayTimeT != null) {
+            $displayTimeTRandom = $displayTimeT[array_rand($displayTimeT, 1)];
+        } else {
+            $displayTimeTRandom = null;
+        }
+        $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
+        if ($timeT != null) {
+            $timeTRandom = $timeT[array_rand($timeT, 1)];
+            $testTime = $timeTRandom;
+        } else {
+            $timeTRandom = null;
+        }
+
+        foreach ($questionOrder as $question){
+            $this->setDataTest($question['serial_number']-1, 'question', $question);
+            $this->setDataTest($question['serial_number']-1, 'answers', $entityManager->getRepository(Question::class)->findQuestionAnswers($question['id']));
+            if ($backgroundT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundTRandom);
+            }
+            else {
+                $backgroundQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($question['id']);
+                if ($backgroundQ != null) {
+                    $this->setDataTest($question['serial_number']-1, 'paramBackground', $backgroundQ[array_rand($backgroundQ, 1)]);
+                }
+                else {
+                    $this->setDataTest($question['serial_number']-1, 'paramBackground', $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColorDefault());
+                }
+            }
+
+            if ($buttonColorT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorTRandom);
+            }
+            else {
+                $buttonColorQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($question['id']);
+                if ($buttonColorQ != null) {
+                    $this->setDataTest($question['serial_number']-1, 'paramButton', $buttonColorQ[array_rand($buttonColorQ, 1)]);
+                }
+                else {
+                    $this->setDataTest($question['serial_number']-1, 'paramButton', $entityManager->getRepository(TestAttribute::class)->findAllByButtonColorDefault());
+                }
+            }
+
+            if ($displayTimeT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramDisplayTime', $displayTimeTRandom);
+            }
+            else {
+                $displayTimeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($question['id']);
+                if ($displayTimeQ != null) {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramDisplayTime', $displayTimeQ[array_rand($displayTimeQ, 1)]);
+                } else {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramDisplayTime', []);
+                }
+            }
+
+            $filQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
+            if ($filQ != null) {
+                $this->setDataTest($question['serial_number']-1, 'file', $filQ[array_rand($filQ, 1)]);
+            }
+            else {
+                $this->setDataTest($question['serial_number']-1, 'file', []);
+            }
+
+            if ($picturesT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesTRandom);
+            }
+            else {
+                $picturesQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByPicture($question['id']);
+                if ($picturesQ != null) {
+                    $this->setDataTest($question['serial_number']-1, 'paramPictures', $picturesQ[array_rand($picturesQ, 1)]);
+                }
+                else {
+                    $this->setDataTest($question['serial_number']-1, 'paramPictures', []);
+                }
+            }
+
+            if ($timeT != null) {
+                $this->setDataTest($question['serial_number']-1, 'paramTime', $timeTRandom);
+            }
+            else {
+                $timeQ = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($question['id']);
+                if ($timeQ != null) {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramTime', $timeQ[array_rand($timeQ, 1)]);
+                } else {
+                    $this->setDataTest($question['serial_number'] - 1, 'paramTime', []);
+                }
             }
         }
         return $this->render('test/new_participation.html.twig', [
-            'paramTimeT' => $timeTRandom,
+            'testTime' => $testTime,
             'test' => $Test,
             'data_test' => $this->arrayTest,
             'testPart' => $participation->getId(),
@@ -638,6 +677,7 @@ class TestController extends AbstractController
         $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
         $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
         $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
+        $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
 
         $form->handleRequest($request);
         $testQuestions = $Test->getTestQuestions();
@@ -780,6 +820,50 @@ class TestController extends AbstractController
                                 $entityManager->persist($backgroundColor);
                             }
                             $entityManager->remove($backgroundColor);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
+            if (isset($_POST['test_attribute_displayTime']) && $_POST['test_attribute_displayTime'] != '') {
+                $test_attribute_DT = [];
+                foreach ($_POST['test_attribute_displayTime'] as $key => $value) {
+                    $DT = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['id' => key($value)]);
+                    if (in_array($DT, $attributes['displayTimes'])) {
+                        $DT->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $entityManager->persist($DT);
+                        $test_attribute_DT[] = $DT;
+                    }
+                    else {
+                        $testDTAttribute = new TestAttribute();
+                        $testDTAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute());
+                        $testDTAttribute->setValue(array_values($value)[0].':'.array_values($value)[1].':'.array_values($value)[2]);
+                        $testDTAttribute->setFkTest($Test);
+                        $entityManager->persist($testDTAttribute);
+                    }
+                }
+                foreach ( $attributes['displayTimes'] as $DT ) {
+                    if (!in_array($DT, $test_attribute_DT)) {
+                        $attributesArray = $DT->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $DT->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($DT);
+                        }
+                        $entityManager->remove($DT);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['displayTimes'] != null) {
+                    foreach ( $attributes['displayTimes'] as $DT ) {
+                        if (!in_array($DT, [])) {
+                            $attributesArray = $DT->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $DT->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($DT);
+                            }
+                            $entityManager->remove($DT);
                         }
                     }
                     $entityManager->flush();

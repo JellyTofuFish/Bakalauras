@@ -340,7 +340,13 @@ if ($('input.test-slug').data('action') === 'question example') {
         e.preventDefault();
         let attribute = $(this).data('attribute');
         setBackgroundColor(attribute);
-        addValidationColor(attribute);
+        let color = getContrastYIQ(attribute.substring(1));
+        if (color === 'black' ) {
+            $('.text-muted-custom').css("color", '#6c757d');
+        }
+        else {
+            $('.text-muted-custom').css("color", '#c4c7cb');
+        }
     });
     // Question example time attribute options
     $("a.paramTime").on("click", function(e) {
@@ -424,108 +430,93 @@ $("article:first").show();
 // check if delay was executed
 let displayWasPressed = {};
 let i = 0;
-let paramTimeQArray = {};
+let paramTimeArray = {};
 let SetTQ;
 let SetDisplayTime;
 
 if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
-    // test start color attribute execute
+    // set button color and font color for first form section
     setButtonColor($("article.test:first").find('input.paramButtonColor').data('attribute'));
     setBackgroundColor($("article.test:first").find('input.paramBackgroundColor').data('attribute'));
-    // test start file display execute
+    // show file for first form section
     findFile($("article.test:first").find('input.File').data('attribute'));
     $("article.test:first").find('.paramP').show();
-    // test start time attribute execute
-    $('div.paramTime').find('span.timer').each(function () {
-        let timerInput = $(this).data('attribute');
+    // show time for entire test
+    $('div.Time').find('span.timer').each(function () {
         let timeAttribute = $(this).data('target').split(':');
-        i = startTimer(timeAttribute[0], $(this), i, timerInput);
+        i = startTimer(timeAttribute[0], $(this), i);
     });
-    $('div.paramTime').find('span.chronometer').each(function () {
-        let chronometerInput = $(this).data('attribute');
+    $('div.Time').find('span.chronometer').each(function () {
         let chronometerAttribute = $(this).data('target').split(':');
-        i = setTime(0, $(this), i, chronometerAttribute[0], chronometerInput);
+        i = setTime(0, $(this), i, chronometerAttribute[0]);
     });
-    // test start question count
+    // show question count for first form section
     $('span.count').html($("article.test:first").data('count'));
-    // test start time attribute execute
-    let paramTimeQInput = $("article.test:first").find('.paramTimeQ').data('attribute');
-    if (typeof paramTimeQInput !== 'undefined') {
-        SetTQ = setTimeQ(paramTimeQInput);
+    // start question timer for first form section
+    let paramTimeInput = $("article.test:first").find('.paramTime').data('attribute');
+    if (typeof paramTimeInput !== 'undefined') {
+        SetTQ = setTimeQ(paramTimeInput);
     }
+    // start question button display timer for first form section
     let displayTime = $("article.test:first").find('div.paramDT');
     if (typeof displayTime.data('attribute') !== 'undefined') {
-        if (typeof (displayWasPressed[displayTime.data('attribute')]) === 'undefined') {
+        if (typeof (displayWasPressed[$("article.test:first").data('count')]) === 'undefined') {
             SetDisplayTime = startDisplayTime(displayTime);
-            displayWasPressed[displayTime.data('attribute')] = false;
+            displayWasPressed[$("article.test:first").data('count')] = false;
         }
     }
 }
 // test validation ( pressed next question )
 $("button.next").on("click", function(e) {
     e.preventDefault();
-    let container = $(this).closest(".container").parent().prev();
-    let checkbox_required = $(container).find('.custom-checkbox').data('action');
-    let checked = validateQuestion(container);
-    if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
-        addValidation(container);
-        if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
-            addValidationColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
-        }
-    } else {
-        $(this).closest("article.test").removeClass("visible").hide().next().addClass("visible").fadeIn();
-        $('span.count').html($(this).closest("article.test").next().data('count'));
-        // test start button and background color attribute execute
-        setButtonColor($(this).closest("article.test").next().find('input.paramButtonColor').data('attribute'));
-        setBackgroundColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
-        // test start picture attribute execute
-        $(this).closest("article.test").find('.paramP').hide();
-        $(this).closest("article.test").next().find('.paramP').fadeIn(0);
-        // test start file execute
-        findFile($(this).closest("article.test").next().find('input.File').data('attribute'));
-        // // test start display time attribute execute
-        clearTimeout(SetDisplayTime);
-        clearInterval(SetTQ);
-        let displayTime = $(this).closest("article.test").next().find('div.paramDT');
-        if (typeof displayTime.data('attribute') !== 'undefined') {
-            if (typeof (displayWasPressed[displayTime.data('attribute')]) === 'undefined') {
-                SetDisplayTime = startDisplayTime(displayTime);
-                displayWasPressed[displayTime.data('attribute')] = false;
-            }
-        }
-        // test start question time attribute execute
-        let paramTimeQInput = $(this).closest("article.test").next().find('input.paramTimeQ').data('attribute');
-        if (typeof paramTimeQInput !== 'undefined') {
-            SetTQ = setTimeQ(paramTimeQInput);
-        }
-        removeValidation(container);
-    }
+    nextQuestion($(this));
 });
 function nextQuestion(element) {
-    $(element).closest("article.test").removeClass("visible").hide().next().addClass("visible").fadeIn();
-    $('span.count').html($(element).closest("article.test").next().data('count'));
-    // test start element and background color attribute execute
-    setButtonColor($(element).closest("article.test").next().find('input.paramButtonColor').data('attribute'));
-    setBackgroundColor($(element).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
-    // test start picture attribute execute
-    $(element).closest("article.test").find('.paramP').hide();
-    $(element).closest("article.test").next().find('.paramP').fadeIn(0);
-    // // test start file execute
-    findFile($(element).closest("article.test").next().find('input.File').data('attribute'));
-    // // // test start display time attribute execute
-    clearTimeout(SetDisplayTime);
-    clearInterval(SetTQ);
-    let displayTime = $(element).closest("article.test").next().find('div.paramDT');
-    if (typeof displayTime.data('attribute') !== 'undefined') {
-        if (typeof (displayWasPressed[displayTime.data('attribute')]) === 'undefined') {
-            SetDisplayTime = startDisplayTime(displayTime);
-            displayWasPressed[displayTime.data('attribute')] = false;
+    // attribute execution via pressing "next" question
+    if ( $(element).closest("article.test").data('count') !== $("article.test:last").data('count') || $('input.test-slug').data('action') === 'question example' ) {
+        let container = $(element).closest(".container").parent().prev();
+        let checkbox_required = $(container).find('.custom-checkbox').data('action');
+        let checked = validateQuestion(container);
+        if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
+            addValidation(container);
+            if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
+                addValidationColor($(element).closest("article.test").find('input.paramBackgroundColor').data('attribute'));
+            } else {
+                let testcolor = $("a.paramBackgroundColor").data('attribute');
+                if (typeof testcolor === 'undefined') {
+                    addValidationColor("#FFFFFF");
+                } else {
+                    addValidationColor(testcolor);
+                }
+            }
+        } else {
+            $(element).closest("article.test").removeClass("visible").hide().next().addClass("visible").fadeIn();
+            $('span.count').html($(element).closest("article.test").next().data('count'));
+            // test start element and background color attribute execute
+            setButtonColor($(element).closest("article.test").next().find('input.paramButtonColor').data('attribute'));
+            setBackgroundColor($(element).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
+            // test start picture attribute execute
+            $(element).closest("article.test").find('.paramP').hide();
+            $(element).closest("article.test").next().find('.paramP').fadeIn(0);
+            // // test start file execute
+            findFile($(element).closest("article.test").next().find('input.File').data('attribute'));
+
+            // // test start question time attribute execute
+            clearInterval(SetTQ);
+            let paramTimeInput = $(element).closest("article.test").next().find('input.paramTime').data('attribute');
+            if (typeof paramTimeInput !== 'undefined') {
+                SetTQ = setTimeQ(paramTimeInput);
+            }
+            // test start display time attribute execute
+            clearTimeout(SetDisplayTime);
+            let displayTime = $(element).closest("article.test").next().find('div.paramDT');
+            if (typeof displayTime.data('attribute') !== 'undefined') {
+                if (typeof (displayWasPressed[$(element).closest("article.test").next().data('count')]) === 'undefined') {
+                    SetDisplayTime = startDisplayTime(displayTime);
+                    displayWasPressed[$(element).closest("article.test").next().data('count')] = false;
+                }
+            }
         }
-    }
-    // // test start question time attribute execute
-    let paramTimeQInput = $(element).closest("article.test").next().find('input.paramTimeQ').data('attribute');
-    if (typeof paramTimeQInput !== 'undefined') {
-        SetTQ = setTimeQ(paramTimeQInput);
     }
 }
 // test validation ( pressed previous question )
@@ -537,11 +528,19 @@ $("button.prev").on("click", function(e) {
     if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
         addValidation(container);
         if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
-            addValidationColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
+            addValidationColor($(this).closest("article.test").find('input.paramBackgroundColor').data('attribute'));
+        } else {
+            let testcolor = $("a.paramBackgroundColor").data('attribute');
+            if (typeof testcolor === 'undefined') {
+                addValidationColor("#FFFFFF");
+            } else {
+                addValidationColor(testcolor);
+            }
         }
     }
     else {
         $(this).closest("article.test").removeClass("visible").hide().prev().addClass("visible").fadeIn();
+        $('span.count').html($(this).closest("article.test").prev().data('count'));
         // test start button and background color attribute execute
         setButtonColor($(this).closest("article.test").prev().find('input.paramButtonColor').data('attribute'));
         setBackgroundColor($(this).closest("article.test").prev().find('input.paramBackgroundColor').data('attribute'));
@@ -552,47 +551,38 @@ $("button.prev").on("click", function(e) {
         findFile($(this).closest("article.test").prev().find('input.File').data('attribute'));
         // test start question time attribute execute
         clearInterval(SetTQ);
-        let paramTimeQInput = $(this).closest("article.test").prev().find('input.paramTimeQ').data('attribute');
-        if (typeof paramTimeQInput !== 'undefined') {
-            SetTQ = setTimeQ(paramTimeQInput);
+        clearTimeout(SetDisplayTime);
+        let paramTimeInput = $(this).closest("article.test").prev().find('input.paramTime').data('attribute');
+        if (typeof paramTimeInput !== 'undefined') {
+            SetTQ = setTimeQ(paramTimeInput);
         }
-        removeValidation(container);
     }
 });
 $("button.example-end").on("click", function(e) {
-    e.preventDefault();
-    let container = $(this).closest(".container").parent().prev();
-    let checked = validateQuestion(container);
-    clearTimeout(SetDisplayTime);
-    clearInterval(SetTQ);
-    if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
-        addValidation(container);
-        if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
-            addValidationColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
-        }
-    }
-    else {
-        clearInterval(i);
-        removeValidation(container);
-    }
+    endTest(e, $(this));
 });
 $("button.submit").on("click", function(e) {
-    let container = $(this).closest(".container").parent().prev();
+    endTest(e, $(this));
+});
+function endTest(e, element) {
+    let container = $(element).closest(".container").parent().prev();
     let checked = validateQuestion(container);
+    let checkbox_required = $(container).find('.custom-checkbox').data('action');
     clearTimeout(SetDisplayTime);
     clearInterval(SetTQ);
+    clearInterval(i);
     if (checked[0] === false && checked[1] === true || checkbox_required === 'required' && checked[0] === false) {
         e.preventDefault();
         addValidation(container);
         if ($('input.test-slug').data('action') === 'test example' || $('input.test-slug').data('action') === 'test participation') {
-            addValidationColor($(this).closest("article.test").next().find('input.paramBackgroundColor').data('attribute'));
+            addValidationColor($(element).closest("article.test").find('input.paramBackgroundColor').data('attribute'));
         }
     }
     else {
         clearInterval(i);
         removeValidation(container);
     }
-});
+}
 
 // test start functions
 
@@ -669,6 +659,12 @@ function setBackgroundColor(attribute){
     $('body').css( "background-color", attribute);
     let color = getContrastYIQ(attribute.substring(1));
     $('.backgroundColor').css( "color", color ).css( "border-color", color);
+    if (color === 'black' ) {
+        $('.text-muted-custom').css("color", '#6c757d');
+    }
+    else {
+        $('.text-muted-custom').css("color", '#c4c7cb');
+    }
 }
 // color contrasts
 function getContrastYIQ(hexcolor){
@@ -679,7 +675,7 @@ function getContrastYIQ(hexcolor){
     return (yiq >= 128) ? 'black' : 'white';
 }
 // chronometer
-function setTime(time, elem, i, chronometerTime, input, minutes = 0, seconds = 0, hours = 0 ) {
+function setTime(time, elem, i, chronometerTime, minutes = 0, seconds = 0, hours = 0 ) {
     let string = "00:00:00";
     if (elem !==null) {
         $(elem).html(string);
@@ -695,9 +691,6 @@ function setTime(time, elem, i, chronometerTime, input, minutes = 0, seconds = 0
         hours = hours < 10 ? "0" + hours : hours;
 
         let string = hours + ":" + minutes + ":" + seconds;
-        if (input !==null) {
-            document.getElementById(input).value = time;
-        }
         if (elem !==null) {
             $(elem).html(string);
         }
@@ -722,7 +715,7 @@ function setTime(time, elem, i, chronometerTime, input, minutes = 0, seconds = 0
     return i;
 }
 // timer
-function startTimer(time, elem, i, input, minutes = 0, seconds = 0, hours = 0) {
+function startTimer(time, elem, i, minutes = 0, seconds = 0, hours = 0) {
     minutes = parseInt(time / 60, 10);
     seconds = parseInt(time % 60, 10);
     hours = parseInt(time / 3600, 10);
@@ -735,7 +728,7 @@ function startTimer(time, elem, i, input, minutes = 0, seconds = 0, hours = 0) {
     if (elem !==null) {
         $(elem).html(string);
     }
-
+    time--;
     i = setInterval(function() {
         minutes = parseInt(time / 60, 10);
         seconds = parseInt(time % 60, 10);
@@ -746,10 +739,6 @@ function startTimer(time, elem, i, input, minutes = 0, seconds = 0, hours = 0) {
         hours = hours < 10 ? "0" + hours : hours;
 
         let string = hours + ":" + minutes + ":" + seconds;
-
-        if (input !==null) {
-            document.getElementById(input).value = time;
-        }
         if (elem !==null) {
             $(elem).html(string);
         }
@@ -770,17 +759,17 @@ function startTimer(time, elem, i, input, minutes = 0, seconds = 0, hours = 0) {
                 clearInterval(i);
             }
         }
-    },1000);
+    },1000 );
     return i;
 }
 // Question time chronometer
 function setTimeQ(input) {
     let seconds=0, minutes=0, time;
-    if (typeof paramTimeQArray[input] === 'undefined') {
+    if (typeof paramTimeArray[input] === 'undefined') {
         time = 0;
     }
     else {
-        time = paramTimeQArray[input];
+        time = paramTimeArray[input];
     }
     SetTQ = setInterval(function() {
         ++time;
@@ -791,7 +780,7 @@ function setTimeQ(input) {
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
         document.getElementById(input).value = time;
-        paramTimeQArray[input] = time;
+        paramTimeArray[input] = time;
     },1000);
     return SetTQ;
 }
@@ -805,7 +794,7 @@ function startDisplayTime(element) {
             if (attributeDisplayTimeArray[2] === '1') {
                 nextQuestion($(element));
             }
-        }, attributeDisplayTimeArray[0] * 1000);
+        }, attributeDisplayTimeArray[0] * 1000 + 10);
     }
     if (attributeDisplayTimeArray[1] === '0') {
         $(element).show().find('button').prop('disabled', true);
@@ -814,7 +803,7 @@ function startDisplayTime(element) {
             if (attributeDisplayTimeArray[2] === '1') {
                 nextQuestion($(element));
             }
-        }, attributeDisplayTimeArray[0] * 1000);
+        }, attributeDisplayTimeArray[0] * 1000 + 10);
     }
     return displayTimer;
 }

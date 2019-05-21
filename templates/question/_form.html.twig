@@ -159,15 +159,15 @@
     </div>
 
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-settings">
+        <div class="card-header bg-transparent p-0" id="list-time">
             <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#time" aria-expanded="false" aria-controls="time">
                     <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
                     <span class="pl-2">{{ 'time'|trans }}</span>
                 </button>
             </h2>
         </div>
-        <div id="settings" class="tab-pane collapse" aria-labelledby="list-settings list-settings-list" >
+        <div id="time" class="tab-pane collapse" aria-labelledby="list-time list-time-list" >
             <div class="card-body">
 
                 <div class="form-group row">
@@ -257,26 +257,19 @@
     <div class="card bg-light">
         <div class="card-header bg-transparent p-0" id="list-displayTime">
             <h2 class="mb-0">
-                {% if  question.type == 'presentation' %}
-                    <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
-                        <i id="questionCaretDT" class="fa fa-caret-down transition rotation" ></i>
-                        <span class="pl-2">{{ 'displaytime'|trans }} {% if attributes.displayTimes is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
-                    </button>
-                {% else %}
-                    <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
-                        <i id="questionCaretDT" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
-                        <span data-toggle="tooltip" data-placement="right" title="{{ 'poppers.answer.disabled_option_presentation'|trans }}" class="disabled-menu pl-2">{{ 'displaytime'|trans }}</span>
-                    </button>
-                {% endif %}
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
+                    <i id="questionCaretDT" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'displaytime'|trans }} {% if attributes.displayTimes is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                </button>
             </h2>
         </div>
         <div id="displayTime" class="tab-pane collapse" aria-labelledby="list-displayTime list-displayTime-list" >
             <div class="card-body displayTimes" data-prototype='<label for="question_attribute_displayTime___name___id" class="required">{{'attribute.display_time'|trans}}</label>
-                <block>
-                 <input type="number" value="0" id="question_attribute_displayTime___name___id" name="question_attribute_displayTime[__name__][id]" form="question_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" min="0" max="9999" maxlength="99999" />
-                <input type="number" value="0" id="question_attribute_displayTime___name___type" name="question_attribute_displayTime[__name__][type]" form="question_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
-                <input type="number" value="0" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />
-                </block>'>
+                    <block>
+                     <input type="number" id="question_attribute_displayTime___name___id" name="question_attribute_displayTime[__name__][id]" form="question_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" min="0" max="9999" maxlength="99999" />
+                    <input type="number" id="question_attribute_displayTime___name___type" name="question_attribute_displayTime[__name__][type]" form="question_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_type'|trans }}"  min="0" max="1" maxlength="1" />
+                    <input type="number" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_skip'|trans }}"  min="0" max="1" maxlength="1" />
+                    </block>'>
 
                 <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>
 
@@ -289,28 +282,28 @@
                         <div class="col-sm-10 mb-3">
                             <div class="d-flex input-group">
                                 {% if (app.request.get('_route')) == 'question_edit' %}
-                                    <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                    <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text border-left-0 font-weight-bold"> : </span>
                                     </div>
-                                    <input type="number" value="{{ displayTime[1] }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                    <input type="number" value="{{ displayTime[1] }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_type'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
                                     </div>
-                                    <input type="number" value="{{ displayTime[2] }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
-                                 {% else  %}
-                                     <input type="number" value="{{ bc | first }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
-                                     <div class="input-group-prepend">
-                                         <span class="input-group-text border-left-0 font-weight-bold"> : </span>
-                                     </div>
-                                     <input type="number" value="{{ bc.type }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
-                                     <div class="input-group-prepend">
-                                         <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
-                                     </div>
-                                     <input type="number" value="{{ bc.vis }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                    <input type="number" value="{{ displayTime[2] }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_skip'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
+                                {% else  %}
+                                    <input type="number" value="{{ bc | first }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>
+                                    </div>
+                                    <input type="number" value="{{ bc.type }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_type'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>
+                                    </div>
+                                    <input type="number" value="{{ bc.vis }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_skip'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
                                 {% endif %}
 
-                             </div>
+                            </div>
                         </div>
                         {% set numb = numb +1 %}
                     </div>
@@ -318,12 +311,69 @@
             </div>
         </div>
     </div>
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-picture">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#picture" aria-expanded="false" aria-controls="picture">
+                    <i id="questionCaret7" class="fa fa-caret-down transition rotation" ></i>
+                    <span class="pl-2">{{ 'picture'|trans }} {% if attributes.displayTimes is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                </button>
+            </h2>
+        </div>
+        <div id="picture" class="tab-pane collapse" aria-labelledby="list-picture list-picture-list" >
+{#            <div class="card-body displayTimes" data-prototype='<label for="question_attribute_displayTime___name___id" class="required">{{'attribute.display_time'|trans}}</label>#}
+{#                    <block>#}
+{#                     <input type="number" value="0" id="question_attribute_displayTime___name___id" name="question_attribute_displayTime[__name__][id]" form="question_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" min="0" max="9999" maxlength="99999" />#}
+{#                    <input type="number" value="0" id="question_attribute_displayTime___name___type" name="question_attribute_displayTime[__name__][type]" form="question_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />#}
+{#                    <input type="number" value="0" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />#}
+{#                    </block>'>#}
+
+{#                <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>#}
+
+{#                {% set numb = 1 %}#}
+{#                {% for key, bc in attributes.displayTimes %}#}
+
+{#                    {% set displayTime = bc.value|split(':') %}#}
+{#                    <div class="form-group row">#}
+{#                        <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>#}
+{#                        <div class="col-sm-10 mb-3">#}
+{#                            <div class="d-flex input-group">#}
+{#                                {% if (app.request.get('_route')) == 'question_edit' %}#}
+{#                                    <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>#}
+{#                                    </div>#}
+{#                                    <input type="number" value="{{ displayTime[1] }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>#}
+{#                                    </div>#}
+{#                                    <input type="number" value="{{ displayTime[2] }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />#}
+{#                                {% else  %}#}
+{#                                    <input type="number" value="{{ bc | first }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>#}
+{#                                    </div>#}
+{#                                    <input type="number" value="{{ bc.type }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>#}
+{#                                    <div class="input-group-prepend">#}
+{#                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>#}
+{#                                    </div>#}
+{#                                    <input type="number" value="{{ bc.vis }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />#}
+{#                                {% endif %}#}
+
+{#                            </div>#}
+{#                        </div>#}
+{#                        {% set numb = numb +1 %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+        </div>
+    </div>
 
     <div class="card bg-light">
         <div class="card-header bg-transparent p-0" id="list-file">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#file" aria-expanded="false" aria-controls="file">
-                    <i id="questionCaret7" class="fa fa-caret-down transition rotation" ></i>
+                    <i id="questionCaret8" class="fa fa-caret-down transition rotation" ></i>
                     <span class="pl-2">Failas</span>
                 </button>
             </h2>

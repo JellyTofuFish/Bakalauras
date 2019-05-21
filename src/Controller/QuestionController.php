@@ -162,6 +162,7 @@ class QuestionController extends AbstractController
         $attributes['buttonColors'] = [];
         $attributes['backgroundColors'] = [];
         $attributes['displayTimes'] = [];
+        $attributes['pictures'] = [];
         if (isset($_POST['question_attribute_time'])) {
             $attributes['time'] = $_POST['question_attribute_time']['value'];
         }
@@ -178,6 +179,11 @@ class QuestionController extends AbstractController
         if (isset($_POST['question_attribute_displayTime']) && $_POST['question_attribute_displayTime'] != '') {
             foreach ($_POST['question_attribute_displayTime'] as $key => $value) {
                 $attributes['displayTimes'] = $_POST['question_attribute_displayTime'];
+            }
+        }
+        if (isset($_POST['question_attribute_picture']) && $_POST['question_attribute_picture'] != '') {
+            foreach ($_POST['question_attribute_picture'] as $key => $value) {
+                $attributes['pictures'] = $_POST['question_attribute_picture'];
             }
         }
         return $this->render('question/new.html.twig', [
@@ -279,21 +285,23 @@ class QuestionController extends AbstractController
         if (null === $questionQ = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No Question found for id '.$question->getId());
         }
+        $arrayQuestion = [[]];
         $answers = $entityManager->getRepository(Question::class)->findQuestionAnswers($questionQ->getId());
         $background = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($questionQ->getId());
         $buttonColor = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($questionQ->getId());
         $time = $entityManager->getRepository(QuestionAttribute::class)->findAllByTime($questionQ->getId());
         $displayTime = $entityManager->getRepository(QuestionAttribute::class)->findAllByDisplayTime($questionQ->getId());
         $pictures = $entityManager->getRepository(QuestionAttribute::class)->findAllByPicture( $questionQ->getId());
-        $picture = $fileRepository->findOneByQuestion($questionQ->getId());
+        $file = $fileRepository->findOneByQuestion($questionQ->getId());
         $this->setDataQuestion( 'question', $questionQ);
         $this->setDataQuestion( 'answers', $answers);
         $this->setDataQuestion( 'paramButton', $buttonColor);
         $this->setDataQuestion( 'paramBackground', $background);
         $this->setDataQuestion( 'paramTime', $time);
         $this->setDataQuestion( 'paramDisplayTime', $displayTime);
-        $this->setDataQuestion( 'picture', $picture);
+        $this->setDataQuestion( 'file', $file);
         $this->setDataQuestion( 'paramPictures', $pictures);
+        dump($this->arrayQuestion);
         return $this->render('question/show_example.html.twig', [
             'data' => $this->arrayQuestion
         ]);
@@ -325,6 +333,7 @@ class QuestionController extends AbstractController
         $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByButtonColor($Question);
         $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($Question);
         $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByDisplayTime($Question);
+        $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByPicture($Question);
 
         $form->handleRequest($request);
         $Answers = $Question->getAnsweroptions();

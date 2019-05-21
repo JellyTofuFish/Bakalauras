@@ -50,14 +50,14 @@ body {
     hyphens: auto;
 }
 .vh-file {
-    height: 40vh;
+    height: 100%;
     max-height: 40vh;
-    min-height: 40vh;
+    min-height: 25vh;
 }
 .vh-file-empty {
-    height: 32vh;
-    max-height: 32vh;
-    min-height: 32vh;
+    height: 25vh;
+    max-height: 25vh;
+    min-height: 25vh;
 }
 .mt-25 {
     margin-top: 25vh;
@@ -131,6 +131,10 @@ body {
 }
 .custom-radio-validation-light:before {
     border-color: #E6717C !important;
+}
+
+.text-muted-custom {
+    color: #6c757d;
 }
 .invalid {
     border-color: #dc3545 !important;

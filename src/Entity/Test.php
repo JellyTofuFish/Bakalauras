@@ -42,7 +42,7 @@ class Test
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $prev_button = true;
+    private $prev_button = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -82,7 +82,6 @@ class Test
      * @ORM\JoinColumn(nullable=true)
      */
     private $fk_user;
-
 
     public function __construct()
     {
@@ -299,4 +298,5 @@ class Test
 
         return $this;
     }
+
 }

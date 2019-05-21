@@ -20,7 +20,7 @@ test:
     is_active_label: Testo aktyvumas
     is_active_description: Įjunkite šį jungiklį, jeigu norite aktyvuoti testą
     prev_button_label: Testo navigacija
-    prev_button_description: Įjunkite šį jungiklį, jeigu norite, kad testo vykdymo metu galima suteikta galimybė grįžti į ankstesnį klausimą
+    prev_button_description: Įjunkite šį jungiklį, jeigu norite, kad testo vykdymo metu būtų suteikta galimybė grįžti į ankstesnį klausimą
     test_start_label: Testo pradžia
     test_end_label: Testo pabaiga
     date_placeholder: 'yyyy-mm-dd hh:mm:ss'
@@ -28,6 +28,8 @@ test:
     test_count: Klausimų skaičius
     test_question_input_placeholder: Pasirinkite klausimą...
     participation_count: Vykdymų skaičius
+    time_label: Laikas
+    time_description: Įjunkite šį jungiklį, jeigu norite, kad būtų sekamas visų klausimų užpildymo laikas
   active: Testas aktyvus
   inactive: Testas neaktyvus
   validation:
@@ -134,10 +136,11 @@ attribute:
   button_color: Mygtuko spalva
   button_color_placeholder: Pasirinkite mygtuko spalvą
   display_time: Rodymo trukmė
-  display_time_placeholder_bool: 'Imtis: 0-1'
-  display_time_placeholder_val: 'Imtis: 0-99999'
+  display_time_placeholder_skip: 'Peršokimas: 0-1'
+  display_time_placeholder_type: 'Tipas: 0-1'
+  display_time_placeholder_time: 'Trukmė: 0-99999'
+  display_time_placeholder_vis: 'Matomumas: 0-1'
   time: Laiko skaičiavimas
-
   file: Failas
   files: Failai
   empty: Atributų nėra
@@ -211,11 +214,13 @@ empty: Įrašų nerasta
 empty_attributes: Atributų nerasta
 requied: Yra privalomų laukelių
 required_input: Privalote atsakyti į šį klausimą
+not_required_input: Klausimas neprivalomas
 backgroundcolor: Fono spalva
 buttoncolor: Mygtuko spalva
 displaytime: Rodymo trukmė
 picture: Paveikslėlis
 time: Laiko skaičiavimas
+file: Failas
 
 side_nav:
   navigation: Navigacija
