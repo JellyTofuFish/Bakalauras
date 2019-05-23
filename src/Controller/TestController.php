@@ -401,7 +401,6 @@ class TestController extends AbstractController
                 }
             }
         }
-        dump($this->arrayTest);
         return $this->render('test/show_example.html.twig', [
             'testTime' => $testTime,
             'test' => $Test,

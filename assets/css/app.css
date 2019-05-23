@@ -54,7 +54,7 @@ body {
 }
 .vh-file {
     height: 100%;
-    max-height: 70vh;
+    max-height: 50vh;
     min-height: 25vh;
 }
 .vh-file-empty {
