@@ -269,6 +269,8 @@ poppers:
   edit: Redaguoti
   example: Peržiūrėti pavyzdį
   delete: Ištrinti
+  copy: Kopijuoti
+  export: Generuoti rezultatų ataskaitą
   test:
     activation_desc: Prieš aktyvuodami testą privalote nustatyti testo pradažios datą
   answer:

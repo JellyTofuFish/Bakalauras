@@ -54,13 +54,13 @@ body {
 }
 .vh-file {
     height: 100%;
-    max-height: 40vh;
+    max-height: 70vh;
     min-height: 25vh;
 }
 .vh-file-empty {
-    height: 25vh;
-    max-height: 25vh;
-    min-height: 25vh;
+    height: 20vh;
+    max-height: 20vh;
+    min-height: 20vh;
 }
 .mt-25 {
     margin-top: 25vh;

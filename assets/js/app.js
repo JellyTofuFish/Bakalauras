@@ -22,7 +22,8 @@ require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css')
 require('../css/app.css');
 require('../images/Default.jpg');
 require('../images/reddit.jpg');
-require('../images/facebook.jpg');
+require('../images/facebook.png');
+require('../images/twitter.jpg');
 
 // General + bootrstap animations
 
@@ -72,6 +73,9 @@ $(function () {
     });
 });
 $('.fa-eye').click(function () {
+    $(this).parent().blur();
+});
+$('.fa-file-excel-o').click(function () {
     $(this).parent().blur();
 });
 $('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
@@ -132,6 +136,8 @@ $(".sidebar-collapse").click(function () {
 
 })();
 // Attribute submit
+
+$('#attribute_form').submit(function () { $('[disabled]').removeAttr('disabled');});
 
 // Question controller / html functions
 function checkAttributeValidity(uniqueInputs, uniqueSpans) {
@@ -673,7 +679,7 @@ $("textarea").on("click", function(e) {
 });
 function removeValidation(container) {
     $('.custom-control-label').removeClass('custom-radio-validation-light').removeClass('custom-radio-validation-dark');
-    let color = $(container).closest("article.test").find('input.paramBackgroundColor').data('attribute')
+    let color = $(container).closest("article.test").find('input.paramBackgroundColor').data('attribute');
     let colorM = getContrastYIQ(color.substring(1));
     if (colorM === 'black' ) {
         $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#000000');
@@ -681,6 +687,7 @@ function removeValidation(container) {
     else {
         $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#FFFFFF');
     }
+    $('.form-control.is-invalid').css("border-color", '#80bdff');
     $(container).find('input').each(function () {
         $(this).removeClass('is-invalid');
     });

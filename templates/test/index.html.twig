@@ -82,8 +82,8 @@
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('test_edit', {'id': test.id}) }}"><i class="fa fa-pencil"></i></a>
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-copy"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-file-excel-o"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href=""><i class="fa fa-copy"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}"  href="{{ path('test_report', {'id': test.id}) }}"><i class="fa fa-file-excel-o"></i></a>
                             {% if test.testQuestions.count == 0 %}
                                 <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" style="color: #62aeff"><i class="fa fa-eye "></i></a>
                             {% else %}

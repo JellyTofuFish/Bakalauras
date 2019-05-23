@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\AnswerOption;
 use App\Entity\Attribute;
 use App\Entity\Files;
-use App\Entity\GroupList;
 use App\Entity\ParticipantAnswer;
 use App\Entity\ParticipantAnswerAttribute;
 use App\Entity\Question;
@@ -15,21 +14,19 @@ use App\Entity\TestAttribute;
 use App\Entity\TestParticipation;
 use App\Entity\TestQuestion;
 use App\Form\TestType;
-use App\Repository\FileRepository;
-use App\Repository\QuestionRepository;
 use App\Repository\TestQuestionRepository;
 use App\Repository\TestRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\VarDumper\VarDumper;
-use Symfony\Component\VarDumper\Dumper;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class TestController extends AbstractController
 {
@@ -74,6 +71,7 @@ class TestController extends AbstractController
      */
     public function index(Request $request, TestRepository $testRepository): Response
     {
+
         $route = $request->query->get('route');
         $slug =  $request->query->get('slug');
         $sort =  $request->query->get('sort');
@@ -277,6 +275,7 @@ class TestController extends AbstractController
         if (null === $Test = $this->getDoctrine()->getManager()->getRepository(Test::class)->find($test->getId())) {
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
+
         $questions = $questionRepository->findQuestionsbyTest($Test);
         return $this->render('test/show.html.twig', [
             'test' => $test,
@@ -402,6 +401,7 @@ class TestController extends AbstractController
                 }
             }
         }
+        dump($this->arrayTest);
         return $this->render('test/show_example.html.twig', [
             'testTime' => $testTime,
             'test' => $Test,
@@ -1049,5 +1049,47 @@ class TestController extends AbstractController
         }
 
         return $this->redirectToRoute('test_index');
+    }
+
+    /**
+     * @Route("test/{id}/report", name="test_report")
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     */
+    public function generateReport(Test $test): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $Test = $entityManager->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A1', 'Hello World !');
+        $sheet->setTitle($test->getName());
+
+        // Create your Office 2007 Excel (XLSX Format)
+        $writer = new Xlsx($spreadsheet);
+
+        $time = $test->getCreatedAt();
+        $day = $time->format('d');
+        $month= $time->format('m');
+        $year = $time->format('Y');
+
+        $name = '';
+        $words = explode(" ", $test->getName());
+        foreach ($words as $w) {
+            $w = ucfirst($w);
+            $name = $name . $w;
+        }
+
+        // Create a Temporary file in the system
+        $fileName = $year. $month. $day. $name . '.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        // Create the excel file in the tmp directory of the system
+        $writer->save($temp_file);
+
+        // Return the excel file as an attachment
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }
