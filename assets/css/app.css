@@ -1,5 +1,8 @@
 
 /*general css properties*/
+.custom-file-label::after {
+    content: "Ieškoti";
+}
 
 *, ::after, ::before {
     box-sizing: border-box;
@@ -132,7 +135,6 @@ body {
 .custom-radio-validation-light:before {
     border-color: #E6717C !important;
 }
-
 .text-muted-custom {
     color: #6c757d;
 }

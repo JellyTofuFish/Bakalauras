@@ -32,16 +32,14 @@
 
         {# Files #}
         {% if data.file is not empty %}
-            {% for file in data.file %}
-                {% if file.name == '' %}
-                    {% set link = 'build/images/' ~ 'Default.jpg' %}
-                {% else %}
-                    {% set link = 'build/images/' ~ file.name %}
-                {% endif %}
-                <div class="text-center">
-                    <img class="vh-file rounded" src="{{ asset(link) }}">
-                </div>
-            {% endfor %}
+            {% if data.file.name == 'Pašalinta' %}
+                {% set link = 'build/images/' ~ 'Default.jpg' %}
+            {% else %}
+                {% set link = 'build/images/' ~ data.file.name %}
+            {% endif %}
+            <div class="text-center">
+                <img class="vh-file rounded" src="{{ asset(link) }}">
+            </div>
         {% else %}
             <div class="vh-file-empty text-center h-100" data-attribute="empty"></div>
         {% endif %}
@@ -64,7 +62,7 @@
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == '' %}
+                            {% if picture.value == 'Pašalinta' %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -141,7 +139,7 @@
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == '' %}
+                            {% if picture.value == 'Pašalinta' %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -222,7 +220,7 @@
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == '' %}
+                            {% if picture.value == 'Pašalinta' %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -293,7 +291,7 @@
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == '' %}
+                            {% if picture.value == 'Pašalinta' %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}

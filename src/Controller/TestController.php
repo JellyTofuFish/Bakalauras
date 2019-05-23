@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AnswerOption;
 use App\Entity\Attribute;
-use App\Entity\File;
+use App\Entity\Files;
 use App\Entity\GroupList;
 use App\Entity\ParticipantAnswer;
 use App\Entity\ParticipantAnswerAttribute;
@@ -22,6 +22,8 @@ use App\Repository\TestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -173,11 +175,6 @@ class TestController extends AbstractController
                     $attributes['displayTimes'] = $_POST['test_attribute_displayTime'];
                 }
             }
-            if (isset($_POST['test_attribute_picture']) && $_POST['test_attribute_picture'] != '') {
-                foreach ($_POST['test_attribute_picture'] as $key => $value) {
-                    $attributes['pictures'] = $_POST['test_attribute_picture'];
-                }
-            }
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $testQuestions = $test->getTestQuestions();
@@ -228,6 +225,37 @@ class TestController extends AbstractController
                         $testDTAttribute->setFkTest($test);
                         $entityManager->persist($testDTAttribute);
                         $entityManager->flush();
+                    }
+                }
+                if (isset($_FILES['test_attribute_picture'])) {
+                    $pictureArray = [[]];
+                    foreach ($_FILES['test_attribute_picture'] as $key => $value) {
+                        foreach ($value as $key1 => $value1) {
+                            $pictureArray[$key1][key($value1)][$key] = array_values($value1)[0];
+                        }
+                    }
+                    foreach ($pictureArray as $key => $value) {
+                        foreach ($value as $key1 => $value1) {
+                            $newfile = new File($value1['tmp_name']);
+                            $fileName = $value1['name'];
+                            $attribute = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['value' => $fileName]);
+                            if ($attribute == null) {
+                                try {
+                                    $newfile->move(
+                                        $this->getParameter('brochures_directory'),
+                                        $fileName
+                                    );
+                                } catch (FileException $e) {
+                                    throw $this->createNotFoundException('file not uploaded');
+                                }
+                            }
+                            $PictureAttribute = new TestAttribute();
+                            $PictureAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute());
+                            $PictureAttribute->setValue($fileName);
+                            $PictureAttribute->setFkAttribute($test);
+                            $entityManager->persist($PictureAttribute);
+                            $entityManager->flush();
+                        }
                     }
                 }
 
@@ -341,7 +369,7 @@ class TestController extends AbstractController
                 }
             }
 
-            $filQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
+            $filQ = $entityManager->getRepository(Files::class)->findOneByQuestion($question['id']);
             if ($filQ != null) {
                 $this->setDataTest($question['serial_number']-1, 'file', $filQ[array_rand($filQ, 1)]);
             }
@@ -594,7 +622,7 @@ class TestController extends AbstractController
                 }
             }
 
-            $filQ = $entityManager->getRepository(File::class)->findOneByQuestion($question['id']);
+            $filQ = $entityManager->getRepository(Files::class)->findOneByQuestion($question['id']);
             if ($filQ != null) {
                 $this->setDataTest($question['serial_number']-1, 'file', $filQ[array_rand($filQ, 1)]);
             }
@@ -869,6 +897,78 @@ class TestController extends AbstractController
                     $entityManager->flush();
                 }
             }
+            if (isset($_FILES['test_attribute_picture'])) {
+                $pictureArray = [[]];
+                foreach ($_FILES['test_attribute_picture'] as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $pictureArray[$key1][key($value1)][$key] = array_values($value1)[0];
+                    }
+                }
+                $question_attribute = [];
+                foreach ($pictureArray as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $attribute = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['id' => $key1]);
+                        if ($value1['name'] == '') {
+                            $question_attribute[] = $attribute;
+                        }
+                        else {
+                            $newfile = new File($value1['tmp_name']);
+                            $fileName = $value1['name'];
+                            if (in_array($attribute, $attributes['pictures'])) {
+                                $this->deleteFile($attribute->getValue());
+                                $attribute->setName($fileName);
+                                $entityManager->persist($attribute);
+                                $question_attribute[] = $attribute;
+                            } else {
+                                $attribute = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['value' => $fileName]);
+                                if ($attribute == null) {
+                                    try {
+                                        $newfile->move(
+                                            $this->getParameter('brochures_directory'),
+                                            $fileName
+                                        );
+                                    } catch (FileException $e) {
+                                        throw $this->createNotFoundException('file not uploaded');
+                                    }
+                                }
+                                $PictureAttribute = new TestAttribute();
+                                $PictureAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute());
+                                $PictureAttribute->setValue($fileName);
+                                $PictureAttribute->setFkTest($Test);
+                                $entityManager->persist($PictureAttribute);
+                            }
+                        }
+                    }
+                }
+                foreach ( $attributes['pictures'] as $picture ) {
+                    if (!in_array($picture, $question_attribute)) {
+                        $this->deleteFile($picture->getValue());
+                        $attributesArray = $picture->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $picture->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($picture);
+                        }
+                        $entityManager->remove($picture);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['pictures'] != null) {
+                    foreach ( $attributes['pictures'] as $picture ) {
+                        if (!in_array($picture, [])) {
+                            $this->deleteFile($picture->getValue());
+                            $attributesArray = $picture->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $picture->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($picture);
+                            }
+                            $entityManager->remove($picture);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
 
             $this->addFlash('success', 'test.flash_message.edited');
             return $this->redirectToRoute('test_index', [
@@ -881,6 +981,31 @@ class TestController extends AbstractController
             'attributes' => $attributes,
             'attributeText' =>$attributeText,
         ]);
+    }
+
+    public function deleteFile( $questionFile ) {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (file_exists($this->getParameter('brochures_directory') . '/' . $questionFile)) {
+            unlink($this->getParameter('brochures_directory') . '/' . $questionFile);
+        }
+        $questionAttributes = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findBy(['value' => $questionFile]);
+        foreach ($questionAttributes as $qa) {
+            $qa->setValue('Pašalinta');
+            $entityManager->persist($qa);
+            $entityManager->flush();
+        }
+        $testAttributes = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findBy(['value' => $questionFile]);
+        foreach ($testAttributes as $ta) {
+            $ta->setValue('Pašalinta');
+            $entityManager->persist($ta);
+            $entityManager->flush();
+        }
+        $files = $this->getDoctrine()->getManager()->getRepository(Files::class)->findBy(['name' => $questionFile]);
+        foreach ($files as $f) {
+            $f->setName('Pašalinta');
+            $entityManager->persist($f);
+            $entityManager->flush();
+        }
     }
 
     /**
@@ -896,26 +1021,30 @@ class TestController extends AbstractController
 
             $questions = $Test->getTestQuestions();
             foreach ($questions as $q) {
-                $q->getFkTest()->removeTestQuestion($q);
-                $entityManager->persist($q);
+                $Test->removeTestQuestion($q);
+                $entityManager->persist($Test);
                 $entityManager->flush();
             }
 
             $Tattribute = $Test->getTestAttributes();
             foreach ($Tattribute as $ta) {
-                $ta->setFkTest(null);
-                $entityManager->persist($ta);
+                $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $ta->getFkAttribute()]);
+                if ($attribute->getName() == 'picture'){
+                    $this->deleteFile($ta->getValue());
+                }
+                $Test->removeTestAttribute($ta);
+                $entityManager->persist($Test);
                 $entityManager->flush();
             }
 
             $testPart = $Test->getTestParticipations();
             foreach ($testPart as $tp) {
-                $tp->setFkTest(null);
-                $entityManager->persist($tp);
+                $Test->removeTestParticipation($tp);
+                $entityManager->persist($Test);
                 $entityManager->flush();
             }
 
-            $entityManager->remove($test);
+            $entityManager->remove($Test);
             $entityManager->flush();
         }
 

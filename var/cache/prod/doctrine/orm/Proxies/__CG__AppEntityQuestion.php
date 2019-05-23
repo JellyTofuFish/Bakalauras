@@ -268,7 +268,7 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function addFile(\App\Entity\File $file): \App\Entity\Question
+    public function addFile(\App\Entity\Files $file): \App\Entity\Question
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFile', [$file]);
@@ -279,7 +279,7 @@ class Question extends \App\Entity\Question implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function removeFile(\App\Entity\File $file): \App\Entity\Question
+    public function removeFile(\App\Entity\Files $file): \App\Entity\Question
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFile', [$file]);

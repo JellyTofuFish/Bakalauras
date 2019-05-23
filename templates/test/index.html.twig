@@ -84,7 +84,11 @@
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-copy"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href=""><i class="fa fa-file-excel-o"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}"  href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
+                            {% if test.testQuestions.count == 0 %}
+                                <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" style="color: #62aeff"><i class="fa fa-eye "></i></a>
+                            {% else %}
+                                <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
+                            {% endif %}
 
                             <div class="modal fade" id="testModal{{ test.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">

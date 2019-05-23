@@ -68,14 +68,6 @@ class QuestionType extends AbstractType
                 'label' => 'question.form.required_description',
                 'required' => false,
             ])
-//            ->add('questionAttributes', CollectionType::class, [
-//                'entry_type' => QuestionAttributeTimeType::class,
-//                'label' => false,
-//                'allow_add' => true,
-//                'entry_options' => ['label' => false],
-//                'by_reference' => false,
-//                'allow_delete' => true,
-//            ])
         ;
     }
 

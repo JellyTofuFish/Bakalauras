@@ -35,7 +35,7 @@ class Question
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="fk_question", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Files", mappedBy="fk_question", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $files;
@@ -145,14 +145,14 @@ class Question
     }
 
     /**
-     * @return Collection|File[]
+     * @return Collection|Files[]
      */
     public function getFileS(): Collection
     {
         return $this->files;
     }
 
-    public function addFile(File $file): self
+    public function addFile(Files $file): self
     {
         if (!$this->files->contains($file)) {
             $this->files[] = $file;
@@ -162,7 +162,7 @@ class Question
         return $this;
     }
 
-    public function removeFile(File $file): self
+    public function removeFile(Files $file): self
     {
         if ($this->files->contains($file)) {
             $this->files->removeElement($file);

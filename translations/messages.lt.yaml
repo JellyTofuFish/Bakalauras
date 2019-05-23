@@ -135,6 +135,7 @@ attribute:
   background_color_placeholder: Pasirinkite fono spalvą
   button_color: Mygtuko spalva
   button_color_placeholder: Pasirinkite mygtuko spalvą
+  picture: Paveiklėlis
   display_time: Rodymo trukmė
   display_time_placeholder_skip: 'Peršokimas: 0-1'
   display_time_placeholder_type: 'Tipas: 0-1'
@@ -155,7 +156,11 @@ attribute:
   next_stay: (Neperšoka klausimo)
   validation:
     unique: Laukelių reikšmės privalo būti unikalios
+    file: Failas privalo būti ne didesnis nei 600KB. Dimensijos turi būti tarp 650x450
+    required: Paveikslėlis privalo būti ne didesnis nei 600KB. Dimensijos turi būti tarp 650x450 ir laukelis negali būti tuščias
   file_missing: Failas nenustatytas
+  file_choose: Pasirinkite failą...
+  file_help: Failo formatas privalo būti .jpeg, .png arba .jpg
   form:
     description_label: Aprašas
     description_input_placeholder: Įveskite trumpą aprašą apie atributą

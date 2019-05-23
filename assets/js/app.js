@@ -16,6 +16,7 @@ require('bootstrap');
 require('bootstrap/dist/css/bootstrap.css');
 import 'font-awesome/css/font-awesome.css';
 global.moment = require('moment');
+import bsCustomFileInput from 'bs-custom-file-input';
 require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
@@ -118,7 +119,9 @@ $(".sidebar-collapse").click(function () {
             form.addEventListener('submit', function(event) {
                 let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
                 let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-                if (form.checkValidity() === false  || button === true || background === true) {
+                let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
+                let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
+                if (form.checkValidity() === false  || button === true || background === true || file === true || picture === true) {
                     event.preventDefault();
                     event.stopPropagation();
                 }
@@ -128,11 +131,7 @@ $(".sidebar-collapse").click(function () {
     // }, false);
 
 })();
-
 // Attribute submit
-$('.attribute-update').click(function() {
-    $('[disabled]').removeAttr('disabled');
-});
 
 // Question controller / html functions
 function checkAttributeValidity(uniqueInputs, uniqueSpans) {
@@ -157,6 +156,53 @@ function checkAttributeValidity(uniqueInputs, uniqueSpans) {
     }
     return Invalid;
 }
+// validate file upload
+var _URL = window.URL || window.webkitURL;
+function hasExtensionFile(uniqueInputs, uniqueSpans) {
+    let Invalid = false,
+        Invalid2 = false;
+    $.each(uniqueInputs, function (i, key) {
+        Invalid = image(key, function(result){
+            if (result === true){
+                Invalid2 = true;
+            }
+        });
+    });
+    if (Invalid === true || Invalid2 === true) {
+        $(uniqueInputs).next().addClass('invalid');
+        $(uniqueSpans).show();
+        Invalid = true;
+    }
+    else {
+        $(uniqueInputs).next().removeClass('invalid');
+        $(uniqueSpans).hide();
+        Invalid = false;
+    }
+    return Invalid;
+}
+function image(key, callback){
+    var image, file;
+    if ((file = $(key)[0].files[0])) {
+        image = new Image();
+        let FileSize = (file.size/1024/1024);
+        if (FileSize > 0.6) {
+            return true;
+        }
+        image.onload = function() {
+            if( this.width > 650 || this.height > 450 ) {
+                Invalid = true;
+                callback(Invalid);
+            }
+        };
+        image.src = _URL.createObjectURL(file);
+    }
+}
+$('#fileRemove').on('click', function(e) {
+    e.preventDefault();
+    $(this).parent().prev().find('label').html($(this).data('action'));
+    $(this).parent().prev().find('input.display-hidden').attr('value', 0);
+    $(this).parent().prev().find('input.uniqueFile').val("");
+});
 function questionAjaxPost(form, url, redi = false) {
     $.ajax({
         type: 'POST',
@@ -207,37 +253,43 @@ $('.questionTypeRemove').click(function( event ) {
 
 $('.questionSave').click(function( event ){
     event.preventDefault();
-    let button = false,
-        background = false;
-    button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
-    background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-    if (form[0].checkValidity() === false || button === true || background === true) {
+    let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
+    let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
+    let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
+    let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
+    if (form[0].checkValidity() === false || button === true || background === true || file === true || picture === true) {
         event.preventDefault();
         event.stopPropagation();
     }
     else {
         $('[disabled]').removeAttr('disabled');
-        questionAjaxPost(form, $(this).data('link'), true);
+        let form = document.getElementById("question_form");
+        form.action = $(this).data('link');
+        form.submit();
     }
     form.addClass('was-validated');
 });
 $('.questionEditSave').click(function( event ) {
     event.preventDefault();
-    let button = false,
-        background = false;
-    button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
-    background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-    if (form[0].checkValidity() === false || button === true || background === true) {
+    let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
+    let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
+    let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
+    let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
+    if (form[0].checkValidity() === false || button === true || background === true || file === true || picture === true) {
         event.preventDefault();
         event.stopPropagation();
     }
     else {
         $('[disabled]').removeAttr('disabled');
-        questionAjaxPost(form, $(this).data('link'), true);
+        let form = document.getElementById("question_form");
+        form.action = $(this).data('link');
+        form.submit();
     }
     form.addClass('was-validated');
 });
 $('#question_form').submit(function () { $('[disabled]').removeAttr('disabled');});
+bsCustomFileInput.init();
+$('#question_form').change(function () { bsCustomFileInput.init();});
 
 // Group controller / html functions
 
@@ -308,6 +360,8 @@ $(".groupAdd").click(function (event) {
 });
 
 // Test controller / html functions
+$('#test_form').change(function () { bsCustomFileInput.init();});
+
 $('#test_form').submit(function () {
     $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();
     if ($('#test_test_start').val() === ''){ $("#test_is_active")[0].checked = false; }
@@ -619,7 +673,14 @@ $("textarea").on("click", function(e) {
 });
 function removeValidation(container) {
     $('.custom-control-label').removeClass('custom-radio-validation-light').removeClass('custom-radio-validation-dark');
-    $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#000000');
+    let color = $(container).closest("article.test").find('input.paramBackgroundColor').data('attribute')
+    let colorM = getContrastYIQ(color.substring(1));
+    if (colorM === 'black' ) {
+        $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#000000');
+    }
+    else {
+        $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#FFFFFF');
+    }
     $(container).find('input').each(function () {
         $(this).removeClass('is-invalid');
     });
@@ -933,7 +994,7 @@ addBtnCFormDeleteLink($newFormLi.find('div.d-flex'));
 $newLinkBtnC.before($newFormLi);
 }
 function addBtnCFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
@@ -990,7 +1051,7 @@ function addBgCForm($collectionHolderBgC, $newLinkBgC) {
     $newLinkBgC.before($newFormLi);
 }
 function addBgCFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
@@ -1052,7 +1113,7 @@ function addTForm($collectionHolderT, $newLinkT) {
     $newLinkT.before($newFormLi);
 }
 function addTFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
@@ -1114,7 +1175,7 @@ function addDTForm($collectionHolderDT, $newLinkDT) {
     $newLinkDT.before($newFormLi);
 }
 function addDTFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius questionAnswerRemoveButton">Pašalinti</button>');
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
@@ -1173,6 +1234,67 @@ function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
 }
 function addTestQuestionFormDeleteLink($tagFormLi) {
     var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+    });
+}
+
+// Collection of picture attributes
+
+var $collectionHolderPic;
+var $addButtonPic = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują paveikslėlį" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkPic = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują paveikslėlį</label></div>').append($addButtonPic);
+
+(function() {
+    $collectionHolderPic = $('div.pictures');
+
+    $collectionHolderPic.find('div.input-group-append').each(function() {
+        addPicFormDeleteLink($(this));
+    });
+
+    $collectionHolderPic.append($newLinkPic);
+    $collectionHolderPic.data('index', $collectionHolderPic.find('input').length);
+
+    $addButtonPic.on('click', function(e) {
+        e.preventDefault();
+        addPicForm($collectionHolderPic, $newLinkPic);
+    });
+})();
+function addPicForm($collectionHolderPic, $newLinkPic) {
+    var prototype = $collectionHolderPic.data('prototype');
+    var index = $collectionHolderPic.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__/g, index);
+    $collectionHolderPic.data('index', index + 1);
+
+    var input = newForm.match(/<input(.*?)>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var span = newForm.match(/<span(.*?)<\/span>/ig);
+    var number = index+1;
+
+    var $newFormLi =
+        $('<div class="mb-4">' +
+        '<div class="input-group ">' +
+            '<div class="custom-file">' +
+            input +
+            label +
+            '</div>' +
+            '<div class="input-group-append">' +
+            '</div>' +
+          '</div>'+
+            span +
+        '</div>'
+            );
+
+    addPicFormDeleteLink($newFormLi.find('div.input-group-append'));
+    $newLinkPic.before($newFormLi);
+}
+function addPicFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark">Pašalinti</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

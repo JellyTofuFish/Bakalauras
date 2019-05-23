@@ -1,4 +1,4 @@
-{{ form_start(form, { 'attr': { 'id':'test_form', 'class':'needs-validation', 'novalidate':'' }}) }}
+{{ form_start(form, { 'attr': { 'id':'test_form', 'class':'needs-validation', 'novalidate':'', 'enctype':"multipart/form-data" }}) }}
 
 <div class="accordion">
     <div class="overflow-hidden">
@@ -310,56 +310,31 @@
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#picture" aria-expanded="false" aria-controls="picture">
                         <i id="testCaret8" class="fa fa-caret-down transition rotation" ></i>
-                        <span class="pl-2">{{ 'picture'|trans }} {% if attributes.displayTimes is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                        <span class="pl-2">{{ 'picture'|trans }} {% if attributes.pictures is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
                     </button>
                 </h2>
             </div>
             <div id="picture" class="tab-pane collapse" aria-labelledby="list-picture list-picture-list" >
-                {#            <div class="card-body displayTimes" data-prototype='<label for="question_attribute_displayTime___name___id" class="required">{{'attribute.display_time'|trans}}</label>#}
-                {#                    <block>#}
-                {#                     <input type="number" value="0" id="question_attribute_displayTime___name___id" name="question_attribute_displayTime[__name__][id]" form="question_form" required="required" class="text-center form-control t" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" min="0" max="9999" maxlength="99999" />#}
-                {#                    <input type="number" value="0" id="question_attribute_displayTime___name___type" name="question_attribute_displayTime[__name__][type]" form="question_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />#}
-                {#                    <input type="number" value="0" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}"  min="0" max="1" maxlength="1" />#}
-                {#                    </block>'>#}
+                <div class="card-body pictures" data-prototype='<input type="file" id="test_attribute_picture___name___id" name="test_attribute_picture[__name__][id]" form="test_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
+                    <label for="test_attribute_picture___name___id" class="custom-file-label"> {{ 'attribute.file_choose'|trans }} </label>
+                    <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>'>
 
-                {#                <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>#}
+                    <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
 
-                {#                {% set numb = 1 %}#}
-                {#                {% for key, bc in attributes.displayTimes %}#}
-
-                {#                    {% set displayTime = bc.value|split(':') %}#}
-                {#                    <div class="form-group row">#}
-                {#                        <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>#}
-                {#                        <div class="col-sm-10 mb-3">#}
-                {#                            <div class="d-flex input-group">#}
-                {#                                {% if (app.request.get('_route')) == 'question_edit' %}#}
-                {#                                    <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>#}
-                {#                                    <div class="input-group-prepend">#}
-                {#                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>#}
-                {#                                    </div>#}
-                {#                                    <input type="number" value="{{ displayTime[1] }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>#}
-                {#                                    <div class="input-group-prepend">#}
-                {#                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>#}
-                {#                                    </div>#}
-                {#                                    <input type="number" value="{{ displayTime[2] }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />#}
-                {#                                {% else  %}#}
-                {#                                    <input type="number" value="{{ bc | first }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc| keys |first }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_val'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>#}
-                {#                                    <div class="input-group-prepend">#}
-                {#                                        <span class="input-group-text border-left-0 font-weight-bold"> : </span>#}
-                {#                                    </div>#}
-                {#                                    <input type="number" value="{{ bc.type }}" id="question_attribute_displayTime_{{ key }}_type" name="question_attribute_displayTime[{{ key }}][type]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control"  min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;"/>#}
-                {#                                    <div class="input-group-prepend">#}
-                {#                                        <span class="input-group-text border-left-0 border-right-0 font-weight-bold"> : </span>#}
-                {#                                    </div>#}
-                {#                                    <input type="number" value="{{ bc.vis }}" id="question_attribute_displayTime_{{ key }}_vis" name="question_attribute_displayTime[{{ key }}][vis]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_bool'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />#}
-                {#                                {% endif %}#}
-
-                {#                            </div>#}
-                {#                        </div>#}
-                {#                        {% set numb = numb +1 %}#}
-                {#                    </div>#}
-                {#                {% endfor %}#}
-                {#            </div>#}
+                    {% for key, pic in attributes.pictures %}
+                        <div class="mb-4">
+                            <div class="input-group ">
+                                <div class="custom-file">
+                                    <input type="file" id="test_attribute_picture_{{ key }}_id" name="test_attribute_picture[{{ key }}][{{ pic.id }}]" form="test_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
+                                    <label for="test_attribute_picture_{{ key }}_id" class="custom-file-label"> {{ pic.value }} </label>
+                                </div>
+                                <div class="input-group-append">
+                                </div>
+                            </div>
+                            <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
 

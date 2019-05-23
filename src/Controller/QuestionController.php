@@ -2,27 +2,31 @@
 
 namespace App\Controller;
 
-use App\Entity\AnswerOption;
 use App\Entity\Attribute;
+use App\Entity\Files;
 use App\Entity\GroupList;
 use App\Entity\Question;
 use App\Entity\QuestionAttribute;
+use App\Entity\TestAttribute;
 use App\Form\GroupSimpleType;
 use App\Form\GroupType;
-use App\Form\QuestionAttributeTimeType;
 use App\Form\QuestionType;
 use App\Repository\FileRepository;
 use App\Repository\GroupRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use function PHPSTORM_META\type;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\File\File;
 
+/**
+ * @property SessionInterface session
+ */
 class QuestionController extends AbstractController
 {
     /**
@@ -145,11 +149,7 @@ class QuestionController extends AbstractController
         $form = $this->createForm(QuestionType::class, $question);
         $formGroup = $this->createForm(GroupSimpleType::class, $group);
 
-        $data = $request->get('question');
-        if($data != null) {
-            $form->handleRequest($request);
-        }
-
+        $form->handleRequest($request);
         $attributeText = [];
         $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
         $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
@@ -163,6 +163,7 @@ class QuestionController extends AbstractController
         $attributes['backgroundColors'] = [];
         $attributes['displayTimes'] = [];
         $attributes['pictures'] = [];
+
         if (isset($_POST['question_attribute_time'])) {
             $attributes['time'] = $_POST['question_attribute_time']['value'];
         }
@@ -179,11 +180,6 @@ class QuestionController extends AbstractController
         if (isset($_POST['question_attribute_displayTime']) && $_POST['question_attribute_displayTime'] != '') {
             foreach ($_POST['question_attribute_displayTime'] as $key => $value) {
                 $attributes['displayTimes'] = $_POST['question_attribute_displayTime'];
-            }
-        }
-        if (isset($_POST['question_attribute_picture']) && $_POST['question_attribute_picture'] != '') {
-            foreach ($_POST['question_attribute_picture'] as $key => $value) {
-                $attributes['pictures'] = $_POST['question_attribute_picture'];
             }
         }
         return $this->render('question/new.html.twig', [
@@ -203,17 +199,40 @@ class QuestionController extends AbstractController
         $question = new Question();
         $question->setFkUser($this->getUser());
         $form = $this->createForm(QuestionType::class, $question);
-        $form->handleRequest($request);
 
-        $entityManager = $this->getDoctrine()->getManager();
         $Answers = $question->getAnsweroptions();
 
+        $entityManager = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             foreach ($Answers as $ao) {
                 $entityManager->persist($ao);
             }
             $entityManager->persist($question);
             $entityManager->flush();
+            if (isset($_FILES['file'])) {
+                if ($_FILES["file"]['name'] != '') {
+                    $newfile = new File($_FILES["file"]['tmp_name']);
+                    $fileName = $_FILES["file"]['name'];
+                    $file = $this->getDoctrine()->getManager()->getRepository(Files::class)->findOneBy(['name' => $fileName]);
+                    if ($file == null) {
+                        try {
+                            $newfile->move(
+                                $this->getParameter('brochures_directory'),
+                                $fileName
+                            );
+                        } catch (FileException $e) {
+                            throw $this->createNotFoundException('file not uploaded');
+                        }
+                    }
+                    $file = new Files();
+                    $file->setType('photo');
+                    $file->setFkQuestion($question);
+                    $file->setName($fileName);
+                    $entityManager->persist($file);
+                    $entityManager->flush();
+                }
+            }
             if (isset($_POST['question_attribute_time'])) {
                 $questionTimeAttribute = new QuestionAttribute();
                 $questionTimeAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute());
@@ -252,8 +271,39 @@ class QuestionController extends AbstractController
                     $entityManager->flush();
                 }
             }
+            if (isset($_FILES['question_attribute_picture'])) {
+                $pictureArray = [[]];
+                foreach ($_FILES['question_attribute_picture'] as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $pictureArray[$key1][key($value1)][$key] = array_values($value1)[0];
+                    }
+                }
+                foreach ($pictureArray as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $newfile = new File($value1['tmp_name']);
+                        $fileName = $value1['name'];
+                        $attribute = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['value' => $fileName]);
+                        if ($attribute == null) {
+                            try {
+                                $newfile->move(
+                                    $this->getParameter('brochures_directory'),
+                                    $fileName
+                                );
+                            } catch (FileException $e) {
+                                throw $this->createNotFoundException('file not uploaded');
+                            }
+                        }
+                        $PictureAttribute = new QuestionAttribute();
+                        $PictureAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute());
+                        $PictureAttribute->setValue($fileName);
+                        $PictureAttribute->setFkQuestion($question);
+                        $entityManager->persist($PictureAttribute);
+                        $entityManager->flush();
+                    }
+                }
+            }
         }
-        return new JsonResponse(['id'=> $question->getId()]);
+        return $this->redirectToRoute('question_index');
     }
 
     /**
@@ -285,7 +335,6 @@ class QuestionController extends AbstractController
         if (null === $questionQ = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No Question found for id '.$question->getId());
         }
-        $arrayQuestion = [[]];
         $answers = $entityManager->getRepository(Question::class)->findQuestionAnswers($questionQ->getId());
         $background = $entityManager->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($questionQ->getId());
         $buttonColor = $entityManager->getRepository(QuestionAttribute::class)->findAllByButtonColor($questionQ->getId());
@@ -301,7 +350,6 @@ class QuestionController extends AbstractController
         $this->setDataQuestion( 'paramDisplayTime', $displayTime);
         $this->setDataQuestion( 'file', $file);
         $this->setDataQuestion( 'paramPictures', $pictures);
-        dump($this->arrayQuestion);
         return $this->render('question/show_example.html.twig', [
             'data' => $this->arrayQuestion
         ]);
@@ -334,6 +382,7 @@ class QuestionController extends AbstractController
         $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($Question);
         $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByDisplayTime($Question);
         $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByPicture($Question);
+        $questionFile = $this->getDoctrine()->getManager()->getRepository(Files::class)->findOneByQuestion($Question->getId());
 
         $form->handleRequest($request);
         $Answers = $Question->getAnsweroptions();
@@ -342,6 +391,51 @@ class QuestionController extends AbstractController
                 $entityManager->persist($ao);
             }
             $entityManager->persist($Question);
+            $entityManager->flush();
+            if (isset($_POST['question_file']) && isset($_FILES['file'])) {
+                if ($_POST['question_file']['file'] == '0' && $_FILES["file"]['name'] == '') {
+
+                    if ($questionFile != null) {
+                        $this->deleteFile($questionFile->getName());
+                        $Question->removeFile($questionFile);
+                    }
+
+                } elseif ($_POST['question_file']['file'] == '0' && $_FILES["file"]['name'] != '' || $_POST['question_file']['file'] == '1' && $_FILES["file"]['name'] != '') {
+                    $newfile = new File($_FILES["file"]['tmp_name']);
+                    $fileName = $_FILES["file"]['name'];
+
+                    $fileCheck = null;
+                    if ($questionFile != null) {
+                        $fileCheck = $questionFile->getName();
+                    }
+                    if ($_FILES["file"]['name'] != $fileCheck) {
+                        $files = $this->getDoctrine()->getManager()->getRepository(Files::class)->findOneBy(['name' => $fileName]);
+                        if ($files == null) {
+                            try {
+                                $newfile->move(
+                                    $this->getParameter('brochures_directory'),
+                                    $fileName
+                                );
+                            } catch (FileException $e) {
+                                throw $this->createNotFoundException('file not uploaded');
+                            }
+                        }
+                        if ($questionFile != null) {
+                            $this->deleteFile($questionFile->getName());
+                            $questionFile->setName($fileName);
+                            $entityManager->persist($questionFile);
+                            $entityManager->flush();
+                        } else {
+                            $file = new Files();
+                            $file->setType('photo');
+                            $file->setFkQuestion($question);
+                            $file->setName($fileName);
+                            $entityManager->persist($file);
+                            $entityManager->flush();
+                        }
+                    }
+                }
+            }
             if (isset($_POST['question_attribute_time'])) {
                 if ($attributes['time'] == null) {
                     $questionTimeAttribute = new QuestionAttribute();
@@ -496,16 +590,117 @@ class QuestionController extends AbstractController
                     $entityManager->flush();
                 }
             }
+            if (isset($_FILES['question_attribute_picture'])) {
+                $pictureArray = [[]];
+                foreach ($_FILES['question_attribute_picture'] as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $pictureArray[$key1][key($value1)][$key] = array_values($value1)[0];
+                    }
+                }
+                $question_attribute = [];
+                foreach ($pictureArray as $key => $value) {
+                    foreach ($value as $key1 => $value1) {
+                        $attribute = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['id' => $key1]);
+                        if ($value1['name'] == '') {
+                            $question_attribute[] = $attribute;
+                        }
+                        else {
+                            $newfile = new File($value1['tmp_name']);
+                            $fileName = $value1['name'];
+                            if (in_array($attribute, $attributes['pictures'])) {
+                                $this->deleteFile($attribute->getValue());
+                                $attribute->setName($fileName);
+                                $entityManager->persist($attribute);
+                                $question_attribute[] = $attribute;
+                            } else {
+                                $attribute = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findOneBy(['value' => $fileName]);
+                                if ($attribute == null) {
+                                    try {
+                                        $newfile->move(
+                                            $this->getParameter('brochures_directory'),
+                                            $fileName
+                                        );
+                                    } catch (FileException $e) {
+                                        throw $this->createNotFoundException('file not uploaded');
+                                    }
+                                }
+                                $PictureAttribute = new QuestionAttribute();
+                                $PictureAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute());
+                                $PictureAttribute->setValue($fileName);
+                                $PictureAttribute->setFkQuestion($question);
+                                $entityManager->persist($PictureAttribute);
+                            }
+                        }
+                    }
+                }
+                foreach ( $attributes['pictures'] as $picture ) {
+                    if (!in_array($picture, $question_attribute)) {
+                        $this->deleteFile($picture->getValue());
+                        $attributesArray = $picture->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $picture->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($picture);
+                        }
+                        $entityManager->remove($picture);
+                    }
+                }
+                $entityManager->flush();
+            }
+            else {
+                if ($attributes['pictures'] != null) {
+                    foreach ( $attributes['pictures'] as $picture ) {
+                        if (!in_array($picture, [])) {
+                            $this->deleteFile($picture->getValue());
+                            $attributesArray = $picture->getParticipantAnswerAttributes();
+                            foreach ($attributesArray as $a) {
+                                $picture->removeParticipantAnswerAttribute($a);
+                                $entityManager->persist($picture);
+                            }
+                            $entityManager->remove($picture);
+                        }
+                    }
+                    $entityManager->flush();
+                }
+            }
             $this->addFlash('success', 'question.flash_message.edited');
-            return new JsonResponse(['id'=> $question->getId()]);
+            return $this->redirectToRoute('question_index');
+        }
+        $questionFile = $this->getDoctrine()->getManager()->getRepository(Files::class)->findOneByQuestion($Question->getId());
+        if ($questionFile != null) {
+            $questionFile = $questionFile->getName();
         }
         return $this->render('question/edit.html.twig', [
             'question' => $Question,
+            'file' => $questionFile,
             'form' => $form->createView(),
             'formGroup' => $formGroup->createView(),
             'attributes' => $attributes,
             'attributeText' =>$attributeText,
         ]);
+    }
+    public function deleteFile( $questionFile ) {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (file_exists($this->getParameter('brochures_directory') . '/' . $questionFile)) {
+            unlink($this->getParameter('brochures_directory') . '/' . $questionFile);
+        }
+        $questionAttributes = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findBy(['value' => $questionFile]);
+        foreach ($questionAttributes as $qa) {
+            $qa->setValue('Pašalinta');
+            $entityManager->persist($qa);
+            $entityManager->flush();
+        }
+        $testAttributes = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findBy(['value' => $questionFile]);
+        foreach ($testAttributes as $ta) {
+            $ta->setValue('Pašalinta');
+            $entityManager->persist($ta);
+            $entityManager->flush();
+        }
+        $files = $this->getDoctrine()->getManager()->getRepository(Files::class)->findBy(['name' => $questionFile]);
+        foreach ($files as $f) {
+            $f->setName('Pašalinta');
+            $entityManager->persist($f);
+            $entityManager->flush();
+        }
     }
 
     /**
@@ -515,29 +710,38 @@ class QuestionController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        if (null === $Test = $entityManager->getRepository(Question::class)->find($question->getId())) {
+        if (null === $Question = $entityManager->getRepository(Question::class)->find($question->getId())) {
             throw $this->createNotFoundException('No Question for id '.$question->getId());
         }
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
 
+            $questionFile = $this->getDoctrine()->getManager()->getRepository(Files::class)->findOneByQuestion($Question->getId());
+            if ($questionFile != null) {
+                $this->deleteFile($questionFile->getName());
+            }
+
+            $Qattribute = $question->getQuestionAttributes();
+            foreach ($Qattribute as $qa) {
+                $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $qa->getFkAttribute()]);
+                if ($attribute->getName() == 'picture'){
+                    $this->deleteFile($qa->getValue());
+                }
+                $Question->removeQuestionAttribute($qa);
+                $entityManager->persist($Question);
+                $entityManager->flush();
+            }
+
             $Files = $question->getFileS();
             foreach ($Files as $f) {
-                $f->getFkQuestion()->removeFile($f);
-                $entityManager->persist($f);
+                $Question->removeFile($f);
+                $entityManager->persist($Question);
                 $entityManager->flush();
             }
 
             $Tests = $question->getTestQuestions();
             foreach ($Tests as $t) {
-                $t->getFkQuestion()->removeTestQuestion($t);
-                $entityManager->persist($t);
-                $entityManager->flush();
-            }
-
-            $Qattribute = $question->getQuestionAttributes();
-            foreach ($Qattribute as $qa) {
-                $qa->setFkQuestion(null );
-                $entityManager->persist($qa);
+                $Question->removeTestQuestion($t);
+                $entityManager->persist($Question);
                 $entityManager->flush();
             }
 
@@ -547,11 +751,12 @@ class QuestionController extends AbstractController
                 $pa->removeFkAnsweroption($a);
                 $entityManager->persist($pa);
                 }
-                $pa->setFkQuestion(null);
+                $Question->removeParticipantAnswer($pa);
+                $entityManager->persist($Question);
                 $entityManager->flush();
             }
 
-            $entityManager->remove($question);
+            $entityManager->remove($Question);
             $entityManager->flush();
         }
 
