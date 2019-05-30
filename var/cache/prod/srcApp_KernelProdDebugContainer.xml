@@ -72,6 +72,7 @@
     <parameter key="container.dumper.inline_class_loader">true</parameter>
     <parameter key="env(DATABASE_URL)">mysql://b125363708310f:ef6c4763@eu-cdbr-west-02.cleardb.net/heroku_060faedb701da26?reconnect=true</parameter>
     <parameter key="locale">lt</parameter>
+    <parameter key="brochures_directory">P:\web\SitesPHP\bakalauras/public/build/images</parameter>
     <parameter key="fragment.renderer.hinclude.global_template"></parameter>
     <parameter key="fragment.path">/_fragment</parameter>
     <parameter key="kernel.secret">%env(APP_SECRET)%</parameter>
@@ -377,6 +378,9 @@
       <tag name="form.type"/>
     </service>
     <service id="App\Form\AttributeType" class="App\Form\AttributeType" autowire="true" autoconfigure="true">
+      <tag name="form.type"/>
+    </service>
+    <service id="App\Form\FileUploadType" class="App\Form\FileUploadType" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
     </service>
     <service id="App\Form\GroupSimpleType" class="App\Form\GroupSimpleType" autowire="true" autoconfigure="true">
@@ -710,6 +714,7 @@
       <argument type="collection">
         <argument>App\Form\AnswerOptionType</argument>
         <argument>App\Form\AttributeType</argument>
+        <argument>App\Form\FileUploadType</argument>
         <argument>App\Form\GroupSimpleType</argument>
         <argument>App\Form\GroupType</argument>
         <argument>App\Form\QuestionType</argument>
@@ -987,7 +992,7 @@
       <argument type="service" id="form.registry"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id=".service_locator.7Y4zF85"/>
+      <argument type="service" id=".service_locator.pQlsuxh"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.transformation_failure_handling"/>
@@ -1835,14 +1840,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -4134,6 +4131,8 @@
     <service id=".abstract.instanceof.App\Form\AnswerOptionType" class="App\Form\AnswerOptionType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\AttributeType" class="App\Form\AttributeType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\AttributeType" class="App\Form\AttributeType" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\FileUploadType" class="App\Form\FileUploadType" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Form\FileUploadType" class="App\Form\FileUploadType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GroupSimpleType" class="App\Form\GroupSimpleType" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Form\GroupSimpleType" class="App\Form\GroupSimpleType" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Form\FormTypeInterface.0.App\Form\GroupType" class="App\Form\GroupType" autowire="true" abstract="true"/>
@@ -4268,7 +4267,7 @@
         <argument key="user" type="service" id=".errored..service_locator.wypGnUQ.App\Entity\User"/>
       </argument>
     </service>
-    <service id=".service_locator.RyFtbCG" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.l.XqtWH" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Controller\AttributeController::delete" type="service" id=".service_locator.II_PRuO"/>
@@ -4277,19 +4276,23 @@
         <argument key="App\Controller\GroupController::delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="App\Controller\GroupController::edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\MainController::index" type="service" id=".service_locator.2I4ByA9"/>
+        <argument key="App\Controller\QuestionController::copy" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::delete" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController::show" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::showExample" type="service" id=".service_locator.Vqvxuhp"/>
+        <argument key="App\Controller\TestController::copy" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::edit" type="service" id=".service_locator.P8yJ05j"/>
+        <argument key="App\Controller\TestController::generateReport" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::index" type="service" id=".service_locator.4pMLaJi"/>
         <argument key="App\Controller\TestController::newEnd" type="service" id=".service_locator.aa54dWu"/>
         <argument key="App\Controller\TestController::newStart" type="service" id=".service_locator.WJckssl"/>
         <argument key="App\Controller\TestController::show" type="service" id=".service_locator.SyrymO0"/>
         <argument key="App\Controller\TestController::showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\UserController::delete" type="service" id=".service_locator.wypGnUQ"/>
+        <argument key="App\Controller\UserController::edit" type="service" id=".service_locator.wypGnUQ"/>
         <argument key="App\Controller\UserController::index" type="service" id=".service_locator.ClzL3AR"/>
         <argument key="group_controller::delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="group_controller::edit" type="service" id=".service_locator.JEcBMWw"/>
@@ -4299,19 +4302,23 @@
         <argument key="App\Controller\GroupController:delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="App\Controller\GroupController:edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\MainController:index" type="service" id=".service_locator.2I4ByA9"/>
+        <argument key="App\Controller\QuestionController:copy" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:delete" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController:show" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:showExample" type="service" id=".service_locator.Vqvxuhp"/>
+        <argument key="App\Controller\TestController:copy" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:edit" type="service" id=".service_locator.P8yJ05j"/>
+        <argument key="App\Controller\TestController:generateReport" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:index" type="service" id=".service_locator.4pMLaJi"/>
         <argument key="App\Controller\TestController:newEnd" type="service" id=".service_locator.aa54dWu"/>
         <argument key="App\Controller\TestController:newStart" type="service" id=".service_locator.WJckssl"/>
         <argument key="App\Controller\TestController:show" type="service" id=".service_locator.SyrymO0"/>
         <argument key="App\Controller\TestController:showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\UserController:delete" type="service" id=".service_locator.wypGnUQ"/>
+        <argument key="App\Controller\UserController:edit" type="service" id=".service_locator.wypGnUQ"/>
         <argument key="App\Controller\UserController:index" type="service" id=".service_locator.ClzL3AR"/>
         <argument key="group_controller:delete" type="service" id=".service_locator.1OGat4T"/>
         <argument key="group_controller:edit" type="service" id=".service_locator.JEcBMWw"/>
@@ -4374,11 +4381,12 @@
       <argument type="service" id="debug.argument_resolver.variadic.inner"/>
       <argument type="service" id="debug.stopwatch"/>
     </service>
-    <service id=".service_locator.7Y4zF85" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.pQlsuxh" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="App\Form\AnswerOptionType" type="service" id="App\Form\AnswerOptionType"/>
         <argument key="App\Form\AttributeType" type="service" id="App\Form\AttributeType"/>
+        <argument key="App\Form\FileUploadType" type="service" id="App\Form\FileUploadType"/>
         <argument key="App\Form\GroupSimpleType" type="service" id="App\Form\GroupSimpleType"/>
         <argument key="App\Form\GroupType" type="service" id="App\Form\GroupType"/>
         <argument key="App\Form\QuestionType" type="service" id="App\Form\QuestionType"/>
@@ -4672,7 +4680,7 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.RyFtbCG"/>
+      <argument type="service" id=".service_locator.l.XqtWH"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
@@ -4938,7 +4946,7 @@
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger" public="false"/>
     <service id="fos_js_routing.router" alias="router.default" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.RyFtbCG"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.l.XqtWH"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".service_locator.tSKDlY7" alias=".1_ServiceLocator~n2lsigk" public="false"/>
