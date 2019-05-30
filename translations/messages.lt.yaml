@@ -18,9 +18,9 @@ test:
     created_at_label: Sukūrimo data
     last_activated_label: Paskutinio akyvavimo data
     is_active_label: Testo aktyvumas
-    is_active_description: Įjunkite šį jungiklį, jeigu norite aktyvuoti testą
+    is_active_description: Įjunkite šį jungiklį, kad aktyvuotumėte testą
     prev_button_label: Testo navigacija
-    prev_button_description: Įjunkite šį jungiklį, jeigu norite, kad testo vykdymo metu būtų suteikta galimybė grįžti į ankstesnį klausimą
+    prev_button_description: Įjunkite šį jungiklį, kad testo vykdymo metu būtų rodomas mygtukas grįžti į ankstesnį klausimą
     test_start_label: Testo pradžia
     test_end_label: Testo pabaiga
     date_placeholder: 'yyyy-mm-dd hh:mm:ss'
@@ -29,7 +29,7 @@ test:
     test_question_input_placeholder: Pasirinkite klausimą...
     participation_count: Vykdymų skaičius
     time_label: Laikas
-    time_description: Įjunkite šį jungiklį, jeigu norite, kad būtų sekamas visų klausimų užpildymo laikas
+    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į teste pateiktus klausimus.
   active: Testas aktyvus
   inactive: Testas neaktyvus
   validation:
@@ -72,9 +72,9 @@ question:
     answeroptions_label: Atsakymas
     answeroptions_input_placeholder: Įveskite atsakymo variantą
     required_label: Privalomas
-    required_description: Įjunkite šį jungiklį, jeigu norite, kad klausimo užpildymas būtų privalomas
+    required_description: Įjunkite šį jungiklį, kad klausimas būtų privalomas.
     time_label: Laikas
-    time_description: Įjunkite šį jungiklį, jeigu norite, kad būtų sekamas klausimo užpildymo laikas
+    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į teste pateiktus klausimus.
   required_true: Klausimas privalomas
   required_false: Klausimas neprivalomas
   type:
@@ -156,8 +156,8 @@ attribute:
   next_stay: (Neperšoka klausimo)
   validation:
     unique: Laukelių reikšmės privalo būti unikalios
-    file: Failas privalo būti ne didesnis nei 600KB. Dimensijos turi būti tarp 650x450
-    required: Paveikslėlis privalo būti ne didesnis nei 600KB. Dimensijos turi būti tarp 650x450 ir laukelis negali būti tuščias
+    file: Failas privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x900
+    required: Paveikslėlis privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x900 ir laukelis negali būti tuščias
   file_missing: Failas nenustatytas
   file_choose: Pasirinkite failą...
   file_help: Failo formatas privalo būti .jpeg, .png arba .jpg
@@ -196,6 +196,7 @@ user:
     last_name_label_placeholder: Įveskite naudotojo pavardę
     phone_label: Telefono numeris
     phone_placeholder: Įveskite naudotojo telefono numerį
+  delete_message: Ar tikrai norite ištrinti šį naudotoją?
 
 answer:
   placeholder: Atsakymą įveskite į šį laukelį...
@@ -247,6 +248,7 @@ button:
     new: Naudotojo registravimas
     index: Naudotojų sąrašas
     title: Naudotojai
+    edit: Redaguoti profilį
   test:
     new: Testo kūrimas
     index: Testų sąrašas

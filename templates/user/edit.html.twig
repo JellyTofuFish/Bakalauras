@@ -1,6 +1,6 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %} {{ 'user.title.new'|trans }} | ETS{% endblock %}
+{% block title %} {{ 'user.title.edit'|trans }} | ETS{% endblock %}
 
 {% block admin_right_nav %}
     <ul class="section-nav">
@@ -18,7 +18,7 @@
 
 {% block admin_main %}
 
-    <h1>{{ 'user.title.new'|trans }}</h1>
-    {{ include('user/_form.html.twig', {'button_label': 'button.new'|trans}) }}
+    <h1>{{ 'user.title.edit'|trans }}</h1>
+    {{ include('user/_form.html.twig', {'button_label': 'button.save'|trans}) }}
 
 {% endblock %}

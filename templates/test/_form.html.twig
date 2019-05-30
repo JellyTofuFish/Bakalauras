@@ -1,9 +1,11 @@
 {{ form_start(form, { 'attr': { 'id':'test_form', 'class':'needs-validation', 'novalidate':'', 'enctype':"multipart/form-data" }}) }}
 
 <div class="accordion">
+
+    {# Testo informacija. Testo formos laukeliai #}
     <div class="overflow-hidden">
         <div class="card bg-light btn-no-bottom-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-general">
+            <div class="card-header p-0" id="list-general">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
                         <i id="testCaret1" class="fa fa-caret-down transition"></i>
@@ -45,8 +47,9 @@
             </div>
         </div>
 
+        {# Testo aktyvacijos informacija. Testo formos aktyvacijos laukeliai #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-activation">
+            <div class="card-header p-0" id="list-activation">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#activation" aria-expanded="false" aria-controls="activation">
                         <i id="testCaret2" class="fa fa-caret-down transition rotation" ></i>
@@ -89,8 +92,9 @@
             </div>
         </div>
 
+        {# Testo klausimų informacija. #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-questions">
+            <div class="card-header p-0" id="list-questions">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#questions" aria-expanded="false" aria-controls="questions">
                         <i id="testCaret3" class="fa fa-caret-down transition rotation"></i>
@@ -116,8 +120,9 @@
             </div>
         </div>
 
+        {# Testo laiko savybių informacija #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-settings">
+            <div class="card-header p-0" id="list-settings">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#settings" aria-expanded="false" aria-controls="settings">
                         <i id="testCaret4" class="fa fa-caret-down transition rotation" ></i>
@@ -132,12 +137,9 @@
                 <input type="number" id="test_attribute_time___name___type" name="test_attribute_time[__name__][type]" form="test_form" required="required"  class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_type'|trans }}"  min="0" max="1" maxlength="1" />
                 <input type="number" id="test_attribute_time___name___vis" name="test_attribute_time[__name__][vis]" form="test_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_vis'|trans }}"  min="0" max="1" maxlength="1" />
                 </block>'>
-
                     <i class="form-text text-muted mb-3">{{ attributeText.time.description }}</i>
-
                     {% set numb = 1 %}
                     {% for key, bc in attributes.times %}
-
                         {% set Time = bc.value|split(':') %}
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">{{ 'attribute.time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
@@ -164,7 +166,6 @@
                                         </div>
                                         <input type="number" value="{{ bc.vis }}" id="test_attribute_time_{{ key }}_vis" name="test_attribute_time{{ key }}][vis]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_vis'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
                                     {% endif %}
-
                                 </div>
                             </div>
                             {% set numb = numb +1 %}
@@ -174,8 +175,9 @@
             </div>
         </div>
 
+        {# Testo mygtuko salvos savybių informacija #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-buttonColor">
+            <div class="card-header p-0" id="list-buttonColor">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#buttonColor" aria-expanded="false" aria-controls="buttonColor">
                         <i id="testCaret5" class="fa fa-caret-down transition rotation" ></i>
@@ -186,9 +188,7 @@
             <div id="buttonColor" class="tab-pane collapse" aria-labelledby="list-buttonColor list-buttonColor-list" >
                 <div class="card-body buttoncolors" data-prototype='<div><label for="test_attribute_buttonColor___name___id" class="required">{{'attribute.button_color'|trans}}</label><input type="color" value="#007bff" id="test_attribute_buttonColor___name___id" name="test_attribute_buttonColor[__name__][id]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" /></div>
             <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>'>
-
                     <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
-
                     {% set numb = 1 %}
                     {% for key, bc in attributes.buttonColors %}
                         <div class="form-group row">
@@ -200,7 +200,6 @@
                                     {% else  %}
                                         <input type="color" value="{{ bc | first }}" id="test_attribute_buttonColor_{{ key }}_id" name="test_attribute_buttonColor[{{ key }}][{{ bc| keys |first }}]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
                                     {% endif %}
-
                                 </div>
                                 <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>
                             </div>
@@ -211,8 +210,9 @@
             </div>
         </div>
 
+        {# Testo fono salvos savybių informacija #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-backgroundColor">
+            <div class="card-header p-0" id="list-backgroundColor">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#backgroundColor" aria-expanded="false" aria-controls="backgroundColor">
                         <i id="testCaret6" class="fa fa-caret-down transition rotation" ></i>
@@ -223,9 +223,7 @@
             <div id="backgroundColor" class="tab-pane collapse" aria-labelledby="list-backgroundColor list-backgroundColor-list" >
                 <div class="card-body backgroundColors" data-prototype='<div><label for="test_attribute_backgroundColor___name___id" class="required">{{'attribute.background_color'|trans}}</label><input type="color" value="#FFFFFF" id="test_attribute_backgroundColor___name___id" name="test_attribute_backgroundColor[__name__][id]" form="test_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" /></div>
             <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>'>
-
                     <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
-
                     {% set numb = 1 %}
                     {% for key, bc in attributes.backgroundColors %}
                         <div class="form-group row">
@@ -247,8 +245,9 @@
             </div>
         </div>
 
+        {# Testo rodymo trukmės savybių informacija #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-displayTime">
+            <div class="card-header p-0" id="list-displayTime">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
                         <i id="testCaret7" class="fa fa-caret-down transition rotation" ></i>
@@ -268,7 +267,6 @@
 
                     {% set numb = 1 %}
                     {% for key, bc in attributes.displayTimes %}
-
                         {% set displayTime = bc.value|split(':') %}
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
@@ -295,7 +293,6 @@
                                         </div>
                                         <input type="number" value="{{ bc.vis }}" id="test_attribute_displayTime_{{ key }}_vis" name="test_attribute_displayTime[{{ key }}][vis]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_skip'|trans }}" class="text-center form-control" min="0" max="1" maxlength="1" oninput="this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value;" />
                                     {% endif %}
-
                                 </div>
                             </div>
                             {% set numb = numb +1 %}
@@ -305,22 +302,23 @@
             </div>
         </div>
 
+        {# Testo nuotraukos savybių informacija #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-picture">
+            <div class="card-header p-0" id="list-picture">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#picture" aria-expanded="false" aria-controls="picture">
                         <i id="testCaret8" class="fa fa-caret-down transition rotation" ></i>
-                        <span class="pl-2">{{ 'picture'|trans }} {% if attributes.pictures is not empty %}<b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b> {% endif %}</span>
+                        <span class="pl-2">{{ 'picture'|trans }}</span>
                     </button>
                 </h2>
             </div>
             <div id="picture" class="tab-pane collapse" aria-labelledby="list-picture list-picture-list" >
-                <div class="card-body pictures" data-prototype='<input type="file" id="test_attribute_picture___name___id" name="test_attribute_picture[__name__][id]" form="test_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
+                <div class="card-body pictures" data-prototype='<input type="file" required id="test_attribute_picture___name___id" name="test_attribute_picture[__name__][id]" form="test_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
                     <label for="test_attribute_picture___name___id" class="custom-file-label"> {{ 'attribute.file_choose'|trans }} </label>
                     <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>'>
 
+                    <span id="pictureIsValid" class="display-hidden"></span>
                     <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
-
                     {% for key, pic in attributes.pictures %}
                         <div class="mb-4">
                             <div class="input-group ">
@@ -338,8 +336,9 @@
             </div>
         </div>
 
+        {# Testo sukūrimas/atnaujinimas #}
         <div class="card border-light btn-no-top-radius">
-            <div class="card-header bg-transparent p-0" id="list-save">
+            <div class="card-header p-0" id="list-save">
                 <h2 class="mb-0">
                     <button class="btn btn-block btn-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
                 </h2>

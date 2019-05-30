@@ -56,6 +56,7 @@ body {
     height: 100%;
     max-height: 50vh;
     min-height: 25vh;
+    max-width: 100%;
 }
 .vh-file-empty {
     height: 20vh;
@@ -454,26 +455,27 @@ nav .bd-links {
 }
 /*font awesome icon css*/
 
+.fa-caret-down {
+    font-size: 22px;
+}
+
 .fa-sort,
 .fa-sort-up,
 .fa-sort-down,
-.fa-caret-down,
 .fa-file,
 .fa-pencil,
 .fa-trash,
 .fa-eye,
 .fa-copy,
 .fa-file-excel-o,
-.fa-check-circle {
-    font-size: 24px;
+.fa-check-circle,
+.fa-plus-square {
+    font-size: 26px;
 }
 .fa-filter {
     font-size: 16px !important;
     height: auto;
     color: #939393;
-}
-.fa-plus-square {
-    font-size: 28px;
 }
 .fa-calendar {
     font-size: 1rem;

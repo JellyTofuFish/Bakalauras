@@ -121,19 +121,47 @@ $(".sidebar-collapse").click(function () {
         // Loop over them and prevent submission
         var validation = Array.prototype.filter.call(forms, function(form) {
             form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                $('#pictureIsValid').html('');
+                $('#fileIsValid').html('');
                 let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
                 let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-                let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
-                let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
-                if (form.checkValidity() === false  || button === true || background === true || file === true || picture === true) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+                hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'), $('#fileIsValid'));
+                hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'), $('#pictureIsValid'));
+                setTimeout( function(){
+                    if ($('#pictureIsValid').html() === 'true' || $('#fileIsValid').html() === 'true' || form.checkValidity() === false || button === true || background === true) {
+                        $(':invalid').closest('div.tab-pane').addClass('show');
+                        $('.invalid').closest('div.tab-pane').addClass('show');
+                        event.stopPropagation();
+                        if ($('#pictureIsValid').html() === 'true') {
+                            $(':input.uniquePicture').next().addClass('invalid');
+                            $('span.uniquePicture').show();
+                        }
+                        if ($('#pictureIsValid').html() !== 'true') {
+                            $(':input.uniquePicture').next().removeClass('invalid');
+                            $('span.uniquePicture').hide();
+                        }
+                        if ($('#fileIsValid').html() === 'true') {
+                            $(':input.uniqueFile').next().addClass('invalid');
+                            $('span.uniqueFile').show();
+                        }
+                        if ($('#fileIsValid').html() !== 'true') {
+                            $(':input.uniqueFile').next().removeClass('invalid');
+                            $('span.uniqueFile').hide();
+                        }
+                    }
+                    else {
+                        $('[disabled]').removeAttr('disabled');
+                        $(':input.uniqueFile').next().removeClass('invalid');
+                        $('span.uniqueFile').hide();
+                        $(':input.uniquePicture').next().removeClass('invalid');
+                        $('span.uniquePicture').hide();
+                        form.submit();
+                    }
+                }, 10);
                 form.classList.add('was-validated');
-            }, false);
+            });
         });
-    // }, false);
-
 })();
 // Attribute submit
 
@@ -164,40 +192,22 @@ function checkAttributeValidity(uniqueInputs, uniqueSpans) {
 }
 // validate file upload
 var _URL = window.URL || window.webkitURL;
-function hasExtensionFile(uniqueInputs, uniqueSpans) {
-    let Invalid = false,
-        Invalid2 = false;
+function hasExtensionFile(uniqueInputs, uniqueSpans, valid) {
     $.each(uniqueInputs, function (i, key) {
-        Invalid = image(key, function(result){
-            if (result === true){
-                Invalid2 = true;
-            }
-        });
+        image(key, valid);
     });
-    if (Invalid === true || Invalid2 === true) {
-        $(uniqueInputs).next().addClass('invalid');
-        $(uniqueSpans).show();
-        Invalid = true;
-    }
-    else {
-        $(uniqueInputs).next().removeClass('invalid');
-        $(uniqueSpans).hide();
-        Invalid = false;
-    }
-    return Invalid;
 }
-function image(key, callback){
+function image(key, valid){
     var image, file;
     if ((file = $(key)[0].files[0])) {
         image = new Image();
         let FileSize = (file.size/1024/1024);
-        if (FileSize > 0.6) {
-            return true;
+        if (FileSize > 0.5) {
+            $(valid).html(true);
         }
         image.onload = function() {
-            if( this.width > 650 || this.height > 450 ) {
-                Invalid = true;
-                callback(Invalid);
+            if( this.width > 1500 || this.height > 900 ) {
+                $(valid).html(true);
             }
         };
         image.src = _URL.createObjectURL(file);
@@ -222,7 +232,7 @@ function questionAjaxPost(form, url, redi = false) {
             window.location.replace(link);
         }
         else {
-            document.location.reload(true);
+            location.reload();
         }
     })
 }
@@ -259,38 +269,87 @@ $('.questionTypeRemove').click(function( event ) {
 
 $('.questionSave').click(function( event ){
     event.preventDefault();
+    $('#pictureIsValid').html('');
+    $('#fileIsValid').html('');
     let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
     let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-    let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
-    let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
-    if (form[0].checkValidity() === false || button === true || background === true || file === true || picture === true) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-    else {
-        $('[disabled]').removeAttr('disabled');
-        let form = document.getElementById("question_form");
-        form.action = $(this).data('link');
-        form.submit();
-    }
+    hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'), $('#fileIsValid'));
+    hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'), $('#pictureIsValid'));
+    setTimeout( function(){
+        if ($('#pictureIsValid').html() === 'true' || $('#fileIsValid').html() === 'true' || form[0].checkValidity() === false || button === true || background === true) {
+            $(':invalid').closest('div.tab-pane').addClass('show');
+            $('.invalid').closest('div.tab-pane').addClass('show');
+            event.stopPropagation();
+            if ($('#pictureIsValid').html() === 'true') {
+                $(':input.uniquePicture').next().addClass('invalid');
+                $('span.uniquePicture').show();
+            }
+            if ($('#pictureIsValid').html() !== 'true') {
+                $(':input.uniquePicture').next().removeClass('invalid');
+                $('span.uniquePicture').hide();
+            }
+            if ($('#fileIsValid').html() === 'true') {
+                $(':input.uniqueFile').next().addClass('invalid');
+                $('span.uniqueFile').show();
+            }
+            if ($('#fileIsValid').html() !== 'true') {
+                $(':input.uniqueFile').next().removeClass('invalid');
+                $('span.uniqueFile').hide();
+            }
+        }
+        else {
+            $('[disabled]').removeAttr('disabled');
+            let form = document.getElementById("question_form");
+            $(':input.uniqueFile').next().removeClass('invalid');
+            $('span.uniqueFile').hide();
+            $(':input.uniquePicture').next().removeClass('invalid');
+            $('span.uniquePicture').hide();
+            form.submit();
+        }
+    }, 10);
     form.addClass('was-validated');
 });
-$('.questionEditSave').click(function( event ) {
+
+$('.questionEditSave').click(function( event) {
     event.preventDefault();
+    $('#pictureIsValid').html('');
+    $('#fileIsValid').html('');
     let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
     let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
-    let file = hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'));
-    let picture = hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'));
-    if (form[0].checkValidity() === false || button === true || background === true || file === true || picture === true) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-    else {
-        $('[disabled]').removeAttr('disabled');
-        let form = document.getElementById("question_form");
-        form.action = $(this).data('link');
-        form.submit();
-    }
+        hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'), $('#fileIsValid'));
+        hasExtensionFile($(':input.uniquePicture'), $('span.uniquePicture'), $('#pictureIsValid'));
+    setTimeout( function(){
+        if ($('#pictureIsValid').html() === 'true' || $('#fileIsValid').html() === 'true' || form[0].checkValidity() === false || button === true || background === true) {
+            $(':invalid').closest('div.tab-pane').addClass('show');
+            $('.invalid').closest('div.tab-pane').addClass('show');
+            event.stopPropagation();
+            if ($('#pictureIsValid').html() === 'true') {
+                $(':input.uniquePicture').next().addClass('invalid');
+                $('span.uniquePicture').show();
+            }
+            if ($('#pictureIsValid').html() !== 'true') {
+                $(':input.uniquePicture').next().removeClass('invalid');
+                $('span.uniquePicture').hide();
+            }
+            if ($('#fileIsValid').html() === 'true') {
+                $(':input.uniqueFile').next().addClass('invalid');
+                $('span.uniqueFile').show();
+            }
+            if ($('#fileIsValid').html() !== 'true') {
+                $(':input.uniqueFile').next().removeClass('invalid');
+                $('span.uniqueFile').hide();
+            }
+        }
+        else {
+            $('[disabled]').removeAttr('disabled');
+            let form = document.getElementById("question_form");
+            $(':input.uniqueFile').next().removeClass('invalid');
+            $('span.uniqueFile').hide();
+            $(':input.uniquePicture').next().removeClass('invalid');
+            $('span.uniquePicture').hide();
+            form.submit();
+        }
+    }, 10);
     form.addClass('was-validated');
 });
 $('#question_form').submit(function () { $('[disabled]').removeAttr('disabled');});
@@ -367,7 +426,6 @@ $(".groupAdd").click(function (event) {
 
 // Test controller / html functions
 $('#test_form').change(function () { bsCustomFileInput.init();});
-
 $('#test_form').submit(function () {
     $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();
     if ($('#test_test_start').val() === ''){ $("#test_is_active")[0].checked = false; }

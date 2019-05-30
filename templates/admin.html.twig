@@ -95,6 +95,9 @@
                                     <a class="nav-link {{ 'index' in route ? 'active' }}" href="{{ path('user_index') }}">{{ 'button.user.index'|trans }}</a>
                                 </li>
                                 <li>
+                                    <a class="nav-link {{ 'edit' in route ? 'active' }}" href="{{ path('user_edit', {'id': app.user.id }) }}">{{ 'button.user.edit'|trans }}</a>
+                                </li>
+                                <li>
                                     <a class="nav-link {{ 'new' in route ? 'active' }}" href="{{ path('user_new') }}">{{ 'button.user.new'|trans }}</a>
                                 </li>
                             </ul>
@@ -104,7 +107,7 @@
 
             </div>
 
-            {% if (route == 'test_index') %}
+            {% if (route == 'test_index' or route == 'attribute_index' or route == 'user_index') %}
             <div class=" bd-toc d-none">
             {% else %}
             <div class="d-xl-block col-md-2 col-xl-2 bd-toc d-none">
@@ -112,7 +115,7 @@
                 {% block admin_right_nav %}
                 {% endblock %}
             </div>
-            {% if (route == 'test_index') %}
+            {% if (route == 'test_index' or route == 'attribute_index' or route == 'user_index') %}
             <div class="col-12 col-md-10 col-xl-10 py-md-3 px-md-5 bd-content">
             {% else %}
             <div class="col-12 col-md-10 col-xl-8 py-md-3 pl-md-5 bd-content">

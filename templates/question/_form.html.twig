@@ -7,8 +7,10 @@
 {{ form_start(form, { 'attr': {'id':'question_form', 'class':'needs-validation', 'novalidate':'', 'enctype':"multipart/form-data" }}) }}
 
 <div class="accordion">
+
+    {# Klausimo informacija. Klausimo formos laukeliai #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-general">
+        <div class="card-header p-0" id="list-general">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
                     <i id="questionCaret1" class="fa fa-caret-down transition"></i>
@@ -79,8 +81,9 @@
         </div>
     </div>
 
+    {# Grupių informacija. Grupės forma #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-groups">
+        <div class="card-header p-0" id="list-groups">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#groups" aria-expanded="false" aria-controls="groups">
                     <i id="questionCaret2" class="fa fa-caret-down transition rotation" ></i>
@@ -109,7 +112,7 @@
                     </div>
                     <div class="col-sm-10 display-hidden">
                         <div class="d-flex">
-                            <input  type="text" name="group_simple[name]" form="group_new_simple" class="form-control btn-no-right-radius group_simple" pattern=".{2,50}" required="required" placeholder="Įveskite grupės pavadinimą">
+                            <input  type="text" name="group_simple[name]" form="group_new_simple" class="form-control btn-no-right-radius group_simple" pattern=".{2,50}" placeholder="Įveskite grupės pavadinimą">
                             <button class="btn btn-primary btn-no-left-radius btn-no-right-radius" form="group_new_simple" type="submit">{{ 'button.new'|trans }}</button>
                             <button class="btn btn-outline-dark btn-no-left-radius groupRemove" form="group_new_simple">{{ 'button.cancel'|trans }}</button>
                         </div>
@@ -121,8 +124,10 @@
             </div>
         </div>
     </div>
+
+    {# Klausimo atsakymų informacija. #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-answers">
+        <div class="card-header p-0" id="list-answers">
             <h2 class="mb-0">
                 {% if  question.type == 'one' or question.type == 'multi' %}
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#answers" aria-expanded="false" aria-controls="answers">
@@ -158,8 +163,9 @@
         </div>
     </div>
 
+    {# Klausimo laiko savybių informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-time">
+        <div class="card-header p-0" id="list-time">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#time" aria-expanded="false" aria-controls="time">
                     <i id="questionCaret4" class="fa fa-caret-down transition rotation" ></i>
@@ -169,21 +175,20 @@
         </div>
         <div id="time" class="tab-pane collapse" aria-labelledby="list-time list-time-list" >
             <div class="card-body">
-
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label class="col-form-label col-sm-2">{{ 'question.form.time_label'|trans }}</label>
                     <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
                         <input type="checkbox" name="question_attribute_time[value]" form="question_form" id="{{ question.id }}Time" class="custom-control-input" {% if attributes.time is defined and attributes.time is not empty %} checked {% endif %}/>
                         <label class="custom-control-label" for="{{ question.id }}Time">{{ 'question.form.time_description'|trans }}</label>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
+    {# Klausimo mygtuko salvos savybių informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-buttonColor">
+        <div class="card-header p-0" id="list-buttonColor">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#buttonColor" aria-expanded="false" aria-controls="buttonColor">
                     <i id="questionCaret5" class="fa fa-caret-down transition rotation" ></i>
@@ -219,8 +224,9 @@
         </div>
     </div>
 
+    {# Klausimo fono salvos savybių informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-backgroundColor">
+        <div class="card-header p-0" id="list-backgroundColor">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#backgroundColor" aria-expanded="false" aria-controls="backgroundColor">
                     <i id="questionCaret6" class="fa fa-caret-down transition rotation" ></i>
@@ -254,8 +260,10 @@
             </div>
         </div>
     </div>
+
+    {# Klausimo rodymo trukmės savybių informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-displayTime">
+        <div class="card-header p-0" id="list-displayTime">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
                     <i id="questionCaretDT" class="fa fa-caret-down transition rotation" ></i>
@@ -311,8 +319,10 @@
             </div>
         </div>
     </div>
+
+    {# Klausimo nuotraukos savybių informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-picture">
+        <div class="card-header p-0" id="list-picture">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#picture" aria-expanded="false" aria-controls="picture">
                     <i id="questionCaret7" class="fa fa-caret-down transition rotation" ></i>
@@ -321,19 +331,21 @@
             </h2>
         </div>
         <div id="picture" class="tab-pane collapse" aria-labelledby="list-picture list-picture-list" >
-            <div class="card-body pictures" data-prototype='<input type="file" id="question_attribute_picture___name___id" name="question_attribute_picture[__name__][id]" form="question_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
+            <div class="card-body pictures" data-prototype='<input type="file" required id="question_attribute_picture___name___id" name="question_attribute_picture[__name__][id]" form="question_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
             <label for="question_attribute_picture___name___id" class="custom-file-label"> {{ 'attribute.file_choose'|trans }} </label>
             <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>'>
 
+                <span id="pictureIsValid" class="display-hidden"></span>
                 <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
 
                 {% for key, pic in attributes.pictures %}
                 <div class="mb-4">
                     <div class="input-group ">
                         <div class="custom-file">
+                            <input type="text" name="question_attribute_picture[{{ key }}]" class="display-hidden" form="question_form" value="{{ pic.id }}" />
                             <input type="file" id="question_attribute_picture_{{ key }}_id" name="question_attribute_picture[{{ key }}][{{ pic.id }}]" form="question_form" class="uniquePicture custom-file-input" accept=".png, .jpg, .jpeg" />
                             <label for="question_attribute_picture_{{ key }}_id" class="custom-file-label"> {{ pic.value }} </label>
-                            </div>
+                        </div>
                         <div class="input-group-append">
                         </div>
                     </div>
@@ -344,8 +356,9 @@
         </div>
     </div>
 
+    {# Klausimo failo informacija #}
     <div class="card bg-light">
-        <div class="card-header bg-transparent p-0" id="list-file">
+        <div class="card-header p-0" id="list-file">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#file" aria-expanded="false" aria-controls="file">
                     <i id="questionCaret8" class="fa fa-caret-down transition rotation" ></i>
@@ -355,7 +368,7 @@
         </div>
         <div id="file" class="tab-pane collapse" aria-labelledby="list-file list-file-list" >
             <div class="card-body">
-
+                <span id="fileIsValid" class="display-hidden"></span>
                 <div class="input-group">
                     <div class="custom-file">
                         {% if file is defined %}
@@ -378,21 +391,21 @@
             </div>
         </div>
     </div>
+
+    {# Klausimo sukūrimas/atnaujinimas #}
     <div class="card border-light">
-        <div class="card-header bg-transparent p-0" id="list-save">
+        <div class="card-header p-0" id="list-save">
             <h2 class="mb-0">
                 {% if (app.request.get('_route')) == 'question_edit' %}
                 <button class="btn btn-block btn-primary questionEditSave btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}">{{ button_label|default('Save')|trans }}</button>
                 {% else %}
                 <button class="btn btn-block btn-primary questionSave btn-save btn-no-top-radius" data-link="{{ path('question_new_save')}}" >{{ button_label|default('Save')|trans }}</button>
                 {% endif %}
-{#                <button class="btn btn-block btn-primary btn-save btn-no-top-radius" data-link="{{ path('question_edit', {'id': question.id })}}" >{{ button_label|default('Save')|trans }}</button>#}
-{#                <button class="btn btn-block btn-primary btn-save btn-no-top-radius" data-link="{{ path('question_new')}}" >{{ button_label|default('Save')|trans }}</button>#}
-{#                <button class="btn btn-block btn-primary questionSave btn-save btn-no-top-radius" data-link="{{ path('question_new_save')}}" >{{ button_label|default('Save')|trans }}</button>#}
             </h2>
         </div>
     </div>
 </div>
+
 {{ form_end(form) }}
 
 

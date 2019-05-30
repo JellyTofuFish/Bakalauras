@@ -10,7 +10,7 @@
         {% if testTime is not null and testTime is not empty %}
             <div class="position-fixed mt-5 ml-5">
                 {% set time = testTime.value|split(':') %}
-                <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor Time {% if time[2] == 1 %} display-hidden {% endif %}" style="width: 12rem">
+                <div class="card bg-transparent border-dark-ni text-center text-unselectable backgroundColor Time {% if time[2] == 0 %} display-hidden {% endif %}" style="width: 12rem">
                     {% if time[1] == 1 %}
                         <div class="card-body border-0 py-2 px-3 font-acc">
                             {{ 'question.time'|trans }}:
@@ -44,21 +44,20 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12 ol-md-5 col-xl-5 my-2 FileList ">
-                {% set empty = 0 %}
                 {% for data in data_test %}
 
                     {# files #}
                     {% if data.file is not empty %}
-                        {% if data.file.name == '' or data.file.name is not defined %}
+                        {% if data.file.name == 'Pašalinta' or data.file.name is not defined %}
                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                         {% else %}
                             {% set link = 'build/images/' ~ data.file.name %}
                         {% endif %}
-                        <div class="display-hidden vh-file text-center File h-100" data-attribute="{{ data.file.id }}">
-                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                        <div class="display-hidden text-center File" data-attribute="{{ data.file.id }}">
+                            <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                         </div>
                     {% else %}
-                        <div class="display-hidden vh-file-empty text-center File h-100" data-attribute="empty"></div>
+                        <div class="display-hidden vh-file-empty text-center File " data-attribute="empty"></div>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -98,15 +97,14 @@
                                 </div>
                                 <div class="container px-0 py-3 paramPicture">
 
-                                    {# picture atttribute #}
                                     {% if data.paramPictures is not empty %}
-                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                        {% if data.paramPictures.value == 'Pašalinta' or data.paramPictures.value is not defined %}
                                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                                         {% else %}
                                             {% set link = 'build/images/' ~ data.paramPictures.value %}
                                         {% endif %}
-                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
-                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        <div class="display-hidden text-center paramP" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                                         </div>
                                         <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
                                     {% endif %}
@@ -201,13 +199,13 @@
 
                                     {# picture atttribute #}
                                     {% if data.paramPictures is not empty %}
-                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                        {% if data.paramPictures.value == 'Pašalinta' or data.paramPictures.value is not defined %}
                                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                                         {% else %}
                                             {% set link = 'build/images/' ~ data.paramPictures.value %}
                                         {% endif %}
-                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
-                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        <div class="display-hidden text-center paramP" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                                         </div>
                                         <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
                                     {% endif %}
@@ -306,13 +304,13 @@
 
                                     {# picture attribute #}
                                     {% if data.paramPictures is not empty %}
-                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                        {% if data.paramPictures.value == 'Pašalinta' or data.paramPictures.value is not defined %}
                                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                                         {% else %}
                                             {% set link = 'build/images/' ~ data.paramPictures.value %}
                                         {% endif %}
-                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
-                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        <div class="display-hidden text-center paramP" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                                         </div>
                                         <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
                                     {% endif %}
@@ -399,13 +397,13 @@
 
                                     {# picture atttribute #}
                                     {% if data.paramPictures is not empty %}
-                                        {% if data.paramPictures.value == '' or data.paramPictures.value is not defined %}
+                                        {% if data.paramPictures.value == 'Pašalinta' or data.paramPictures.value is not defined %}
                                             {% set link = 'build/images/' ~ 'Default.jpg' %}
                                         {% else %}
                                             {% set link = 'build/images/' ~ data.paramPictures.value %}
                                         {% endif %}
-                                        <div class="display-hidden text-center paramP vh-file" data-attribute="{{ data.paramPictures.id }}">
-                                            <img class="h-100 img-fluid rounded" src="{{ asset(link) }}">
+                                        <div class="display-hidden text-center paramP" data-attribute="{{ data.paramPictures.id }}">
+                                            <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                                         </div>
                                         <input type="text" name="test_new_start[{{ data.question.id }}][picture]" class="display-hidden" value="{{ data.paramPictures.id }}">
                                     {% endif %}

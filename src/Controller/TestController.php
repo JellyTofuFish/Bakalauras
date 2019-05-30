@@ -250,7 +250,7 @@ class TestController extends AbstractController
                             $PictureAttribute = new TestAttribute();
                             $PictureAttribute->setFkAttribute($this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute());
                             $PictureAttribute->setValue($fileName);
-                            $PictureAttribute->setFkAttribute($test);
+                            $PictureAttribute->setFkTest($test);
                             $entityManager->persist($PictureAttribute);
                             $entityManager->flush();
                         }
@@ -277,9 +277,25 @@ class TestController extends AbstractController
         }
 
         $questions = $questionRepository->findQuestionsbyTest($Test);
+        $attributeText = [];
+        $attributeText['buttonColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findButtonColorAttribute();
+        $attributeText['time'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findTimeAttribute();
+        $attributeText['backgroundColor'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findBackgroundColorAttribute();
+        $attributeText['displayTime'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findDisplayTimeAttribute();
+        $attributeText['picture'] = $this->getDoctrine()->getManager()->getRepository(Attribute::class)->findPictureAttribute();
+
+        $attributes = [];
+        $attributes['times'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByTime($Test);
+        $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
+        $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
+        $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
+        $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
+
         return $this->render('test/show.html.twig', [
             'test' => $test,
-            'questions' => $questions
+            'questions' => $questions,
+            'attributes' => $attributes,
+            'attributeText' =>$attributeText,
         ]);
     }
 
@@ -915,9 +931,17 @@ class TestController extends AbstractController
                             $fileName = $value1['name'];
                             if (in_array($attribute, $attributes['pictures'])) {
                                 $this->deleteFile($attribute->getValue());
-                                $attribute->setName($fileName);
+                                $attribute->setValue($fileName);
                                 $entityManager->persist($attribute);
                                 $question_attribute[] = $attribute;
+                                try {
+                                    $newfile->move(
+                                        $this->getParameter('brochures_directory'),
+                                        $fileName
+                                    );
+                                } catch (FileException $e) {
+                                    throw $this->createNotFoundException('file not uploaded');
+                                }
                             } else {
                                 $attribute = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['value' => $fileName]);
                                 if ($attribute == null) {
@@ -1063,7 +1087,138 @@ class TestController extends AbstractController
         $spreadsheet = new Spreadsheet();
 
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
+
+        $rowHeader = 3;
+        $row = 4;
+        $collum = 1;
+        $sheet->setCellValue('A1', 'Pavadinimas');
+        $sheet->setCellValue('A2', $Test->getName());
+        $sheet->setCellValue('B1', 'Aprašas');
+        if ($Test->getDescription() != null) {
+            $sheet->setCellValue('B2', $Test->getDescription());
+        }
+        else {
+            $sheet->setCellValue('B2', '-');
+        }
+        $sheet->setCellValue('C1', 'Testo pradžia');
+        $sheet->setCellValue('C2', $Test->getTestStart());
+        $sheet->setCellValue('D1', 'Testo pabaiga');
+        if ($Test->getDescription() != null) {
+            $sheet->setCellValue('D2', $Test->getTestEnd());
+        }
+        else {
+            $sheet->setCellValue('D2', '-');
+        }
+        $sheet->setCellValue('E1', 'Sukūrimo data');
+        $sheet->setCellValue('E2', $Test->getCreatedAt());
+        $sheet->setCellValue('F1', 'Kodas');
+        $sheet->setCellValue('F2', $Test->getCode());
+        $sheet->setCellValue('G1', 'Abipusė navigacija');
+        $sheet->setCellValue('G2', $Test->getPrevButton() ? 'taip' : 'ne');
+
+        $header = false;
+        $participations = $Test->getTestParticipations();
+        foreach ($participations as $participation) {
+            $collum = 1;
+            $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
+            if (!$header) {
+                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pradžia");
+            }
+            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestStartedAt());
+            $collum = $collum +1;
+            if (!$header) {
+            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pabaiga" );
+            }
+            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestEndedAt()->format('Y:m:d H:m:s'));
+            $collum = $collum +1;
+            foreach ($participantAnswers as $answer) {
+                $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
+                if (!$header) {
+                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Klausimo tipas");
+                }
+                $sheet->setCellValueByColumnAndRow($collum, $row, $question->getType());
+                $collum = $collum +1;
+                if ($question->getType() == 'one' or $question->getType() == 'multi'){
+                    if (!$header) {
+                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Atsakymas");
+                    }
+                    $answerOptions = $answer->getFkAnsweroption();
+                    $answers = '';
+                    foreach ($answerOptions as $answerOption) {
+                        if ($answerOption->getAnswer() != null) {
+                            $answers = $answers . $answerOption->getAnswer() . ';';
+                        }
+                    }
+                    if ($answers != '') {
+                        $sheet->setCellValueByColumnAndRow($collum, $row, $answers);
+                    }
+                    else {
+                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                    }
+                    $collum = $collum +1;
+                }
+                if ($question->getType() == 'open') {
+                    if (!$header) {
+                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Atsakymas");
+                    }
+                    if ($answer->getAnswer() != null) {
+                        $sheet->setCellValueByColumnAndRow($collum, $row, $answer->getAnswer());
+                    }
+                    else {
+                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                    }
+                    $collum = $collum +1;
+                }
+                $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
+                if ($ParticipantAnswerAttributes != null) {
+                    foreach ($ParticipantAnswerAttributes as $participantAnswerAttribute) {
+                        $testAttribute = $entityManager->getRepository(TestAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkTestAttribute()]);
+                        if ($testAttribute == null) {
+                            $questionAttribute = $entityManager->getRepository(QuestionAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkQuestionAttribute()]);
+                            $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
+                            if (!$header) {
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Savybė");
+                            }
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $attribute->getName());
+                            $collum = $collum +1;
+                            if (!$header) {
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Reikšmė");
+                            }
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
+                            $collum = $collum +1;
+                            if ($attribute->getName() == 'time') {
+                                if (!$header) {
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Laikas");
+                                }
+                                $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $collum = $collum +1;
+                            }
+                        } else {
+                            $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
+                            if (!$header) {
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Savybė");
+                            }
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $attribute->getName());
+                            $collum = $collum +1;
+                            if (!$header) {
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Reikšmė");
+                            }
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
+                            $collum = $collum +1;
+                            if ($attribute->getName() == 'time') {
+                                if (!$header) {
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Laikas");
+                                }
+                                $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $collum = $collum +1;
+                            }
+                        }
+                    }
+                }
+            }
+            $row= $row + 1;
+            $header = true;
+        }
         $sheet->setTitle($test->getName());
 
         // Create your Office 2007 Excel (XLSX Format)
@@ -1090,5 +1245,97 @@ class TestController extends AbstractController
 
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    /**
+     * @Route("/test/{id}/copy", name="test_copy", methods={"GET"})
+     */
+    public function copy(Test $test): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        if (null === $Test = $entityManager->getRepository(Test::class)->find($test->getId())) {
+            throw $this->createNotFoundException('No Test for id '.$test->getId());
+        }
+        $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
+        $backgroundT = $entityManager->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test->getId());
+        $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
+        $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
+        $displayTimeT = $entityManager->getRepository(TestAttribute::class)->findAllByDisplayTime($Test->getId());
+        $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
+
+        $test = new Test();
+        $test->setName($Test->getName());
+        $test->setDescription($Test->getDescription());
+        $test->setFkUser($this->getUser());
+        $test->setCode($this->generateRandomString(6));
+        $test->setCreatedAt();
+        $test->setPrevButton($Test->getPrevButton());
+        $test->setIsActive($Test->getIsActive());
+        $test->setTestStart($Test->getTestStart());
+        $test->setTestEnd($Test->getTestEnd());
+        $entityManager->persist($test);
+        $entityManager->flush();
+
+        if ($questionOrder != null) {
+            foreach ($questionOrder as $qo) {
+                $testQuestion = new TestQuestion();
+                $testQuestion->setSerialNumber($qo['serial_number']);
+                $testQuestion->setFkQuestion($entityManager->getRepository(Question::class)->findOneBy(['id' => $qo['id'] ]));
+                $testQuestion->setFkTest($test);
+                $entityManager->persist($testQuestion);
+                $entityManager->flush();
+            }
+        }
+        if ($backgroundT != null) {
+            foreach ($backgroundT as $bg){
+                $testAttribute = new TestAttribute();
+                $testAttribute->setFkAttribute($bg->getFkAttribute());
+                $testAttribute->setValue($bg->getValue());
+                $testAttribute->setFkTest($test);
+                $entityManager->persist($testAttribute);
+                $entityManager->flush();
+            }
+        }
+        if ($buttonColorT != null) {
+            foreach ($buttonColorT as $bC){
+                $testAttribute = new TestAttribute();
+                $testAttribute->setFkAttribute($bC->getFkAttribute());
+                $testAttribute->setValue($bC->getValue());
+                $testAttribute->setFkTest($test);
+                $entityManager->persist($testAttribute);
+                $entityManager->flush();
+            }
+        }
+        if ($timeT != null) {
+            foreach ($timeT as $t){
+                $testAttribute = new TestAttribute();
+                $testAttribute->setFkAttribute($t->getFkAttribute());
+                $testAttribute->setValue($t->getValue());
+                $testAttribute->setFkTest($test);
+                $entityManager->persist($testAttribute);
+                $entityManager->flush();
+            }
+        }
+        if ($displayTimeT != null) {
+            foreach ($displayTimeT as $dT){
+                $testAttribute = new TestAttribute();
+                $testAttribute->setFkAttribute($dT->getFkAttribute());
+                $testAttribute->setValue($dT->getValue());
+                $testAttribute->setFkTest($test);
+                $entityManager->persist($testAttribute);
+                $entityManager->flush();
+            }
+        }
+        if ($picturesT != null) {
+            foreach ($picturesT as $picture){
+                $testAttribute = new TestAttribute();
+                $testAttribute->setFkAttribute($picture->getFkAttribute());
+                $testAttribute->setValue($picture->getValue());
+                $testAttribute->setFkTest($test);
+                $entityManager->persist($testAttribute);
+                $entityManager->flush();
+            }
+        }
+        return $this->redirectToRoute('test_index');
     }
 }

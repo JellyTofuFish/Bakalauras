@@ -32,16 +32,16 @@
 
         {# Files #}
         {% if data.file is not empty %}
-            {% if data.file.name == 'Pašalinta' %}
+            {% if data.file.name == 'Pašalinta' or data.file.name is not defined %}
                 {% set link = 'build/images/' ~ 'Default.jpg' %}
             {% else %}
                 {% set link = 'build/images/' ~ data.file.name %}
             {% endif %}
             <div class="text-center">
-                <img class="vh-file rounded" src="{{ asset(link) }}">
+                <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
             </div>
         {% else %}
-            <div class="vh-file-empty text-center h-100" data-attribute="empty"></div>
+            <div class="vh-file-empty text-center " data-attribute="empty"></div>
         {% endif %}
 
         </div>
@@ -62,13 +62,13 @@
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' %}
+                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
                             {% endif %}
                             <div class="display-hidden text-center paramP" data-attribute="{{ picture.id }}">
-                                <img class="vh-file rounded" src="{{ asset(link) }}">
+                                <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -134,18 +134,18 @@
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
                     <h3 class="backgroundColor m-0"> {{ data.question.questionWording }}</h3>
                 </div>
-                <div class="container px-0 pt-2 pb-3 paramPicture">
+                <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' %}
+                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
                             {% endif %}
                             <div class="display-hidden text-center paramP" data-attribute="{{ picture.id }}">
-                                <img class="vh-file rounded" src="{{ asset(link) }}">
+                                <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -215,18 +215,18 @@
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
                     <h3 class="backgroundColor m-0" > {{ data.question.questionWording }}</h3>
                 </div>
-                <div class="container px-0 pt-2 pb-3 paramPicture">
+                <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' %}
+                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
                             {% endif %}
                             <div class="display-hidden text-center paramP" data-attribute="{{ picture.id }}">
-                                <img class="vh-file rounded" src="{{ asset(link) }}">
+                                <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                             </div>
                         {% endfor %}
                     {% endif %}
@@ -286,18 +286,18 @@
                 <div class="d-flex">
                     <h2 class="backgroundColor m-0"> {{ data.question.questionWording }}</h2>
                 </div>
-                <div class="container px-0 pt-2 pb-3 paramPicture">
+                <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
                     {% if data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' %}
+                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
                             {% endif %}
                             <div class="display-hidden text-center paramP" data-attribute="{{ picture.id }}">
-                                <img class="vh-file rounded" src="{{ asset(link) }}">
+                                <img class="vh-file rounded w-auto" src="{{ asset(link) }}">
                             </div>
                         {% endfor %}
                     {% endif %}
