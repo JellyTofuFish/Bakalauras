@@ -112,7 +112,7 @@ class TestController extends AbstractController
             $this->setData($slug,'fa-sort');
         }
         if ($route != null ) {
-            $this->addFlash('primary', 'test.flash_message.test');
+            $this->addFlash('warning', 'test.flash_message.test');
         }
 
         return $this->render('test/index.html.twig', [
@@ -1059,7 +1059,6 @@ class TestController extends AbstractController
                 $entityManager->persist($Test);
                 $entityManager->flush();
             }
-            dump($attributes);
             if ($attributes['pictures'] != null) {
                 foreach ($attributes['pictures'] as $picture) {
                     if (!in_array($picture, [])) {

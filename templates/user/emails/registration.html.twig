@@ -1,9 +1,9 @@
 {# templates/emails/registration.html.twig #}
 <div class="jumbotron">
-    <h1 class="display-4 mb-1">Labas, {{ user.name }}!</h1>
-    <p class="lead">Sveiki atvykę į eksperimentinių apklausų kūrimo sistemą. Paspauskite žemiau pateiką nuorodą, kad patvirtintumėte registaciją.</p>
+    <h1 class="display-4 mb-1">Labas!</h1>
+    <p class="lead">Sveiki atvykę į eksperimentinių apklausų kūrimo sistemą. Paspauskite žemiau pateiktą nuorodą, kad patvirtintumėte registraciją.</p>
     <hr class="my-4">
-    <a class="btn btn-primary btn-lg" href="{{ path('registration_confirm', {'string': user.activation}) }}" role="button">Patvirtinti registaciją</a>
+    <a class="btn btn-primary btn-lg" href="{{ app.request.schemeAndHttpHost ~ path('registration_confirm', {'string': user.activation}) }}" role="button">Patvirtinti registaciją</a>
 </div>
 <div class="row justify-content-center">
     <p class="mb-3"> Jūsų prisijungimo duomenys:</p>

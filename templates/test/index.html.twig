@@ -9,7 +9,7 @@
     {% block admin_main %}
 
         <h1 class="d-inline float-left">{{ 'test.title.index'|trans }}</h1>
-        <span class="float-right mt-1">
+        <span class="float-right mt-1 " style="max-width: 75%">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">

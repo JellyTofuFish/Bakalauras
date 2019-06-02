@@ -189,7 +189,7 @@ class UserController extends AbstractController
                 $entityManager->persist($User);
                 $entityManager->flush();
                 $message = (new \Swift_Message("Slaptažodžio keitimas"))
-                    ->setFrom('noreply')
+                    ->setFrom('noreply@heroku.com')
                     ->setTo($User->getEmail())
                     ->setBody(
                         $this->renderView(
