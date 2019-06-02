@@ -38,16 +38,17 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
         ";
         // line 7
         $this->displayBlock('stylesheets', $context, $blocks);
-        // line 13
-        echo "    </head>
+        // line 14
+        echo "
+    </head>
     <body>
         ";
-        // line 15
+        // line 17
         $this->displayBlock('body', $context, $blocks);
-        // line 16
+        // line 18
         echo "        ";
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 27
+        // line 26
         echo "    </body>
 </html>
 ";
@@ -62,7 +63,7 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "title"));
 
-        echo "Welcome!";
+        echo "Welcome | ETS";
         
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
 
@@ -75,21 +76,21 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "stylesheets"));
 
         // line 8
-        echo "            ";
-        // line 9
-        echo "            ";
-        // line 10
-        echo "            ";
-        // line 11
-        echo "            ";
+        echo "            <meta charset=\"utf-8\">
+            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
+            <link href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro\" rel=\"stylesheet\">
+            <link href=\"https://fonts.googleapis.com/css?family=Dosis\" rel=\"stylesheet\">
+           <link rel=\"stylesheet\" href=\" ";
         // line 12
-        echo "        ";
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("build/app.css"), "html", null, true);
+        echo "\">
+        ";
         
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
 
     }
 
-    // line 15
+    // line 17
     public function block_body($context, array $blocks = [])
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
@@ -100,30 +101,29 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
 
     }
 
-    // line 16
+    // line 18
     public function block_javascripts($context, array $blocks = [])
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 17
-        echo "            ";
-        // line 18
-        echo "            ";
         // line 19
-        echo "            ";
-        // line 20
-        echo "
-            ";
+        echo "            <script>
+
+            </script>
+            <script src=\"";
         // line 22
-        echo "            ";
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("build/manifest.json"), "html", null, true);
+        echo "\"></script>
+            <script src=\"";
         // line 23
-        echo "
-            ";
-        // line 25
-        echo "            ";
-        // line 26
-        echo "        ";
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("build/app.js"), "html", null, true);
+        echo "\"></script>
+            <script src=\"";
+        // line 24
+        echo twig_escape_filter($this->env, $this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("build/runtime.js"), "html", null, true);
+        echo "\"></script>
+        ";
         
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
 
@@ -136,7 +136,7 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
 
     public function getDebugInfo()
     {
-        return array (  126 => 26,  124 => 25,  121 => 23,  119 => 22,  116 => 20,  114 => 19,  112 => 18,  110 => 17,  104 => 16,  93 => 15,  86 => 12,  84 => 11,  82 => 10,  80 => 9,  78 => 8,  72 => 7,  60 => 6,  51 => 27,  48 => 16,  46 => 15,  42 => 13,  40 => 7,  36 => 6,  30 => 2,);
+        return array (  124 => 24,  120 => 23,  116 => 22,  111 => 19,  105 => 18,  94 => 17,  85 => 12,  79 => 8,  73 => 7,  61 => 6,  52 => 26,  49 => 18,  47 => 17,  42 => 14,  40 => 7,  36 => 6,  30 => 2,);
     }
 
     public function getSourceContext()
@@ -146,26 +146,25 @@ class __TwigTemplate_40f63b6c410e8efe725a247f983c68fed375f5df8a2da454b9e40daf505
 <html>
     <head>
         <meta charset=\"UTF-8\">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Welcome | ETS{% endblock %}</title>
         {% block stylesheets %}
-            {#<meta charset=\"utf-8\">#}
-            {#<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">#}
-            {#<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">#}
-            {#<link rel=\"stylesheet\" href=\" {{ asset('build/app.css') }}\">#}
+            <meta charset=\"utf-8\">
+            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
+            <link href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro\" rel=\"stylesheet\">
+            <link href=\"https://fonts.googleapis.com/css?family=Dosis\" rel=\"stylesheet\">
+           <link rel=\"stylesheet\" href=\" {{ asset('build/app.css') }}\">
         {% endblock %}
+
     </head>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            {#<script src=\"{{ asset('build/manifest.json') }}\"></script>#}
-            {#<script src=\"{{ asset('build/app.js') }}\"></script>#}
-            {#<script src=\"{{ asset('build/runtime.js') }}\"></script>#}
+            <script>
 
-            {#<script src=\"https://code.jquery.com/jquery-3.3.1.slim.min.js\" integrity=\"sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo\" crossorigin=\"anonymous\"></script>#}
-            {#<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js\" integrity=\"sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM\" crossorigin=\"anonymous\"></script>#}
-
-            {#<script src=\"{{ asset('bundles/fosjsrouting/js/router.min.js') }}\"></script>#}
-            {#<script src=\"{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}\"></script>#}
+            </script>
+            <script src=\"{{ asset('build/manifest.json') }}\"></script>
+            <script src=\"{{ asset('build/app.js') }}\"></script>
+            <script src=\"{{ asset('build/runtime.js') }}\"></script>
         {% endblock javascripts %}
     </body>
 </html>

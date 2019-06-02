@@ -16,3 +16,8 @@
 #test_temp:
 #      path: /temp
 #      controller: App\Controller\MainController::temp
+catch:
+  path: /{any}
+  controller: App\Controller\MainController::catch
+  requirements:
+    any: ".*"

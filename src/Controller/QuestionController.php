@@ -203,7 +203,6 @@ class QuestionController extends AbstractController
 
         $form->handleRequest($request);
 
-        dump($_POST);
         if ($form->isSubmitted() && $form->isValid()) {
             $questionType = $question->getType();
             $Answers = $question->getAnsweroptions();
@@ -912,7 +911,6 @@ class QuestionController extends AbstractController
         if ($file != null) {
             $f = new Files();
             $f->setFkQuestion($question);
-            dump($questionQ->getType());
 
             $f->setType($file->getType());
             $f->setName($file->getName());

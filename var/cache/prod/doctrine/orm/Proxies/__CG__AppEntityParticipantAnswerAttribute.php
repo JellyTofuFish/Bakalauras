@@ -191,7 +191,7 @@ class ParticipantAnswerAttribute extends \App\Entity\ParticipantAnswerAttribute 
     /**
      * {@inheritDoc}
      */
-    public function getValue(): ?int
+    public function getValue(): ?string
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getValue', []);
@@ -202,7 +202,7 @@ class ParticipantAnswerAttribute extends \App\Entity\ParticipantAnswerAttribute 
     /**
      * {@inheritDoc}
      */
-    public function setValue(?int $value): \App\Entity\ParticipantAnswerAttribute
+    public function setValue(?string $value): \App\Entity\ParticipantAnswerAttribute
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setValue', [$value]);

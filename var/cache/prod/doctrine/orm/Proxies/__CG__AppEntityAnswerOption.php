@@ -64,10 +64,10 @@ class AnswerOption extends \App\Entity\AnswerOption implements \Doctrine\ORM\Pro
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'id', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'answer', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'is_correct', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_question', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_participantanswer'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'id', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'answer', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_question', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_participantanswer'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'id', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'answer', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'is_correct', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_question', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_participantanswer'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'id', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'answer', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_question', '' . "\0" . 'App\\Entity\\AnswerOption' . "\0" . 'fk_participantanswer'];
     }
 
     /**
@@ -208,28 +208,6 @@ class AnswerOption extends \App\Entity\AnswerOption implements \Doctrine\ORM\Pro
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAnswer', [$answer]);
 
         return parent::setAnswer($answer);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getIsCorrect(): ?bool
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIsCorrect', []);
-
-        return parent::getIsCorrect();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setIsCorrect(bool $is_correct): \App\Entity\AnswerOption
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIsCorrect', [$is_correct]);
-
-        return parent::setIsCorrect($is_correct);
     }
 
     /**

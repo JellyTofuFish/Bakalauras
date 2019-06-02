@@ -337,5 +337,5 @@ IE: 'Naršyklė "Internet Explorer" nepalaikoma. Prašome prie sistemos prisijun
 error:
   title: 404
   header: Puslapis nerastas
-  content: Nepavyko rasti pageidaujamo puslapio. Patikrinkite URL dėl neatitikimų ar nepastebėtų klaidų.
+  content: Nepavyko rasti pageidaujamo puslapio. Patikrinkite ar įvestame URL nėra klaidų, neatitikimų.
   go_back: Grįžti į pagrindinį puslapį

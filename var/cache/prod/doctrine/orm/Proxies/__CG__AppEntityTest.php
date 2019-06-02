@@ -64,10 +64,10 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions'];
+            return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'prev_button', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'fk_user'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'last_activated_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions'];
+        return ['__isInitialized__', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'id', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'name', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'description', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'code', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'created_at', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'prev_button', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_start', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'test_end', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testAttributes', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testParticipations', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'is_active', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'testQuestions', '' . "\0" . 'App\\Entity\\Test' . "\0" . 'fk_user'];
     }
 
     /**
@@ -279,23 +279,23 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getLastActivatedAt(): ?\DateTimeInterface
+    public function getPrevButton(): ?bool
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastActivatedAt', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPrevButton', []);
 
-        return parent::getLastActivatedAt();
+        return parent::getPrevButton();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setLastActivatedAt(?\DateTimeInterface $last_activated_at): \App\Entity\Test
+    public function setPrevButton(bool $prev_button): \App\Entity\Test
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastActivatedAt', [$last_activated_at]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPrevButton', [$prev_button]);
 
-        return parent::setLastActivatedAt($last_activated_at);
+        return parent::setPrevButton($prev_button);
     }
 
     /**
@@ -461,6 +461,28 @@ class Test extends \App\Entity\Test implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTestQuestion', [$testQuestion]);
 
         return parent::removeTestQuestion($testQuestion);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFkUser(): ?\App\Entity\User
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFkUser', []);
+
+        return parent::getFkUser();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFkUser(?\App\Entity\User $fk_user): \App\Entity\Test
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFkUser', [$fk_user]);
+
+        return parent::setFkUser($fk_user);
     }
 
 }

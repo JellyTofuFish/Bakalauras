@@ -21,9 +21,10 @@ require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
 require('../images/Default.jpg');
-require('../images/reddit.jpg');
-require('../images/facebook.png');
+require('../images/reddit.png');
+require('../images/facebook.jpg');
 require('../images/twitter.jpg');
+require('../images/social.png');
 
 // General + bootrstap animations
 

@@ -246,12 +246,12 @@ class TestParticipation extends \App\Entity\TestParticipation implements \Doctri
     /**
      * {@inheritDoc}
      */
-    public function setTestStartedAt(?\DateTimeInterface $test_started_at): \App\Entity\TestParticipation
+    public function setTestStartedAt(): \App\Entity\TestParticipation
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTestStartedAt', [$test_started_at]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTestStartedAt', []);
 
-        return parent::setTestStartedAt($test_started_at);
+        return parent::setTestStartedAt();
     }
 
     /**
