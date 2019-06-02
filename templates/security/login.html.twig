@@ -1,5 +1,6 @@
 <div class="dropdown-menu dropdown-menu-right w-15 mr-2">
     <form id="loginForm" class="px-4 py-3 needs-validation " method="post" novalidate>
+
         <div class="form-group">
             <label for="inputEmail" class="sr-only">{{ 'login.email'|trans }}</label>
             <input type="email" value="{{ last_username is defined ? last_username : '' }}" name="email" id="inputEmail" class="form-control" placeholder="{{ 'login.email'|trans }}" required autofocus>
@@ -24,5 +25,5 @@
         <button type="submit" class="btn btn-primary">{{ 'button.login'|trans }}</button>
     </form>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="">{{ 'login.forgot_pass'|trans }}</a>
+    <a class="dropdown-item" href="{{ path('user_reset_password') }}">{{ 'login.forgot_pass'|trans }}</a>
 </div>

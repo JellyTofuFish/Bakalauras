@@ -7,7 +7,7 @@
         {% for message in messages %}
             <div class="alert alert-{{ label }}">
                 <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span class="pl-2" aria-hidden="true">&times;</span>
                 </button>
                 <span class='alert-message'>{{ message|trans }}</span>
             </div>
@@ -74,11 +74,11 @@
                             </p>
                         </td>
                         <td class="d-flex justify-content-around">
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('question_edit', {'id': question.id}) }}"><i class="fa fa-pencil"></i></a>
-                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('question_copy', {'id': question.id}) }}"><i class="fa fa-copy"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('question_show_example', {'id': question.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('question_copy', {'id': question.id}) }}"><i class="fa fa-copy"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('question_show', {'id': question.id}) }}"><i class="fa fa-file-o"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete"><i class="fa fa-trash"></i></a>
 
                             <div class="modal fade" id="questionModal{{ question.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -90,7 +90,10 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="d-flex justify-content-between">
+                                            <span> {{ 'question.delete_helper'|trans }}</span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="w-100 d-flex justify-content-between">
                                                 {{ include('question/_delete_form.html.twig') }}
                                             </div>
                                         </div>

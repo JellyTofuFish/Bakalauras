@@ -16,27 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GroupController extends AbstractController {
-    /**
-     * @Route("/group/{id}/edit", name="group_edit", methods={"POST"})
-     */
-    public function edit(Request $request, GroupList $group ): Response
-    {
-        $id = $request->get('id');
-        $name = $request->get('name');
-        $desc = $request->get('desc');
-
-        if ( $id == $group->getId() ) {
-
-            $group->setName($name);
-            $group->setDescription($desc);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($group);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('question_index');
-    }
 
     /**
      * @Route("/group/new/simple", name="group_new_simple", methods={"POST"})
@@ -68,33 +47,53 @@ class GroupController extends AbstractController {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($group);
             $entityManager->flush();
+            $this->addFlash('success', 'group.flash_message.created');
         }
-
         return $this->redirectToRoute('question_index');
     }
+
     /**
-     * @Route("/group/{id}", name="group_delete", methods={"DELETE"})
+     * @Route("/group/{id}/edit", name="group_edit", methods={"POST"})
      */
-    public function delete(Request $request, GroupList $group, QuestionRepository $questionRepository): Response
+    public function edit(Request $request, GroupList $group ): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $count = $questionRepository->GroupCountByQuestion($group);
-        $questions = $questionRepository->findAllAndFilterByGroup($group);
-
-        if ($questions != null) {
-            for ($i = 0; $i < $count; $i++ ) {
-                $questions[$i]->setFkGroup(null);
-                $entityManager->persist($questions[$i]);
-                $entityManager->flush();
-            }
+        $groupByID = $entityManager->getRepository(GroupList::class)->findOneBy(['id'=> $group->getId()]);
+        if ($groupByID != null) {
+            $group->setName($_POST['group']['name']);
+            $group->setDescription($_POST['group']['description']);
+            $entityManager->persist($group);
+            $entityManager->flush();
+            $this->addFlash('success', 'group.flash_message.edited');
         }
+        return $this->redirectToRoute('question_index');
+    }
+
+    /**
+     * @Route("/group/{id}", name="group_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, GroupList $group): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if (null === $Group = $entityManager->getRepository(GroupList::class)->find($group->getId())) {
+            throw $this->createNotFoundException('No group for id '.$group->getId());
+        }
+
         if ($this->isCsrfTokenValid('delete' . $group->getId(), $request->request->get('_token'))) {
 
-            $entityManager->remove($group);
-            $entityManager->flush();
-        }
+            $questions = $Group->getQuestions();
+            foreach ($questions as $question){
+                $question->setFkGroup(null);
+                $entityManager->persist($question);
+                $entityManager->flush();
+            }
 
+            $entityManager->remove($Group);
+            $entityManager->flush();
+            $this->addFlash('warning', 'group.flash_message.deleted');
+        }
         return $this->redirectToRoute('question_index');
     }
 }

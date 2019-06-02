@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'main'|trans }} | ETS{% endblock %}
+
+{% block body %}
+    {{ include('_form_navbar.html.twig') }}
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-xl-5 mt-25 text-center">
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-xl-5 text-center">
+                <div class="d-flex justify-content-center">
+                    <p class="h1 p-form text-success pr-2 pl-0 pointer-default">{{ 'account_confirmed'|trans }}</p>
+                    <i class="registration-success px-0 pt-3 text-success p-form fa fa-check-circle"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

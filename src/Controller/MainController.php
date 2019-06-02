@@ -24,7 +24,9 @@ class MainController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils, TestRepository $testRepository, Request $request) {
 
         // last username entered by the user
+        $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
         $defaultData = ['message' => 'Code'];
         $form = $this->createFormBuilder($defaultData)
             ->setAction($this->generateUrl('home_index'))
@@ -86,6 +88,7 @@ class MainController extends AbstractController
         return $this->render('main/index.html.twig', [
             'last_username' => $lastUsername,
             'form'=>$form->createView(),
+            'error' => $error
         ]);
     }
 }

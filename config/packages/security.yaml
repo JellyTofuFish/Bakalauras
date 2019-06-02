@@ -39,10 +39,17 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/question/, roles: ROLE_USER }
+         - { path: ^/question$, roles: ROLE_USER }
          - { path: ^/questions$, roles: ROLE_USER }
-         - { path: ^/test/, roles: ROLE_USER }
+         - { path: ^/test$, roles: ROLE_USER }
          - { path: ^/tests$, roles: ROLE_USER }
-         - { path: ^/participation, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/attribute$, roles: ROLE_USER }
+         - { path: ^/attributes$, roles: ROLE_USER }
+         - { path: ^/attributes$, roles: ROLE_USER }
+         - { path: ^/user$, roles: ROLE_USER }
+         - { path: ^/users$, roles: ROLE_USER }
+         - { path: ^/participation$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/passwordreset$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/confirmation$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 

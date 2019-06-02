@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/attribute")
- */
 class AttributeController extends AbstractController
 {
     /**
-     * @Route("/", name="attribute_index", methods={"GET"})
+     * @Route("/attributes", name="attribute_index", methods={"GET"})
      */
     public function index(AttributeRepository $attributeRepository): Response
     {
@@ -27,7 +24,7 @@ class AttributeController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="attribute_new", methods={"GET","POST"})
+     * @Route("/attribute/new", name="attribute_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -40,6 +37,7 @@ class AttributeController extends AbstractController
             $entityManager->persist($attribute);
             $entityManager->flush();
 
+            $this->addFlash('success', 'attribute.flash_message.created');
             return $this->redirectToRoute('attribute_index');
         }
 
@@ -51,7 +49,7 @@ class AttributeController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="attribute_edit", methods={"GET","POST"})
+     * @Route("/attribute/{id}/edit", name="attribute_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Attribute $attribute): Response
     {
@@ -61,9 +59,8 @@ class AttributeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('attribute_index', [
-                'id' => $attribute->getId(),
-            ]);
+            $this->addFlash('success', 'attribute.flash_message.edited');
+            return $this->redirectToRoute('attribute_index');
         }
 
         return $this->render('attribute/edit.html.twig', [
@@ -72,28 +69,4 @@ class AttributeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="attribute_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Attribute $attribute): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        if (null === $Attribute = $entityManager->getRepository(Attribute::class)->find($attribute->getId())) {
-            throw $this->createNotFoundException('No Attribute for id '.$attribute->getId());
-        }
-        if ($this->isCsrfTokenValid('delete'.$attribute->getId(), $request->request->get('_token'))) {
-
-            $Qattribute = $Attribute->getQuestionAttributes();
-            foreach ($Qattribute as $qa) {
-                $Attribute->removeQuestionAttribute($qa);
-                $entityManager->persist($Attribute);
-                $entityManager->flush();
-            }
-            $entityManager->remove($attribute);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('attribute_index');
-    }
 }

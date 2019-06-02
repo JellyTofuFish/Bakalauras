@@ -33,14 +33,11 @@
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture" data-target="#picture" data-target-animation="#questionCaret7" aria-controls="picture">{{ 'picture'|trans }}</a>
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-file" data-target="#file" data-target-animation="#questionCaret8" aria-controls="file">{{ 'file'|trans }}</a>
-        </li>
-        <li class="toc-entry">
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-save">{{ 'button.save'|trans }}</a>
         </li>
         <div class="my-3"></div>
         <li class="toc-entry">
-            <a href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete" class="modal-append-show badge badge-danger text-white">{{ 'question.button.delete'|trans }}</a>
+            <a href="" data-toggle="modal" data-target="#questionModal{{ question.id }}Delete" class="modal-append-show badge badge-danger text-white py-1">{{ 'question.button.delete'|trans }}</a>
 
             <div class="modal fade" id="questionModal{{ question.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -52,7 +49,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="d-flex justify-content-between">
+                            <span> {{ 'question.delete_helper'|trans }}</span>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="w-100 d-flex justify-content-between">
                                 {{ include('question/_delete_form.html.twig') }}
                             </div>
                         </div>

@@ -4,20 +4,24 @@
 
 
     {% block admin_right_nav %}
+    {% endblock %}
+
+    {% block admin_main %}
+        <h1 class="d-inline float-left">{{ 'attribute.title.index'|trans }}</h1>
+        <span class="float-right mt-1">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">
                     <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="pl-2" aria-hidden="true">&times;</span>
                     </button>
                     <span class='alert-message'>{{ message|trans }}</span>
                 </div>
             {% endfor %}
         {% endfor %}
-    {% endblock %}
+        </span>
+        <div class="float-none"></div>
 
-    {% block admin_main %}
-        <h1>{{ 'attribute.title.index'|trans }}</h1>
         <div class="table-responsive table-header-sticky">
             <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
                 <thead>
@@ -25,7 +29,7 @@
                     <th scope="col">
                         <span>{{ 'question.form.type_label'|trans }}</span>
                     </th>
-                    <th scope="col" colspan="3">
+                    <th scope="col" colspan="5">
                         <span>{{ 'question.form.description_label'|trans }}</span>
                     </th>
                     <th scope="col">{{ 'actions'|trans }}</th>
@@ -39,35 +43,15 @@
                 <tbody>
                 {% for attribute in attributes %}
                     <tr>
-                        <td>{{ attribute.name|trans }}</td>
-                        <td colspan="3">{{ attribute.description }}</td>
+                        <td >{{ attribute.name|trans }}</td>
+                        <td colspan="5"><span class="pre">{{ attribute.description }}</span></td>
                         <td class="d-flex justify-content-around">
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('attribute_edit', {'id': attribute.id}) }}"><i class="fa fa-pencil"></i></a>
-                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#attributeModal{{ attribute.id }}Delete"><i class="fa fa-trash"></i></a>
-
-                            <div class="modal fade" id="attributeModal{{ attribute.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="attributeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="attributeModalLabel">{{ 'attribute.delete_message'|trans }}</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="d-flex justify-content-between">
-                                                {{ include('attribute/_delete_form.html.twig') }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </td>
                     </tr>
-
                 {% else %}
                     <tr>
-                        <td colspan="4">no records found</td>
+                        <td colspan="7">no records found</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -28,7 +28,7 @@ class FileRepository extends ServiceEntityRepository
             ->andWhere('f.fk_question = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
 }

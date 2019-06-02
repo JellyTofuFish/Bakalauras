@@ -1,21 +1,23 @@
 {{ form_start(form, { 'attr': {'class':'needs-validation', 'novalidate':'', 'action': path('group_new') }}) }}
-
-<div class="form-group row">
-    {{ form_label(form.name, 'group.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
-    <div class="col-sm-10">
-        {{ form_widget(form.name, { 'attr': { 'class':'form-control', 'pattern':'.{2,50}' }  }) }}
-        <div class="invalid-feedback mb-3">
-            {{ 'group.validation.name'|trans }}
+    <div class="modal-body">
+        <div class="form-group row">
+            {{ form_label(form.name, 'group.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+            <div class="col-sm-12">
+                {{ form_widget(form.name, { 'attr': { 'class':'form-control', 'pattern':'.{2,50}' }  }) }}
+                <div class="invalid-feedback">
+                    {{ 'group.validation.name'|trans }}
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+            <div class="col-sm-12">
+                {{ form_widget(form.description, { 'attr': {'class':'form-control'} }) }}
+            </div>
         </div>
     </div>
-</div>
-<div class="form-group row">
-    {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-    <div class="col-sm-10">
-        {{ form_widget(form.description, { 'attr': {'class':'form-control mb-3'} }) }}
+    <div class="modal-footer">
+        <button class="btn btn-block btn-primary btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
     </div>
-</div>
-
-<button class="btn btn-block btn-outline-primary btn-no-top-radius" type="submit">{{ button_label|default('Save') }}</button>
 
 {{ form_end(form) }}

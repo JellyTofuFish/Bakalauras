@@ -10,52 +10,58 @@ login:
 test:
   form:
     test_name_label: Pavadinimas
-    test_input_placeholder: Įveskite testo pavadinimą
+    test_input_placeholder: Įveskite apklausos pavadinimą
     description_label: Aprašas
-    description_input_placeholder: Įveskite trumpą aprašą apie testą
+    description_input_placeholder: Įveskite trumpą aprašą apie apklausą
     code: Kodas
     code_test_start: 'Kodo pvz.: T-123456'
     created_at_label: Sukūrimo data
     last_activated_label: Paskutinio akyvavimo data
-    is_active_label: Testo aktyvumas
-    is_active_description: Įjunkite šį jungiklį, kad aktyvuotumėte testą
-    prev_button_label: Testo navigacija
-    prev_button_description: Įjunkite šį jungiklį, kad testo vykdymo metu būtų rodomas mygtukas grįžti į ankstesnį klausimą
-    test_start_label: Testo pradžia
-    test_end_label: Testo pabaiga
+    is_active_label: Apklausos aktyvumas
+    is_active_description: Įjunkite šį jungiklį, kad aktyvuotumėte apklausą
+    prev_button_label: Apklausos navigacija
+    prev_button_description: Įjunkite šį jungiklį, kad apklausos vykdymo metu būtų rodomas mygtukas grįžti į ankstesnį klausimą
+    test_start_label: Apklausos pradžia
+    test_end_label: Apklausos pabaiga
     date_placeholder: 'yyyy-mm-dd hh:mm:ss'
     test_question_label: Klausimas
     test_count: Klausimų skaičius
     test_question_input_placeholder: Pasirinkite klausimą...
     participation_count: Vykdymų skaičius
-    time_label: Laikas
-    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į teste pateiktus klausimus.
-  active: Testas aktyvus
-  inactive: Testas neaktyvus
+    time_label: Laiko savybė
+    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į apklausoje pateiktus klausimus.
+  active: Apklausa aktyvi
+  inactive: Apklausa neaktyvi
   validation:
-    name: Privaloma užpildyti testo pavadinimo laukelį
-    date: Privaloma pasirinkti testo pradžios datą
+    name: Privaloma užpildyti apklausos pavadinimo laukelį
+    date: Privaloma pasirinkti apklausos pradžios datą
     code_test_start: Kodas privalo būti 8 simbolių ilgio
   title:
-    index: Testų sąrašas
-    show: Testo peržiūra
-    edit: Testo redagavimas
-    new: Testo kūrimas
-    delete: Testo trynimas
-    test: Testas
-    example: Testo pavyzdys
+    index: Apklausų sąrašas
+    show: Apklausos peržiūra
+    edit: Apklausos redagavimas
+    new: Apklausos kūrimas
+    delete: Apklausos trynimas
+    test: Apklausa
+    example: Apklausos pavyzdys
   flash_message:
-    test: Norėdami peržiūrėti ar redaguoti testą, pasirinkite testą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
+    test: Norėdami peržiūrėti ar redaguoti apklausą, pasirinkite apklausą iš sąrašo ir paspauskite šalia jos esančią piktogramą, kurios aprašas atitinka jūsų pasirinktą operaciją.
     warning: Netinkamai įvestas kodas
-    expired: Testo kodas nebegalioja
-    not_started: "Testą galėsite vykdyti nuo: "
-    created: Testas sėkmingai sukurtas
-    edited: Testas sėkmingai pakeistas
-    deleted: Testas ištrintas
-    time_over: Pasibaigė laikas skirtas testo vykdymui
-  delete_message: Ar tikrai norite ištrinti šį testą?
-  test_start_code: Įveskite testo kodą
-  finish_message: Testas baigtas. Ačiū už jūsų skirtą laiką!
+    expired: Apklausos kodas nebegalioja
+    not_started: "Apklausą galėsite vykdyti nuo: "
+    created: Apklausa sėkmingai sukurta
+    edited: Apklausa sėkmingai pakeista
+    deleted: Apklausa ištrinta
+    copy: Apklausos kopija sėkmingai sukurta
+    time_over: Laikas skirtas apklausos vykdymui pasibaigė
+  delete_message: Tikrai norite ištrinti šią apklausą?
+  delete_helper: Prieš ištrindami apklausą, įsitikinkite, kad visos apklausoje nustatytos savybės yra ištrintos (pašalintos).
+  test_start_code: Įveskite apklausos kodą
+  test_end: Apklausa baigta.
+  finish_message: Ačiū, kad skyrėtę laiko užpildyti apklausą!
+  button:
+    new: Sukurti apklausą
+    delete: Ištrinti apklausą
 
 question:
   form:
@@ -73,8 +79,8 @@ question:
     answeroptions_input_placeholder: Įveskite atsakymo variantą
     required_label: Privalomas
     required_description: Įjunkite šį jungiklį, kad klausimas būtų privalomas.
-    time_label: Laikas
-    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į teste pateiktus klausimus.
+    time_label: Laiko savybė
+    time_description: Įjunkite šį jungiklį, kad būtų fiksuoja kiek laiko dalyvis užtruko atsakyti į apklausoje pateiktą klausimą.
   required_true: Klausimas privalomas
   required_false: Klausimas neprivalomas
   type:
@@ -90,17 +96,19 @@ question:
     delete: Klausimo trynimas
     example: Klausimo pavyzdys
   flash_message:
-    question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite klausimą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinkanka jūsų pasirinktą operaciją.
+    question: Norėdami peržiūrėti ar redaguoti klausimą, pasirinkite klausimą iš sąrašo ir paspauskite šalia jo esančią piktogramą, kurios aprašas atitinka jūsų pasirinktą operaciją.
     created: Klausimas sėkmingai sukurtas
     edited: Klausimas sėkmingai pakeistas
     deleted: Klausimas ištrintas
+    copy: Klausimo kopija sėkmingai sukurta
   validation:
     question_name: Privaloma užpildyti klausimo pavadinimo laukelį
     question_wording: Privaloma užpildyti klausimo formuluotės laukelį
     type: Privaloma pasirinkti ir išsaugoti klausimo tipą
     input_required: Privalo būti pasirinktas bent vienas atsakymo variantas
     textarea_required: Atsakymas privalo būti užpildytas
-  delete_message: Ar tikrai norite ištrinti šį klausimą?
+  delete_message: Tikrai norite ištrinti šį klausimą?
+  delete_helper: Prieš ištrindami klausimą, įsitikinkite, kad visos klausime nustatytos savybės yra ištrintos (pašalintos).
   button:
     new: Sukurti klausimą
     delete: Ištrinti klausimą
@@ -124,29 +132,31 @@ group:
   button:
     filter_remove: Pašalinti filtrą
     new: Sukurti grupę
-  delete_message: Ar tikrai norite ištrinti šią grupę?
-  new_message: Grupė sukurta
+  delete_message: Tikrai norite ištrinti šią grupę?
+  flash_message:
+    created: Grupė sėkmingai sukurta
+    edited: Grupė sėkmingai pakeista
+    deleted: Grupė ištrinta
 
 attribute:
-  attributes: Nustatymai
-  question_attributes : Klausimo atributai
-  test_attributes: Testo atributai
+  question_attributes : Klausimo savybės
+  test_attributes: Apklausos savybės
   background_color: Fono spalva
   background_color_placeholder: Pasirinkite fono spalvą
   button_color: Mygtuko spalva
   button_color_placeholder: Pasirinkite mygtuko spalvą
-  picture: Paveiklėlis
+  picture: Paveikslėlis
   display_time: Rodymo trukmė
   display_time_placeholder_skip: 'Peršokimas: 0-1'
   display_time_placeholder_type: 'Tipas: 0-1'
   display_time_placeholder_time: 'Trukmė: 0-99999'
   display_time_placeholder_vis: 'Matomumas: 0-1'
   time: Laiko skaičiavimas
-  file: Failas
-  files: Failai
-  empty: Atributų nėra
-  colors: Spalvų atributai
-  time_attributes: Laiko atributai
+  file: Paveikslėlis
+  files: Paveikslėliai
+  empty: Sabybių nėra
+  colors: Spalvų sabybės
+  time_attributes: Laiko sabybės
   timer: Laikmatis
   chronometer: Chronometras
   seconds: sek.
@@ -156,16 +166,16 @@ attribute:
   next_stay: (Neperšoka klausimo)
   validation:
     unique: Laukelių reikšmės privalo būti unikalios
-    file: Failas privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x900
-    required: Paveikslėlis privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x900 ir laukelis negali būti tuščias
-  file_missing: Failas nenustatytas
-  file_choose: Pasirinkite failą...
-  file_help: Failo formatas privalo būti .jpeg, .png arba .jpg
+    file: Nuotrauka privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x1500
+    required: Paveikslėlis privalo būti ne didesnis nei 500KB. Dimensijos turi būti tarp 1500x1500 ir laukelis negali būti tuščias
+  file_missing: Nuotrauka nenustatyta
+  file_choose: Pasirinkite nuotrauką...
+  file_help: Nuotraukos formatas privalo būti .jpeg, .png arba .jpg
   form:
     description_label: Aprašas
-    description_input_placeholder: Įveskite trumpą aprašą apie atributą
+    description_input_placeholder: Įveskite trumpą aprašą apie savybę
     name_label: Pavadinimas
-    name_input_placeholder: Pasirinkite atributą...
+    name_input_placeholder: Pasirinkite savybę...
   name:
     backgroundcolor: Fono spalva
     buttoncolor: Mygtuko spalva
@@ -173,14 +183,18 @@ attribute:
     picture: Paveikslėlis
     time: Laiko skaičiavimas
   title:
-    show: Atributo peržiūra
-    edit: Atributo redagavimas
-    new: Atributo kūrimas
-    index: Atributų sąrašas
+    show: Savybės peržiūra
+    edit: Savybės redagavimas
+    new: Savybės kūrimas
+    index: Savybių sąrašas
   button:
-    new: Sukurti atributą
-    delete: Ištrinti atributą
-  delete_message: Ar tikrai norite ištrinti šį atributą?
+    new: Sukurti savybę
+    delete: Ištrinti savybę
+  delete_message: Tikrai norite ištrinti šią savybę?
+  flash_message:
+    created: Savybė sėkmingai sukurta
+    edited: Savybė sėkmingai pakeista
+    deleted: Savybė ištrinta
 
 user:
   title:
@@ -189,14 +203,30 @@ user:
     edit: Redaguoti profilį
   form:
     email_type: Elektroninis paštas
-    email_type_placeholder: Įveskite elektroninio pašto pavadinimą
+    email_type_placeholder: 'Įveskite elektroninio pašto adresą. Pvz.: jonas.baranauskas@paštas.com'
     name_label: Naudotojo vardas
-    name_label_placeholder: Įveskite naudotojo vardą
+    name_label_placeholder: 'Įveskite naudotojo vardą. Pvz.: Jonas'
     last_name_label: Naudotojo pavardė
-    last_name_label_placeholder: Įveskite naudotojo pavardę
+    last_name_label_placeholder: 'Įveskite naudotojo pavardę. Pvz.: Baranauskas'
     phone_label: Telefono numeris
-    phone_placeholder: Įveskite naudotojo telefono numerį
-  delete_message: Ar tikrai norite ištrinti šį naudotoją?
+    phone_placeholder: 'Įveskite naudotojo telefono numerį. Pvz.: +37061236789'
+    password: Slaptažodis
+    repeated_password: Pakartoti slaptažodį
+    password_placeholder: Įveskite naudotojo slaptažodį
+    password_help: Spaltažodis turi būti bent 6 simbolių ilgio.
+  delete_message: Tikrai norite ištrinti šį naudotoją?
+  validation:
+    email: Privaloma užpildyti elektroninio pašto adreso laukelį
+    name: Privalote užpildyti vardo laukelį
+    last_name: Privalote užpildyti pavardės laukelį
+    phone: Privalote užpildyti telefono numerio laukelį.
+    password: Privalote įvesti slaptažodį. Abu slaptažodžių laukeliai turi sutapti
+  flash_message:
+    created: Naudotojas sėkmingai sukurtas
+    edited: Naudotojas sėkmingai pakeistas
+    deleted: Naudotojas ištrintas
+  button:
+    delete: Ištrinti naudotoją
 
 answer:
   placeholder: Atsakymą įveskite į šį laukelį...
@@ -209,15 +239,25 @@ one: Vieno pasirinkimo
 multi: Kelių pasirinkimų
 presentation: Pateikties
 
+main: Apklausos vykdymas
+password_change: Slaptažodžio keitimas
+account_confirmed: Naudotojo paskyra patvirtinta
+account_password_reset_title: Slaptažodžio keitimas
+account_password_reset_email: Jūsų elektroninio pašto adresas
+account_password_reset_email_placeholder: 'Pvz.: jonas.baranauskas@paštas.com'
+account_password_reset_error: Nerastas naudotojas pagal įvestą elektroninio pašto adresą
+account_password_reset_success: Informacija kaip pakeisti slaptažodį išsiųsta į jūsų elektroninio pašto dėžutę
+account_password_reset_success_confirm: Slaptažodis sėkmingai pakeistas
+change: Keisti
 settings: Parinktys
 groups: Grupė
 answers: Atsakymai
 general: Bendra informacija
 activation: Aktyvacija
 questions: Klausimai
-blank: Laukelis tuščias
+blank: Tuščia
 empty: Įrašų nerasta
-empty_attributes: Atributų nerasta
+empty_attributes: Savybių nerasta
 requied: Yra privalomų laukelių
 required_input: Privalote atsakyti į šį klausimą
 not_required_input: Klausimas neprivalomas
@@ -226,7 +266,7 @@ buttoncolor: Mygtuko spalva
 displaytime: Rodymo trukmė
 picture: Paveikslėlis
 time: Laiko skaičiavimas
-file: Failas
+file: Nuotrauka
 
 side_nav:
   navigation: Navigacija
@@ -239,23 +279,24 @@ button:
     edit: Klausimo redagavimas
     title: Klausimai
   attribute:
-    new: Atributo kūrimas
-    index: Atributų sąrašas
-    show: Atributo peržiūra
-    edit: Atributo redagavimas
-    title: Atributai
+    new: Savybės kūrimas
+    index: Savybių sąrašas
+    show: Savybės peržiūra
+    edit: Savybės redagavimas
+    title: Savybės
   user:
     new: Naudotojo registravimas
     index: Naudotojų sąrašas
     title: Naudotojai
     edit: Redaguoti profilį
   test:
-    new: Testo kūrimas
-    index: Testų sąrašas
-    show: Testo peržiūra
-    edit: Testo redagavimas
-    title: Testai
-    test_start_active: Pradėti testą
+    new: Apklausos kūrimas
+    index: Apklausų sąrašas
+    show: Apklausos peržiūra
+    edit: Apklausos redagavimas
+    title: Apklausa
+    test_start_active: Pradėti apklausą
+  confirm: Patvirtinti
   login: Prisijungti
   logout: Atsijungti
   edit: Redaguoti
@@ -274,7 +315,7 @@ poppers:
   copy: Kopijuoti
   export: Generuoti rezultatų ataskaitą
   test:
-    activation_desc: Prieš aktyvuodami testą privalote nustatyti testo pradažios datą
+    activation_desc: Prieš aktyvuodami apklausą privalote nustatyti apklausos pradažios datą
   answer:
     disabled_option: Išsaugojus "Vieno pasirinkimo" arba "Kelių pasirinkimų" klausimo tipą, suteikiama prieiga pridėti atsakymų variantus
     disabled_option_presentation: Išsaugojus "Pateikties" klausimo tipą, suteikiama prieiga priskirti rodymo trukmės parametrus
@@ -292,3 +333,9 @@ poppers:
     group: Filtruoti pagal grupę
 
 IE: 'Naršyklė "Internet Explorer" nepalaikoma. Prašome prie sistemos prisijungti su kita naršykle'
+
+error:
+  title: 404
+  header: Puslapis nerastas
+  content: Nepavyko rasti pageidaujamo puslapio. Patikrinkite URL dėl neatitikimų ar nepastebėtų klaidų.
+  go_back: Grįžti į pagrindinį puslapį

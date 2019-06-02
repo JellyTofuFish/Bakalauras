@@ -4,21 +4,25 @@
 
 
     {% block admin_right_nav %}
+    {% endblock %}
+
+    {% block admin_main %}
+
+        <h1 class="d-inline float-left">{{ 'test.title.index'|trans }}</h1>
+        <span class="float-right mt-1">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">
                     <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="pl-2" aria-hidden="true">&times;</span>
                     </button>
                     <span class='alert-message'>{{ message|trans }}</span>
                 </div>
             {% endfor %}
         {% endfor %}
-    {% endblock %}
+        </span>
+        <div class="float-none"></div>
 
-    {% block admin_main %}
-
-        <h1>{{ 'test.title.index'|trans }}</h1>
         <div class="table-responsive table-header-sticky">
             <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
                 <thead>
@@ -41,10 +45,10 @@
                             <i id="testIndexCaret4" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.end'|trans }}" class="px-2 questionSort pointer fa {{  data['end'] }}"></i>
                         </a>
                     </th>
-                    <th scope="col" class="w-12">
+                    <th scope="col" class="w-15">
                         <span>{{ 'test.form.test_count'|trans }}</span>
                     </th>
-                    <th scope="col" class="w-12">
+                    <th scope="col" class="w-15">
                         <span>{{ 'test.form.participation_count'|trans }}</span>
                     </th>
                     <th scope="col">{{ 'actions'|trans }}</th>
@@ -68,27 +72,27 @@
                         <td>
                             <p>{% if test.testEnd %}{{ test.testEnd|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
                         </td>
-                        <td class="text-center w-12">
+                        <td class="text-center w-15">
                             <p>
                                 {{ test.testQuestions.count }}
                             </p>
                         </td>
-                        <td class="text-center w-12">
+                        <td class="text-center w-15">
                             <p>
                                 {{ test.testParticipations.count}}
                             </p>
                         </td>
                         <td class="d-flex justify-content-between">
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.edit'|trans }}"  href="{{ path('test_edit', {'id': test.id}) }}"><i class="fa fa-pencil"></i></a>
-                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('test_copy', {'id': test.id}) }}"><i class="fa fa-copy"></i></a>
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}"  href="{{ path('test_report', {'id': test.id}) }}"><i class="fa fa-file-excel-o"></i></a>
                             {% if test.testQuestions.count == 0 %}
                                 <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" style="color: #62aeff"><i class="fa fa-eye "></i></a>
                             {% else %}
                                 <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
                             {% endif %}
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}"  href="{{ path('test_report', {'id': test.id}) }}"><i class="fa fa-file-excel-o"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('test_copy', {'id': test.id}) }}"><i class="fa fa-copy"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file-o"></i></a>
+                            <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
 
                             <div class="modal fade" id="testModal{{ test.id }}Delete" tabindex="-1" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -100,7 +104,10 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="d-flex justify-content-between">
+                                            <span> {{ 'test.delete_helper'|trans }}</span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="w-100 d-flex justify-content-between">
                                                 {{ include('test/_delete_form.html.twig') }}
                                             </div>
                                         </div>
@@ -112,7 +119,7 @@
 
                 {% else %}
                     <tr class="text-center">
-                        <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
+                        <td colspan="6"><i>{{ 'empty'|trans }}</i></td>
                     </tr>
                 {% endfor %}
                 </tbody>

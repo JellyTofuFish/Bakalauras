@@ -2984,7 +2984,7 @@
     </service>
     <service id="security.access_map" class="Symfony\Component\Security\Http\AccessMap" public="false">
       <call method="add">
-        <argument type="service" id=".security.request_matcher.8.Sdjwo"/>
+        <argument type="service" id=".security.request_matcher.SHp9fYw"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
@@ -2998,7 +2998,7 @@
         <argument>null</argument>
       </call>
       <call method="add">
-        <argument type="service" id=".security.request_matcher.eSqmOJG"/>
+        <argument type="service" id=".security.request_matcher.1BNBTKM"/>
         <argument type="collection">
           <argument>ROLE_USER</argument>
         </argument>
@@ -3012,7 +3012,56 @@
         <argument>null</argument>
       </call>
       <call method="add">
+        <argument type="service" id=".security.request_matcher..UDXxz8"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.zu1W3i4"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.zu1W3i4"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.Bowbei2"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.fKTzyyS"/>
+        <argument type="collection">
+          <argument>ROLE_USER</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
         <argument type="service" id=".security.request_matcher.L0yUp4P"/>
+        <argument type="collection">
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.payRmvn"/>
+        <argument type="collection">
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+        </argument>
+        <argument>null</argument>
+      </call>
+      <call method="add">
+        <argument type="service" id=".security.request_matcher.F63Zh_k"/>
         <argument type="collection">
           <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
         </argument>
@@ -3506,20 +3555,38 @@
         <argument key="security.firewall.map.context.main" type="service" id="security.firewall.map.context.main"/>
       </argument>
     </service>
-    <service id=".security.request_matcher.8.Sdjwo" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
-      <argument>^/question/</argument>
+    <service id=".security.request_matcher.SHp9fYw" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/question$</argument>
     </service>
     <service id=".security.request_matcher..P9BHf5" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/questions$</argument>
     </service>
-    <service id=".security.request_matcher.eSqmOJG" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
-      <argument>^/test/</argument>
+    <service id=".security.request_matcher.1BNBTKM" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/test$</argument>
     </service>
     <service id=".security.request_matcher.7wnZh02" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/tests$</argument>
     </service>
+    <service id=".security.request_matcher..UDXxz8" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/attribute$</argument>
+    </service>
+    <service id=".security.request_matcher.zu1W3i4" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/attributes$</argument>
+    </service>
+    <service id=".security.request_matcher.Bowbei2" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/user$</argument>
+    </service>
+    <service id=".security.request_matcher.fKTzyyS" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/users$</argument>
+    </service>
     <service id=".security.request_matcher.L0yUp4P" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/participation</argument>
+    </service>
+    <service id=".security.request_matcher.payRmvn" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/passwordreset</argument>
+    </service>
+    <service id=".security.request_matcher.F63Zh_k" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+      <argument>^/confirmation</argument>
     </service>
     <service id=".security.request_matcher.PhQgZ9B" class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
       <argument>^/</argument>
@@ -3790,6 +3857,10 @@
       <call method="addPath">
         <argument>P:\web\SitesPHP\bakalauras\vendor\symfony\swiftmailer-bundle/Resources/views</argument>
         <argument>!Swiftmailer</argument>
+      </call>
+      <call method="addPath">
+        <argument>P:\web\SitesPHP\bakalauras/templates/bundles/TwigBundle</argument>
+        <argument>Twig</argument>
       </call>
       <call method="addPath">
         <argument>P:\web\SitesPHP\bakalauras\vendor\symfony\twig-bundle/Resources/views</argument>
@@ -4177,13 +4248,6 @@
         <argument key="group" type="service" id=".errored..service_locator.JEcBMWw.App\Entity\GroupList"/>
       </argument>
     </service>
-    <service id=".service_locator.1OGat4T" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="group" type="service" id=".errored..service_locator.1OGat4T.App\Entity\GroupList"/>
-        <argument key="questionRepository" type="service" id="App\Repository\QuestionRepository"/>
-      </argument>
-    </service>
     <service id=".service_locator.nabLoAk" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
@@ -4214,13 +4278,6 @@
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="question" type="service" id=".errored..service_locator.6R9gNN2.App\Entity\Question"/>
-      </argument>
-    </service>
-    <service id=".service_locator.Vqvxuhp" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="fileRepository" type="service" id="App\Repository\FileRepository"/>
-        <argument key="question" type="service" id=".errored..service_locator.Vqvxuhp.App\Entity\Question"/>
       </argument>
     </service>
     <service id=".service_locator.4pMLaJi" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
@@ -4261,19 +4318,44 @@
         <argument key="uRepositor" type="service" id="App\Repository\UserRepository"/>
       </argument>
     </service>
+    <service id=".service_locator.KmqnHF8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="mailer" type="service" id="swiftmailer.mailer.default"/>
+        <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic"/>
+      </argument>
+    </service>
+    <service id=".service_locator.5iM2kDV" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic"/>
+        <argument key="user" type="service" id=".errored..service_locator.5iM2kDV.App\Entity\User"/>
+      </argument>
+    </service>
     <service id=".service_locator.wypGnUQ" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="user" type="service" id=".errored..service_locator.wypGnUQ.App\Entity\User"/>
       </argument>
     </service>
-    <service id=".service_locator.l.XqtWH" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id=".service_locator.Z_.o95M" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Controller\AttributeController::delete" type="service" id=".service_locator.II_PRuO"/>
+        <argument key="mailer" type="service" id="swiftmailer.mailer.default"/>
+      </argument>
+    </service>
+    <service id=".service_locator.lm3AYgL" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="passwordEncoder" type="service" id="security.user_password_encoder.generic"/>
+      </argument>
+    </service>
+    <service id=".service_locator.hViEXDN" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
         <argument key="App\Controller\AttributeController::edit" type="service" id=".service_locator.II_PRuO"/>
         <argument key="App\Controller\AttributeController::index" type="service" id=".service_locator.nabLoAk"/>
-        <argument key="App\Controller\GroupController::delete" type="service" id=".service_locator.1OGat4T"/>
+        <argument key="App\Controller\GroupController::delete" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\GroupController::edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\MainController::index" type="service" id=".service_locator.2I4ByA9"/>
         <argument key="App\Controller\QuestionController::copy" type="service" id=".service_locator.6R9gNN2"/>
@@ -4281,7 +4363,7 @@
         <argument key="App\Controller\QuestionController::edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController::index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController::show" type="service" id=".service_locator.6R9gNN2"/>
-        <argument key="App\Controller\QuestionController::showExample" type="service" id=".service_locator.Vqvxuhp"/>
+        <argument key="App\Controller\QuestionController::showExample" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\TestController::copy" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController::edit" type="service" id=".service_locator.P8yJ05j"/>
@@ -4292,14 +4374,16 @@
         <argument key="App\Controller\TestController::show" type="service" id=".service_locator.SyrymO0"/>
         <argument key="App\Controller\TestController::showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\UserController::delete" type="service" id=".service_locator.wypGnUQ"/>
-        <argument key="App\Controller\UserController::edit" type="service" id=".service_locator.wypGnUQ"/>
+        <argument key="App\Controller\UserController::edit" type="service" id=".service_locator.5iM2kDV"/>
         <argument key="App\Controller\UserController::index" type="service" id=".service_locator.ClzL3AR"/>
-        <argument key="group_controller::delete" type="service" id=".service_locator.1OGat4T"/>
+        <argument key="App\Controller\UserController::new" type="service" id=".service_locator.KmqnHF8"/>
+        <argument key="App\Controller\UserController::resetPassword" type="service" id=".service_locator.Z_.o95M"/>
+        <argument key="App\Controller\UserController::resetPasswordConfirm" type="service" id=".service_locator.lm3AYgL"/>
+        <argument key="group_controller::delete" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="group_controller::edit" type="service" id=".service_locator.JEcBMWw"/>
-        <argument key="App\Controller\AttributeController:delete" type="service" id=".service_locator.II_PRuO"/>
         <argument key="App\Controller\AttributeController:edit" type="service" id=".service_locator.II_PRuO"/>
         <argument key="App\Controller\AttributeController:index" type="service" id=".service_locator.nabLoAk"/>
-        <argument key="App\Controller\GroupController:delete" type="service" id=".service_locator.1OGat4T"/>
+        <argument key="App\Controller\GroupController:delete" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\GroupController:edit" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="App\Controller\MainController:index" type="service" id=".service_locator.2I4ByA9"/>
         <argument key="App\Controller\QuestionController:copy" type="service" id=".service_locator.6R9gNN2"/>
@@ -4307,7 +4391,7 @@
         <argument key="App\Controller\QuestionController:edit" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\QuestionController:index" type="service" id=".service_locator.yqXH9Y."/>
         <argument key="App\Controller\QuestionController:show" type="service" id=".service_locator.6R9gNN2"/>
-        <argument key="App\Controller\QuestionController:showExample" type="service" id=".service_locator.Vqvxuhp"/>
+        <argument key="App\Controller\QuestionController:showExample" type="service" id=".service_locator.6R9gNN2"/>
         <argument key="App\Controller\TestController:copy" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:delete" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\TestController:edit" type="service" id=".service_locator.P8yJ05j"/>
@@ -4318,9 +4402,12 @@
         <argument key="App\Controller\TestController:show" type="service" id=".service_locator.SyrymO0"/>
         <argument key="App\Controller\TestController:showExample" type="service" id=".service_locator.P8yJ05j"/>
         <argument key="App\Controller\UserController:delete" type="service" id=".service_locator.wypGnUQ"/>
-        <argument key="App\Controller\UserController:edit" type="service" id=".service_locator.wypGnUQ"/>
+        <argument key="App\Controller\UserController:edit" type="service" id=".service_locator.5iM2kDV"/>
         <argument key="App\Controller\UserController:index" type="service" id=".service_locator.ClzL3AR"/>
-        <argument key="group_controller:delete" type="service" id=".service_locator.1OGat4T"/>
+        <argument key="App\Controller\UserController:new" type="service" id=".service_locator.KmqnHF8"/>
+        <argument key="App\Controller\UserController:resetPassword" type="service" id=".service_locator.Z_.o95M"/>
+        <argument key="App\Controller\UserController:resetPasswordConfirm" type="service" id=".service_locator.lm3AYgL"/>
+        <argument key="group_controller:delete" type="service" id=".service_locator.JEcBMWw"/>
         <argument key="group_controller:edit" type="service" id=".service_locator.JEcBMWw"/>
       </argument>
     </service>
@@ -4680,20 +4767,19 @@
       <argument type="service" id="security.token_storage"/>
     </service>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
-      <argument type="service" id=".service_locator.l.XqtWH"/>
+      <argument type="service" id=".service_locator.hViEXDN"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false"/>
     <service id=".errored..service_locator.JEcBMWw.App\Entity\GroupList" class="App\Entity\GroupList"/>
-    <service id=".errored..service_locator.1OGat4T.App\Entity\GroupList" class="App\Entity\GroupList"/>
     <service id=".errored..service_locator.II_PRuO.App\Entity\Attribute" class="App\Entity\Attribute"/>
     <service id=".errored..service_locator.6R9gNN2.App\Entity\Question" class="App\Entity\Question"/>
-    <service id=".errored..service_locator.Vqvxuhp.App\Entity\Question" class="App\Entity\Question"/>
     <service id=".errored..service_locator.SyrymO0.App\Entity\Test" class="App\Entity\Test"/>
     <service id=".errored..service_locator.P8yJ05j.App\Entity\Test" class="App\Entity\Test"/>
     <service id=".errored..service_locator.WJckssl.App\Entity\TestParticipation" class="App\Entity\TestParticipation"/>
     <service id=".errored..service_locator.WJckssl.App\Entity\Test" class="App\Entity\Test"/>
     <service id=".errored..service_locator.aa54dWu.App\Entity\TestParticipation" class="App\Entity\TestParticipation"/>
+    <service id=".errored..service_locator.5iM2kDV.App\Entity\User" class="App\Entity\User"/>
     <service id=".errored..service_locator.wypGnUQ.App\Entity\User" class="App\Entity\User"/>
     <service id=".service_locator.HKoUR8q" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -4946,7 +5032,7 @@
     <service id="logger" alias="monolog.logger"/>
     <service id="Psr\Log\LoggerInterface" alias="monolog.logger" public="false"/>
     <service id="fos_js_routing.router" alias="router.default" public="false"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.l.XqtWH"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.hViEXDN"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem" public="false"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id=".service_locator.tSKDlY7" alias=".1_ServiceLocator~n2lsigk" public="false"/>

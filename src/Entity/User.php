@@ -31,7 +31,7 @@ class User implements UserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
 
@@ -59,6 +59,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Test", mappedBy="fk_user", cascade={"persist"})
      */
     private $tests;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $activation;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $reset;
 
 
     public function __construct()
@@ -121,10 +131,11 @@ class User implements UserInterface
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
-        $this->password = $password;
-
+        if ($password != null) {
+            $this->password = $password;
+        }
         return $this;
     }
 
@@ -239,6 +250,30 @@ class User implements UserInterface
                 $test->setFkUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getActivation(): ?string
+    {
+        return $this->activation;
+    }
+
+    public function setActivation(string $activation): self
+    {
+        $this->activation = $activation;
+
+        return $this;
+    }
+
+    public function getReset(): ?string
+    {
+        return $this->reset;
+    }
+
+    public function setReset(?string $reset): self
+    {
+        $this->reset = $reset;
 
         return $this;
     }

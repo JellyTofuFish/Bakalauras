@@ -15,32 +15,50 @@
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-groups" data-target="#groups" data-target-animation="#questionCaret2" aria-controls="groups">{{ 'groups'|trans }}</a>
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-answers" data-target="#answers" data-target-animation="#questionCaret3" aria-controls="answers">{{ 'answers'|trans }}</a>
+            {% if question.answeroptions is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-answers" data-target="#answers" data-target-animation="#questionCaret3" aria-controls="answers">{{ 'answers'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-answers">{{ 'answers'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-time" data-target="#time" data-target-animation="#questionCaret4" aria-controls="time">{{ 'time'|trans }}</a>
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor" data-target="#buttonColor" data-target-animation="#questionCaret5" aria-controls="buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% if attributes.buttonColors is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor" data-target="#buttonColor" data-target-animation="#questionCaret5" aria-controls="buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor" data-target="#backgroundColor" data-target-animation="#questionCaret6" aria-controls="backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% if attributes.backgroundColors is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor" data-target="#backgroundColor" data-target-animation="#questionCaret6" aria-controls="backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime" data-target="#displayTime" data-target-animation="#questionCaretDT" aria-controls="displayTime">{{ 'displaytime'|trans }}</a>
+            {% if attributes.displayTimes is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime" data-target="#displayTime" data-target-animation="#questionCaretDT" aria-controls="displayTime">{{ 'displaytime'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime">{{ 'displaytime'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture" data-target="#picture" data-target-animation="#questionCaret7" aria-controls="picture">{{ 'picture'|trans }}</a>
-        </li>
-        <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-file" data-target="#file" data-target-animation="#questionCaret8" aria-controls="file">{{ 'file'|trans }}</a>
+            {% if attributes.pictures is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture" data-target="#picture" data-target-animation="#questionCaret7" aria-controls="picture">{{ 'picture'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture">{{ 'picture'|trans }}</a>
+            {% endif %}
         </li>
 
 {% endblock %}
 
 {% block admin_main %}
-
     <h1>{{ 'question.title.show'|trans }}</h1>
+    {% set blank = 'blank'|trans %}
+
     <div class="accordion">
 
         {# Klausimo informacija. Klausimo formos laukeliai #}
@@ -57,34 +75,72 @@
                 <div class="card-body">
                     <fieldset disabled>
                         <div class="form-group row">
-                            <label for="inputquestion" class="col-sm-2 col-form-label">{{ 'question.form.question_name_label'|trans }}</label>
-                            <div class="col-sm-10">
+                            <label for="inputquestion" class="col-sm-12 col-form-label">{{ 'question.form.question_name_label'|trans }}</label>
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" id="inputquestion" value="{{ question.questionname }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputquestion" class="col-sm-2 col-form-label">{{ 'question.form.question_wording_label'|trans }}</label>
-                            <div class="col-sm-10">
+                            <label for="inputquestion" class="col-sm-12 col-form-label">{{ 'question.form.question_wording_label'|trans }}</label>
+                            <div class="col-sm-12">
                                 <textarea class="form-control" id="inputquestion">{{ question.questionwording }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'question.form.description_label'|trans }}</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" id="inputDescription">{{ question.description }}</textarea>
+                            <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'question.form.description_label'|trans }}</label>
+                            <div class="col-sm-12">
+                                <textarea class="form-control" id="inputDescription">{{ question.description ? question.description : blank }}</textarea>
                             </div>
                         </div>
+                        {# Klausimo failas #}
                         <div class="form-group row">
-                            <label for="disabledSelect" class="col-sm-2 col-form-label">{{ 'question.form.type_label'|trans }}</label>
-                            <div class="col-sm-10">
+                            {% if file is defined and file is not empty %}
+                                {% if file.name is empty  %}
+                                    {% set link = 'build/images/' ~ 'Default.jpg' %}
+                                {% else %}
+                                    {% set link = 'build/images/' ~ file.name %}
+                                {% endif %}
+                                <label class="col-sm-12 col-form-label">{{ 'attribute.file'|trans }}</label>
+                                <div class="input-group col-sm-12">
+                                    <div class="custom-file">
+                                        {% if file is defined %}
+                                            <input type="text" name="question_file[file]" class="display-hidden" form="question_form" value="1" />
+                                            <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
+                                            <label class="custom-file-label" for="customFile" >{% if file is not null %} {{ file.name }} {% else %} {{ 'attribute.file_choose'|trans }} {% endif %} </label>
+                                        {% else %}
+                                            <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
+                                            <label class="custom-file-label"  >{{ 'attribute.file_choose'|trans }} </label>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <span class="col-sm-12 invalid-feedback uniqueFile">{{ 'attribute.validation.file'|trans }} </span>
+                                <small class="col-sm-12 form-text text-muted">
+                                    {{ 'attribute.file_help'|trans }}
+                                </small>
+                                <div class="col-sm-12 text-center">
+                                    <img  src="{{ asset(link) }}" alt="{{ link }}">
+                                </div>
+                            {% else %}
+                                <label class="col-sm-12 col-form-label">{{ 'attribute.file'|trans }}</label>
+                                <div class="input-group col-sm-12">
+                                    <div class="custom-file">
+                                        <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
+                                        <label class="custom-file-label">{{ blank }} </label>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="form-group row">
+                            <label for="disabledSelect" class="col-sm-12 col-form-label">{{ 'question.form.type_label'|trans }}</label>
+                            <div class="col-sm-12">
                                 <select id="disabledSelect" class="form-control">
                                     <option>{{ question.type|trans }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-sm-2">{{ 'question.form.required_label'|trans }}</label>
-                            <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            <label class="col-form-label col-sm-12">{{ 'question.form.required_label'|trans }}</label>
+                            <div class="col-sm-12 pl-5 custom-control custom-switch">
                                 <input type="checkbox" id="{{ question.id }}Switch" class="custom-control-input" disabled {{ question.required ? 'checked' : "" }} >
                                 <label class="custom-control-label" for="{{ question.id }}Switch">{{ 'question.form.required_description'|trans }}</label>
                             </div>
@@ -108,14 +164,10 @@
                 <div class="card-body">
                     <fieldset disabled>
                     <div class="form-group row">
-                        <label for="fk_group_label" class="col-sm-2 col-form-label">{{ 'question.form.fk_group_label'|trans }}</label>
-                        <div class="col-sm-10">
+                        <label for="fk_group_label" class="col-sm-12 col-form-label">{{ 'question.form.fk_group_label'|trans }}</label>
+                        <div class="col-sm-12">
                             <select id="fk_group_label" class="form-control">
-                                {% if question.fkGroup is null %}
-                                <option>{{ 'blank'|trans }}</option>
-                                {% else %}
-                                <option>{{ question.fkGroup.name }}</option>
-                                {% endif %}
+                                <option>{{  question.fkGroup ? question.fkGroup.name : blank }}</option>
                             </select>
                         </div>
                     </div>
@@ -151,8 +203,8 @@
                         {% set anwerNumeber = 0 %}
                         {% for answer in question.answeroptions %}
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'question.form.answeroptions_label'|trans }} {{ anwerNumeber +1 }}</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-12 col-form-label">{{ 'question.form.answeroptions_label'|trans }} {{ anwerNumeber +1 }}</label>
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" id="question_answeroptions_answer_{{ anwerNumeber }}" value="{{ answer.answer }}">
                             </div>
                         </div>
@@ -177,8 +229,8 @@
                 <div class="card-body">
                     <fieldset disabled>
                         <div class="form-group row mb-2">
-                            <label class="col-form-label col-sm-2">{{ 'question.form.time_label'|trans }}</label>
-                            <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            <label class="col-form-label col-sm-12">{{ 'question.form.time_label'|trans }}</label>
+                            <div class="col-sm-12 pl-5 custom-control custom-switch">
                                 <input type="checkbox" name="question_attribute_time[value]" form="question_form" id="{{ question.id }}Time" class="custom-control-input" {% if attributes.time is defined and attributes.time is not empty %} checked {% endif %}/>
                                 <label class="custom-control-label" for="{{ question.id }}Time">{{ 'question.form.time_description'|trans }}</label>
                             </div>
@@ -212,12 +264,12 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                        <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
+                        <span  class="pre font-italic form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</span>
                         {% set numb = 1 %}
                         {% for key, bc in attributes.buttonColors %}
                             <div class="form-group row">
-                                <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                                <div class="col-sm-10 mb-3">
+                                <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                                <div class="col-sm-12">
                                     <div class="d-flex">
                                         <input type="color" value="{{ bc.value }}" id="question_attribute_buttonColor_{{ key }}_id" name="question_attribute_buttonColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control" maxlength="255" />
                                     </div>
@@ -248,19 +300,19 @@
                     {% endif %}
                 </h2>
             </div>
-            {% if attributes.buttonColors is not empty %}
+            {% if attributes.backgroundColors is not empty %}
             <div id="backgroundColor" class="tab-pane collapse show" aria-labelledby="list-backgroundColor list-backgroundColor-list" >
             {% else %}
             <div id="backgroundColor" class="tab-pane collapse" aria-labelledby="list-backgroundColor list-backgroundColor-list" >
             {% endif %}
                 <div class="card-body ">
                     <fieldset disabled>
-                        <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
+                        <span  class="pre font-italic form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</span>
                         {% set numb = 1 %}
                         {% for key, bc in attributes.backgroundColors %}
                             <div class="form-group row">
-                                <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                                <div class="col-sm-10 mb-3">
+                                <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                                <div class="col-sm-12">
                                     <div class="d-flex">
                                         <input type="color" value="{{ bc.value }}" id="question_attribute_backgroundColor_{{ key }}_id" name="question_attribute_backgroundColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
                                     </div>
@@ -298,15 +350,15 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                        <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>
+                        <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.displayTime.description }}</span>
 
                         {% set numb = 1 %}
                         {% for key, bc in attributes.displayTimes %}
 
                             {% set displayTime = bc.value|split(':') %}
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                                <div class="col-sm-10 mb-3">
+                                <label class="col-sm-12 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                                <div class="col-sm-12">
                                     <div class="d-flex input-group">
                                         <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
                                         <div class="input-group-prepend">
@@ -344,17 +396,17 @@
                     {% endif %}
                 </h2>
             </div>
-            {% if attributes.displayTimes is not empty %}
+            {% if attributes.pictures is not empty %}
             <div id="picture" class="tab-pane collapse show" aria-labelledby="list-picture list-picture-list" >
             {% else %}
             <div id="picture" class="tab-pane collapse" aria-labelledby="list-picture list-picture-list" >
             {% endif %}
                 <div class="card-body ">
                     <fieldset disabled>
-                        <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
-                        {% if file is not null %}
+                        <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.picture.description }}</span>
+                        {% if attributes.pictures is defined and attributes.pictures is not empty %}
                             {% for key, pic in attributes.pictures %}
-                            {% if pic.value == 'Pašalinta' or pic.value is not defined %}
+                            {% if pic.value is empty  %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ pic.value %}
@@ -374,61 +426,6 @@
                                     <img  src="{{ asset(link) }}" alt="{{ link }}">
                                 </div>
                             {% endfor %}
-                        {% endif %}
-                    </fieldset>
-                </div>
-            </div>
-        </div>
-
-        {# Klausimo failo informacija #}
-        <div class="card bg-light">
-            <div class="card-header p-0" id="list-file">
-                <h2 class="mb-0">
-                    {% if file is not empty %}
-                        <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#file" aria-expanded="false" aria-controls="file">
-                            <i id="questionCaret8" class="fa fa-caret-down transition" ></i>
-                            <span class="pl-2">{{ 'file'|trans }}</span>
-                        </button>
-                    {% else %}
-                        <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#file" aria-expanded="false" aria-controls="file">
-                            <i id="questionCaret8" class="fa disabled-menu fa-caret-down transition rotation" ></i>
-                            <span class="disabled-menu pl-2">{{ 'file'|trans }}</span>
-                        </button>
-                    {% endif %}
-                </h2>
-            </div>
-            {% if file is not empty %}
-            <div id="file" class="tab-pane collapse show" aria-labelledby="list-file list-file-list" >
-            {% else %}
-            <div id="file" class="tab-pane collapse" aria-labelledby="list-file list-file-list" >
-            {% endif %}
-                <div class="card-body">
-                    <fieldset disabled>
-                        {% if file is not null %}
-                            {% if file.name == 'Pašalinta' or file.name is not defined %}
-                                {% set link = 'build/images/' ~ 'Default.jpg' %}
-                            {% else %}
-                                {% set link = 'build/images/' ~ file.name %}
-                            {% endif %}
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    {% if file is defined %}
-                                        <input type="text" name="question_file[file]" class="display-hidden" form="question_form" value="1" />
-                                        <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
-                                        <label class="custom-file-label" for="customFile" >{% if file is not null %} {{ file.name }} {% else %} {{ 'attribute.file_choose'|trans }} {% endif %} </label>
-                                    {% else %}
-                                        <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
-                                        <label class="custom-file-label"  >{{ 'attribute.file_choose'|trans }} </label>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <span class="invalid-feedback uniqueFile">{{ 'attribute.validation.file'|trans }} </span>
-                            <small class="form-text text-muted">
-                                {{ 'attribute.file_help'|trans }}
-                            </small>
-                            <div class="text-center py-2">
-                                <img  src="{{ asset(link) }}" alt="{{ link }}">
-                            </div>
                         {% endif %}
                     </fieldset>
                 </div>

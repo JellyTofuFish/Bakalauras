@@ -33,7 +33,7 @@ class GroupList
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_group", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="fk_group")
      */
     private $questions;
 

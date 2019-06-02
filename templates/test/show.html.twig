@@ -14,22 +14,46 @@
             <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-activation" data-target="#activation" data-target-animation="#testCaret2" aria-controls="activation">{{ 'activation'|trans }}</a>
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-questions" data-target="#questions" data-target-animation="#testCaret3" aria-controls="questions">{{ 'questions'|trans }}</a>
+            {% if questions is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-questions" data-target="#questions" data-target-animation="#testCaret3" aria-controls="questions">{{ 'questions'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-questions">{{ 'questions'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-time" data-target="#time" data-target-animation="#testCaret4" aria-controls="time">{{ 'time'|trans }}</a>
+            {% if attributes.times is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-time" data-target="#time" data-target-animation="#testCaret4" aria-controls="time">{{ 'time'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-time">{{ 'time'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor" data-target="#buttonColor" data-target-animation="#testCaret5" aria-controls="buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% if attributes.buttonColors is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor" data-target="#buttonColor" data-target-animation="#testCaret5" aria-controls="buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-buttonColor">{{ 'buttoncolor'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor" data-target="#backgroundColor" data-target-animation="#testCaret6" aria-controls="backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% if attributes.backgroundColors is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor" data-target="#backgroundColor" data-target-animation="#testCaret6" aria-controls="backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-backgroundColor">{{ 'backgroundcolor'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime" data-target="#displayTime" data-target-animation="#testCaret7" aria-controls="displayTime">{{ 'displaytime'|trans }}</a>
+            {% if attributes.displayTimes is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime" data-target="#displayTime" data-target-animation="#testCaret7" aria-controls="displayTime">{{ 'displaytime'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-displayTime">{{ 'displaytime'|trans }}</a>
+            {% endif %}
         </li>
         <li class="toc-entry">
-            <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture" data-target="#picture" data-target-animation="#testCaret8" aria-controls="picture">{{ 'picture'|trans }}</a>
+            {% if attributes.pictures is not empty %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture" data-target="#picture" data-target-animation="#testCaret8" aria-controls="picture">{{ 'picture'|trans }}</a>
+            {% else %}
+                <a class="btn btn-block btn-link text-left sidebar-collapse" href="#list-picture">{{ 'picture'|trans }}</a>
+            {% endif %}
         </li>
     </ul>
 
@@ -37,7 +61,7 @@
 
 {% block admin_main %}
 <h1>{{ 'test.title.show'|trans }}</h1>
-    {% set blank = 'blank'|trans %}
+{% set blank = 'blank'|trans %}
 
 <div class="accordion">
 
@@ -55,26 +79,26 @@
                 <div class="card-body">
                     <fieldset disabled>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.test_name_label'|trans }}</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.test_name_label'|trans }}</label>
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" value="{{ test.name }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.description_label'|trans }}</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.description_label'|trans }}</label>
+                            <div class="col-sm-12">
                                 <textarea class="form-control" >{{ test.description ? test.description : blank }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.code'|trans }}</label>
-                            <div class="col-sm-10">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.code'|trans }}</label>
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" value="{{ test.code }}">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-sm-2">{{ 'test.form.prev_button_label'|trans }}</label>
-                            <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            <label class="col-form-label col-sm-12">{{ 'test.form.prev_button_label'|trans }}</label>
+                            <div class="col-sm-12 pl-5 custom-control custom-switch">
                                 <input type="checkbox" id="{{ test.id }}Switch" class="custom-control-input" disabled {{ test.prevButton ? 'checked' : "" }} >
                                 <label class="custom-control-label" for="{{ test.id }}Switch">{{ 'test.form.prev_button_description'|trans }}</label>
                             </div>
@@ -86,7 +110,7 @@
 
         {# Testo aktyvacijos informacija. Testo formos aktyvacijos laukeliai #}
         <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
-            <div class="card-header bg-transparent p-0" id="list-activation">
+            <div class="card-header p-0" id="list-activation">
                 <h2 class="mb-0">
                     <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#activation" aria-expanded="false" aria-controls="activation">
                         <i id="testCaret2" class="fa fa-caret-down transition" ></i>
@@ -98,8 +122,8 @@
                 <div class="card-body">
                     <fieldset disabled>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.created_at_label'|trans }}</label>
-                            <div class="col-sm-10 input-group">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.created_at_label'|trans }}</label>
+                            <div class="col-sm-12 input-group">
                                 <input type="text" class="form-control" value="{{ test.createdAt|date('Y-m-d') }}">
                                 <div class="input-group-append" data-toggle="datetimepicker" data-target="#datetimepicker2">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -107,8 +131,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.test_start_label'|trans }}</label>
-                            <div class="col-sm-10 input-group">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.test_start_label'|trans }}</label>
+                            <div class="col-sm-12 input-group">
                                 <input type="text" class="form-control" value="{% if test.testStart %}{{ test.testStart|date('Y-m-d H:i:s')}}{% else %}{{ blank}}{% endif %}">
                                 <div class="input-group-append" data-toggle="datetimepicker" data-target="#datetimepicker2">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -116,8 +140,8 @@
                             </div>
                         </div>
                         <div class="form-group row date">
-                            <label class="col-sm-2 col-form-label">{{ 'test.form.test_end_label'|trans }}</label>
-                            <div class="col-sm-10 input-group">
+                            <label class="col-sm-12 col-form-label">{{ 'test.form.test_end_label'|trans }}</label>
+                            <div class="col-sm-12 input-group">
                                 <input type="text" class="form-control " value="{% if test.testEnd %}{{ test.testEnd|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}">
                                 <div class="input-group-append" data-toggle="datetimepicker" data-target="#datetimepicker2">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -125,8 +149,8 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-sm-2">{{ 'test.form.is_active_label'|trans }}</label>
-                            <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                            <label class="col-form-label col-sm-12">{{ 'test.form.is_active_label'|trans }}</label>
+                            <div class="col-sm-12 pl-5 custom-control custom-switch">
                                 <input type="checkbox" id="{{ test.id }}Switch" class="custom-control-input" disabled {{ test.isActive ? 'checked' : "" }} >
                                 <label class="custom-control-label" for="{{ test.id }}Switch">{{ test.isActive ? 'test.active'|trans : 'test.inactive'|trans }}</label>
                             </div>
@@ -138,7 +162,7 @@
 
         {# Testo klausimų informacija. #}
         <div class="card bg-light btn-no-top-radius ">
-            <div class="card-header bg-transparent p-0" id="list-questions">
+            <div class="card-header p-0" id="list-questions">
                 <h2 class="mb-0">
                     {% if questions is not empty %}
                         <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#questions" aria-expanded="false" aria-controls="questions">
@@ -147,7 +171,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#answers" aria-expanded="false" aria-controls="answers">
-                            <i id="testCaret3" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret3" class="disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'questions'|trans }}</span>
                         </button>
                     {% endif %}
@@ -163,8 +187,8 @@
                         {% set anwerNumeber = 0 %}
                         {% for q in questions %}
                             <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">{{ 'test.form.test_question_label'|trans }} {{ anwerNumeber +1 }}</label>
-                                <div class="col-sm-10">
+                                <label class="col-sm-12 col-form-label">{{ 'test.form.test_question_label'|trans }} {{ anwerNumeber +1 }}</label>
+                                <div class="col-sm-12">
                                     <input type="text" class="form-control" value="{{ q.question_name }}">
                                 </div>
                             </div>
@@ -186,7 +210,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#time" aria-expanded="false" aria-controls="time">
-                            <i id="testCaret4" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret4" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'time'|trans }}</span>
                         </button>
                     {% endif %}
@@ -199,13 +223,13 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                    <i class="form-text text-muted mb-3">{{ attributeText.time.description }}</i>
+                    <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.time.description }}</span>
                     {% set numb = 1 %}
                     {% for key, bc in attributes.times %}
                         {% set Time = bc.value|split(':') %}
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'attribute.time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                            <div class="col-sm-10 mb-3">
+                            <label class="col-sm-12 col-form-label">{{ 'attribute.time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-12">
                                 <div class="d-flex input-group">
                                     <input type="number" value="{{ Time[0] }}" id="test_attribute_time_{{ key }}_id" name="test_attribute_time[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
                                     <div class="input-group-prepend">
@@ -237,7 +261,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#buttonColor" aria-expanded="false" aria-controls="buttonColor">
-                            <i id="testCaret5" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret5" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'buttoncolor'|trans }}</span>
                         </button>
                     {% endif %}
@@ -250,12 +274,12 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                    <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
+                    <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</span>
                     {% set numb = 1 %}
                     {% for key, bc in attributes.buttonColors %}
                         <div class="form-group row">
-                            <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                            <div class="col-sm-10 mb-3">
+                            <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-12">
                                 <div class="d-flex">
                                     <input type="color" value="{{ bc.value }}" id="test_attribute_buttonColor_{{ key }}_id" name="test_attribute_buttonColor[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
                                 </div>
@@ -280,7 +304,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#backgroundColor" aria-expanded="false" aria-controls="backgroundColor">
-                            <i id="testCaret6" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret6" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'backgroundcolor'|trans }}</span>
                         </button>
                     {% endif %}
@@ -293,12 +317,12 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                    <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
+                    <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</span>
                     {% set numb = 1 %}
                     {% for key, bc in attributes.backgroundColors %}
                         <div class="form-group row">
-                            <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                            <div class="col-sm-10 mb-3">
+                            <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-12">
                                 <div class="d-flex">
                                     <input type="color" value="{{ bc.value }}" id="test_attribute_backgroundColor_{{ key }}_id" name="test_attribute_backgroundColor[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
                                 </div>
@@ -323,7 +347,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none" data-target="#displayTime" aria-expanded="false" aria-controls="displayTime">
-                            <i id="testCaret7" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret7" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'displaytime'|trans }}</span>
                         </button>
                     {% endif %}
@@ -336,13 +360,13 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                    <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>
+                    <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.displayTime.description }}</span>
                     {% set numb = 1 %}
                     {% for key, bc in attributes.displayTimes %}
                         {% set displayTime = bc.value|split(':') %}
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                            <div class="col-sm-10 mb-3">
+                            <label class="col-sm-12 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                            <div class="col-sm-12">
                                 <div class="d-flex input-group">
                                     <input type="number" value="{{ displayTime[0] }}" id="test_attribute_displayTime_{{ key }}_id" name="test_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="test_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
                                     <div class="input-group-prepend">
@@ -364,7 +388,7 @@
         </div>
 
         {# Testo nuotraukos savybių informacija #}
-        <div class="card bg-light btn-no-bottom-radius btn-no-top-radius border-bottom-0">
+        <div class="card bg-light btn-no-top-radius">
             <div class="card-header p-0" id="list-picture">
                 <h2 class="mb-0">
                     {% if attributes.pictures is not empty %}
@@ -374,7 +398,7 @@
                         </button>
                     {% else %}
                         <button class="btn btn-link btn-block text-left text-decoration-none text-dark p-card" type="button" data-toggle="none"  data-target="#picture" aria-expanded="false" aria-controls="picture">
-                            <i id="testCaret8" class=" disabled-menu fa fa-caret-down transition" ></i>
+                            <i id="testCaret8" class=" disabled-menu fa fa-caret-down transition rotation" ></i>
                             <span class="disabled-menu pl-2">{{ 'picture'|trans }}</span>
                         </button>
                     {% endif %}
@@ -387,10 +411,10 @@
             {% endif %}
                 <div class="card-body">
                     <fieldset disabled>
-                        <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
-                        {% if attributes.pictures is not null %}
+                        <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.picture.description }}</span>
+                        {% if attributes.pictures is defined and attributes.pictures is not empty %}
                             {% for key, pic in attributes.pictures %}
-                                {% if pic.value == 'Pašalinta' or pic.value is not defined %}
+                                {% if pic.value is empty  %}
                                     {% set link = 'build/images/' ~ 'Default.jpg' %}
                                 {% else %}
                                     {% set link = 'build/images/' ~ pic.value %}
@@ -416,5 +440,5 @@
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

@@ -42,15 +42,6 @@ class QuestionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-    public function GroupCountByQuestion($group)
-    {
-            return $this->createQueryBuilder('q')
-                ->select('count(q.id)')
-                ->andWhere('q.fk_group = :val')
-                ->setParameter('val', $group)
-                ->getQuery()
-                ->getSingleScalarResult();
-    }
 
     public function findAllAndSortNameAsc($group)
     {

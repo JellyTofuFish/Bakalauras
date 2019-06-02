@@ -4,20 +4,25 @@
 
 
     {% block admin_right_nav %}
+    {% endblock %}
+
+    {% block admin_main %}
+
+        <h1 class="d-inline float-left">{{ 'user.title.index'|trans }}</h1>
+        <span class="float-right mt-1">
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">
                     <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="pl-2" aria-hidden="true">&times;</span>
                     </button>
                     <span class='alert-message'>{{ message|trans }}</span>
                 </div>
             {% endfor %}
         {% endfor %}
-    {% endblock %}
+        </span>
+        <div class="float-none"></div>
 
-    {% block admin_main %}
-        <h1>{{ 'user.title.index'|trans }}</h1>
         <div class="table-responsive table-header-sticky">
             <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
                 <thead>

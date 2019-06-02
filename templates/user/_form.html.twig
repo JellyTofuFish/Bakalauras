@@ -1,3 +1,109 @@
 {{ form_start(form, { 'attr': { 'id':'user_form', 'class':'needs-validation', 'novalidate':''}}) }}
+<div class="accordion">
+    <div class="card bg-light">
+        <div class="card-header bg-transparent p-0" id="list-general">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#home" aria-expanded="true" aria-controls="home">
+                    <i id="attributeCaret1" class="fa fa-caret-down transition"></i>
+                    <span class="pl-2">{{ 'general'|trans }} <b class="px-2" data-toggle="tooltip" data-placement="right" title="{{ 'requied'|trans }}">*</b></span>
+                </button>
+            </h2>
+        </div>
+        <div id="home" class="tab-pane show" aria-labelledby="list-general list-general-list">
+            <div class="card-body">
+                <div class="form-group row">
+                    {{ form_label(form.email, 'user.form.email_type'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
+                        {% if (app.request.get('_route') == 'user_edit') %}
+                            {{ form_widget(form.email, { 'attr': { 'class':'form-control', 'readonly' : 'readonly'} }) }}
+                        {% else %}
+                            {{ form_widget(form.email, { 'attr': { 'class':'form-control'} }) }}
+                        {% endif %}
+                        <div class="invalid-feedback ">
+                            {{ 'user.validation.email'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ form_label(form.name, 'user.form.name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
+                        {{ form_widget(form.name, { 'attr': { 'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'user.validation.name'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ form_label(form.last_name, 'user.form.last_name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
+                        {{ form_widget(form.last_name, { 'attr': { 'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'user.validation.last_name'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{ form_label(form.phone, 'user.form.phone_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
+                        {{ form_widget(form.phone, { 'attr': { 'class':'form-control'} }) }}
+                        <div class="invalid-feedback ">
+                            {{ 'user.validation.phone'|trans }}
+                        </div>
+                    </div>
+                </div>
 
+                {% if (app.request.get('_route') == 'user_edit') and app.user.id == user.id or (app.request.get('_route') == 'user_new') %}
+                    <div class="border-grey-separator mb-4"></div>
+                    <div class="form-group row">
+                        {{ form_label(form.password.first, 'user.form.password'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                        <div class="col-sm-12">
+                            {% if (app.request.get('_route') == 'user_new') %}
+                                {{ form_widget(form.password.first, { 'attr': { 'class':'form-control', 'required':'required'  } }) }}
+                            {% else %}
+                                {{ form_widget(form.password.first, { 'attr': { 'class':'form-control'  } }) }}
+                            {% endif %}
+                            <div class="invalid-feedback ">
+                                {{ 'user.validation.password'|trans }}
+                            </div>
+                            <small class="form-text text-muted">
+                                {{ 'user.form.password_help'|trans }}
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        {{ form_label(form.password.second, 'user.form.repeated_password'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                        <div class="col-sm-12">
+                            {% if (app.request.get('_route') == 'user_new') %}
+                                {{ form_widget(form.password.second, { 'attr': { 'class':'form-control', 'required':'required'  } }) }}
+                            {% else %}
+                                {{ form_widget(form.password.second, { 'attr': { 'class':'form-control'  } }) }}
+                            {% endif %}
+                            <div class="invalid-feedback ">
+                                {{ 'user.validation.password'|trans }}
+                            </div>
+                            <small class="form-text text-muted">
+                                {{ 'user.form.password_help'|trans }}
+                            </small>
+                        </div>
+                    </div>
+                {% else %}
+                    {{ form_widget(form.password.first, { 'attr': { 'class':'display-hidden'  } }) }}
+                    {{ form_widget(form.password.second, { 'attr': { 'class':'display-hidden'  } }) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="card border-light">
+        <div class="card-header bg-transparent p-0" id="list-save">
+            <h2 class="mb-0">
+                {% if (app.request.get('_route') == 'user_edit') and app.user.id == user.id or (app.request.get('_route') == 'user_new') %}
+                    <button class="btn btn-block btn-primary btn-save btn-no-top-radius" type="submit">{{ button_label|default('Save')|trans  }}</button>
+                {% else %}
+                    <button class="btn btn-block btn-primary btn-save btn-no-top-radius disabled" disabled>{{ button_label|default('Save')|trans  }}</button>
+                {% endif %}
+            </h2>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}

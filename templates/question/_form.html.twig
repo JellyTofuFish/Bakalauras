@@ -21,8 +21,8 @@
         <div id="home" class="tab-pane show" aria-labelledby="list-general list-general-list">
             <div class="card-body">
                 <div class="form-group row">
-                    {{ form_label(form.question_name, 'question.form.question_name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10 mb-3">
+                    {{ form_label(form.question_name, 'question.form.question_name_label'|trans ~ ' *', { 'label_attr': { 'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
                         {{ form_widget(form.question_name, { 'attr': { 'class':'form-control'} }) }}
                         <div class="invalid-feedback ">
                             {{ 'question.validation.question_name'|trans }}
@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{ form_label(form.question_wording, 'question.form.question_wording_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10 mb-3">
+                    {{ form_label(form.question_wording, 'question.form.question_wording_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12 ">
                         {{ form_widget(form.question_wording, { 'attr': {'class':'form-control'} }) }}
                         <div class="invalid-feedback">
                             {{ 'question.validation.question_wording'|trans }}
@@ -39,14 +39,39 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10 mb-3">
+                    {{ form_label(form.description, null, { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
                         {{ form_widget(form.description, { 'attr': {'class':'form-control '} }) }}
                     </div>
                 </div>
+                {# Klausimo failas #}
                 <div class="form-group row">
-                    {{ form_label(form.type, 'question.form.type_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10">
+                    <span id="fileIsValid" class="display-hidden"></span>
+                    <label class="col-sm-12 col-form-label">{{ 'attribute.file'|trans }}</label>
+                    <div class="input-group col-sm-12">
+                        <div class="custom-file">
+                            {% if file is defined %}
+                                <input type="text" name="question_file[file]" class="display-hidden" form="question_form" value="1" />
+                                <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
+                                <label class="custom-file-label" for="customFile" >{% if file is not null %} {{ file }} {% else %} {{ 'attribute.file_choose'|trans }} {% endif %} </label>
+                            {% else %}
+                                <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
+                                <label class="custom-file-label"  >{{ 'attribute.file_choose'|trans }} </label>
+                            {% endif %}
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-dark p-file" type="button" id="fileRemove" data-action="{{ 'attribute.file_choose'|trans }}">{{ 'button.delete'|trans }}</button>
+                        </div>
+                    </div>
+                    <span class="col-sm-12 invalid-feedback uniqueFile">{{ 'attribute.validation.file'|trans }} </span>
+                    <small class="col-sm-12 form-text text-muted">
+                        {{ 'attribute.file_help'|trans }}
+                    </small>
+                </div>
+                {# Klausimo tipas #}
+                <div class="form-group row">
+                    {{ form_label(form.type, 'question.form.type_label'|trans ~ ' *', { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
                         <div class="d-flex">
                             {% if question.type is not null %}
                                 {{ form_widget(form.type, {'attr': {'class':'custom-select btn-no-right-radius', 'disabled':'' } }) }}
@@ -71,8 +96,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-form-label col-sm-2">{{ 'question.form.required_label'|trans }}</label>
-                    <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                    <label class="col-form-label col-sm-12">{{ 'question.form.required_label'|trans }}</label>
+                    <div class="col-sm-12 pl-5 custom-control custom-switch">
                         {{ form_widget(form.required, { 'attr': {'class':'custom-control-input'} }) }}
                         {{ form_label(form.required, null, { 'label_attr': {'class':'custom-control-label'} }) }}
                     </div>
@@ -94,8 +119,8 @@
         <div id="groups" class="tab-pane collapse" aria-labelledby="list-groups list-groups-list" >
             <div class="card-body">
                 <div class="form-group row">
-                    {{ form_label(form.fk_group, null, { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                    <div class="col-sm-10 mb-3">
+                    {{ form_label(form.fk_group, null, { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+                    <div class="col-sm-12">
                         {{ form_widget(form.fk_group, { 'attr': {'class':'custom-select'} }) }}
                     </div>
                 </div>
@@ -106,11 +131,11 @@
                     </a>
                     <div class="display-hidden">
                         <div class="d-flex">
-                            <p class="p-form text-success pr-2 pointer-default">{{ 'group.new_message'|trans }}</p>
+                            <p class="p-form text-success pr-2 pointer-default">{{ 'group.flash_message.created'|trans }}</p>
                             <i class="px-0 text-success p-form fa fa-check-circle"></i>
                         </div>
                     </div>
-                    <div class="col-sm-10 display-hidden">
+                    <div class="col-sm-12 display-hidden">
                         <div class="d-flex">
                             <input  type="text" name="group_simple[name]" form="group_new_simple" class="form-control btn-no-right-radius group_simple" pattern=".{2,50}" placeholder="Įveskite grupės pavadinimą">
                             <button class="btn btn-primary btn-no-left-radius btn-no-right-radius" form="group_new_simple" type="submit">{{ 'button.new'|trans }}</button>
@@ -148,8 +173,8 @@
                 {% set numb = 1 %}
                 {% for answer in form.answeroptions %}
                     <div class="form-group row">
-                        {{ form_label(answer.answer, 'question.form.answeroptions_label'|trans ~ ' ' ~ numb ~ ' ' ~ '*', { 'label_attr': {'class':'col-sm-2 col-form-label'} }) }}
-                        <div class="col-sm-10 mb-3">
+                        {{ form_label(answer.answer, 'question.form.answeroptions_label'|trans ~ ' ' ~ numb ~ ' ' ~ '*', { 'label_attr': {'class':'col-sm-12 col-form-label'} }) }}
+                        <div class="col-sm-12">
                             <div class="d-flex">
                                 {{ form_widget(answer.answer) }}
                             </div>
@@ -176,8 +201,8 @@
         <div id="time" class="tab-pane collapse" aria-labelledby="list-time list-time-list" >
             <div class="card-body">
                 <div class="form-group row mb-2">
-                    <label class="col-form-label col-sm-2">{{ 'question.form.time_label'|trans }}</label>
-                    <div class="col-sm-10 my-2 pl-5 custom-control custom-switch">
+                    <label class="col-form-label col-sm-12">{{ 'question.form.time_label'|trans }}</label>
+                    <div class="col-sm-12 my-2 pl-5 custom-control custom-switch">
                         <input type="checkbox" name="question_attribute_time[value]" form="question_form" id="{{ question.id }}Time" class="custom-control-input" {% if attributes.time is defined and attributes.time is not empty %} checked {% endif %}/>
                         <label class="custom-control-label" for="{{ question.id }}Time">{{ 'question.form.time_description'|trans }}</label>
                     </div>
@@ -200,13 +225,13 @@
             <div class="card-body buttoncolors" data-prototype='<div><label for="question_attribute_buttonColor___name___id" class="required">{{'attribute.button_color'|trans}}</label><input type="color" value="#007bff" id="question_attribute_buttonColor___name___id" name="question_attribute_buttonColor[__name__][id]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" /></div>
             <span class="invalid-feedback uniqueBtnC"> {{ 'attribute.validation.unique'|trans }}</span>'>
 
-                <i class="form-text text-muted mb-3">{{ attributeText.buttonColor.description }}</i>
+                <span class="pre font-italic pb-3 form-text text-muted">{{ attributeText.buttonColor.description }}</span>
 
                 {% set numb = 1 %}
                 {% for key, bc in attributes.buttonColors %}
                     <div class="form-group row">
-                        <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                        <div class="col-sm-10 mb-3">
+                        <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.button_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-12">
                             <div class="d-flex">
                                 {% if (app.request.get('_route')) == 'question_edit' %}
                                     <input type="color" value="{{ bc.value }}" id="question_attribute_buttonColor_{{ key }}_id" name="question_attribute_buttonColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.button_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBtnC" maxlength="255" />
@@ -238,13 +263,13 @@
             <div class="card-body backgroundColors" data-prototype='<div><label for="question_attribute_backgroundColor___name___id" class="required">{{'attribute.background_color'|trans}}</label><input type="color" value="#FFFFFF" id="question_attribute_backgroundColor___name___id" name="question_attribute_backgroundColor[__name__][id]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" /></div>
             <span class="invalid-feedback uniqueBgC"> {{ 'attribute.validation.unique'|trans }}</span>'>
 
-                <i class="form-text text-muted mb-3">{{ attributeText.backgroundColor.description }}</i>
+                <span class="pre font-italic pb-3 form-text text-muted">{{ attributeText.backgroundColor.description }}</span>
 
                 {% set numb = 1 %}
                 {% for key, bc in attributes.backgroundColors %}
                     <div class="form-group row">
-                        <label for="inputDescription" class="col-sm-2 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                        <div class="col-sm-10 mb-3">
+                        <label for="inputDescription" class="col-sm-12 col-form-label">{{ 'attribute.background_color'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-12">
                             <div class="d-flex">
                                 {% if (app.request.get('_route')) == 'question_edit' %}
                                     <input type="color" value="{{ bc.value }}" id="question_attribute_backgroundColor_{{ key }}_id" name="question_attribute_backgroundColor[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{'attribute.background_color_placeholder'|trans}}" class="form-control btn-no-right-radius uniqueBgC" maxlength="255" />
@@ -279,15 +304,15 @@
                     <input type="number" id="question_attribute_displayTime___name___vis" name="question_attribute_displayTime[__name__][vis]" form="question_form" required="required" class="text-center form-control bool" placeholder="{{ 'attribute.display_time_placeholder_skip'|trans }}"  min="0" max="1" maxlength="1" />
                     </block>'>
 
-                <i class="form-text text-muted mb-3">{{ attributeText.displayTime.description }}</i>
+                <span class="pre font-italic pb-3 form-text text-muted">{{ attributeText.displayTime.description }}</span>
 
                 {% set numb = 1 %}
                 {% for key, bc in attributes.displayTimes %}
 
                     {% set displayTime = bc.value|split(':') %}
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
-                        <div class="col-sm-10 mb-3">
+                        <label class="col-sm-12 col-form-label">{{ 'attribute.display_time'|trans ~ ' ' ~ numb ~ ' ' ~ '*' }}</label>
+                        <div class="col-sm-12">
                             <div class="d-flex input-group">
                                 {% if (app.request.get('_route')) == 'question_edit' %}
                                     <input type="number" value="{{ displayTime[0] }}" id="question_attribute_displayTime_{{ key }}_id" name="question_attribute_displayTime[{{ key }}][{{ bc.id }}]" form="question_form" required="required" placeholder="{{ 'attribute.display_time_placeholder_time'|trans }}" class="text-center form-control " min="0" max="9999" maxlength="99999" oninput="this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 99999) ? (0/0) : this.value;"/>
@@ -336,7 +361,7 @@
             <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>'>
 
                 <span id="pictureIsValid" class="display-hidden"></span>
-                <i class="form-text text-muted mb-3">{{ attributeText.picture.description }}</i>
+                <span class="pre font-italic form-text text-muted mb-3">{{ attributeText.picture.description }}</span>
 
                 {% for key, pic in attributes.pictures %}
                 <div class="mb-4">
@@ -352,42 +377,6 @@
                     <span class="invalid-feedback uniquePicture"> {{ 'attribute.validation.required'|trans }}</span>
                 </div>
                 {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    {# Klausimo failo informacija #}
-    <div class="card bg-light">
-        <div class="card-header p-0" id="list-file">
-            <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsed text-decoration-none text-dark card-collapse p-card" type="button" data-toggle="collapse" data-target="#file" aria-expanded="false" aria-controls="file">
-                    <i id="questionCaret8" class="fa fa-caret-down transition rotation" ></i>
-                    <span class="pl-2">{{ 'file'|trans }}</span>
-                </button>
-            </h2>
-        </div>
-        <div id="file" class="tab-pane collapse" aria-labelledby="list-file list-file-list" >
-            <div class="card-body">
-                <span id="fileIsValid" class="display-hidden"></span>
-                <div class="input-group">
-                    <div class="custom-file">
-                        {% if file is defined %}
-                            <input type="text" name="question_file[file]" class="display-hidden" form="question_form" value="1" />
-                            <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
-                            <label class="custom-file-label" for="customFile" >{% if file is not null %} {{ file }} {% else %} {{ 'attribute.file_choose'|trans }} {% endif %} </label>
-                        {% else %}
-                            <input type="file" name="file" class="uniqueFile custom-file-input" id="customFile" accept=".png, .jpg, .jpeg" form="question_form"/>
-                            <label class="custom-file-label"  >{{ 'attribute.file_choose'|trans }} </label>
-                        {% endif %}
-                    </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-dark px-3" type="button" id="fileRemove" data-action="{{ 'attribute.file_choose'|trans }}">{{ 'button.delete'|trans }}</button>
-                    </div>
-                </div>
-                <span class="invalid-feedback uniqueFile">{{ 'attribute.validation.file'|trans }} </span>
-                <small class="form-text text-muted">
-                    {{ 'attribute.file_help'|trans }}
-                </small>
             </div>
         </div>
     </div>

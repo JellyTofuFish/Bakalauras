@@ -8,7 +8,7 @@
 {% set group = app.session.get('groupsort') %}
 {% if group != "full" and group != null %}
     <li class="toc-entry">
-        <a href="{{ path('question_index', { 'group':'full' }) }}" class="modal-append-show badge badge-danger text-white">{{ 'group.button.filter_remove'|trans }}</a>
+        <a href="{{ path('question_index', { 'group':'full' }) }}" class="modal-append-show badge badge-danger text-white py-1">{{ 'group.button.filter_remove'|trans }}</a>
     </li>
 {% endif %}
 <div class="my-2"></div>

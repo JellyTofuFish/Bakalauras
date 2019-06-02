@@ -59,13 +59,13 @@ class Question
     private $participantAnswers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\QuestionAttribute", mappedBy="fk_question")
+     * @ORM\OneToMany(targetEntity="App\Entity\QuestionAttribute", mappedBy="fk_question", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $questionAttributes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", mappedBy="fk_question")
+     * @ORM\OneToMany(targetEntity="App\Entity\TestQuestion", orphanRemoval=true, mappedBy="fk_question")
      * @ORM\JoinColumn(nullable=true)
      */
     private $testQuestions;
@@ -77,6 +77,7 @@ class Question
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="questions")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $fk_user;
 

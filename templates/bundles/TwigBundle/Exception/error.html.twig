@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ 'error.title'|trans }} | ETS{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-xl-5 mt-25 text-center">
+            <h1 class="mb-5 text-primary">{{ 'error.header'|trans }}:</h1>
+            <p>
+                {{ 'error.content'|trans }}
+                <a href="{{ path('home_index') }}">{{ 'error.go_back'|trans }}</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

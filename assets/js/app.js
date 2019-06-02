@@ -72,20 +72,19 @@ $(function () {
         },
     });
 });
-$('.fa-eye').click(function () {
-    $(this).parent().blur();
-});
-$('.fa-file-excel-o').click(function () {
-    $(this).parent().blur();
-});
-$('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
-$('.modal-delete').click(function () {
-    let item = $(this).data('target');
-    $(item).fadeIn('fast');
-    $('.modal-delete-cancel').click(function () {
-        $(item).fadeOut(0);
+$('.fa').click(function () {
+    let link = $(this).parent();
+    $(link).blur();
+    let modal = $(link).data('target');
+    $(modal).on('hidden.bs.modal', function (e) {
+        setTimeout(function(){
+            $(link).blur();
+        }, 5);
     });
 });
+
+$('.dropdown-menu').on("click.bs.dropdown", function (e) { e.stopPropagation(); });
+
 $(".card-collapse").click(function (e) {
     let caret = $(this).children('i');
     let $link = $(e.target);
@@ -206,7 +205,7 @@ function image(key, valid){
             $(valid).html(true);
         }
         image.onload = function() {
-            if( this.width > 1500 || this.height > 900 ) {
+            if( this.width > 1500 || this.height > 1500 ) {
                 $(valid).html(true);
             }
         };
@@ -232,6 +231,7 @@ function questionAjaxPost(form, url, redi = false) {
             window.location.replace(link);
         }
         else {
+            $('#question_type').attr('disabled','disabled');
             location.reload();
         }
     })
@@ -263,6 +263,7 @@ $('.questionTypeEditSave').click(function( event ) {
 });
 $('.questionTypeRemove').click(function( event ) {
     event.preventDefault();
+    $(this).blur();
     $(val).removeClass('invalid').attr('disabled', false).parent().nextAll('div.invalid-feedback').hide();
     $(this).hide(0).prev().fadeIn('fast');
 });
@@ -271,6 +272,7 @@ $('.questionSave').click(function( event ){
     event.preventDefault();
     $('#pictureIsValid').html('');
     $('#fileIsValid').html('');
+    let action = $(this).data('link');
     let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
     let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
     hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'), $('#fileIsValid'));
@@ -304,9 +306,10 @@ $('.questionSave').click(function( event ){
             $('span.uniqueFile').hide();
             $(':input.uniquePicture').next().removeClass('invalid');
             $('span.uniquePicture').hide();
+            form.action = action;
             form.submit();
         }
-    }, 10);
+    }, 20);
     form.addClass('was-validated');
 });
 
@@ -314,6 +317,7 @@ $('.questionEditSave').click(function( event) {
     event.preventDefault();
     $('#pictureIsValid').html('');
     $('#fileIsValid').html('');
+    let action = $(this).data('link');
     let button = checkAttributeValidity($(':input.uniqueBtnC'), $('span.uniqueBtnC'));
     let background = checkAttributeValidity($(':input.uniqueBgC'), $('span.uniqueBgC'));
         hasExtensionFile($(':input.uniqueFile'), $('span.uniqueFile'), $('#fileIsValid'));
@@ -347,39 +351,17 @@ $('.questionEditSave').click(function( event) {
             $('span.uniqueFile').hide();
             $(':input.uniquePicture').next().removeClass('invalid');
             $('span.uniquePicture').hide();
+            form.action = action;
             form.submit();
         }
-    }, 10);
+    }, 20);
     form.addClass('was-validated');
 });
 $('#question_form').submit(function () { $('[disabled]').removeAttr('disabled');});
 bsCustomFileInput.init();
 $('#question_form').change(function () { bsCustomFileInput.init();});
 
-// Group controller / html functions
-
-$('.groupsSubmit').submit(function( event ) {
-
-    event.preventDefault();
-    var form = $(this);
-    var url = form.attr('action');
-
-    let input1 = $(this).children(":first").next().val();
-    let input2 = $('#inputgroupname' + input1 ).val();
-    let input3 = $('#inputgroupdesc' + input1 ).val();
-
-    if ( form[0].checkValidity() === true ) {
-        $.ajax({
-            type: form.attr('method'),
-            url: url,
-            data: {id: input1, name: input2, desc: input3},
-            dataType: "text",
-            success: function () {
-                document.location.reload(true);
-            }
-        });
-    }
-});
+// group add in question form
 $(".groupAdd").click(function (event) {
     event.preventDefault();
     let itemInput = $(this).data('target');
@@ -421,6 +403,19 @@ $(".groupAdd").click(function (event) {
         $(itemInput).val('');
         $(itemDisplayDiv).fadeOut(0);
         $(itemAdd).fadeIn('fast');
+    });
+});
+
+// Group controller / html functions
+
+$('.groupDelete').click(function () {
+    let deleteForm = $(this).data('target'),
+        editForm = $('.groupEdit');
+    $(editForm).hide(0);
+    $(deleteForm).fadeIn('slow');
+    $('.groupDeleteCancel').click(function () {
+        $(editForm).fadeIn('fast');
+        $(deleteForm).hide(0);
     });
 });
 
@@ -530,13 +525,12 @@ if ($('input.test-slug').data('action') === 'question example') {
     });
 }
 
-// Test start execute
 
 if ($('input.test-slug').data('action') === 'test participation' ) {
     $("article.test:last").find("button.next").hide().parent().append('<button type="submit" class="submit float-right btn btn-danger">Baigti testą</button>');
 }
 else {
-    $("article.test:last").find("button.next").hide().parent().append('<button class="example-end float-right btn btn-danger">Baigti testą</button>');
+    $("article.test:last").find("button.next").hide().parent().append('<button class="example-end float-right btn btn-secondary">Periūros pabaiga</button>');
 }
 //hide the first button labeled previous
 $("article.test:first").find("button.prev").hide();
@@ -678,6 +672,7 @@ $("button.prev").on("click", function(e) {
 });
 $("button.example-end").on("click", function(e) {
     endTest(e, $(this));
+    window.close();
 });
 $("button.submit").on("click", function(e) {
     endTest(e, $(this));
@@ -991,8 +986,8 @@ function addAnswerForm($collectionHolder, $newLinkLi) {
 
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-12 ">' +
             '<div class="d-flex">' + input +
             '</div>' +
             '</div>' +
@@ -1014,8 +1009,8 @@ function addAnswerFormDeleteLink($tagFormLi) {
 // Collection of button color attributes
 
 var $collectionHolderBtnC;
-var $addButtonBtnC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują mygtuko spalvą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkBtnC = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują spalvą</label></div>').append($addButtonBtnC);
+var $addButtonBtnC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują mygtuko spalvos savybę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkBtnC = $('<div class="form-group row mb-0"><label class="col-sm-3 col-form-label">Spalvos savybės kūrimas</label></div>').append($addButtonBtnC);
 
 (function() {
     $collectionHolderBtnC = $('div.buttoncolors');
@@ -1047,8 +1042,8 @@ function addBtnCForm($collectionHolderBtnC, $newLinkBtnC) {
 
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-12">' +
             '<div class="d-flex">' + input +
             '</div>' +
             span +
@@ -1071,8 +1066,8 @@ function addBtnCFormDeleteLink($tagFormLi) {
 // Collection of background color attributes
 
 var $collectionHolderBgC;
-var $addButtonBgC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują fono spalvą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkBgC = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują spalvą</label></div>').append($addButtonBgC);
+var $addButtonBgC = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują fono spalvos savybę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkBgC = $('<div class="form-group row mb-0"><label class="col-sm-3 col-form-label">Spalvos savybės kūrimas</label></div>').append($addButtonBgC);
 
 (function() {
     $collectionHolderBgC = $('div.backgroundColors');
@@ -1104,8 +1099,8 @@ function addBgCForm($collectionHolderBgC, $newLinkBgC) {
 
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-12">' +
             '<div class="d-flex">' + input +
             '</div>' +
             span +
@@ -1128,8 +1123,8 @@ function addBgCFormDeleteLink($tagFormLi) {
 // Collection of Time attributes
 
 var $collectionHolderT;
-var $addButtonT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują laiko skaičiavimo vienetą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkT = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują laiką</label></div>').append($addButtonT);
+var $addButtonT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują laiko skaičiavimo savybę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkT = $('<div class="form-group row mb-0"><label class="col-sm-3 col-form-label">Laiko savybės kūrimas</label></div>').append($addButtonT);
 
 (function() {
     $collectionHolderT = $('div.times');
@@ -1162,8 +1157,8 @@ function addTForm($collectionHolderT, $newLinkT) {
     var function2 = 'this.value=this.value.slice(0,this.maxLength||0/0);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value';
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-12">' +
             '<div class="d-flex input-group">' +
             inputs[0] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 font-weight-bold">' + ' : ' +'</span></div>'+
             inputs[1] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 border-right-0 font-weight-bold">'+' : '+'</span></div>'+
@@ -1190,8 +1185,8 @@ function addTFormDeleteLink($tagFormLi) {
 // Collection of display Time attributes
 
 var $collectionHolderDT;
-var $addButtonDT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują rodymo trukmę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkDT = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują trukmę</label></div>').append($addButtonDT);
+var $addButtonDT = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują rodymo trukmės savybę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkDT = $('<div class="form-group row mb-0"><label class="col-sm-3 col-form-label">Rodymo trukmės savybės kūrimas</label></div>').append($addButtonDT);
 
 (function() {
     $collectionHolderDT = $('div.displayTimes');
@@ -1224,8 +1219,8 @@ function addDTForm($collectionHolderDT, $newLinkDT) {
     var function2 = 'this.value=this.value.slice(0,this.maxLength||0/1);this.value=(this.value < 0 || this.value > 1) ? (0/0) : this.value';
     var $newFormLi =
         $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + ' ' + '*' + '</label>' +
+            '<div class="col-sm-12 ">' +
             '<div class="d-flex input-group">' +
             inputs[0] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 font-weight-bold">' + ' : ' +'</span></div>'+
             inputs[1] + '<div class="input-group-prepend"><span class="input-group-text border-left-0 border-right-0 font-weight-bold">'+' : '+'</span></div>'+
@@ -1249,69 +1244,11 @@ function addDTFormDeleteLink($tagFormLi) {
     });
 }
 
-// Collection of test question forms
-
-var $collectionHolder2;
-var $addTestQuestionButton = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Klausimo pridėjimas</label></div>').append($addTestQuestionButton);
-(function() {
-    $collectionHolder2 = $('div.testquestions');
-
-    $collectionHolder2.find('div.d-flex').each(function() {
-        addTestQuestionFormDeleteLink($(this));
-    });
-
-    $collectionHolder2.append($newLinkLi2);
-    $collectionHolder2.data('index', $collectionHolder2.find('input').length);
-
-    $addTestQuestionButton.on('click', function(e) {
-        e.preventDefault();
-        addTestQuestionForm($collectionHolder2, $newLinkLi2);
-    });
-})();
-
-function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
-
-    var prototype = $collectionHolder2.data('prototype');
-    var index = $collectionHolder2.data('index');
-
-    var newForm = prototype;
-    newForm = newForm.replace(/__name__label__/g, index);
-    newForm = newForm.replace(/__name__/g, index);
-
-    var select = newForm.match(/<select(.*?)<\/select>/ig);
-    var label = newForm.match(/<label(.*?)<\/label>/ig);
-    var number = index+1;
-    $collectionHolder2.data('index', index + 1);
-
-    var $newFormLi2 =
-        $('<div class="form-group row">' +
-            '<label class="col-sm-2 col-form-label">'+ label + ' Nr.' + number + '*' + '</label>' +
-            '<div class="col-sm-10 mb-3">' +
-            '<div class="d-flex">' + select +
-            '</div>' +
-            '</div>' +
-            '</div>');
-
-    addTestQuestionFormDeleteLink($newFormLi2.find('div.d-flex'));
-    $newLinkLi2.before($newFormLi2);
-
-}
-function addTestQuestionFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
-    $tagFormLi.append($removeFormButton);
-
-    $removeFormButton.on('click', function(e) {
-        e.preventDefault();
-        $tagFormLi.parent().parent().remove();
-    });
-}
-
 // Collection of picture attributes
 
 var $collectionHolderPic;
-var $addButtonPic = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują paveikslėlį" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
-var $newLinkPic = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Pridėti naują paveikslėlį</label></div>').append($addButtonPic);
+var $addButtonPic = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują paveikslėlio savybę" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkPic = $('<div class="form-group row mb-0"><label class="col-sm-3 col-form-label">Paveikslėlio savybės kūrimas</label></div>').append($addButtonPic);
 
 (function() {
     $collectionHolderPic = $('div.pictures');
@@ -1365,6 +1302,132 @@ function addPicFormDeleteLink($tagFormLi) {
     $removeFormButton.on('click', function(e) {
         e.preventDefault();
         $tagFormLi.parent().parent().remove();
+    });
+}
+
+// // Collection of test question forms
+
+var $collectionHolder2;
+var $addTestQuestionButton = $('<a><i data-toggle="tooltip" data-placement="right" title="Pridėti naują klausimą" class="p-form text-dark pointer fa fa-plus-square"></i></a>');
+var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col-form-label">Klausimo pridėjimas</label></div>').append($addTestQuestionButton);
+(function() {
+    $collectionHolder2 = $('div.testquestions');
+    $collectionHolder2.find('div.d-flex').each(function() {
+        addTestQuestionFormDeleteLink($(this));
+    });
+    $collectionHolder2.append($newLinkLi2);
+    $collectionHolder2.data('index', $collectionHolder2.find('div.d-flex').length);
+    updateSelectOptions();
+    $addTestQuestionButton.on('click', function(e) {
+        e.preventDefault();
+        addTestQuestionForm($collectionHolder2, $newLinkLi2);
+    });
+
+})();
+
+function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
+
+    var prototype = $collectionHolder2.data('prototype');
+    var index = $collectionHolder2.data('index');
+
+    var newForm = prototype;
+    newForm = newForm.replace(/__name__label__/g, index);
+    newForm = newForm.replace(/__name__/g, index);
+
+    var select = newForm.match(/<select(.*?)>/ig);
+    var label = newForm.match(/<label(.*?)<\/label>/ig);
+    var optionsArray = prototype.match(/<option(.*?)<\/option>/ig);
+    var options = optionsArray.toString().split(",");
+    var number = index + 1;
+    $collectionHolder2.data('index', index + 1);
+
+    let selected = [];
+    $collectionHolder2.find('option:selected').each(function () {
+        if ($(this).val() !== '') {
+            selected.push($(this).val());
+        }
+    });
+    let newOptionsString = '';
+    for (let i = 0; i < options.length; i++) {
+        let isSelected = false;
+        for (let j = 0; j < selected.length; j++) {
+            if (options[i].match(selected[j]) && $(selected[j]) !== '') {
+                isSelected = true;
+            }
+        }
+        if (!isSelected) {
+            newOptionsString = newOptionsString + options[i];
+        }
+    }
+    var $newFormLi2 =
+        $('<div class="form-group row">' +
+            '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + '*' + '</label>' +
+            '<div class="col-sm-12 ">' +
+            '<div class="d-flex">' + select + newOptionsString +'</select>' +
+            '</div>' +
+            '</div>' +
+            '</div>');
+
+    addTestQuestionFormDeleteLink($newFormLi2.find('div.d-flex'));
+    $newLinkLi2.before($newFormLi2);
+}
+function addTestQuestionFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button class="btn btn-outline-dark btn-no-left-radius">Pašalinti</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        e.preventDefault();
+        $tagFormLi.parent().parent().remove();
+        updateSelectOptions();
+    });
+}
+
+$(document).on('change','select.testSelect',function (){
+    updateSelectOptions();
+});
+
+function updateSelectOptions() {
+    var $collectionHolder3;
+    $collectionHolder3 = $('div.testquestions');
+    var prototype2 = $collectionHolder3.data('prototype');
+    var newForm2 = prototype2;
+
+    var oA2 = prototype2.match(/<option(.*?)<\/option>/ig);
+    var options = oA2.toString().split(",");
+
+    let selected = [];
+    $collectionHolder3.find('option:selected').each(function () {
+        if ($(this).val() !== '') {
+            selected.push($(this).val());
+        }
+    });
+    $collectionHolder3.find('select.testSelect').each(function() {
+        let newOptionsString = '',
+            select = $(this),
+            selectedOption = '';
+        $(select).find('option:selected').each(function () {
+            selectedOption = $(this).val();
+        });
+
+        for (let i = 0; i < options.length; i++) {
+            let optionString = '';
+            if ($(options[i]).val() === selectedOption) {
+                    optionString = '<option value="' + $(options[i]).val() + '" selected="selected">' + $(options[i]).text() + '</option>';
+            }
+            else {
+                let isSelected = false;
+                for (let j = 0; j < selected.length; j++) {
+                    if ($(options[i]).val() === selected[j] && $(selected[j]) !== '') {
+                        isSelected = true;
+                    }
+                }
+                if (!isSelected) {
+                    optionString = '<option value="' + $(options[i]).val() + '">' + $(options[i]).text() + '</option>';
+                }
+            }
+            newOptionsString = newOptionsString + optionString;
+        }
+        $(select).html(newOptionsString);
     });
 }
 

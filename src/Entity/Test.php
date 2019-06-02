@@ -55,7 +55,7 @@ class Test
     private $test_end;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TestAttribute", mappedBy="fk_test")
+     * @ORM\OneToMany(targetEntity="App\Entity\TestAttribute", mappedBy="fk_test", orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $testAttributes;

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AnswerOption;
 use App\Entity\Attribute;
 use App\Entity\Files;
+use App\Entity\GroupList;
 use App\Entity\ParticipantAnswer;
 use App\Entity\ParticipantAnswerAttribute;
 use App\Entity\Question;
@@ -256,7 +257,7 @@ class TestController extends AbstractController
                         }
                     }
                 }
-
+                $this->addFlash('success', 'test.flash_message.created');
                 return $this->redirectToRoute('test_index');
             }
         }
@@ -723,8 +724,8 @@ class TestController extends AbstractController
         $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
 
         $form->handleRequest($request);
-        $testQuestions = $Test->getTestQuestions();
         if ($form->isSubmitted() && $form->isValid()) {
+            $testQuestions = $Test->getTestQuestions();
             $i = 1;
             foreach ($testQuestions as $tq) {
                 if (false === $Test->getTestQuestions()->contains($tq)) {
@@ -929,22 +930,24 @@ class TestController extends AbstractController
                         else {
                             $newfile = new File($value1['tmp_name']);
                             $fileName = $value1['name'];
+                            $attributeByVal = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['value' => $fileName]);
                             if (in_array($attribute, $attributes['pictures'])) {
                                 $this->deleteFile($attribute->getValue());
                                 $attribute->setValue($fileName);
                                 $entityManager->persist($attribute);
                                 $question_attribute[] = $attribute;
-                                try {
-                                    $newfile->move(
-                                        $this->getParameter('brochures_directory'),
-                                        $fileName
-                                    );
-                                } catch (FileException $e) {
-                                    throw $this->createNotFoundException('file not uploaded');
+                                if ($attributeByVal == null) {
+                                    try {
+                                        $newfile->move(
+                                            $this->getParameter('brochures_directory'),
+                                            $fileName
+                                        );
+                                    } catch (FileException $e) {
+                                        throw $this->createNotFoundException('file not uploaded');
+                                    }
                                 }
                             } else {
-                                $attribute = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findOneBy(['value' => $fileName]);
-                                if ($attribute == null) {
+                                if ($attributeByVal == null) {
                                     try {
                                         $newfile->move(
                                             $this->getParameter('brochures_directory'),
@@ -992,7 +995,6 @@ class TestController extends AbstractController
                     $entityManager->flush();
                 }
             }
-
             $this->addFlash('success', 'test.flash_message.edited');
             return $this->redirectToRoute('test_index', [
             ]);
@@ -1006,28 +1008,31 @@ class TestController extends AbstractController
         ]);
     }
 
-    public function deleteFile( $questionFile ) {
-        $entityManager = $this->getDoctrine()->getManager();
-        if (file_exists($this->getParameter('brochures_directory') . '/' . $questionFile)) {
-            unlink($this->getParameter('brochures_directory') . '/' . $questionFile);
+    public function deleteFile( $File ) {
+
+        $questionAttributes = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findBy(['value' => $File]);
+        $testAttributes = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findBy(['value' => $File]);
+        $files = $this->getDoctrine()->getManager()->getRepository(Files::class)->findBy(['name' => $File]);
+        $count = 0;
+        if ($questionAttributes != null) {
+            foreach ($questionAttributes as $attribute) {
+                $count = $count + 1;
+            }
         }
-        $questionAttributes = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findBy(['value' => $questionFile]);
-        foreach ($questionAttributes as $qa) {
-            $qa->setValue('Pašalinta');
-            $entityManager->persist($qa);
-            $entityManager->flush();
+        if ($testAttributes != null) {
+            foreach ($testAttributes as $attribute) {
+                $count = $count + 1;
+            }
         }
-        $testAttributes = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findBy(['value' => $questionFile]);
-        foreach ($testAttributes as $ta) {
-            $ta->setValue('Pašalinta');
-            $entityManager->persist($ta);
-            $entityManager->flush();
+        if ($files != null) {
+            foreach ($files as $file) {
+                $count = $count + 1;
+            }
         }
-        $files = $this->getDoctrine()->getManager()->getRepository(Files::class)->findBy(['name' => $questionFile]);
-        foreach ($files as $f) {
-            $f->setName('Pašalinta');
-            $entityManager->persist($f);
-            $entityManager->flush();
+        if ($count <= 1 ){
+            if (file_exists($this->getParameter('brochures_directory') . '/' . $File)) {
+                unlink($this->getParameter('brochures_directory') . '/' . $File);
+            }
         }
     }
 
@@ -1042,24 +1047,101 @@ class TestController extends AbstractController
         }
         if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
 
+            $attributes = [];
+            $attributes['times'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByTime($Test);
+            $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
+            $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
+            $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
+            $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
             $questions = $Test->getTestQuestions();
             foreach ($questions as $q) {
                 $Test->removeTestQuestion($q);
                 $entityManager->persist($Test);
                 $entityManager->flush();
             }
+            dump($attributes);
+            if ($attributes['pictures'] != null) {
+                foreach ($attributes['pictures'] as $picture) {
+                    if (!in_array($picture, [])) {
+                        $this->deleteFile($picture->getValue());
+                        $attributesArray = $picture->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $picture->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($picture);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($picture);
+                        $entityManager->flush();
+                    }
+                }
+            }
+            if ($attributes['displayTimes'] != null) {
+                foreach ($attributes['displayTimes'] as $DT) {
+                    if (!in_array($DT, [])) {
+                        $attributesArray = $DT->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $DT->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($DT);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($DT);
+                        $entityManager->flush();
+                    }
+                }
+            }
+            if ($attributes['backgroundColors'] != null) {
+                foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
+                    if (!in_array($backgroundColor, [])) {
+                        $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $backgroundColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($backgroundColor);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($backgroundColor);
+                        $entityManager->flush();
+                    }
+                }
+            }
+            if ($attributes['buttonColors'] != null) {
+                foreach ( $attributes['buttonColors'] as $buttonColor ) {
+                    if (!in_array($buttonColor, [])) {
+                        $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $buttonColor->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($buttonColor);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($buttonColor);
+                        $entityManager->flush();
+                    }
+                }
+            }
 
+            if ($attributes['times'] != null) {
+                foreach ( $attributes['times'] as $T ) {
+                    if (!in_array($T, [])) {
+                        $attributesArray = $T->getParticipantAnswerAttributes();
+                        foreach ($attributesArray as $a) {
+                            $T->removeParticipantAnswerAttribute($a);
+                            $entityManager->persist($T);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($T);
+                        $entityManager->flush();
+                    }
+                }
+            }
             $Tattribute = $Test->getTestAttributes();
             foreach ($Tattribute as $ta) {
                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $ta->getFkAttribute()]);
-                if ($attribute->getName() == 'picture'){
+                if ($attribute->getName() == 'picture') {
                     $this->deleteFile($ta->getValue());
                 }
                 $Test->removeTestAttribute($ta);
                 $entityManager->persist($Test);
                 $entityManager->flush();
             }
-
             $testPart = $Test->getTestParticipations();
             foreach ($testPart as $tp) {
                 $Test->removeTestParticipation($tp);
@@ -1069,6 +1151,7 @@ class TestController extends AbstractController
 
             $entityManager->remove($Test);
             $entityManager->flush();
+            $this->addFlash('warning', 'test.flash_message.deleted');
         }
 
         return $this->redirectToRoute('test_index');
@@ -1085,15 +1168,17 @@ class TestController extends AbstractController
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
         $spreadsheet = new Spreadsheet();
-
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
         $sheet = $spreadsheet->getActiveSheet();
-
-        $rowHeader = 3;
-        $row = 4;
+        $rowTitle = 4;
+        $rowHeader = 5;
+        $row = 6;
         $collum = 1;
         $sheet->setCellValue('A1', 'Pavadinimas');
+        $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('A2', $Test->getName());
         $sheet->setCellValue('B1', 'Aprašas');
+        $sheet->getStyle('B1')->getAlignment()->setWrapText(true);
         if ($Test->getDescription() != null) {
             $sheet->setCellValue('B2', $Test->getDescription());
         }
@@ -1101,8 +1186,10 @@ class TestController extends AbstractController
             $sheet->setCellValue('B2', '-');
         }
         $sheet->setCellValue('C1', 'Testo pradžia');
+        $sheet->getStyle('C1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('C2', $Test->getTestStart());
         $sheet->setCellValue('D1', 'Testo pabaiga');
+        $sheet->getStyle('D1')->getAlignment()->setWrapText(true);
         if ($Test->getDescription() != null) {
             $sheet->setCellValue('D2', $Test->getTestEnd());
         }
@@ -1110,64 +1197,102 @@ class TestController extends AbstractController
             $sheet->setCellValue('D2', '-');
         }
         $sheet->setCellValue('E1', 'Sukūrimo data');
+        $sheet->getStyle('E1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('E2', $Test->getCreatedAt());
         $sheet->setCellValue('F1', 'Kodas');
+        $sheet->getStyle('F1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('F2', $Test->getCode());
         $sheet->setCellValue('G1', 'Abipusė navigacija');
+        $sheet->getStyle('G1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('G2', $Test->getPrevButton() ? 'taip' : 'ne');
 
         $header = false;
         $participations = $Test->getTestParticipations();
         foreach ($participations as $participation) {
             $collum = 1;
+            $merge1 = 0;
+            $merge2 = 0;
             $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
             if (!$header) {
                 $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pradžia");
+                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             }
             $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestStartedAt());
+            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
             $collum = $collum +1;
             if (!$header) {
             $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pabaiga" );
+                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             }
             $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestEndedAt()->format('Y:m:d H:m:s'));
+            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
             $collum = $collum +1;
             foreach ($participantAnswers as $answer) {
+                $merge1 = $collum;
                 $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
-                if (!$header) {
-                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Klausimo tipas");
-                }
-                $sheet->setCellValueByColumnAndRow($collum, $row, $question->getType());
-                $collum = $collum +1;
-                if ($question->getType() == 'one' or $question->getType() == 'multi'){
+                if ($question != null ) {
                     if (!$header) {
-                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Atsakymas");
-                    }
-                    $answerOptions = $answer->getFkAnsweroption();
-                    $answers = '';
-                    foreach ($answerOptions as $answerOption) {
-                        if ($answerOption->getAnswer() != null) {
-                            $answers = $answers . $answerOption->getAnswer() . ';';
+                        $group = $entityManager->getRepository(GroupList::class)->findOneBy(['id' => $question->getFkGroup()]);
+                        if ($group != null) {
+                            $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $group->getName() . ' : ' . $question->getQuestionName());
+                        } else {
+                            $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $question->getQuestionName());
                         }
+                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
+                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getAlignment()->setWrapText(true);
                     }
-                    if ($answers != '') {
-                        $sheet->setCellValueByColumnAndRow($collum, $row, $answers);
+                    if ($question->getType() == 'one' or $question->getType() == 'multi') {
+                        if (!$header) {
+                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() ." klausimo tipo atsakymas");
+                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                        }
+                        $answerOptions = $answer->getFkAnsweroption();
+                        $answers = '';
+                        foreach ($answerOptions as $answerOption) {
+                            if ($answerOption->getAnswer() != null) {
+                                $answers = $answers . $answerOption->getAnswer() . ';';
+                            }
+                        }
+                        if ($answers != '') {
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $answers);
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                        } else {
+                            $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                        }
+                        $collum = $collum + 1;
                     }
-                    else {
-                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                    if ($question->getType() == 'open') {
+                        if (!$header) {
+                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() ." klausimo tipo atsakymas");
+                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                        }
+                        if ($answer->getAnswer() != null) {
+                            $sheet->setCellValueByColumnAndRow($collum, $row, $answer->getAnswer());
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                        } else {
+                            $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                        }
+                        $collum = $collum + 1;
                     }
-                    $collum = $collum +1;
-                }
-                if ($question->getType() == 'open') {
+                } else {
                     if (!$header) {
-                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Atsakymas");
+                        $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, "Ištrintas klausimas");
+                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
                     }
-                    if ($answer->getAnswer() != null) {
-                        $sheet->setCellValueByColumnAndRow($collum, $row, $answer->getAnswer());
+                    if (!$header) {
+                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Klausimas");
+                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                     }
-                    else {
-                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
-                    }
-                    $collum = $collum +1;
+                    $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                    $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                    $collum = $collum + 1;
                 }
                 $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
                 if ($ParticipantAnswerAttributes != null) {
@@ -1177,48 +1302,54 @@ class TestController extends AbstractController
                             $questionAttribute = $entityManager->getRepository(QuestionAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkQuestionAttribute()]);
                             $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
                             if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Savybė");
-                            }
-                            $sheet->setCellValueByColumnAndRow($collum, $row, $attribute->getName());
-                            $collum = $collum +1;
-                            if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Reikšmė");
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
+                                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                             }
                             $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                             $collum = $collum +1;
                             if ($attribute->getName() == 'time') {
                                 if (!$header) {
-                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Laikas");
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                    $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                 }
                                 $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                 $collum = $collum +1;
                             }
                         } else {
                             $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
                             if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Savybė");
-                            }
-                            $sheet->setCellValueByColumnAndRow($collum, $row, $attribute->getName());
-                            $collum = $collum +1;
-                            if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Reikšmė");
+                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() ." savybės reikšmė");
+                                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                             }
                             $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                             $collum = $collum +1;
                             if ($attribute->getName() == 'time') {
                                 if (!$header) {
-                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Laikas");
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() ." laiko vertė");
+                                    $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                 }
                                 $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                 $collum = $collum +1;
                             }
                         }
                     }
                 }
+                if (!$header) {
+                    $sheet->mergeCellsByColumnAndRow($merge1, $rowTitle, $collum-1, $rowTitle);
+                }
             }
             $row= $row + 1;
-            $header = true;
+            $header = false;
         }
+
         $sheet->setTitle($test->getName());
 
         // Create your Office 2007 Excel (XLSX Format)
@@ -1336,6 +1467,7 @@ class TestController extends AbstractController
                 $entityManager->flush();
             }
         }
+        $this->addFlash('success', 'test.flash_message.copy');
         return $this->redirectToRoute('test_index');
     }
 }

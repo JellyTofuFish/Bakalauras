@@ -17,13 +17,6 @@ class TestQuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-//            ->add('serial_number', IntegerType::class)
-//            ->add('fk_test', EntityType::class,[
-//                'class' => Test::class,
-//                'choice_label' => 'name',
-//                'multiple' => false,
-//                'expanded' => false,
-//                ])
             ->add('fk_question', EntityType::class, [
                 'placeholder' => 'test.form.test_question_input_placeholder',
                 'class' => Question::class,
@@ -34,7 +27,7 @@ class TestQuestionType extends AbstractType
                         ->addOrderBy('q.question_name', 'ASC')
                         ;
                 },
-                'attr' => [ 'class'=>'custom-select btn-no-right-radius'],
+                'attr' => [ 'class'=>'testSelect custom-select btn-no-right-radius'],
                 'multiple' => false,
                 'expanded' => false,
                 'label' => 'test.form.test_question_label',

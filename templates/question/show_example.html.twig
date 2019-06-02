@@ -31,8 +31,8 @@
         <div class="col-md-5 col-xl-5 offset-2 my-2">
 
         {# Files #}
-        {% if data.file is not empty %}
-            {% if data.file.name == 'Pašalinta' or data.file.name is not defined %}
+        {% if data.file is defined and data.file is not empty %}
+            {% if data.file.name is empty %}
                 {% set link = 'build/images/' ~ 'Default.jpg' %}
             {% else %}
                 {% set link = 'build/images/' ~ data.file.name %}
@@ -55,14 +55,14 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap "><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor m-0"> {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
-                    {% if data.paramPictures is not empty %}
+                    {% if data.paramPictures is defined and data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
+                            {% if picture.value is empty %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -132,14 +132,14 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor m-0"> {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
-                    {% if data.paramPictures is not empty %}
+                    {% if data.paramPictures is defined and data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
+                            {% if picture.value is empty %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -213,14 +213,14 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="backgroundColor m-0" > {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0" > {{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
-                    {% if data.paramPictures is not empty %}
+                    {% if data.paramPictures is defined and data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
+                            {% if picture.value is empty %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -284,14 +284,14 @@
 
             <article class="pb-2">
                 <div class="d-flex">
-                    <h2 class="backgroundColor m-0"> {{ data.question.questionWording }}</h2>
+                    <h2 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h2>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
                     {# picture atttribute #}
-                    {% if data.paramPictures is not empty %}
+                    {% if data.paramPictures is defined and data.paramPictures is not empty %}
                         {% for picture in data.paramPictures %}
-                            {% if picture.value == 'Pašalinta' or picture.value  is not defined %}
+                            {% if picture.value is empty %}
                                 {% set link = 'build/images/' ~ 'Default.jpg' %}
                             {% else %}
                                 {% set link = 'build/images/' ~ picture.value %}
@@ -436,15 +436,17 @@
                                 <button type="button" class="dropdown-toggle text-left btn btn-light btn-block mb-2" id="dropdownDsplyTme" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 badge badge-dark">{{ data.paramPictures|length }}</span>{{ 'attribute.file'|trans }}
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownDsplyTme">
+                                <div class="dropdown-menu w-100" aria-labelledby="dropdownDsplyTme">
                                     <h6 class="dropdown-header">{{ 'attribute.files'|trans }}:</h6>
                                     {% set numb = 1 %}
                                     {% for pictureA in data.paramPictures %}
                                         <a class="btn btn-outline-dark dropdown-item px-2 btn-no-left-radius btn-no-right-radius paramPicture" data-attribute="{{ pictureA.id }}">
-                                            {{ numb }}.
+                                            <p class="w-100"> {{ numb }}.
                                             {% if pictureA.value is null %} {{ 'attribute.file_missing'|trans }}
-                                            {% else %} {{ pictureA.value }}
+                                            {% else %}
+                                                 {{ pictureA.value }}
                                             {% endif %}
+                                            </p>
                                         </a>
                                         {% set numb = numb +1 %}
                                     {% endfor %}
