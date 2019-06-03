@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +49,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="320">
@@ -60,14 +58,20 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1567">
+              <caret line="1338" column="37" lean-forward="true" selection-start-line="1338" selection-start-column="37" selection-end-line="1338" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1840">
+            <state relative-caret-position="1040">
               <caret line="65" column="44" selection-start-line="65" selection-start-column="44" selection-end-line="65" selection-end-column="44" />
-              <folding>
-                <element signature="e#7039#7071#0#PHP" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -75,7 +79,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/test/show_example.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
+            <state relative-caret-position="6260">
               <caret line="313" column="61" selection-start-line="313" selection-start-column="46" selection-end-line="313" selection-end-column="61" />
             </state>
           </provider>
@@ -84,7 +88,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
+            <state relative-caret-position="1420">
               <caret line="71" column="48" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="48" />
             </state>
           </provider>
@@ -93,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/question/show_example.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="835">
+            <state relative-caret-position="1660">
               <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
             </state>
           </provider>
@@ -181,7 +185,6 @@
         <option value="$PROJECT_DIR$/templates/user/_form.html.twig" />
         <option value="$PROJECT_DIR$/templates/user/emails/password.html.twig" />
         <option value="$PROJECT_DIR$/templates/user/edit.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/TestController.php" />
         <option value="$PROJECT_DIR$/templates/user/emails/registration.html.twig" />
         <option value="$PROJECT_DIR$/templates/test/index.html.twig" />
         <option value="$PROJECT_DIR$/templates/user/index.html.twig" />
@@ -199,6 +202,7 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell_1" />
         <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/src/Controller/TestController.php" />
       </list>
     </option>
   </component>
@@ -336,6 +340,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -446,7 +451,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -543,17 +547,18 @@
       <workItem from="1559316999386" duration="143644000" />
       <workItem from="1559508615743" duration="2257000" />
       <workItem from="1559530870341" duration="4262000" />
+      <workItem from="1559540050181" duration="288000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1533563000" />
+    <option name="totallyTimeSpent" value="1533851000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.12526652" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.12633263" />
       <window_info id="Structure" order="2" sideWeight="0.39070353" side_tool="true" weight="0.13272922" />
       <window_info id="Favorites" order="3" sideWeight="0.2611051" side_tool="true" weight="0.10341151" />
       <window_info anchor="bottom" id="Database Console" order="0" sideWeight="0.48187634" weight="0.15276273" />
@@ -567,7 +572,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.48187634" weight="0.5016251" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48187634" visible="true" weight="0.41061756" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5181237" side_tool="true" weight="0.20801733" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" weight="0.32827735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -580,9 +585,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config/packages/doctrine_migrations.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/config/packages/framework.yaml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -815,41 +817,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/question/show_example.html.twig">
+    <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="835">
-          <caret line="71" column="48" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/test/show_example.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="313" column="61" selection-start-line="313" selection-start-column="46" selection-end-line="313" selection-end-column="61" />
+        <state relative-caret-position="320">
+          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1840">
+        <state relative-caret-position="1040">
           <caret line="65" column="44" selection-start-line="65" selection-start-column="44" selection-end-line="65" selection-end-column="44" />
-          <folding>
-            <element signature="e#7039#7071#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
+    <entry file="file://$PROJECT_DIR$/templates/test/show_example.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="16" column="12" selection-start-line="16" selection-start-column="12" selection-end-line="16" selection-end-column="12" />
+        <state relative-caret-position="6260">
+          <caret line="313" column="61" selection-start-line="313" selection-start-column="46" selection-end-line="313" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/test/new_participation.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1420">
+          <caret line="71" column="48" selection-start-line="71" selection-start-column="44" selection-end-line="71" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/question/show_example.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1660">
+          <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/TestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1567">
+          <caret line="1338" column="37" lean-forward="true" selection-start-line="1338" selection-start-column="37" selection-end-line="1338" selection-end-column="37" />
         </state>
       </provider>
     </entry>
