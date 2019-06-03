@@ -58,7 +58,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             $message = (new \Swift_Message("Sveiki atvykę!"))
-                ->setFrom('noreply@heroku.com')
+                ->setFrom('noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org')
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView(
@@ -189,7 +189,7 @@ class UserController extends AbstractController
                 $entityManager->persist($User);
                 $entityManager->flush();
                 $message = (new \Swift_Message("Slaptažodžio keitimas"))
-                    ->setFrom('noreply@heroku.com')
+                    ->setFrom('noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org')
                     ->setTo($User->getEmail())
                     ->setBody(
                         $this->renderView(

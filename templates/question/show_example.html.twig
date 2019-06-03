@@ -55,7 +55,7 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap "><span>{{ random(20) }}.</span></h3>
-                    <h3 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0">{{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
@@ -81,15 +81,15 @@
                     <i class="form-text text-muted-custom mb-2">- {{ 'not_required_input'|trans }}</i>
                 {% endif %}
 
-                <div class="container">
+                <div class="container answerContainer">
                     <div class="row">
                         {% set anwerNumber = 0 %}
                         {% for answer in data.answers %}
                         {% set anwerNumber = anwerNumber +1 %}
                         <div class="w-100 pb-2">
                             <div class="custom-control custom-checkbox" data-action="{{ data.question.required ? 'required' : 'none' }}">
-                                <input type="checkbox" name="{{ data.question.id }}[]" class="custom-control-input" id="customCheck{{ anwerNumber }}" value="{{ answer.answer }}">
-                                <label class="wrap w-100 text-unselectable custom-control-label backgroundColor" for="customCheck{{ anwerNumber }}">{{ answer.answer }}</label>
+                                <input type="checkbox" name="{{ data.question.id }}[]" class="custom-control-input" id="customCheck{{ data.question.id ~ anwerNumber  }}" value="{{ answer.answer }}">
+                                <label class="wrap w-100 text-unselectable custom-control-label backgroundColor" for="customCheck{{ data.question.id ~ anwerNumber  }}">{{ answer.answer }}</label>
                             </div>
                         </div>
                         {% endfor %}
@@ -132,7 +132,7 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0">{{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
@@ -158,7 +158,7 @@
                     <i class="form-text text-muted-custom mb-2">- {{ 'not_required_input'|trans }}</i>
                 {% endif %}
 
-                <div class="container">
+                <div class="container answerContainer">
                     <div class="row">
                         {% set anwerNumber = 0 %}
                         {% for answer in data['answers'] %}
@@ -213,7 +213,7 @@
             <article class="pb-2">
                 <div class="d-flex">
                     <h3 class="backgroundColor m-0 label-number-gap"><span>{{ random(20) }}.</span></h3>
-                    <h3 class="pre backgroundColor m-0" > {{ data.question.questionWording }}</h3>
+                    <h3 class="pre backgroundColor m-0" >{{ data.question.questionWording }}</h3>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 
@@ -239,7 +239,7 @@
                     <i class="form-text text-muted-custom mb-2">- {{ 'not_required_input'|trans }}</i>
                 {% endif %}
 
-                <div class="container">
+                <div class="container answerContainer">
                     <div class="row">
                         <div class="w-100">
                             <textarea name="{{ data.question.id }}" class="form-control" placeholder="{{ 'answer.placeholder'|trans }}" {{ data.question.required ? 'required' : 'none' }}></textarea>
@@ -284,7 +284,7 @@
 
             <article class="pb-2">
                 <div class="d-flex">
-                    <h2 class="pre backgroundColor m-0"> {{ data.question.questionWording }}</h2>
+                    <h2 class="pre backgroundColor m-0">{{ data.question.questionWording }}</h2>
                 </div>
                 <div class="container px-0 py-3 paramPicture">
 

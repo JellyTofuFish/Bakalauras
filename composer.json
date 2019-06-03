@@ -8,6 +8,7 @@
         "friendsofsymfony/jsrouting-bundle": "^2.3",
         "phpoffice/phpspreadsheet": "^1.6",
         "sensio/framework-extra-bundle": "^5.2",
+        "swiftmailer/swiftmailer": "@stable",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",

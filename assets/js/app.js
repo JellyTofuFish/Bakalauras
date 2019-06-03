@@ -728,12 +728,16 @@ function addValidationColor(color) {
 $("input").on("click", function(e) {
     removeValidation($(this).closest(".container"));
 });
+
 $("textarea").on("click", function(e) {
     removeValidation($(this).closest(".container"));
 });
 function removeValidation(container) {
+    $(container).find('.invalid-feedback').hide();
+    $('.form-control.is-invalid').css("border-color", '#80bdff');
     $('.custom-control-label').removeClass('custom-radio-validation-light').removeClass('custom-radio-validation-dark');
     let color = $(container).closest("article.test").find('input.paramBackgroundColor').data('attribute');
+    if (color == null)  { color = '#FFFFFF'}
     let colorM = getContrastYIQ(color.substring(1));
     if (colorM === 'black' ) {
         $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#000000');
@@ -741,12 +745,10 @@ function removeValidation(container) {
     else {
         $('.custom-control-input.is-invalid ~ .custom-control-label').css("color", '#FFFFFF');
     }
-    $('.form-control.is-invalid').css("border-color", '#80bdff');
     $(container).find('input').each(function () {
         $(this).removeClass('is-invalid');
     });
     $(container).find('textarea').removeClass('is-invalid');
-    $(container).find('.invalid-feedback').hide();
 }
 // validate required test fields
 function validateQuestion(container) {
