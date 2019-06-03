@@ -1300,43 +1300,47 @@ class TestController extends AbstractController
                         if ($testAttribute == null) {
                             $questionAttribute = $entityManager->getRepository(QuestionAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkQuestionAttribute()]);
                             $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
-                            if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
-                                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                            }
-                            $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
-                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                            $collum = $collum +1;
-                            if ($attribute->getName() == 'time') {
+                            if ($attribute != null) {
                                 if (!$header) {
-                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
                                     $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
                                     $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                 }
-                                $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
                                 $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                                $collum = $collum +1;
+                                $collum = $collum + 1;
+                                if ($attribute->getName() == 'time') {
+                                    if (!$header) {
+                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                    }
+                                    $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                    $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                                    $collum = $collum + 1;
+                                }
                             }
                         } else {
                             $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
-                            if (!$header) {
-                                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() ." savybės reikšmė");
-                                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                            }
-                            $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
-                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                            $collum = $collum +1;
-                            if ($attribute->getName() == 'time') {
+                            if ($attribute != null) {
                                 if (!$header) {
-                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() ." laiko vertė");
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
                                     $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
                                     $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                 }
-                                $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
                                 $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                                $collum = $collum +1;
+                                $collum = $collum + 1;
+                                if ($attribute->getName() == 'time') {
+                                    if (!$header) {
+                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                    }
+                                    $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                    $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                                    $collum = $collum + 1;
+                                }
                             }
                         }
                     }
