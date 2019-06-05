@@ -241,13 +241,16 @@ presentation: Pateikties
 
 main: Apklausos vykdymas
 password_change: Slaptažodžio keitimas
-account_confirmed: Naudotojo paskyra patvirtinta
+account_confirmed: Naudotojo paskyra sėkmingai patvirtinta
 account_password_reset_title: Slaptažodžio keitimas
 account_password_reset_email: Jūsų elektroninio pašto adresas
 account_password_reset_email_placeholder: 'Pvz.: jonas.baranauskas@paštas.com'
 account_password_reset_error: Nerastas naudotojas pagal įvestą elektroninio pašto adresą
+account_password_reset_error_new: Neteisingai įvestas slaptažodis
+account_password_reset_error_unique: Naudotojas pagal įvestą elektroninio pašto adresą jau egzistuoja
 account_password_reset_success: Informacija kaip pakeisti slaptažodį išsiųsta į jūsų elektroninio pašto dėžutę
 account_password_reset_success_confirm: Slaptažodis sėkmingai pakeistas
+account_mail_error: Laiškas neišsiųstas
 change: Keisti
 settings: Parinktys
 groups: Grupė

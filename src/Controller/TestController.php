@@ -1143,6 +1143,16 @@ class TestController extends AbstractController
             }
             $testPart = $Test->getTestParticipations();
             foreach ($testPart as $tp) {
+                foreach ($tp->getParticipantAnswers() as $participantAnswer) {
+                    foreach ($participantAnswer->getParticipantAnswerAttributes() as $attribute) {
+                        $participantAnswer->removeParticipantAnswerAttribute($attribute);
+                        $entityManager->persist($participantAnswer);
+                        $entityManager->flush();
+                    }
+                    $tp->removeParticipantAnswer($participantAnswer);
+                    $entityManager->persist($tp);
+                    $entityManager->flush();
+                }
                 $Test->removeTestParticipation($tp);
                 $entityManager->persist($Test);
                 $entityManager->flush();
@@ -1169,10 +1179,7 @@ class TestController extends AbstractController
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
         $sheet = $spreadsheet->getActiveSheet();
-        $rowTitle = 4;
-        $rowHeader = 5;
-        $row = 6;
-        $collum = 1;
+
         $sheet->setCellValue('A1', 'Pavadinimas');
         $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('A2', $Test->getName());
@@ -1205,49 +1212,118 @@ class TestController extends AbstractController
         $sheet->getStyle('G1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('G2', $Test->getPrevButton() ? 'taip' : 'ne');
 
-        $header = false;
+        $attributesArray = [];
+        $attributeCount = 1;
+        $rowTitle = 4;
+        $rowHeader = 5;
         $participations = $Test->getTestParticipations();
         foreach ($participations as $participation) {
             $collum = 1;
             $merge1 = 0;
             $merge2 = 0;
             $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
-            if (!$header) {
-                $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pradžia");
-                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-            }
-            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestStartedAt());
-            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pradžia");
+            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             $collum = $collum +1;
-            if (!$header) {
             $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pabaiga" );
-                $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-            }
-            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestEndedAt()->format('Y:m:d H:m:s'));
-            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             $collum = $collum +1;
             foreach ($participantAnswers as $answer) {
                 $merge1 = $collum;
+                $deleted = false;
+                $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
+                if ($question != null) {
+                    $group = $entityManager->getRepository(GroupList::class)->findOneBy(['id' => $question->getFkGroup()]);
+                    if ($group != null) {
+                        $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $group->getName() . ' : ' . $question->getQuestionName());
+                    } else {
+                        $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $question->getQuestionName());
+                    }
+                    $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
+                    $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getAlignment()->setWrapText(true);
+                    if ($question->getType() == 'one' or $question->getType() == 'multi' or $question->getType() == 'open') {
+                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() . " klausimo tipo atsakymas");
+                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                        $collum = $collum + 1;
+                    }
+                    if ($question->getType() == 'presentation') {
+                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() . " klausimo tipas");
+                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                        $collum = $collum + 1;
+                    }
+                } else {
+                    $deleted = true;
+                }
+                $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
+                if ($ParticipantAnswerAttributes != null && !$deleted) {
+                    if (!array_key_exists($question->getId(),$attributesArray) || $attributesArray[$question->getId()] < count($ParticipantAnswerAttributes )) {
+                        $attributesArray[$question->getId()] = count($ParticipantAnswerAttributes);
+                    }
+                    foreach ($ParticipantAnswerAttributes as $participantAnswerAttribute) {
+                        $testAttribute = $entityManager->getRepository(TestAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkTestAttribute()]);
+                        if ($testAttribute == null) {
+                            $questionAttribute = $entityManager->getRepository(QuestionAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkQuestionAttribute()]);
+                            if ($questionAttribute != null) {
+                                $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
+                                if ($attribute != null) {
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
+                                    $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                    $collum = $collum + 1;
+                                    if ($attribute->getName() == 'time') {
+                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                        $collum = $collum + 1;
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($testAttribute != null) {
+                                $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
+                                if ($attribute != null) {
+                                    $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
+                                    $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                    $collum = $collum + 1;
+                                    if ($attribute->getName() == 'time') {
+                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
+                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
+                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                        $collum = $collum + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (!$deleted) {
+                    $sheet->mergeCellsByColumnAndRow($merge1, $rowTitle, $collum - 1, $rowTitle);
+                }
+            }
+        }
+        $row = 6;
+        $participations = $Test->getTestParticipations();
+        foreach ($participations as $participation) {
+            $collum = 1;
+            $merge1 = 0;
+            $merge2 = 0;
+            $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
+            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestStartedAt());
+            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+            $collum = $collum +1;
+            $sheet->setCellValueByColumnAndRow($collum, $row, $participation->getTestEndedAt());
+            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+            $collum = $collum +1;
+            foreach ($participantAnswers as $answer) {
+                $deleted = false;
                 $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
                 if ($question != null ) {
-                    if (!$header) {
-                        $group = $entityManager->getRepository(GroupList::class)->findOneBy(['id' => $question->getFkGroup()]);
-                        if ($group != null) {
-                            $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $group->getName() . ' : ' . $question->getQuestionName());
-                        } else {
-                            $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $question->getQuestionName());
-                        }
-                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
-                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getAlignment()->setWrapText(true);
-                    }
                     if ($question->getType() == 'one' or $question->getType() == 'multi') {
-                        if (!$header) {
-                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() ." klausimo tipo atsakymas");
-                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                        }
                         $answerOptions = $answer->getFkAnsweroption();
                         $answers = '';
                         foreach ($answerOptions as $answerOption) {
@@ -1265,11 +1341,6 @@ class TestController extends AbstractController
                         $collum = $collum + 1;
                     }
                     if ($question->getType() == 'open') {
-                        if (!$header) {
-                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() ." klausimo tipo atsakymas");
-                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                        }
                         if ($answer->getAnswer() != null) {
                             $sheet->setCellValueByColumnAndRow($collum, $row, $answer->getAnswer());
                             $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
@@ -1279,22 +1350,16 @@ class TestController extends AbstractController
                         }
                         $collum = $collum + 1;
                     }
+                    if ($question->getType() == 'presentation') {
+                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                        $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                        $collum = $collum + 1;
+                    }
                 } else {
-                    if (!$header) {
-                        $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, "Ištrintas klausimas");
-                        $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
-                    }
-                    if (!$header) {
-                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Klausimas");
-                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                    }
-                    $sheet->setCellValueByColumnAndRow($collum, $row, '-');
-                    $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                    $collum = $collum + 1;
+                    $deleted = true;
                 }
                 $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
-                if ($ParticipantAnswerAttributes != null) {
+                if ($ParticipantAnswerAttributes != null && !$deleted) {
                     foreach ($ParticipantAnswerAttributes as $participantAnswerAttribute) {
                         $testAttribute = $entityManager->getRepository(TestAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkTestAttribute()]);
                         if ($testAttribute == null) {
@@ -1302,20 +1367,10 @@ class TestController extends AbstractController
                             if ($questionAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
-                                    if (!$header) {
-                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
-                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
                                     $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                     $collum = $collum + 1;
                                     if ($attribute->getName() == 'time') {
-                                        if (!$header) {
-                                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
-                                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                                        }
                                         $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
                                         $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                         $collum = $collum + 1;
@@ -1326,20 +1381,10 @@ class TestController extends AbstractController
                             if ($testAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
-                                    if (!$header) {
-                                        $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
-                                        $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
                                     $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                     $collum = $collum + 1;
                                     if ($attribute->getName() == 'time') {
-                                        if (!$header) {
-                                            $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
-                                            $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
-                                        }
                                         $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
                                         $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                         $collum = $collum + 1;
@@ -1348,13 +1393,16 @@ class TestController extends AbstractController
                             }
                         }
                     }
-                }
-                if (!$header) {
-                    $sheet->mergeCellsByColumnAndRow($merge1, $rowTitle, $collum-1, $rowTitle);
+                    if ($attributesArray[$question->getId()] > count($ParticipantAnswerAttributes)){
+                        for ($i = $ParticipantAnswerAttributes; $i < $attributesArray[$question->getId()]; $i++) {
+                            $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                            $collum = $collum + 1;
+                        }
+                    }
                 }
             }
             $row= $row + 1;
-            $header = false;
         }
 
         $sheet->setTitle($test->getName());

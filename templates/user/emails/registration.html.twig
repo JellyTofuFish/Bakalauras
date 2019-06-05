@@ -1,28 +1,45 @@
+
 {# templates/emails/registration.html.twig #}
-<div class="jumbotron">
-    <h1 class="display-4 mb-1">Labas!</h1>
-    <p class="lead">Sveiki atvykę į eksperimentinių apklausų kūrimo sistemą. Paspauskite žemiau pateiktą nuorodą, kad patvirtintumėte registraciją.</p>
-    <hr class="my-4">
-    <a class="btn btn-primary btn-lg" href="{{ app.request.schemeAndHttpHost ~ path('registration_confirm', {'string': user.activation}) }}" role="button">Patvirtinti registaciją</a>
-</div>
-<div class="row justify-content-center">
-    <p class="mb-3"> Jūsų prisijungimo duomenys:</p>
-</div>
-<div class="row justify-content-center">
-    <table class="table table-bordered w-50 float-left ">
+    <table style="border-spacing:0;border-collapse:collapse;font-family:proxima-nova,'helvetica neue',helvetica,arial,geneva,sans-serif;width:100%!important;height:100%!important;color:#4c4c4c;font-size:15px;line-height:150%;background:#ffffff;margin:0;padding:0;border:0">
         <tbody>
-        <tr>
-            <td >Elektroninis paštas</td>
-            <td class="text-center">{{ user.email }}</td>
-        </tr>
-        <tr>
-            <td >Vardas</td>
-            <td class="text-center">{{ user.name }}</td>
-        </tr>
-        <tr>
-            <td >Pavardė</td>
-            <td class="text-center">{{ user.lastName }}</td>
+        <tr style="vertical-align:top;padding:0">
+            <td align="center" valign="top" style="vertical-align:top;padding:0">
+                <table style="border-spacing:0;border-collapse:collapse;font-family:proxima-nova,'helvetica neue',helvetica,arial,geneva,sans-serif;width:600px;color:#4c4c4c;font-size:15px;line-height:150%;background:#ffffff;margin:40px 0;padding:0;border:0">
+                    <tbody>
+                    <tr style="vertical-align:top;padding:0;">
+                        <td align="left" valign="top" style="vertical-align:top;text-align:left;padding:0;width: 100%;">
+                            <h1 style="color:black;font-family:hybrea,proxima-nova,'helvetica neue',helvetica,arial,geneva,sans-serif;text-align:left;margin-bottom: 20px">
+                            Sveiki!
+                            </h1>
+                            <p style="color:black;margin:20px 0">
+                                Sveiki atvykę į eksperimentinių apklausų kūrimo sistemą. Paspauskite nuorodą, kad patvirtintumėte registraciją.
+                            </p>
+                            <p style="color:black;margin:20px 0">
+                                <a style="color: #007bff;"
+                                   href="{{ app.request.schemeAndHttpHost ~ path('registration_confirm', {'string': user.activation}) }}">
+                                    {{ app.request.schemeAndHttpHost ~ path('registration_confirm', {'string': user.activation})  }}
+                                </a>
+                            </p>
+                            <hr style="margin-bottom: 1rem!important; margin-top: 1rem!important;">
+                            <p style="color:black;margin:20px 0">
+                                Jūsų prisijungimo duomenys:
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="vertical-align:top;padding:0">
+                        <td style="width:50%;">Elektroninis paštas</td>
+                        <td style="width:50%;">{{ user.email }}</td>
+                    </tr>
+                    <tr style="vertical-align:top;padding:0">
+                        <td style="width:50%;">Vardas</td>
+                        <td style="width:50%;">{{ user.name }}</td>
+                    </tr>
+                    <tr style="vertical-align:top;padding:0">
+                        <td style="width:50%;">Pavardė</td>
+                        <td style="width:50%;">{{ user.lastName }}</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
         </tbody>
     </table>
-</div>

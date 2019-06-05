@@ -6,6 +6,7 @@ use App\Entity\Test;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
 {
@@ -32,48 +34,69 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer, ValidatorInterface $validator): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
-        $errors = array();
+        $errorsString='';
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $User = $this->getDoctrine()->getManager()->getRepository(User::class)->findOneBy(['email' => strtolower($form->get('email')->getData())]);
+            if ($User != null) {
+                $form->addError(new FormError('account_password_reset_error_unique'));
+            } else {
+                $password = $form->get('password')->getData();
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $password
+                    )
+                );
+                $user->setEmail(strtolower($form->get('email')->getData()));
+                $user->setActivation(uniqid('', true));
+                $user->setRoles(['ROLE_USER']);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $password = $form->get('password')->getData();
-            $user->setPassword(
-                $passwordEncoder->encodePassword(
-                    $user,
-                    $password
-                )
-            );
-
-            $user->setEmail(strtolower($form->get('email')->getData()));
-            $user->setActivation(uniqid());
-            $user->setRoles(['ROLE_USER']);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $message = (new \Swift_Message("Sveiki atvykę!"))
-                ->setFrom('noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'user/emails/registration.html.twig',
-                        [   'user' => $user,
-                            'pass' => strlen($password)
-                        ]
-                    ),
-                    'text/html'
-                )
-            ;
-            $mailer->send($message);
-
-            $this->addFlash('success', 'user.flash_message.created');
-            return $this->redirectToRoute('user_index');
+//                $mail = new PHPMailer;
+//                $mail->isSMTP();
+//                $mail->Host = 'smtp.mailgun.org';
+//                $mail->SMTPAuth = true;
+//                $mail->Username = 'postmaster@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org'; // SMTP username
+//                $mail->Password = 'f9946013d0d7e4df001d4131924249b1-87cdd773-e140eb23';             // SMTP password
+//                $mail->SMTPSecure = 'tls';
+//                $mail->setLanguage('lt');
+//                $mail->isHTML(true);
+//
+//                $mail->From = 'noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org';
+//                $mail->FromName = 'KTU-ETS';
+//                $mail->addAddress($user->getEmail());
+//
+//                $mail->Subject = "Hello!";
+//                $mail->Body = $this->renderView('user/emails/registration.html.twig',
+//                    ['user' => $user,
+//                        'pass' => strlen($password)
+//                    ]
+//                );
+//                if (!$mail->send()) {
+//                    $this->addFlash('danger', 'account_mail_error');
+//                } else {
+//                    $this->addFlash('success', 'user.flash_message.created');
+//                }
+//                return $this->redirectToRoute('user_index');
+                return $this->redirectToRoute('registration_confirm', ['string' => $user->getActivation()]);
+            }
+        }
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $pass = $form->get('password')->get('first');
+                $passConf = $form->get('password')->get('second');
+                if ($pass !== $passConf ) {
+                    $form->addError(new FormError('account_password_reset_error_new'));
+                }
+            }
         }
 
         return $this->render('user/new.html.twig', [
@@ -107,21 +130,35 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $form->get('password')->getData();
-            if ($password != null) {
-                $user->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $password
-                    )
-                );
-            }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $User = $this->getDoctrine()->getManager()->getRepository(User::class)->findOneBy(['email' => strtolower($form->get('email')->getData())]);
+            if ($User != null) {
+                $this->addFlash('danger', 'account_password_reset_error_unique');
+            } else {
+                $password = $form->get('password')->getData();
+                if ($password != null) {
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $user,
+                            $password
+                        )
+                    );
+                }
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'user.flash_message.edited');
+                $this->addFlash('success', 'user.flash_message.edited');
+            }
             return $this->redirectToRoute('user_index');
+        }
+        if ($form->isSubmitted()) {
+            if (!$form->isValid()) {
+                $pass = $form->get('password')->get('first');
+                $passConf = $form->get('password')->get('second');
+                if ($pass !== $passConf ) {
+                    $form->addError(new FormError('account_password_reset_error_new'));
+                }
+            }
         }
 
         return $this->render('user/edit.html.twig', [
@@ -185,23 +222,36 @@ class UserController extends AbstractController
                 $form->addError(new FormError('account_password_reset_error'));
             }
             if ($User != null) {
-                $User->setReset(uniqid());
+                $User->setReset(uniqid('', true));
                 $entityManager->persist($User);
                 $entityManager->flush();
-                $message = (new \Swift_Message("Slaptažodžio keitimas"))
-                    ->setFrom('noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org')
-                    ->setTo($User->getEmail())
-                    ->setBody(
-                        $this->renderView(
-                            'user/emails/password.html.twig',
-                            ['user' => $User]
-                        ),
-                        'text/html'
-                    );
 
-                $mailer->send($message);
-                $this->addFlash('success', 'account_password_reset_success');
-                return $this->redirectToRoute('home_index');
+//                $mail = new PHPMailer;
+//                $mail->isSMTP();
+//                $mail->Host = 'smtp.mailgun.org';
+//                $mail->SMTPAuth = true;
+//                $mail->Username = 'postmaster@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org'; // SMTP username
+//                $mail->Password = 'f9946013d0d7e4df001d4131924249b1-87cdd773-e140eb23';             // SMTP password
+//                $mail->SMTPSecure = 'tls';
+//                $mail->setLanguage('lt');
+//                $mail->isHTML(true);
+//
+//                $mail->From = 'noreply@sandbox78c68edf3c3949e1b35104d8ee44d6dc.mailgun.org';
+//                $mail->FromName = 'KTU-ETS';
+//                $mail->addAddress($User->getEmail());
+//
+//                $mail->Subject = "Password reset";
+//                $mail->Body    =   $this->renderView('user/emails/password.html.twig',
+//                    ['user' => $User,]
+//                );
+//                if(!$mail->send()) {
+//                    $this->addFlash('danger', 'account_mail_error');
+//                }
+//                else {
+                    $this->addFlash('success', 'account_password_reset_success');
+//                }
+//                return $this->redirectToRoute('home_index');
+                return $this->redirectToRoute('user_reset_password_confirm', ['string' => $User->getReset()]);
             }
         }
         return $this->render('user/password_reset.html.twig', [
@@ -251,6 +301,15 @@ class UserController extends AbstractController
                 $entityManager->flush();
                 $this->addFlash('success', 'account_password_reset_success_confirm');
                 return $this->redirectToRoute('home_index');
+            }
+            if ($form->isSubmitted()) {
+                if (!$form->isValid()) {
+                    $pass = $form->get('password')->get('first');
+                    $passConf = $form->get('password')->get('second');
+                    if ($pass !== $passConf ) {
+                        $form->addError(new FormError('account_password_reset_error_new'));
+                    }
+                }
             }
             $errors = $form->getErrors();
             return $this->render('user/password_reset_confirm.html.twig', [

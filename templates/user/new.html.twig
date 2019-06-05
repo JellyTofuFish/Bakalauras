@@ -18,6 +18,16 @@
 
 {% block admin_main %}
 
+    {% for error in form.vars['errors'] %}
+        <div class="py-3 mx-auto w-100 alert alert-danger">
+            <button type="button" class=" close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <span class='text-decoration-none alert-message'>
+                    {{ error.message|trans }}
+            </span>
+        </div>
+    {% endfor %}
     <h1>{{ 'user.title.new'|trans }}</h1>
     {{ include('user/_form.html.twig', {'button_label': 'button.new'|trans}) }}
 
