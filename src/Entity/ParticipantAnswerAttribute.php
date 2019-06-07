@@ -24,18 +24,18 @@ class ParticipantAnswerAttribute
     private $value = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\QuestionAttribute", inversedBy="participantAnswerAttributes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\QuestionAttribute", inversedBy="participantAnswerAttributes", cascade={"persist"})
      */
     private $fk_questionAttribute = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ParticipantAnswer", inversedBy="participantAnswerAttributes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ParticipantAnswer", inversedBy="participantAnswerAttributes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $fk_participantAnswer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TestAttribute", inversedBy="participantAnswerAttributes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TestAttribute", inversedBy="participantAnswerAttributes", cascade={"persist"})
      */
     private $fk_testAttribute = null;
 

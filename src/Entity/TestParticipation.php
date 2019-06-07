@@ -39,7 +39,7 @@ class TestParticipation
     private $test_ended_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testParticipations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testParticipations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fk_test;

@@ -6,6 +6,8 @@ use App\Entity\AnswerOption;
 use App\Entity\Attribute;
 use App\Entity\Files;
 use App\Entity\GroupList;
+use App\Entity\ParticipantAnswer;
+use App\Entity\ParticipantAnswerAttribute;
 use App\Entity\Question;
 use App\Entity\QuestionAttribute;
 use App\Entity\TestAttribute;
@@ -338,6 +340,17 @@ class QuestionController extends AbstractController
         $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByPicture($Question);
         $questionFile = $entityManager->getRepository(Files::class)->findOneBy(['fk_question' => $Question->getId()]);
 
+//        $partAnswers = $question->getParticipantAnswers();
+//        foreach ($partAnswers as $pa) {
+////            dump($pa);
+//            foreach ($pa->getParticipantAnswerAttributes() as $participantAnswerAttribute) {
+////                dump($participantAnswerAttribute);
+//            }
+//            foreach ($pa->getFkAnsweroption() as $a) {
+//
+//            }
+//        }
+
         return $this->render('question/show.html.twig', [
             'question' => $Question,
             'file' => $questionFile,
@@ -475,9 +488,7 @@ class QuestionController extends AbstractController
                         $attribute = $entityManager->getRepository(QuestionAttribute::class)->find($time);
                         $attributesArray = $attribute->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $attribute->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($attribute);
-                            $entityManager->flush();
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($time);
                         $entityManager->flush();
@@ -505,8 +516,7 @@ class QuestionController extends AbstractController
                     if (!in_array($buttonColor, $question_attribute_buttonColor)) {
                         $attributesArray = $buttonColor->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $buttonColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($buttonColor);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($buttonColor);
                         $entityManager->flush();
@@ -519,8 +529,7 @@ class QuestionController extends AbstractController
                         if (!in_array($buttonColor, [])) {
                             $attributesArray = $buttonColor->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $buttonColor->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($buttonColor);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($buttonColor);
                             $entityManager->flush();
@@ -550,8 +559,7 @@ class QuestionController extends AbstractController
                     if (!in_array($backgroundColor, $question_attribute_backgroundColor)) {
                         $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $backgroundColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($backgroundColor);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($backgroundColor);
                         $entityManager->flush();
@@ -564,8 +572,7 @@ class QuestionController extends AbstractController
                         if (!in_array($backgroundColor, [])) {
                             $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $backgroundColor->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($backgroundColor);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($backgroundColor);
                             $entityManager->flush();
@@ -595,8 +602,7 @@ class QuestionController extends AbstractController
                     if (!in_array($DT, $question_attribute_DT)) {
                         $attributesArray = $DT->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $DT->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($DT);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($DT);
                         $entityManager->flush();
@@ -609,8 +615,7 @@ class QuestionController extends AbstractController
                         if (!in_array($DT, [])) {
                             $attributesArray = $DT->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $DT->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($DT);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($DT);
                             $entityManager->flush();
@@ -675,8 +680,7 @@ class QuestionController extends AbstractController
                         $this->deleteFile($picture->getValue());
                         $attributesArray = $picture->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $picture->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($picture);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($picture);
                         $entityManager->flush();
@@ -691,8 +695,7 @@ class QuestionController extends AbstractController
                                 $this->deleteFile($picture->getValue());
                                 $attributesArray = $picture->getParticipantAnswerAttributes();
                                 foreach ($attributesArray as $a) {
-                                    $picture->removeParticipantAnswerAttribute($a);
-                                    $entityManager->persist($picture);
+                                    $entityManager->remove($a);
                                 }
                                 $entityManager->remove($picture);
                                 $entityManager->flush();
@@ -756,81 +759,61 @@ class QuestionController extends AbstractController
         }
         if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
 
+            $times = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByTime($Question);
+            $buttonColors = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByButtonColor($Question);
+            $backgroundColors = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($Question);
+            $displayTimes = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByDisplayTime($Question);
+            $pictures = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByPicture($Question);
 
-            $attributes['time'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByTime($Question);
-            $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByButtonColor($Question);
-            $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByBackgroundColor($Question);
-            $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByDisplayTime($Question);
-            $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(QuestionAttribute::class)->findAllByPicture($Question);
-
-            if ($attributes['pictures'] != null) {
-                foreach ($attributes['pictures'] as $picture) {
-                    if (!in_array($picture, [])) {
-                        $this->deleteFile($picture->getValue());
-                        $attributesArray = $picture->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $picture->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($picture);
-                        }
-                        $entityManager->remove($picture);
-                        $entityManager->flush();
+            if ($pictures != null) {
+                foreach ($pictures as $picture) {
+                    $this->deleteFile($picture->getValue());
+                    $attributesArray = $picture->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                     }
+                    $entityManager->remove($picture);
+                    $entityManager->flush();
                 }
             }
-            if ($attributes['displayTimes'] != null) {
-                foreach ($attributes['displayTimes'] as $DT) {
-                    if (!in_array($DT, [])) {
-                        $attributesArray = $DT->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $DT->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($DT);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($DT);
-                        $entityManager->flush();
+            if ($displayTimes != null) {
+                foreach ($displayTimes as $DT) {
+                    $attributesArray = $DT->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                     }
+                    $entityManager->remove($DT);
+                    $entityManager->flush();
                 }
             }
-            if ($attributes['backgroundColors'] != null) {
-                foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
-                    if (!in_array($backgroundColor, [])) {
-                        $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $backgroundColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($backgroundColor);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($backgroundColor);
-                        $entityManager->flush();
+            if ($buttonColors != null) {
+                foreach ( $buttonColors as $backgroundColor ) {
+                    $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                     }
+                    $entityManager->remove($backgroundColor);
+                    $entityManager->flush();
                 }
             }
-            if ($attributes['buttonColors'] != null) {
-                foreach ( $attributes['buttonColors'] as $buttonColor ) {
-                    if (!in_array($buttonColor, [])) {
-                        $attributesArray = $buttonColor->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $buttonColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($buttonColor);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($buttonColor);
-                        $entityManager->flush();
+            if ($backgroundColors != null) {
+                foreach ( $backgroundColors as $buttonColor ) {
+                    $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                     }
+                    $entityManager->remove($buttonColor);
+                    $entityManager->flush();
                 }
             }
-            if ($attributes['time'] != null) {
-                foreach ( $attributes['time'] as $T ) {
-                    if (!in_array($T, [])) {
-                        $attributesArray = $T->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $T->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($T);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($T);
-                        $entityManager->flush();
+            if ($times != null) {
+                foreach ( $times as $T ) {
+                    $attributesArray = $T->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                     }
+                    $entityManager->remove($T);
+                    $entityManager->flush();
                 }
             }
 
@@ -840,8 +823,7 @@ class QuestionController extends AbstractController
                 if ($attribute->getName() == 'picture'){
                     $this->deleteFile($qa->getValue());
                 }
-                $Question->removeQuestionAttribute($qa);
-                $entityManager->persist($Question);
+                $entityManager->remove($qa);
                 $entityManager->flush();
             }
 
@@ -863,11 +845,17 @@ class QuestionController extends AbstractController
             $partAnswers = $question->getParticipantAnswers();
             foreach ($partAnswers as $pa) {
                 foreach ($pa->getFkAnsweroption() as $a) {
-                $pa->removeFkAnsweroption($a);
-                $entityManager->persist($pa);
+                    $pa->removeFkAnsweroption($a);
+                    $entityManager->persist($pa);
+                    $entityManager->flush();
                 }
-                $Question->removeParticipantAnswer($pa);
-                $entityManager->persist($Question);
+                foreach ($pa->getParticipantAnswerAttributes() as $participantAnswerAttribute) {
+                    if ($participantAnswerAttribute != null) {
+                        $entityManager->remove($participantAnswerAttribute);
+                        $entityManager->flush();
+                    }
+                }
+                $entityManager->remove($pa);
                 $entityManager->flush();
             }
 

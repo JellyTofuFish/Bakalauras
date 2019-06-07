@@ -22,12 +22,12 @@ class TestQuestion
     private $serial_number;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testQuestions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testQuestions", cascade={"persist"})
      */
     private $fk_test;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="testQuestions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="testQuestions", cascade={"persist"})
      */
     private $fk_question;
 

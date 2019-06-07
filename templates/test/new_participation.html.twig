@@ -73,12 +73,20 @@
 
                                 {# backgroundcolor atttribute#}
                                 {% if data.paramBackground is defined %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% if data.paramBackground is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="#FFFFFF" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# buttoncolor atttribute#}
-                                {% if data.paramButton is defined  %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% if data.paramButton is defined %}
+                                    {% if data.paramButton is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="#007bff" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %}{% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# files #}
@@ -87,7 +95,7 @@
                                 {% endif %}
 
                                 {# question time attribute #}
-                                {% if data.paramTime is defined %}
+                                {% if data.paramTime is defined and data.paramTime is not empty %}
                                     <input type="text" id='{{ data.paramTime.id }}{{ data.question.serial_number }}' name="test_new_start[{{ data.question.id }}][{{ data.paramTime.id }}]" class="paramTime display-hidden" data-attribute="{{ data.paramTime.id }}{{ data.question.serial_number }}" value="">
                                 {% endif %}
 
@@ -134,7 +142,7 @@
                                 </div>
                                 <div class="paramDisplayTime">
                                     {# time display atttribute#}
-                                    {% if data.paramDisplayTime is not empty %}
+                                    {% if data.paramDisplayTime is defined and data.paramDisplayTime is not empty %}
                                         {% set displayTime = data.paramDisplayTime.value|split(':') %}
                                         {% if (displayTime[1] == 1)%}
                                             <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">
@@ -171,12 +179,20 @@
 
                                 {# backgroundcolor atttribute#}
                                 {% if data.paramBackground is defined %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% if data.paramBackground is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="#FFFFFF" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# buttoncolor atttribute#}
-                                {% if data.paramButton is defined  %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% if data.paramButton is defined %}
+                                    {% if data.paramButton is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="#007bff" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %}{% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# files #}
@@ -185,7 +201,7 @@
                                 {% endif %}
 
                                 {# question time attribute #}
-                                {% if data.paramTime is defined %}
+                                {% if data.paramTime is defined and data.paramTime is not empty %}
                                     <input type="text" id='{{ data.paramTime.id }}{{ data.question.serial_number }}' name="test_new_start[{{ data.question.id }}][{{ data.paramTime.id }}]" class="paramTime display-hidden" data-attribute="{{ data.paramTime.id }}{{ data.question.serial_number }}" value="">
                                 {% endif %}
 
@@ -236,7 +252,7 @@
                                 </div>
                                 <div class="paramDisplayTime">
                                     {# time display atttribute#}
-                                    {% if data.paramDisplayTime is not empty %}
+                                    {% if data.paramDisplayTime is defined and data.paramDisplayTime is not empty %}
                                         {% set displayTime = data.paramDisplayTime.value|split(':') %}
                                         {% if (displayTime[1] == 1)%}
                                             <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">
@@ -273,12 +289,20 @@
 
                                 {# backgroundcolor atttribute#}
                                 {% if data.paramBackground is defined %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% if data.paramBackground is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="#FFFFFF" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# buttoncolor atttribute#}
-                                {% if data.paramButton is defined  %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% if data.paramButton is defined %}
+                                    {% if data.paramButton is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="#007bff" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %}{% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# files #}
@@ -287,7 +311,7 @@
                                 {% endif %}
 
                                 {# question time attribute #}
-                                {% if data.paramTime is defined %}
+                                {% if data.paramTime is defined and data.paramTime is not empty %}
                                     <input type="text" id='{{ data.paramTime.id }}{{ data.question.serial_number }}' name="test_new_start[{{ data.question.id }}][{{ data.paramTime.id }}]" class="paramTime display-hidden" data-attribute="{{ data.paramTime.id }}{{ data.question.serial_number }}" value="">
                                 {% endif %}
 
@@ -327,7 +351,7 @@
                                 </div>
                                 <div class="paramDisplayTime">
                                     {# time display atttribute#}
-                                    {% if data.paramDisplayTime is not empty %}
+                                    {% if data.paramDisplayTime is defined and data.paramDisplayTime is not empty %}
                                         {% set displayTime = data.paramDisplayTime.value|split(':') %}
                                         {% if (displayTime[1] == 1)%}
                                             <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">
@@ -364,12 +388,20 @@
 
                                 {# backgroundcolor atttribute#}
                                 {% if data.paramBackground is defined %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% if data.paramBackground is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="#FFFFFF" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramBackground]" class="paramBackgroundColor display-hidden" data-attribute="{{ data.paramBackground.value }}" value="{% if data.paramBackground.id is defined %} {{ data.paramBackground.id }} {% else %} {% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# buttoncolor atttribute#}
-                                {% if data.paramButton is defined  %}
-                                    <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value  }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %} {% endif %}">
+                                {% if data.paramButton is defined %}
+                                    {% if data.paramButton is empty %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="#007bff" value="">
+                                    {% else %}
+                                        <input type="text" name="test_new_start[{{ data.question.id }}][paramButton]" class="paramButtonColor display-hidden" data-attribute="{{ data.paramButton.value }}" value="{% if data.paramButton.id is defined %} {{ data.paramButton.id }} {% else %}{% endif %}">
+                                    {% endif %}
                                 {% endif %}
 
                                 {# files #}
@@ -378,7 +410,7 @@
                                 {% endif %}
 
                                 {# question time attribute #}
-                                {% if data.paramTime is defined %}
+                                {% if data.paramTime is defined and data.paramTime is not empty %}
                                     <input type="text" id='{{ data.paramTime.id }}{{ data.question.serial_number }}' name="test_new_start[{{ data.question.id }}][{{ data.paramTime.id }}]" class="paramTime display-hidden" data-attribute="{{ data.paramTime.id }}{{ data.question.serial_number }}" value="">
                                 {% endif %}
 
@@ -400,7 +432,7 @@
                                 </div>
                                 <div class="paramDisplayTime">
                                     {# time display atttribute#}
-                                    {% if data.paramDisplayTime is not empty %}
+                                    {% if data.paramDisplayTime is defined and data.paramDisplayTime is not empty %}
                                         {% set displayTime = data.paramDisplayTime.value|split(':') %}
                                         {% if (displayTime[1] == 1)%}
                                             <input type="text" name="test_new_start[{{ data.question.id }}][paramDisplayTime]" class="display-hidden" value="{{ data.paramDisplayTime.id }}">

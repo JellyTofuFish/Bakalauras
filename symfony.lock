@@ -1,4 +1,7 @@
 {
+    "cocur/background-process": {
+        "version": "v0.7"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

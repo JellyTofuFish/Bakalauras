@@ -17,6 +17,7 @@ use App\Entity\TestQuestion;
 use App\Form\TestType;
 use App\Repository\TestQuestionRepository;
 use App\Repository\TestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -24,6 +25,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -316,32 +318,32 @@ class TestController extends AbstractController
         if ($backgroundT != null) {
             $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
         } else {
-            $backgroundTRandom = null;
+            $backgroundTRandom = [];
         }
         $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
         if ($buttonColorT != null) {
             $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
         } else {
-            $buttonColorTRandom = null;
+            $buttonColorTRandom = [];
         }
         $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
         if ($picturesT != null) {
             $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
         } else {
-            $picturesTRandom = null;
+            $picturesTRandom = [];
         }
         $displayTimeT = $entityManager->getRepository(TestAttribute::class)->findAllByDisplayTime($Test->getId());
         if ($displayTimeT != null) {
             $displayTimeTRandom = $displayTimeT[array_rand($displayTimeT, 1)];
         } else {
-            $displayTimeTRandom = null;
+            $displayTimeTRandom = [];
         }
         $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
         if ($timeT != null) {
             $timeTRandom = $timeT[array_rand($timeT, 1)];
             $testTime = $timeTRandom;
         } else {
-            $timeTRandom = null;
+            $timeTRandom = [];
         }
 
         foreach ($questionOrder as $question){
@@ -488,8 +490,9 @@ class TestController extends AbstractController
                              }
                              $entityManager->flush();
                          }
-                         if (ctype_digit($key1)) {
+                        if (is_numeric($key1)) {
                              $participantTimeT = $entityManager->getRepository(TestAttribute::class)->find($key1);
+
                              if ($participantTimeT == null) {
                                  $timeQ = $entityManager->getRepository(QuestionAttribute::class)->find($key1);
                                  $participantAnswer5 = new ParticipantAnswerAttribute();
@@ -498,13 +501,11 @@ class TestController extends AbstractController
                                  $participantAnswer5->setValue($value1);
                                  $entityManager->persist($participantAnswer5);
                              } else {
-                                 if ($participantTimeT != null) {
-                                     $participantAnswer5 = new ParticipantAnswerAttribute();
-                                     $participantAnswer5->setFkParticipantAnswer($participantAnswer);
-                                     $participantAnswer5->setFkTestAttribute($participantTimeT);
-                                     $participantAnswer5->setValue($value1);
-                                     $entityManager->persist($participantAnswer5);
-                                 }
+                                 $participantAnswer5 = new ParticipantAnswerAttribute();
+                                 $participantAnswer5->setFkParticipantAnswer($participantAnswer);
+                                 $participantAnswer5->setFkTestAttribute($participantTimeT);
+                                 $participantAnswer5->setValue($value1);
+                                 $entityManager->persist($participantAnswer5);
                              }
                              $entityManager->flush();
                          }
@@ -569,32 +570,32 @@ class TestController extends AbstractController
         if ($backgroundT != null) {
             $backgroundTRandom = $backgroundT[array_rand($backgroundT, 1)];
         } else {
-            $backgroundTRandom = null;
+            $backgroundTRandom = [];
         }
         $buttonColorT = $entityManager->getRepository(TestAttribute::class)->findAllByButtonColor($Test->getId());
         if ($buttonColorT != null) {
             $buttonColorTRandom = $buttonColorT[array_rand($buttonColorT, 1)];
         } else {
-            $buttonColorTRandom = null;
+            $buttonColorTRandom = [];
         }
         $picturesT = $entityManager->getRepository(TestAttribute::class)->findAllByPicture($Test->getId());
         if ($picturesT != null) {
             $picturesTRandom = $picturesT[array_rand($picturesT, 1)];
         } else {
-            $picturesTRandom = null;
+            $picturesTRandom = [];
         }
         $displayTimeT = $entityManager->getRepository(TestAttribute::class)->findAllByDisplayTime($Test->getId());
         if ($displayTimeT != null) {
             $displayTimeTRandom = $displayTimeT[array_rand($displayTimeT, 1)];
         } else {
-            $displayTimeTRandom = null;
+            $displayTimeTRandom = [];
         }
         $timeT = $entityManager->getRepository(TestAttribute::class)->findAllByTime($Test->getId());
         if ($timeT != null) {
             $timeTRandom = $timeT[array_rand($timeT, 1)];
             $testTime = $timeTRandom;
         } else {
-            $timeTRandom = null;
+            $timeTRandom = [];
         }
 
         foreach ($questionOrder as $question){
@@ -723,16 +724,40 @@ class TestController extends AbstractController
         $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
         $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
 
+        $originalTags = new ArrayCollection();
+        foreach ($Test->getTestQuestions() as $tag) {
+            $originalTags->add($tag);
+        }
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $testQuestions = $Test->getTestQuestions();
             $i = 1;
-            foreach ($testQuestions as $tq) {
-                if (false === $Test->getTestQuestions()->contains($tq)) {
-                    $Test->removeTestQuestion($tq);
+            foreach ($originalTags as $tag) {
+                if (false === $Test->getTestQuestions()->contains($tag)) {
+                    $question = $this->getDoctrine()->getManager()->getRepository(Question::class)->findOneBy(['id' =>$tag->getFkQuestion()]);
+                    foreach ($question->getParticipantAnswers() as $pa) {
+                        foreach ($pa->getFkAnsweroption() as $a) {
+                            $pa->removeFkAnsweroption($a);
+                            $entityManager->persist($pa);
+                            $entityManager->flush();
+                        }
+                        foreach ($pa->getParticipantAnswerAttributes() as $participantAnswerAttribute) {
+                            $entityManager->remove($participantAnswerAttribute);
+                            $entityManager->flush();
+                        }
+                        $entityManager->remove($pa);
+                        $entityManager->flush();
+                    }
+                    $Test->removeTestQuestion($tag);
+                    $entityManager->persist($Test);
+                    $entityManager->flush();
                 }
-                $tq->setSerialNumber($i);
-                $entityManager->persist($tq);
+
+            }
+            foreach ($Test->getTestQuestions() as $tag) {
+                $tag->setSerialNumber($i);
+                $entityManager->persist($tag);
                 $i+=1;
             }
             $entityManager->persist($Test);
@@ -759,8 +784,7 @@ class TestController extends AbstractController
                     if (!in_array($T, $test_attribute_T)) {
                         $attributesArray = $T->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $T->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($T);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($T);
                     }
@@ -773,8 +797,7 @@ class TestController extends AbstractController
                         if (!in_array($T, [])) {
                             $attributesArray = $T->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $T->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($T);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($T);
                         }
@@ -802,8 +825,7 @@ class TestController extends AbstractController
                     if (!in_array($buttonColor, $test_attribute_buttonColor)) {
                         $attributesArray = $buttonColor->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $buttonColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($buttonColor);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($buttonColor);
                     }
@@ -816,8 +838,7 @@ class TestController extends AbstractController
                         if (!in_array($buttonColor, [])) {
                             $attributesArray = $buttonColor->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $buttonColor->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($buttonColor);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($buttonColor);
                         }
@@ -846,8 +867,7 @@ class TestController extends AbstractController
                     if (!in_array($backgroundColor, $question_attribute_backgroundColor)) {
                         $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $backgroundColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($backgroundColor);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($backgroundColor);
                     }
@@ -860,8 +880,7 @@ class TestController extends AbstractController
                         if (!in_array($backgroundColor, [])) {
                             $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $backgroundColor->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($backgroundColor);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($backgroundColor);
                         }
@@ -890,8 +909,7 @@ class TestController extends AbstractController
                     if (!in_array($DT, $test_attribute_DT)) {
                         $attributesArray = $DT->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $DT->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($DT);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($DT);
                     }
@@ -904,8 +922,7 @@ class TestController extends AbstractController
                         if (!in_array($DT, [])) {
                             $attributesArray = $DT->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $DT->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($DT);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($DT);
                         }
@@ -971,8 +988,7 @@ class TestController extends AbstractController
                         $this->deleteFile($picture->getValue());
                         $attributesArray = $picture->getParticipantAnswerAttributes();
                         foreach ($attributesArray as $a) {
-                            $picture->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($picture);
+                            $entityManager->remove($a);
                         }
                         $entityManager->remove($picture);
                     }
@@ -986,8 +1002,7 @@ class TestController extends AbstractController
                             $this->deleteFile($picture->getValue());
                             $attributesArray = $picture->getParticipantAnswerAttributes();
                             foreach ($attributesArray as $a) {
-                                $picture->removeParticipantAnswerAttribute($a);
-                                $entityManager->persist($picture);
+                                $entityManager->remove($a);
                             }
                             $entityManager->remove($picture);
                         }
@@ -1047,88 +1062,65 @@ class TestController extends AbstractController
         }
         if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
 
-            $attributes = [];
-            $attributes['times'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByTime($Test);
-            $attributes['buttonColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
-            $attributes['backgroundColors'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
-            $attributes['displayTimes'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
-            $attributes['pictures'] = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
-            $questions = $Test->getTestQuestions();
-            foreach ($questions as $q) {
-                $Test->removeTestQuestion($q);
-                $entityManager->persist($Test);
-                $entityManager->flush();
-            }
-            if ($attributes['pictures'] != null) {
-                foreach ($attributes['pictures'] as $picture) {
-                    if (!in_array($picture, [])) {
-                        $this->deleteFile($picture->getValue());
-                        $attributesArray = $picture->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $picture->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($picture);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($picture);
-                        $entityManager->flush();
-                    }
-                }
-            }
-            if ($attributes['displayTimes'] != null) {
-                foreach ($attributes['displayTimes'] as $DT) {
-                    if (!in_array($DT, [])) {
-                        $attributesArray = $DT->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $DT->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($DT);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($DT);
-                        $entityManager->flush();
-                    }
-                }
-            }
-            if ($attributes['backgroundColors'] != null) {
-                foreach ( $attributes['backgroundColors'] as $backgroundColor ) {
-                    if (!in_array($backgroundColor, [])) {
-                        $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $backgroundColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($backgroundColor);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($backgroundColor);
-                        $entityManager->flush();
-                    }
-                }
-            }
-            if ($attributes['buttonColors'] != null) {
-                foreach ( $attributes['buttonColors'] as $buttonColor ) {
-                    if (!in_array($buttonColor, [])) {
-                        $attributesArray = $buttonColor->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $buttonColor->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($buttonColor);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($buttonColor);
-                        $entityManager->flush();
-                    }
-                }
-            }
+            $times = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByTime($Test);
+            $buttonColors = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByButtonColor($Test);
+            $backgroundColors = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByBackgroundColor($Test);
+            $displayTimes = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByDisplayTime($Test);
+            $pictures = $this->getDoctrine()->getManager()->getRepository(TestAttribute::class)->findAllByPicture($Test);
 
-            if ($attributes['times'] != null) {
-                foreach ( $attributes['times'] as $T ) {
-                    if (!in_array($T, [])) {
-                        $attributesArray = $T->getParticipantAnswerAttributes();
-                        foreach ($attributesArray as $a) {
-                            $T->removeParticipantAnswerAttribute($a);
-                            $entityManager->persist($T);
-                            $entityManager->flush();
-                        }
-                        $entityManager->remove($T);
+            if ($pictures != null) {
+                foreach ($pictures as $picture) {
+                    $this->deleteFile($picture->getValue());
+                    $attributesArray = $picture->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
+                    }
+                    $entityManager->remove($picture);
+                    $entityManager->flush();
+                }
+            }
+            if ($displayTimes != null) {
+                foreach ($displayTimes as $DT) {
+                    $attributesArray = $DT->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
                         $entityManager->flush();
                     }
+                    $entityManager->remove($DT);
+                    $entityManager->flush();
+                }
+            }
+            if ($buttonColors != null) {
+                foreach ( $buttonColors as $backgroundColor ) {
+                    $attributesArray = $backgroundColor->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
+                        $entityManager->flush();
+                    }
+                    $entityManager->remove($backgroundColor);
+                    $entityManager->flush();
+                }
+            }
+            if ($backgroundColors != null) {
+                foreach ( $backgroundColors as $buttonColor ) {
+                    $attributesArray = $buttonColor->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
+                        $entityManager->flush();
+                    }
+                    $entityManager->remove($buttonColor);
+                    $entityManager->flush();
+                }
+            }
+            if ($times != null) {
+                foreach ( $times as $T ) {
+                    $attributesArray = $T->getParticipantAnswerAttributes();
+                    foreach ($attributesArray as $a) {
+                        $entityManager->remove($a);
+                        $entityManager->flush();
+                    }
+                    $entityManager->remove($T);
+                    $entityManager->flush();
                 }
             }
             $Tattribute = $Test->getTestAttributes();
@@ -1137,24 +1129,38 @@ class TestController extends AbstractController
                 if ($attribute->getName() == 'picture') {
                     $this->deleteFile($ta->getValue());
                 }
-                $Test->removeTestAttribute($ta);
+                $entityManager->remove($ta);
+                $entityManager->flush();
+            }
+
+            $questions = $Test->getTestQuestions();
+            foreach ($questions as $q) {
+                $Test->removeTestQuestion($q);
                 $entityManager->persist($Test);
                 $entityManager->flush();
             }
+
             $testPart = $Test->getTestParticipations();
             foreach ($testPart as $tp) {
                 foreach ($tp->getParticipantAnswers() as $participantAnswer) {
-                    foreach ($participantAnswer->getParticipantAnswerAttributes() as $attribute) {
-                        $participantAnswer->removeParticipantAnswerAttribute($attribute);
+                    foreach ($participantAnswer->getFkAnsweroption() as $a) {
+                        $participantAnswer->removeFkAnsweroption($a);
                         $entityManager->persist($participantAnswer);
                         $entityManager->flush();
                     }
-                    $tp->removeParticipantAnswer($participantAnswer);
-                    $entityManager->persist($tp);
+                    foreach ($participantAnswer->getParticipantAnswerAttributes() as $participantAnswerAttribute) {
+                        if ($participantAnswerAttribute != null) {
+                            $entityManager->remove($participantAnswerAttribute);
+                            $entityManager->flush();
+                        }
+                    }
+                    $entityManager->remove($participantAnswer);
                     $entityManager->flush();
                 }
-                $Test->removeTestParticipation($tp);
-                $entityManager->persist($Test);
+            }
+            $testPart = $this->getDoctrine()->getManager()->getRepository(TestParticipation::class)->findBy(['fk_test'=> $Test->getId()]);
+            foreach ($testPart as $tp) {
+                $entityManager->remove($tp);
                 $entityManager->flush();
             }
 
@@ -1170,16 +1176,20 @@ class TestController extends AbstractController
      * @Route("test/{id}/report", name="test_report")
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function generateReport(Test $test): Response
+    public function generateReport(Test $test, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
+
         if (null === $Test = $entityManager->getRepository(Test::class)->find($test->getId())) {
             throw $this->createNotFoundException('No Test for id '.$test->getId());
         }
+        set_time_limit(900);
+
         $spreadsheet = new Spreadsheet();
-        $spreadsheet->getDefaultStyle()->getFont()->setSize(9);
+        $spreadsheet->getDefaultStyle()->getFont()->setSize(10);
         $sheet = $spreadsheet->getActiveSheet();
 
+        $entityManager = $this->getDoctrine()->getManager();
         $sheet->setCellValue('A1', 'Pavadinimas');
         $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
         $sheet->setCellValue('A2', $Test->getName());
@@ -1213,10 +1223,17 @@ class TestController extends AbstractController
         $sheet->setCellValue('G2', $Test->getPrevButton() ? 'taip' : 'ne');
 
         $attributesArray = [];
+        $participations = $Test->getTestParticipations();
+        foreach ($participations as $participation) {
+            $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
+            foreach ($participantAnswers as $answer) {
+                $attributesArray[$answer->getFkQuestion()->getId()]['count'] = 0;
+            }
+        }
+        $titleArray = [];
         $attributeCount = 1;
         $rowTitle = 4;
         $rowHeader = 5;
-        $participations = $Test->getTestParticipations();
         foreach ($participations as $participation) {
             $collum = 1;
             $merge1 = 0;
@@ -1224,45 +1241,39 @@ class TestController extends AbstractController
             $participantAnswers = $entityManager->getRepository(ParticipantAnswer::class)->findBy(['fk_testParticipation' => $participation->getId()]);
             $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pradžia");
             $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             $collum = $collum +1;
             $sheet->setCellValueByColumnAndRow($collum, $rowHeader, "Vykdymo pabaiga" );
             $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-            $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
             $collum = $collum +1;
             foreach ($participantAnswers as $answer) {
                 $merge1 = $collum;
                 $deleted = false;
+                $testquestion = $entityManager->getRepository(TestQuestion::class)->findOneBy(['fk_question' => $answer->getFkQuestion(), 'fk_test' => $test->getId()]);
                 $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
-                if ($question != null) {
+                if ($testquestion != null) {
                     $group = $entityManager->getRepository(GroupList::class)->findOneBy(['id' => $question->getFkGroup()]);
                     if ($group != null) {
                         $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $group->getName() . ' : ' . $question->getQuestionName());
                     } else {
                         $sheet->setCellValueByColumnAndRow($merge1, $rowTitle, $question->getQuestionName());
                     }
-                    $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getFont()->setBold(true);
                     $sheet->getStyleByColumnAndRow($merge1, $rowTitle)->getAlignment()->setWrapText(true);
                     if ($question->getType() == 'one' or $question->getType() == 'multi' or $question->getType() == 'open') {
                         $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() . " klausimo tipo atsakymas");
                         $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                         $collum = $collum + 1;
                     }
                     if ($question->getType() == 'presentation') {
                         $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $question->getType() . " klausimo tipas");
                         $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                         $collum = $collum + 1;
                     }
                 } else {
                     $deleted = true;
                 }
                 $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
-                if ($ParticipantAnswerAttributes != null && !$deleted) {
-                    if (!array_key_exists($question->getId(),$attributesArray) || $attributesArray[$question->getId()] < count($ParticipantAnswerAttributes )) {
-                        $attributesArray[$question->getId()] = count($ParticipantAnswerAttributes);
-                    }
+                if ($ParticipantAnswerAttributes != null && $deleted == false) {
+                    $i = 0;
                     foreach ($ParticipantAnswerAttributes as $participantAnswerAttribute) {
                         $testAttribute = $entityManager->getRepository(TestAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkTestAttribute()]);
                         if ($testAttribute == null) {
@@ -1270,41 +1281,62 @@ class TestController extends AbstractController
                             if ($questionAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
+                                    if ($attributesArray[$question->getId()]['count'] < count($ParticipantAnswerAttributes)) {
+                                        $attributesArray[$question->getId()][$i]= $attribute->getName();
+                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
                                     $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
+                                    $i++;
                                     $collum = $collum + 1;
                                     if ($attribute->getName() == 'time') {
+                                        if ($attributesArray[$question->getId()]['count'] < count($ParticipantAnswerAttributes)) {
+                                            $attributesArray[$question->getId()][$i]= $attribute->getName();
+                                        }
                                         $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
                                         $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                         $collum = $collum + 1;
+                                        $i++;
                                     }
                                 }
                             }
+
                         } else {
                             if ($testAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
+                                    if ($attributesArray[$question->getId()]['count'] < count($ParticipantAnswerAttributes)) {
+                                        $attributesArray[$question->getId()][$i]= $attribute->getName();
+                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " savybės reikšmė");
                                     $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                    $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                     $collum = $collum + 1;
+                                    $i++;
                                     if ($attribute->getName() == 'time') {
+                                        if ($attributesArray[$question->getId()]['count'] < count($ParticipantAnswerAttributes)) {
+                                            $attributesArray[$question->getId()][$i]= $attribute->getName();
+                                        }
                                         $sheet->setCellValueByColumnAndRow($collum, $rowHeader, $attribute->getName() . " laiko vertė");
                                         $sheet->getStyleByColumnAndRow($collum, $rowHeader)->getAlignment()->setWrapText(true);
-                                        $sheet->getColumnDimensionByColumn($collum)->setWidth(10);
                                         $collum = $collum + 1;
+                                        $i++;
                                     }
                                 }
                             }
                         }
                     }
+                    if (!array_key_exists($question->getId(),$attributesArray) || $attributesArray[$question->getId()]['count'] < count($ParticipantAnswerAttributes)) {
+                        $attributesArray[$question->getId()]['count']= count($ParticipantAnswerAttributes);
+                    }
                 }
                 if (!$deleted) {
-                    $sheet->mergeCellsByColumnAndRow($merge1, $rowTitle, $collum - 1, $rowTitle);
+                    $titleArray[$question->getId()] = $merge1 . ':' . $collum;
                 }
             }
+        }
+        foreach ($titleArray as $item) {
+            $array = explode(":", $item);
+            $sheet->mergeCellsByColumnAndRow($array[0], $rowTitle, $array[1]-1, $rowTitle);
+            $sheet->getStyleByColumnAndRow($array[0], $rowTitle)->getFont()->setBold(true);
         }
         $row = 6;
         $participations = $Test->getTestParticipations();
@@ -1321,8 +1353,9 @@ class TestController extends AbstractController
             $collum = $collum +1;
             foreach ($participantAnswers as $answer) {
                 $deleted = false;
+                $testquestion = $entityManager->getRepository(TestQuestion::class)->findOneBy(['fk_question' => $answer->getFkQuestion(), 'fk_test' => $test->getId()]);
                 $question = $entityManager->getRepository(Question::class)->findOneBy(['id' => $answer->getFkQuestion()]);
-                if ($question != null ) {
+                if ($testquestion != null ) {
                     if ($question->getType() == 'one' or $question->getType() == 'multi') {
                         $answerOptions = $answer->getFkAnsweroption();
                         $answers = '';
@@ -1359,7 +1392,8 @@ class TestController extends AbstractController
                     $deleted = true;
                 }
                 $ParticipantAnswerAttributes = $entityManager->getRepository(ParticipantAnswerAttribute::class)->findBy(['fk_participantAnswer' => $answer->getId()]);
-                if ($ParticipantAnswerAttributes != null && !$deleted) {
+                if ($ParticipantAnswerAttributes != null && $deleted == false) {
+                    $i = 0;
                     foreach ($ParticipantAnswerAttributes as $participantAnswerAttribute) {
                         $testAttribute = $entityManager->getRepository(TestAttribute::class)->findOneBy(['id' => $participantAnswerAttribute->getFkTestAttribute()]);
                         if ($testAttribute == null) {
@@ -1367,13 +1401,28 @@ class TestController extends AbstractController
                             if ($questionAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $questionAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
+                                    while( $attributesArray[$question->getId()][$i] != $attribute->getName() ) {
+                                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                                        $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                                        $collum = $collum + 1;
+                                        if ($i == count($ParticipantAnswerAttributes)) {
+                                            break;
+                                        }
+                                        $i++;
+                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $row, $questionAttribute->getValue());
                                     $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                     $collum = $collum + 1;
+                                    $i++;
                                     if ($attribute->getName() == 'time') {
-                                        $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                        if ($participantAnswerAttribute->getValue() == null or $participantAnswerAttribute->getValue() == ''){
+                                            $sheet->setCellValueByColumnAndRow($collum, $row, 1);
+                                        } else {
+                                            $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                        }
                                         $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                         $collum = $collum + 1;
+                                        $i++;
                                     }
                                 }
                             }
@@ -1381,42 +1430,50 @@ class TestController extends AbstractController
                             if ($testAttribute != null) {
                                 $attribute = $entityManager->getRepository(Attribute::class)->findOneBy(['id' => $testAttribute->getFkAttribute()]);
                                 if ($attribute != null) {
+                                    while( $attributesArray[$question->getId()][$i] != $attribute->getName() ) {
+                                        $sheet->setCellValueByColumnAndRow($collum, $row, '-');
+                                        $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
+                                        $collum = $collum + 1;
+                                        if ($i == count($ParticipantAnswerAttributes)) {
+                                            break;
+                                        }
+                                        $i++;
+                                    }
                                     $sheet->setCellValueByColumnAndRow($collum, $row, $testAttribute->getValue());
                                     $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                     $collum = $collum + 1;
+                                    $i++;
                                     if ($attribute->getName() == 'time') {
-                                        $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                        if ($participantAnswerAttribute->getValue() == null or $participantAnswerAttribute->getValue() == ''){
+                                            $sheet->setCellValueByColumnAndRow($collum, $row, 1);
+                                        } else {
+                                            $sheet->setCellValueByColumnAndRow($collum, $row, $participantAnswerAttribute->getValue());
+                                        }
                                         $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
                                         $collum = $collum + 1;
+                                        $i++;
                                     }
                                 }
                             }
                         }
                     }
-                    if ($attributesArray[$question->getId()] > count($ParticipantAnswerAttributes)){
-                        for ($i = $ParticipantAnswerAttributes; $i < $attributesArray[$question->getId()]; $i++) {
-                            $sheet->setCellValueByColumnAndRow($collum, $row, '-');
-                            $sheet->getStyleByColumnAndRow($collum, $row)->getAlignment()->setWrapText(true);
-                            $collum = $collum + 1;
-                        }
-                    }
                 }
             }
-            $row= $row + 1;
+            $row = $row + 1;
         }
 
-        $sheet->setTitle($test->getName());
+        $sheet->setTitle($Test->getName());
 
         // Create your Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
 
-        $time = $test->getCreatedAt();
+        $time = $Test->getCreatedAt();
         $day = $time->format('d');
         $month= $time->format('m');
         $year = $time->format('Y');
 
         $name = '';
-        $words = explode(" ", $test->getName());
+        $words = explode(" ", $Test->getName());
         foreach ($words as $w) {
             $w = ucfirst($w);
             $name = $name . $w;
@@ -1431,6 +1488,7 @@ class TestController extends AbstractController
 
         // Return the excel file as an attachment
         return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
+
     }
 
     /**

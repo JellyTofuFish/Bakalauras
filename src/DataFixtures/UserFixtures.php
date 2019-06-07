@@ -23,6 +23,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $user->setLastName('Johnathan');
         $user->setPhone('+1-202-555-0112');
         $user->setPassword($this->passwordEncoder->encodePassword( $user,'e'));
+        $user->setActivation(true);
         $manager->persist($user);
         $manager->flush();
         $this->addReference('user1',$user );
@@ -32,6 +33,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $user->setName('Dante');
         $user->setLastName('Broncs');
         $user->setPassword($this->passwordEncoder->encodePassword($user,'password123'));
+        $user->setActivation(true);
         $manager->persist($user);
         $manager->flush();
         $this->addReference('user2',$user );

@@ -11,18 +11,19 @@ class GrouplistFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $group = new GroupList();
-        $group->setName('Test group main');
-        $group->setDescription('group for active test1 questions');
+        $group->setName('0-Kontroliniai klausimai');
+        $group->setDescription('Klausimai apie respondentų amžių, lytį, išsilavinimą ir pan.');
         $this->addReference('group1',$group );
         $manager->persist($group);
         $manager->flush();
 
         $group = new GroupList();
-        $group->setName('Test group secondary');
-        $group->setDescription('group for other questions');
+        $group->setName('Socialiniai tinklai');
+        $group->setDescription(null);
         $this->addReference('group2',$group );
         $manager->persist($group);
         $manager->flush();
+
     }
     public function getOrder() {
         return 100;

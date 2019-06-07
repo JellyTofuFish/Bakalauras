@@ -11,27 +11,17 @@ class TestFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $test = new Test();
-        $test->setName('deactivated test');
-        $test->setDescription('deactivated test');
-        $test->setCode('T-XXXXXX');
+        $test->setName('Formų fono spalvos įtakos tyrimas (socialinių tinklų tematika)');
+        $test->setDescription('Užduotis: nustatyti, ar raudonos ir mėlynos spalvos fonas turi įtaką formose pateikiamų atviro tipo laukų užpildymo tikimybei ir užpildymo išsamumui.
+Poreikis: sistemų sąsajos kūrėjai turi turėti galimybę objektyviai įvertinti šalutinių faktorių įtaką tam, kad nesukurti priemones, sukeliančias nepageidaujamus efektus.');
+        $test->setCode('T-JY42IF');
         $test->setTestStart(new \DateTime('now'));
-        $test->setIsActive(false);
         $test->setCreatedAt();
+        $test->setIsActive(true);
         $test->setFkUser($this->getReference('user1'));
-        $this->addReference('test2',$test );
+        $test->setPrevButton(false);
+        $this->addReference('test1', $test);
         $manager->persist($test);
-
-        $test1 = new Test();
-        $test1->setName('active test');
-        $test1->setDescription('active test with end date');
-        $test1->setCode('T-YYYYYY');
-        $test1->setTestStart(new \DateTime('now'));
-        $test1->setTestEnd((new \DateTime('now'))->modify('+1 day'));
-        $test1->setIsActive(true);
-        $test1->setCreatedAt();
-        $test1->setFkUser($this->getReference('user1'));
-        $this->addReference('test1',$test1 );
-        $manager->persist($test1);
         $manager->flush();
 
     }

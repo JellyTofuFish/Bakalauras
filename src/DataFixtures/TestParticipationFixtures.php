@@ -11,31 +11,6 @@ class TestParticipationFixtures extends Fixture implements OrderedFixtureInterfa
 {
     public function load(ObjectManager $manager)
     {
-        $participation = new TestParticipation();
-        $participation->setFkTest($this->getReference('test1'));
-        $participation->setIsTestOver(1);
-        $participation->setTestStartedAt();
-        $participation->setTestEndedAt((new \DateTime('now')));
-        $this->addReference('participation1',$participation );
-        $manager->persist($participation);
-        $manager->flush();
-
-        $participation = new TestParticipation();
-        $participation->setFkTest($this->getReference('test1'));
-        $participation->setIsTestOver(1);
-        $participation->setTestStartedAt();
-        $participation->setTestEndedAt((new \DateTime('now')));
-        $this->addReference('participation2',$participation );
-        $manager->persist($participation);
-        $manager->flush();
-
-        $participation =new TestParticipation();
-        $participation->setFkTest($this->getReference('test1'));
-        $participation->setIsTestOver(0);
-        $participation->setTestStartedAt();
-        $this->addReference('participation3',$participation );
-        $manager->persist($participation);
-        $manager->flush();
 
     }
     public function getOrder() {

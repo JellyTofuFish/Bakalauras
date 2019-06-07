@@ -35,7 +35,7 @@ class TestAttribute
     private $participantAnswerAttributes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testAttributes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Test", inversedBy="testAttributes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fk_test;

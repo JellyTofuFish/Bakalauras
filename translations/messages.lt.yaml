@@ -54,6 +54,8 @@ test:
     deleted: Apklausa ištrinta
     copy: Apklausos kopija sėkmingai sukurta
     time_over: Laikas skirtas apklausos vykdymui pasibaigė
+    report: Ataskaita pradėta generuoti
+    no_questions: Įvyko nesklandumų pradedant apklausos vykdymą. Atsiprašome už nepatogumus.
   delete_message: Tikrai norite ištrinti šią apklausą?
   delete_helper: Prieš ištrindami apklausą, įsitikinkite, kad visos apklausoje nustatytos savybės yra ištrintos (pašalintos).
   test_start_code: Įveskite apklausos kodą

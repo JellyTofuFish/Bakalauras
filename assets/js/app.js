@@ -21,10 +21,6 @@ require('tempusdominus-bootstrap-4');
 require('tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css');
 require('../css/app.css');
 require('../images/Default.jpg');
-require('../images/reddit.png');
-require('../images/facebook.jpg');
-require('../images/twitter.jpg');
-require('../images/social.png');
 
 // General + bootrstap animations
 
@@ -421,6 +417,60 @@ $('.groupDelete').click(function () {
 });
 
 // Test controller / html functions
+$(".exportFileTest").click(function (event) {
+    event.preventDefault();
+    let test = $(this).data('target');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', window.location.origin +'/test/'+ test + '/report', true);
+    xhr.responseType = 'arraybuffer';
+
+    xhr.onload = function () {
+        if (this.status === 200) {
+            var filename = "";
+            var disposition = xhr.getResponseHeader('Content-Disposition');
+
+            if (disposition) {
+                var filenameRegex = /(?<=filename=).*$/;
+                var matches =  filenameRegex.exec(disposition);
+                filename = matches
+            }
+
+            var type = xhr.getResponseHeader('Content-Type');
+            var blob = typeof File === 'function'
+                ? new File([this.response], filename, { type: type })
+                : new Blob([this.response], { type: type });
+
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+
+                if (filename) {
+                    // use HTML5 a[download] attribute to specify filename
+                    var a = document.createElement("a");
+                    // safari doesn't support this yet
+                    if (typeof a.download === 'undefined') {
+                        window.location = downloadUrl;
+                    } else {
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                } else {
+                    window.location = downloadUrl;
+                }
+
+                setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
+            }
+        }
+    };
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send();
+    setTimeout(function() { alert('Pradėtas rezultatų ataskaitos generavimas. Pilnas ataskaitos sugeneravimas gali užtrukti kelias minutes. Prašome palaukti kol ataskaita bus sugeneruota.'); }, 1);
+});
 $('#test_form').change(function () { bsCustomFileInput.init();});
 $('#test_form').submit(function () {
     $('#test_test_start').popover('disable').popover('hide').removeClass('invalid').nextAll('div.invalid-feedback').hide();

@@ -30,7 +30,7 @@ class QuestionAttribute
     private $fk_attribute;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="questionAttributes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="questionAttributes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fk_question;

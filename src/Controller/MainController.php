@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TestParticipation;
+use App\Entity\TestQuestion;
 use App\Repository\QuestionRepository;
 use App\Repository\TestRepository;
 use DateTimeZone;
@@ -44,7 +45,16 @@ class MainController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $data = $form->getData();
             $activeTest = $testRepository->findActiveTestByCode(end($data));
+            $questions = $this->getDoctrine()->getRepository(TestQuestion::class)->findBy(['fk_test'=>$activeTest]);
 
+            if ($questions == null ) {
+                $this->addFlash('danger', 'test.flash_message.no_questions');
+                return $this->render('main/index.html.twig', [
+                    'last_username' => $lastUsername,
+                    'form' => $form->createView(),
+                    'error' => $error
+                ]);
+            }
             if ($activeTest != null) {
                 if ($activeTest->getIsActive()) {
                     if ($activeTest->getTestStart() > new \DateTime('now')) {
@@ -55,6 +65,7 @@ class MainController extends AbstractController
                         return $this->render('main/index.html.twig', [
                             'last_username' => $lastUsername,
                             'form' => $form->createView(),
+                            'error' => $error
                         ]);
                     }
                     if ($activeTest->getTestEnd() != null) {
@@ -66,6 +77,7 @@ class MainController extends AbstractController
                             return $this->render('main/index.html.twig', [
                                 'last_username' => $lastUsername,
                                 'form' => $form->createView(),
+                                'error' => $error
                             ]);
                         }
                     }
@@ -77,7 +89,8 @@ class MainController extends AbstractController
                     $entityManager->flush();
                     return $this->redirectToRoute('test_new_start', [
                         'id' => $activeTest->getId(),
-                        'testPart' => $testParticipation->getId()
+                        'testPart' => $testParticipation->getId(),
+                        'error' => $error
                     ]);
                 }
             } else {

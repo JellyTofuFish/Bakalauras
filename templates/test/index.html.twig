@@ -89,7 +89,7 @@
                             {% else %}
                                 <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
                             {% endif %}
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}"  href="{{ path('test_report', {'id': test.id}) }}"><i class="fa fa-file-excel-o"></i></a>
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}" class="exportFileTest" data-target="{{ test.id }}" href=""><i class="fa fa-file-excel-o"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('test_copy', {'id': test.id}) }}"><i class="fa fa-copy"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file-o"></i></a>
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>

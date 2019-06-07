@@ -41,7 +41,7 @@ class ParticipantAnswer
     private $participantAnswerAttributes;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TestParticipation", inversedBy="participantAnswers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TestParticipation", inversedBy="participantAnswers", cascade={"persist"})
      */
     private $fk_testParticipation;
 

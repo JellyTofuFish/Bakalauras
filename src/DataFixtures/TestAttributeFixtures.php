@@ -12,18 +12,39 @@ class TestAttributeFixtures extends Fixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $qa = new TestAttribute();
-        $qa->setFkAttribute($this->getReference('attribute3'));
+        $qa->setFkAttribute($this->getReference('attribute2'));
         $qa->setFkTest($this->getReference('test1'));
-        $qa->setValue('#FE6E3C');
+        $qa->setValue('#ffffff');
         $this->addReference('TestAttribute1',$qa );
         $manager->persist($qa);
         $manager->flush();
 
         $qa = new TestAttribute();
-        $qa->setFkAttribute($this->getReference('attribute3'));
+        $qa->setFkAttribute($this->getReference('attribute2'));
         $qa->setFkTest($this->getReference('test1'));
-        $qa->setValue('#2AB14D');
+        $qa->setValue('#80bfff');
         $this->addReference('TestAttribute2',$qa );
+        $manager->persist($qa);
+        $manager->flush();
+
+        $qa = new TestAttribute();
+        $qa->setFkAttribute($this->getReference('attribute2'));
+        $qa->setFkTest($this->getReference('test1'));
+        $qa->setValue('#ff9b9b');
+        $this->addReference('TestAttribute3',$qa );
+        $manager->persist($qa);
+        $manager->flush();
+
+        $qa = new TestAttribute();
+        $qa->setFkAttribute($this->getReference('attribute1'));
+        $qa->setFkTest(null);
+        $qa->setValue('#007bff');
+        $manager->persist($qa);
+        $manager->flush();
+        $qa = new TestAttribute();
+        $qa->setFkAttribute($this->getReference('attribute2'));
+        $qa->setFkTest(null);
+        $qa->setValue('#ffffff');
         $manager->persist($qa);
         $manager->flush();
     }
