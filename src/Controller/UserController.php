@@ -248,7 +248,7 @@ class UserController extends AbstractController
 //                    $this->addFlash('danger', 'account_mail_error');
 //                }
 //                else {
-                    $this->addFlash('success', 'account_password_reset_success');
+//                    $this->addFlash('success', 'account_password_reset_success');
 //                }
 //                return $this->redirectToRoute('home_index');
                 return $this->redirectToRoute('user_reset_password_confirm', ['string' => $User->getReset()]);

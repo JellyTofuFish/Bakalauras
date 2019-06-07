@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translations/messages.lt.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/translations/messages.lt.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php.meta" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.php.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml.meta" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainer.xml.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainerCompiler.log" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/srcApp_KernelProdDebugContainerCompiler.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/prod/translations/catalogue.lt.qvOaA+x.php" beforeDir="false" afterPath="$PROJECT_DIR$/var/cache/prod/translations/catalogue.lt.qvOaA+x.php" afterDir="false" />
-    </list>
+    <list default="true" id="950fecdb-24a9-43e5-bce1-4079f92ddacd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +64,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.env">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="517">
+              <caret line="30" column="71" selection-start-line="30" selection-start-column="70" selection-end-line="30" selection-end-column="71" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -89,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2012">
-              <caret line="322" column="26" selection-start-line="322" selection-start-column="21" selection-end-line="322" selection-end-column="26" />
+            <state relative-caret-position="212">
+              <caret line="59" column="22" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -109,7 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dump</find>
       <find>btn</find>
       <find>&lt;h3 class=&quot;pre</find>
       <find>pre</find>
@@ -139,6 +134,7 @@
       <find>ajax</find>
       <find>onload</find>
       <find>prieš</find>
+      <find>Patvi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -196,8 +192,8 @@
         <option value="$PROJECT_DIR$/src/Controller/TestController.php" />
         <option value="$PROJECT_DIR$/templates/test/index.html.twig" />
         <option value="$PROJECT_DIR$/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/translations/messages.lt.yaml" />
+        <option value="$PROJECT_DIR$/.env" />
       </list>
     </option>
   </component>
@@ -551,19 +547,18 @@
       <workItem from="1559530870341" duration="4262000" />
       <workItem from="1559540050181" duration="1019000" />
       <workItem from="1559731758738" duration="47691000" />
-      <workItem from="1559812766461" duration="57610000" />
+      <workItem from="1559812766461" duration="58377000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1639883000" />
+    <option name="totallyTimeSpent" value="1640650000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.12846482" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.12846482" />
       <window_info id="Structure" order="2" sideWeight="0.39070353" side_tool="true" weight="0.13272922" />
       <window_info id="Favorites" order="3" sideWeight="0.2611051" side_tool="true" weight="0.10341151" />
       <window_info anchor="bottom" id="Database Console" order="0" sideWeight="0.48187634" weight="0.15276273" />
@@ -577,7 +572,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.48081023" visible="true" weight="0.22318527" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48081023" visible="true" weight="0.22318527" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5191898" side_tool="true" weight="0.26868907" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" weight="0.32827735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -992,13 +987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="29" column="88" selection-start-line="29" selection-start-column="88" selection-end-line="29" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -1011,8 +999,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2012">
-          <caret line="322" column="26" selection-start-line="322" selection-start-column="21" selection-end-line="322" selection-end-column="26" />
+        <state relative-caret-position="212">
+          <caret line="59" column="22" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="30" column="71" selection-start-line="30" selection-start-column="70" selection-end-line="30" selection-end-column="71" />
         </state>
       </provider>
     </entry>
