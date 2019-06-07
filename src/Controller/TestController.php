@@ -1462,8 +1462,6 @@ class TestController extends AbstractController
             $row = $row + 1;
         }
 
-        $sheet->setTitle($Test->getName());
-
         // Create your Office 2007 Excel (XLSX Format)
         $writer = new Xlsx($spreadsheet);
 
@@ -1472,15 +1470,8 @@ class TestController extends AbstractController
         $month= $time->format('m');
         $year = $time->format('Y');
 
-        $name = '';
-        $words = explode(" ", $Test->getName());
-        foreach ($words as $w) {
-            $w = ucfirst($w);
-            $name = $name . $w;
-        }
-
         // Create a Temporary file in the system
-        $fileName = $year. $month. $day. $name . '.xlsx';
+        $fileName = $year. $month. $day. $test->getCode() . '.xlsx';
         $temp_file = tempnam(sys_get_temp_dir(), $fileName);
 
         // Create the excel file in the tmp directory of the system

@@ -27,7 +27,7 @@
             <table id="tableheader" class="table table-borderless bg-blue mb-0 text-white table-header table-index">
                 <thead>
                 <tr>
-                    <th scope="col">
+                    <th scope="col" colspan="2">
                         <span>{{ 'test.form.test_name_label'|trans }}</span>
                         <a class="text-light" href="{{ path('test_index', { 'slug':'test_name' , 'sort':data['test_name'] }) }}">
                             <i id="testIndexCaret1" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.name'|trans }}" class="px-2 questionSort pointer fa {{ data['test_name'] }}"></i>
@@ -45,10 +45,10 @@
                             <i id="testIndexCaret4" data-toggle="tooltip" data-placement="right" title="{{ 'poppers.sort.end'|trans }}" class="px-2 questionSort pointer fa {{  data['end'] }}"></i>
                         </a>
                     </th>
-                    <th scope="col" class="w-15">
+                    <th scope="col" >
                         <span>{{ 'test.form.test_count'|trans }}</span>
                     </th>
-                    <th scope="col" class="w-15">
+                    <th scope="col" >
                         <span>{{ 'test.form.participation_count'|trans }}</span>
                     </th>
                     <th scope="col">{{ 'actions'|trans }}</th>
@@ -63,7 +63,7 @@
                 {% set blank = '<i>' ~ 'blank'|trans ~ '</i>' %}
                 {% for test in tests %}
                     <tr>
-                        <td>
+                        <td colspan="2">
                             <p>{{ test.name|trans }}</p>
                         </td>
                         <td>
@@ -72,12 +72,12 @@
                         <td>
                             <p>{% if test.testEnd %}{{ test.testEnd|date('Y-m-d H:i:s')}}{% else %}{{ blank|raw }}{% endif %}</p>
                         </td>
-                        <td class="text-center w-15">
+                        <td class="text-center">
                             <p>
                                 {{ test.testQuestions.count }}
                             </p>
                         </td>
-                        <td class="text-center w-15">
+                        <td class="text-center">
                             <p>
                                 {{ test.testParticipations.count}}
                             </p>
@@ -89,7 +89,11 @@
                             {% else %}
                                 <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.example'|trans }}" href="{{ path('show_test_example', {'id': test.id}) }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye "></i></a>
                             {% endif %}
-                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}" class="exportFileTest" data-target="{{ test.id }}" href=""><i class="fa fa-file-excel-o"></i></a>
+                            {% set foo = test.createdAt | date('Ymd') %}
+                            {% for word in test.name|split(' ') %}
+                                {%  set foo = foo ~ word %}
+                            {% endfor %}
+                            <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.export'|trans }}" class="exportFileTest" data-name="{{ foo }}" data-target="{{ test.id }}" href=""><i class="fa fa-file-excel-o"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.copy'|trans }}"  href="{{ path('test_copy', {'id': test.id}) }}"><i class="fa fa-copy"></i></a>
                             <a data-toggle="tooltip" data-placement="right" title="{{ 'poppers.show'|trans }}"  href="{{ path('test_show', {'id': test.id}) }}"><i class="fa fa-file-o"></i></a>
                             <a data-tooltip="tooltip" data-placement="right" title="{{ 'poppers.delete'|trans }}"  href="" data-toggle="modal" data-target="#testModal{{ test.id }}Delete"><i class="fa fa-trash"></i></a>
@@ -119,7 +123,7 @@
 
                 {% else %}
                     <tr class="text-center">
-                        <td colspan="6"><i>{{ 'empty'|trans }}</i></td>
+                        <td colspan="7"><i>{{ 'empty'|trans }}</i></td>
                     </tr>
                 {% endfor %}
                 </tbody>

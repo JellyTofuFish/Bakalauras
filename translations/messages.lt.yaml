@@ -57,7 +57,7 @@ test:
     report: Ataskaita pradėta generuoti
     no_questions: Įvyko nesklandumų pradedant apklausos vykdymą. Atsiprašome už nepatogumus.
   delete_message: Tikrai norite ištrinti šią apklausą?
-  delete_helper: Prieš ištrindami apklausą, įsitikinkite, kad visos apklausoje nustatytos savybės yra ištrintos (pašalintos).
+  delete_helper: Patvirtinkite apklauos ištrynimo operaciją.
   test_start_code: Įveskite apklausos kodą
   test_end: Apklausa baigta.
   finish_message: Ačiū, kad skyrėtę laiko užpildyti apklausą!
@@ -110,7 +110,7 @@ question:
     input_required: Privalo būti pasirinktas bent vienas atsakymo variantas
     textarea_required: Atsakymas privalo būti užpildytas
   delete_message: Tikrai norite ištrinti šį klausimą?
-  delete_helper: Prieš ištrindami klausimą, įsitikinkite, kad visos klausime nustatytos savybės yra ištrintos (pašalintos).
+  delete_helper: Patvirtinkite klausimo ištrynimo operaciją.
   button:
     new: Sukurti klausimą
     delete: Ištrinti klausimą
@@ -320,7 +320,7 @@ poppers:
   copy: Kopijuoti
   export: Generuoti rezultatų ataskaitą
   test:
-    activation_desc: Prieš aktyvuodami apklausą privalote nustatyti apklausos pradažios datą
+    activation_desc: Prieš aktyvuodami apklausą privalote nustatyti pradažios datą
   answer:
     disabled_option: Išsaugojus "Vieno pasirinkimo" arba "Kelių pasirinkimų" klausimo tipą, suteikiama prieiga pridėti atsakymų variantus
     disabled_option_presentation: Išsaugojus "Pateikties" klausimo tipą, suteikiama prieiga priskirti rodymo trukmės parametrus

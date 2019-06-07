@@ -420,20 +420,14 @@ $('.groupDelete').click(function () {
 $(".exportFileTest").click(function (event) {
     event.preventDefault();
     let test = $(this).data('target');
+    let filename = $(this).data('name');
     var xhr = new XMLHttpRequest();
     xhr.open('POST', window.location.origin +'/test/'+ test + '/report', true);
     xhr.responseType = 'arraybuffer';
 
     xhr.onload = function () {
         if (this.status === 200) {
-            var filename = "";
             var disposition = xhr.getResponseHeader('Content-Disposition');
-
-            if (disposition) {
-                var filenameRegex = /(?<=filename=).*$/;
-                var matches =  filenameRegex.exec(disposition);
-                filename = matches
-            }
 
             var type = xhr.getResponseHeader('Content-Type');
             var blob = typeof File === 'function'
@@ -469,7 +463,7 @@ $(".exportFileTest").click(function (event) {
     };
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send();
-    setTimeout(function() { alert('Pradėtas rezultatų ataskaitos generavimas. Pilnas ataskaitos sugeneravimas gali užtrukti kelias minutes. Prašome palaukti kol ataskaita bus sugeneruota.'); }, 1);
+    setTimeout(function() { alert("Pradėtas ataskaitos generavimas. Pilnas ataskaitos sugeneravimas gali užtrukti kelias minutes. Prašome palaukti kol ataskaita bus sugenera"); }, 1);
 });
 $('#test_form').change(function () { bsCustomFileInput.init();});
 $('#test_form').submit(function () {
