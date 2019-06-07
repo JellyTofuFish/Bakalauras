@@ -32,17 +32,6 @@
       </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="heroku_060faedb701da26@eu-cdbr-west-02.cleardb.net" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="heroku_060faedb701da26@eu-cdbr-west-02.cleardb.net" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="heroku_060faedb701da26: schema" type="76f4a085:MysqlImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="mysql" type="feb32156:DbDataSourceImpl" />
       </path>
       <path>
@@ -67,29 +56,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="517">
-              <caret line="30" column="71" selection-start-line="30" selection-start-column="70" selection-end-line="30" selection-end-column="71" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="59" column="22" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="22" />
+            <state relative-caret-position="-62">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -132,9 +100,9 @@
       <find>public function g</find>
       <find>public function e</find>
       <find>ajax</find>
-      <find>onload</find>
       <find>prieš</find>
       <find>Patvi</find>
+      <find>onload</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,7 +130,6 @@
         <option value="$PROJECT_DIR$/templates/user/emails/password.html.twig" />
         <option value="$PROJECT_DIR$/templates/user/password_reset_confirm.html.twig" />
         <option value="$PROJECT_DIR$/templates/user/new.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/AttributeFixtures.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/FileFixtures.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/GrouplistFixtures.php" />
@@ -194,6 +161,7 @@
         <option value="$PROJECT_DIR$/assets/js/app.js" />
         <option value="$PROJECT_DIR$/translations/messages.lt.yaml" />
         <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
       </list>
     </option>
   </component>
@@ -366,24 +334,6 @@
             <path>
               <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
               <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
-              <item name="images" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="bakalauras" type="b2602c69:ProjectViewProjectNode" />
-              <item name="bakalauras" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -547,15 +497,16 @@
       <workItem from="1559530870341" duration="4262000" />
       <workItem from="1559540050181" duration="1019000" />
       <workItem from="1559731758738" duration="47691000" />
-      <workItem from="1559812766461" duration="58377000" />
+      <workItem from="1559812766461" duration="60240000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1640650000" />
+    <option name="totallyTimeSpent" value="1642513000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="npm" order="0" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.7388949" visible="true" weight="0.12846482" />
@@ -572,7 +523,7 @@
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.32936078" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48081023" visible="true" weight="0.22318527" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.48081023" visible="true" weight="0.28060672" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5191898" side_tool="true" weight="0.26868907" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="13" weight="0.32827735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -637,15 +588,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/answer_option">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="736318da-8919-47db-8eea-fe7b63afdf8c">
-          <filtering>
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/test">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state projectRestartId="736318da-8919-47db-8eea-fe7b63afdf8c">
@@ -673,15 +615,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="630">
           <caret line="41" column="31" lean-forward="true" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/test_attribute">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="736318da-8919-47db-8eea-fe7b63afdf8c">
-          <filtering>
-            <filter text="" />
-          </filtering>
         </state>
       </provider>
     </entry>
@@ -723,13 +656,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="34" column="64" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-700">
@@ -748,15 +674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/question_attribute">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
-          <filtering>
-            <filter text="" />
-          </filtering>
         </state>
       </provider>
     </entry>
@@ -851,15 +768,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/answer_option_participant_answer">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
-          <filtering>
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/attribute">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
@@ -886,15 +794,6 @@
       </provider>
     </entry>
     <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/test_question">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
-          <filtering>
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/participant_answer_attribute">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
           <filtering>
@@ -987,6 +886,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="59" column="22" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
@@ -997,17 +903,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/translations/messages.lt.yaml">
+    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/question_attribute">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/participant_answer_attribute">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/test_attribute">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/answer_option_participant_answer">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://31cff116-3680-4e5b-9263-a8c97d989030/schema/hmw1o5m0nsh4xbpv/table/answer_option">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state projectRestartId="c13a4504-31d9-4dbf-aa78-a2c7808e8a46">
+          <filtering>
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="59" column="22" selection-start-line="59" selection-start-column="17" selection-end-line="59" selection-end-column="22" />
+        <state relative-caret-position="3669">
+          <caret line="255" column="9" lean-forward="true" selection-start-line="255" selection-start-column="9" selection-end-line="255" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="517">
-          <caret line="30" column="71" selection-start-line="30" selection-start-column="70" selection-end-line="30" selection-end-column="71" />
+        <state relative-caret-position="-62">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
