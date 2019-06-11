@@ -76,8 +76,8 @@ class UserController extends AbstractController
 //
 //                $mail->Subject = "Hello!";
 //                $mail->Body = $this->renderView('user/emails/registration.html.twig',
-//                    ['user' => $user,
-//                        'pass' => strlen($password)
+//                    [
+//                        'user' => $user,
 //                    ]
 //                );
 //                if (!$mail->send()) {
