@@ -1364,7 +1364,7 @@ var $newLinkLi2 = $('<div class="form-group row mb-0"><label class="col-sm-2 col
     });
     $collectionHolder2.append($newLinkLi2);
     $collectionHolder2.data('index', $collectionHolder2.find('div.d-flex').length);
-    updateSelectOptions();
+    // updateSelectOptions();
     $addTestQuestionButton.on('click', function(e) {
         e.preventDefault();
         addTestQuestionForm($collectionHolder2, $newLinkLi2);
@@ -1383,8 +1383,7 @@ function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
 
     var select = newForm.match(/<select(.*?)>/ig);
     var label = newForm.match(/<label(.*?)<\/label>/ig);
-    var optionsArray = prototype.match(/<option(.*?)<\/option>/ig);
-    var options = optionsArray.toString().split(",");
+    var options = prototype.match(/<option(.*?)<\/option>/ig);
     var number = index + 1;
     $collectionHolder2.data('index', index + 1);
 
@@ -1395,17 +1394,17 @@ function addTestQuestionForm($collectionHolder2, $newLinkLi2) {
         }
     });
     let newOptionsString = '';
-    for (let i = 0; i < options.length; i++) {
+    $.each(options, function (index, value) {
         let isSelected = false;
         for (let j = 0; j < selected.length; j++) {
-            if (options[i].match(selected[j]) && $(selected[j]) !== '') {
+            if ($(value).val() === selected[j] && $(selected[j]) !== '') {
                 isSelected = true;
             }
         }
         if (!isSelected) {
-            newOptionsString = newOptionsString + options[i];
+            newOptionsString = newOptionsString + value;
         }
-    }
+    });
     var $newFormLi2 =
         $('<div class="form-group row">' +
             '<label class="col-sm-12 col-form-label">'+ label + ' ' + number + '*' + '</label>' +
@@ -1437,10 +1436,8 @@ function updateSelectOptions() {
     var $collectionHolder3;
     $collectionHolder3 = $('div.testquestions');
     var prototype2 = $collectionHolder3.data('prototype');
-    var newForm2 = prototype2;
-
     var oA2 = prototype2.match(/<option(.*?)<\/option>/ig);
-    var options = oA2.toString().split(",");
+    var options = oA2;
 
     let selected = [];
     $collectionHolder3.find('option:selected').each(function () {
@@ -1448,32 +1445,32 @@ function updateSelectOptions() {
             selected.push($(this).val());
         }
     });
-    $collectionHolder3.find('select.testSelect').each(function() {
+    var selectElem = document.getElementsByClassName('testSelect');
+    $.each(selectElem, function () {
         let newOptionsString = '',
             select = $(this),
             selectedOption = '';
-        $(select).find('option:selected').each(function () {
-            selectedOption = $(this).val();
-        });
 
-        for (let i = 0; i < options.length; i++) {
+        selectedOption = $(select).find('option:selected').val();
+
+        $.each(options, function (index, value) {
             let optionString = '';
-            if ($(options[i]).val() === selectedOption) {
-                    optionString = '<option value="' + $(options[i]).val() + '" selected="selected">' + $(options[i]).text() + '</option>';
+            if ($(value).val().toString() === selectedOption) {
+                optionString = '<option value="' + $(value).val() + '" selected="selected">' + $(value).text() + '</option>';
             }
             else {
                 let isSelected = false;
                 for (let j = 0; j < selected.length; j++) {
-                    if ($(options[i]).val() === selected[j] && $(selected[j]) !== '') {
+                    if ($(value).val() === selected[j] && $(selected[j]) !== '') {
                         isSelected = true;
                     }
                 }
                 if (!isSelected) {
-                    optionString = '<option value="' + $(options[i]).val() + '">' + $(options[i]).text() + '</option>';
+                    optionString = '<option value="' + $(value).val() + '">' + $(value).text() + '</option>';
                 }
             }
             newOptionsString = newOptionsString + optionString;
-        }
+        });
         $(select).html(newOptionsString);
     });
 }

@@ -526,17 +526,21 @@ class TestController extends AbstractController
                              $entityManager->flush();
                          }
                         if ($key1 == 'textarea') {
-                             $participantAnswer->setAnswer($value1);
+                            $participantAnswer->setAnswer($value1);
+                            $entityManager->persist($participantAnswer);
+                            $entityManager->flush();
                         }
                         if ($key1 == 'answers') {
                              if ($question->getType() == "one") {
                                  $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value1]);
                                  $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                                 $entityManager->persist($participantAnswer);
                              }
                              if ($question->getType() == "multi") {
                                  foreach ($value1 as $key2 => $value2) {
                                      $participantAnswerOption = $entityManager->getRepository(AnswerOption::class)->findOneBy(['answer' => $value2]);
                                      $participantAnswer->addFkAnsweroption($participantAnswerOption);
+                                     $entityManager->persist($participantAnswer);
                                  }
                              }
                             $entityManager->flush();
@@ -560,9 +564,9 @@ class TestController extends AbstractController
                     }
                 }
             }
-            return $this->redirectToRoute('home_index', [
-                'done' => 'true',
-            ]);
+//            return $this->redirectToRoute('home_index', [
+//                'done' => 'true',
+//            ]);
         }
         $questionOrder = $entityManager->getRepository(Test::class)->findTestQuestionOrder($Test);
         $testTime = null;

@@ -57,7 +57,7 @@ test:
     report: Ataskaita pradėta generuoti
     no_questions: Įvyko nesklandumų pradedant apklausos vykdymą. Atsiprašome už nepatogumus.
   delete_message: Tikrai norite ištrinti šią apklausą?
-  delete_helper: Patvirtinkite apklauos ištrynimo operaciją.
+  delete_helper: Patvirtinkite apklausos ištrynimo operaciją.
   test_start_code: Įveskite apklausos kodą
   test_end: Apklausa baigta.
   finish_message: Ačiū, kad skyrėtę laiko užpildyti apklausą!
